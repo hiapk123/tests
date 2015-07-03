@@ -11,8 +11,8 @@ import java.util.Properties;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
-/*import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;*/
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 
 public final class JdbcUtils {
@@ -22,7 +22,7 @@ public final class JdbcUtils {
     private static String user = null;
     private static String driver = null;
     private static String password = null;
-     
+   
     private JdbcUtils () {
     	
     }
@@ -44,7 +44,7 @@ public final class JdbcUtils {
      
     //配置文件
     private static Properties prop = new Properties();
-     
+    private static PoolProperties p = new PoolProperties();
     //注册驱动
     static {
         try {
@@ -55,11 +55,10 @@ public final class JdbcUtils {
             user = prop.getProperty("user");
             driver = prop.getProperty("driver");
             password = prop.getProperty("password");
-        /*    PoolProperties p = new PoolProperties();
-            p.setUrl("jdbc:mysql://localhost:3306/mysql");
-            p.setDriverClassName("com.mysql.jdbc.Driver");
-            p.setUsername("root");
-            p.setPassword("password");
+            p.setUrl(url);
+            p.setDriverClassName(driver);
+            p.setUsername(user);
+            p.setPassword(password);
             p.setJmxEnabled(true);
             p.setTestWhileIdle(false);
             p.setTestOnBorrow(true);
@@ -78,14 +77,9 @@ public final class JdbcUtils {
             p.setJdbcInterceptors(
               "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+
               "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-            DataSource datasource = new DataSource();
-            datasource.setPoolProperties(p);
-
-            Connection con = null;*/
-            Class.forName(driver);
+          
+            //Class.forName(driver);
              
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -93,8 +87,10 @@ public final class JdbcUtils {
      
     //该方法获得连接
     public Connection getConnection() throws SQLException {
-    	
-        return DriverManager.getConnection(url, user, password);
+    	 DataSource datasource=null;
+    	 datasource = new DataSource();
+         datasource.setPoolProperties(p);
+        return datasource.getConnection();
     }
      
     //释放资源
@@ -126,5 +122,7 @@ public final class JdbcUtils {
             }
         }
     }
-     
+     public static void main(String[] args) {
+		
+	}
 }
