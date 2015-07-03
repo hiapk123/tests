@@ -3,21 +3,20 @@ package org.uestc.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.dbutils.DbUtils;
-import org.apache.commons.dbutils.QueryRunner;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 
 public final class JdbcUtils {
     
-    //Á¬½ÓÊý¾Ý¿âµÄ²ÎÊý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Ä²ï¿½ï¿½ï¿½
     private static String url = null;
     private static String user = null;
     private static String driver = null;
@@ -42,13 +41,13 @@ public final class JdbcUtils {
         return instance;
     }
      
-    //ÅäÖÃÎÄ¼þ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
     private static Properties prop = new Properties();
     private static PoolProperties p = new PoolProperties();
-    //×¢²áÇý¶¯
+    //×¢ï¿½ï¿½ï¿½ï¿½
     static {
         try {
-            //ÀûÓÃÀà¼ÓÔØÆ÷¶ÁÈ¡ÅäÖÃÎÄ¼þ
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
             InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream("dbInfo.properties");
             prop.load(is);
             url = prop.getProperty("url");
@@ -85,15 +84,15 @@ public final class JdbcUtils {
         }
     }
      
-    //¸Ã·½·¨»ñµÃÁ¬½Ó
+   
     public Connection getConnection() throws SQLException {
     	 DataSource datasource=null;
     	 datasource = new DataSource();
          datasource.setPoolProperties(p);
         return datasource.getConnection();
     }
-     
-    //ÊÍ·Å×ÊÔ´
+ 
+
     public void free(Connection conn, Statement st, ResultSet rs) {
         if (rs != null) {
             try {

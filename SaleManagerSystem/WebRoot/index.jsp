@@ -1,3 +1,8 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +90,39 @@
 <!-- application script for Charisma demo -->
 <script src="js/charisma.js"></script>
 
+<script type="text/javascript">
+	$(function(){
+		$("li a").click(function(){
+			var parent=$(this).attr("data-options");
+			var child=$(this).text();
+			var title=$(".breadcrumb");
+		    title.empty();
+		    title.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"+parent+"</a></li><li><a href=\"#\">"+child+"</a></li>");
+		    
+		    //显示类容
+		    var div_id=$(this).attr("data-div");
+		    $("div#content").children().css("display", "none");
+		    $("#"+div_id).css("display", "block");
+		   
+		    
+		});
+		
+		$(".accordion-toggle").click(function(){
+			
+		    var text=$(this).text();
+		    var title=$(".breadcrumb");
+		    title.empty();
+		    title.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"+text+"</a></li>");
+			
+		});
 
+	});
+</script>
+<style type="text/css">
+	.myclass{
+		display: none;
+	}
+</style>
 </head>
 
 <body>
@@ -210,13 +247,13 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">日结报表</a></li>
-                                <li><a href="#">销售单据</a></li>
-                                <li><a href="#">趋势分析</a></li>
-                                <li><a href="#">占比统计</a></li>
-								<li><a href="#">商品销售查询</a></li>
-								<li><a href="#">反结账单据</a></li>
-								<li><a href="#">我的供货</a></li>
+                                <li><a href="#" data-options="销售" data-div="rjbb">日结报表</a></li>
+                                <li><a href="#" data-options="销售" data-div="xsdj">销售单据</a></li>
+                                <li><a href="#" data-options="销售" data-div="csfx">趋势分析</a></li>
+                                <li><a href="#" data-options="销售" data-div="zbtj">占比统计</a></li>
+								<li><a href="#" data-options="销售" data-div="spxs">商品销售查询</a></li>
+								<li><a href="#" data-options="销售" data-div="fjz">反结账单据</a></li>
+								<li><a href="#" data-options="销售" data-div="wdgh">我的供货</a></li>
                             </ul>
                         </div>
                     </div>
@@ -231,19 +268,19 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">商品资料</a></li>
-								<li><a href="#">商品分类</a></li>
-								<li><a href="#">批量设置</a></li>
-								<li><a href="#">库存预警</a></li>
-								<li><a href="#">商品信息分析</a></li>
-								<li><a href="#">库存盘点记录</a></li>
-								<li><a href="#">库存变动记录</a></li>
-								<li><a href="#">组装拆分</a></li>
-								<li><a href="#">次卡管理</a></li>
-								<li><a href="#">优先价格管理</a></li>
-								<li><a href="#">商品报损</a></li>
-								<li><a href="#">报损记录</a></li>
-								<li><a href="#">报损统计</a></li>
+                                <li><a href="#" data-options="商品" data-div="spzl">商品资料</a></li>
+								<li><a href="#" data-options="商品" data-div="spfl">商品分类</a></li>
+								<li><a href="#" data-options="商品" data-div="plsz">批量设置</a></li>
+								<li><a href="#" data-options="商品" data-div="kcyd">库存预警</a></li>
+								<li><a href="#" data-options="商品" data-div="spxxfx">商品信息分析</a></li>
+								<li><a href="#" data-options="商品" data-div="kcpdjl">库存盘点记录</a></li>
+								<li><a href="#" data-options="商品" data-div="kcbdjl">库存变动记录</a></li>
+								<li><a href="#" data-options="商品" data-div="zzcf">组装拆分</a></li>
+								<li><a href="#" data-options="商品" data-div="ckgl">次卡管理</a></li>
+								<li><a href="#" data-options="商品" data-div="yxjggl">优先价格管理</a></li>
+								<li><a href="#" data-options="商品" data-div="spbs">商品报损</a></li>
+								<li><a href="#" data-options="商品" data-div="bsjl">报损记录</a></li>
+								<li><a href="#" data-options="商品" data-div="bstj">报损统计</a></li>
                             </ul>
                         </div>
                     </div>
@@ -258,14 +295,14 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">会员资料</a></li>
-                                <li><a href="#">会员等级</a></li>
-                                <li><a href="#">会员报账</a></li>
-								<li><a href="#">充值明细</a></li>
-								<li><a href="#">会员购买查询</a></li>
-								<li><a href="#">发送短信</a></li>
-								<li><a href="#">短信记录</a></li>
-								<li><a href="#">积分制度</a></li>
+                                <li><a href="#" data-options="会员" data-div="hyzl">会员资料</a></li>
+                                <li><a href="#" data-options="会员" data-div="hydj">会员等级</a></li>
+                                <li><a href="#" data-options="会员" data-div="hybz">会员报账</a></li>
+								<li><a href="#" data-options="会员" data-div="czmx">充值明细</a></li>
+								<li><a href="#" data-options="会员" data-div="hygmjl">会员购买查询</a></li>
+								<li><a href="#" data-options="会员" data-div="fsdx">发送短信</a></li>
+								<li><a href="#" data-options="会员" data-div="dxjl">短信记录</a></li>
+								<li><a href="#" data-options="会员" data-div="jfzd">积分制度</a></li>
                             </ul>
                         </div>
                     </div>
@@ -280,17 +317,17 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">打折与特价</a></li>
-                                <li><a href="#">搭赠促销</a></li>
-                                <li><a href="#">换购促销</a></li>
-								<li><a href="#">第二件打折</a></li>
-								<li><a href="#">套餐促销</a></li>
-								<li><a href="#">满额返现</a></li>
-								<li><a href="#">优惠券</a></li>
-								<li><a href="#">促销商品表</a></li>
-								<li><a href="#">历史促销表</a></li>
-								<li><a href="#">促销活动反馈表</a></li>
-								<li><a href="#">商家联盟</a></li>
+                                <li><a href="#" data-options="营销" data-div="zbtj">打折与特价</a></li>
+                                <li><a href="#" data-options="营销" data-div="zbtj">搭赠促销</a></li>
+                                <li><a href="#" data-options="营销" data-div="zbtj">换购促销</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">第二件打折</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">套餐促销</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">满额返现</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">优惠券</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">促销商品表</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">历史促销表</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">促销活动反馈表</a></li>
+								<li><a href="#" data-options="营销" data-div="zbtj">商家联盟</a></li>
                             </ul>
                         </div>
                     </div>
@@ -305,12 +342,12 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">收银员资料</a></li>
-                                <li><a href="#">收银员业绩</a></li>
-                                <li><a href="#">交接班记录</a></li>
-								<li><a href="#">导购员资料</a></li>
-								<li><a href="#">导购员业绩</a></li>
-								<li><a href="#">导购明细</a></li>
+                                <li><a href="#" data-options="员工">收银员资料</a></li>
+                                <li><a href="#" data-options="员工">收银员业绩</a></li>
+                                <li><a href="#" data-options="员工">交接班记录</a></li>
+								<li><a href="#" data-options="员工">导购员资料</a></li>
+								<li><a href="#" data-options="员工">导购员业绩</a></li>
+								<li><a href="#" data-options="员工">导购明细</a></li>
                             </ul>
                         </div>
                     </div>
@@ -325,14 +362,14 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">供货商资料</a></li>
-                                <li><a href="#">供货商结算</a></li>
-                                <li><a href="#">供货结算记录</a></li>
-								<li><a href="#">门店订货请求</a></li>
-								<li><a href="#">门店进货</a></li>
-								<li><a href="#">门店间调货</a></li>
-								<li><a href="#">退货给供应商</a></li>
-								<li><a href="#">货流记录</a></li>
+                                <li><a href="#" data-options="货流">供货商资料</a></li>
+                                <li><a href="#" data-options="货流">供货商结算</a></li>
+                                <li><a href="#" data-options="货流">供货结算记录</a></li>
+								<li><a href="#" data-options="货流">门店订货请求</a></li>
+								<li><a href="#" data-options="货流">门店进货</a></li>
+								<li><a href="#" data-options="货流">门店间调货</a></li>
+								<li><a href="#" data-options="货流">退货给供应商</a></li>
+								<li><a href="#" data-options="货流">货流记录</a></li>
                             </ul>
                         </div>
                     </div>
@@ -347,14 +384,14 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">门店信息</a></li>
-                                <li><a href="#">分类管理</a></li>
-                                <li><a href="#">商品管理</a></li>
-								<li><a href="#">网店二维码</a></li>
-								<li><a href="#">网店广告</a></li>
-								<li><a href="#">网店订单</a></li>
-								<li><a href="#">自定义热卖</a></li>
-								<li><a href="#">温馨提醒</a></li>
+                                <li><a href="#" data-options="网店">门店信息</a></li>
+                                <li><a href="#" data-options="网店">分类管理</a></li>
+                                <li><a href="#" data-options="网店">商品管理</a></li>
+								<li><a href="#" data-options="网店">网店二维码</a></li>
+								<li><a href="#" data-options="网店">网店广告</a></li>
+								<li><a href="#" data-options="网店">网店订单</a></li>
+								<li><a href="#" data-options="网店">自定义热卖</a></li>
+								<li><a href="#" data-options="网店">温馨提醒</a></li>
                             </ul>
                         </div>
                     </div>
@@ -369,11 +406,11 @@
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">账户管理</a></li>
-                                <li><a href="#">系统设置</a></li>
-                                <li><a href="#">修改密码</a></li>
-								<li><a href="#">清空数据</a></li>
-								<li><a href="#">支付方式</a></li>
+                                <li><a href="#" data-options="设置">账户管理</a></li>
+                                <li><a href="#" data-options="设置">系统设置</a></li>
+                                <li><a href="#" data-options="设置">修改密码</a></li>
+								<li><a href="#" data-options="设置">清空数据</a></li>
+								<li><a href="#" data-options="设置">支付方式</a></li>
                             </ul>
                         </div>
                     </div>
@@ -395,18 +432,28 @@
                     enabled to use this site.</p>
             </div>
         </noscript>
-  <ul class="breadcrumb">
-        <li>
-            <a href="#">收银系统</a>
-        </li>
-        <li>
-            <a href="#">商品</a>
-        </li>
-    </ul>
+        
+        <!--要修改的地方  -->
+		  <ul class="breadcrumb">
+		        <li>
+		            <a href="#">收银系统</a>
+		        </li>
+		        <li>
+		            <a href="#">商品</a>
+		        </li>
+		   </ul>
     
     
         <div id="content" class="col-lg-10 col-sm-10">
-           
+         	<!--要添加的地方  -->
+         	<!--销售  -->
+           	<jsp:include page="pages/xiaoshu.jsp" flush="true"></jsp:include>
+           	
+           	<!--商品  -->
+           	
+           	<!--会员  -->
+           	
+           	<!--等等  -->
            
         <div>
   
