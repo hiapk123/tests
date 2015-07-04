@@ -1,9 +1,13 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
-
-			<div id="rjbb" class="myclass">黄鹏 日结报表</div>
-           	<div id="xsdj" class="myclass">黄鹏 销售单据</div>
-           	<div id="csfx" class="myclass">黄鹏 趋势分析</div>
-           	<div id="zbtj" class="myclass">黄鹏 占比统计</div>
-            <div id="spxs" class="myclass">黄鹏 商品销售</div>
-            <div id="fjz" class="myclass">黄鹏 反结账</div>
-            <div id="wdgh" class="myclass">黄鹏 我的供货</div>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
+	contentType="text/html; charset=utf-8"%>
+<div class="myclass" id="dzytj">打折与特价</div>
+<div class="myclass" id="dzcx">搭赠促销</div>
+<div class="myclass" id="hgcx">换购促销</div>
+<div class="myclass" id="dejdz">第二件打折</div>
+<div class="myclass" id="tccx">套餐促销</div>
+<div class="myclass" id="mefx">满额返现</div>
+<div class="myclass" id="yhj">优惠券</div>
+<div class="myclass" id="cxspb">促销商品表</div>
+<div class="myclass" id="lscxb">历史促销表</div>
+<div class="myclass" id="cxhdfkb">促销活动反馈表</div>
+<div class="myclass" id="sjlm">商家联盟</div>

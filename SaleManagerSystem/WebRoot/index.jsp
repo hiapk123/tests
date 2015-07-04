@@ -119,6 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 </script>
 <style type="text/css">
+	
 	.myclass{
 		display: none;
 	}
@@ -317,17 +318,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#" data-options="营销" data-div="zbtj">打折与特价</a></li>
-                                <li><a href="#" data-options="营销" data-div="zbtj">搭赠促销</a></li>
-                                <li><a href="#" data-options="营销" data-div="zbtj">换购促销</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">第二件打折</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">套餐促销</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">满额返现</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">优惠券</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">促销商品表</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">历史促销表</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">促销活动反馈表</a></li>
-								<li><a href="#" data-options="营销" data-div="zbtj">商家联盟</a></li>
+                                <li><a href="#" data-options="营销" data-div="dzytj">打折与特价</a></li>
+                                <li><a href="#" data-options="营销" data-div="dzcx">搭赠促销</a></li>
+                                <li><a href="#" data-options="营销" data-div="hgcx">换购促销</a></li>
+								<li><a href="#" data-options="营销" data-div="dejdz">第二件打折</a></li>
+								<li><a href="#" data-options="营销" data-div="tccx">套餐促销</a></li>
+								<li><a href="#" data-options="营销" data-div="mefx">满额返现</a></li>
+								<li><a href="#" data-options="营销" data-div="yhj">优惠券</a></li>
+								<li><a href="#" data-options="营销" data-div="cxspb">促销商品表</a></li>
+								<li><a href="#" data-options="营销" data-div="lscxb">历史促销表</a></li>
+								<li><a href="#" data-options="营销" data-div="cxhdfkb">促销活动反馈表</a></li>
+								<li><a href="#" data-options="营销" data-div="sjlm">商家联盟</a></li>
                             </ul>
                         </div>
                     </div>
@@ -342,12 +343,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#" data-options="员工">收银员资料</a></li>
-                                <li><a href="#" data-options="员工">收银员业绩</a></li>
-                                <li><a href="#" data-options="员工">交接班记录</a></li>
-								<li><a href="#" data-options="员工">导购员资料</a></li>
-								<li><a href="#" data-options="员工">导购员业绩</a></li>
-								<li><a href="#" data-options="员工">导购明细</a></li>
+                                <li><a href="#" data-options="员工" data-div="syyzl">收银员资料</a></li>
+                                <li><a href="#" data-options="员工" data-div="syyyj">收银员业绩</a></li>
+                                <li><a href="#" data-options="员工" data-div="jjbjl">交接班记录</a></li>
+								<li><a href="#" data-options="员工" data-div="dgyzl">导购员资料</a></li>
+								<li><a href="#" data-options="员工" data-div="dgyyj">导购员业绩</a></li>
+								<li><a href="#" data-options="员工" data-div="dgmx">导购明细</a></li>
                             </ul>
                         </div>
                     </div>
@@ -362,40 +363,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#" data-options="货流">供货商资料</a></li>
-                                <li><a href="#" data-options="货流">供货商结算</a></li>
-                                <li><a href="#" data-options="货流">供货结算记录</a></li>
-								<li><a href="#" data-options="货流">门店订货请求</a></li>
-								<li><a href="#" data-options="货流">门店进货</a></li>
-								<li><a href="#" data-options="货流">门店间调货</a></li>
-								<li><a href="#" data-options="货流">退货给供应商</a></li>
-								<li><a href="#" data-options="货流">货流记录</a></li>
+                                <li><a href="#" data-options="货流" data-div="ghszl">供货商资料</a></li>
+                                <li><a href="#" data-options="货流" data-div="ghsjs">供货商结算</a></li>
+                                <li><a href="#" data-options="货流" data-div="ghsjsjl">供货结算记录</a></li>
+								<li><a href="#" data-options="货流" data-div="mddhqq">门店订货请求</a></li>
+								<li><a href="#" data-options="货流" data-div="mdjh">门店进货</a></li>
+								<li><a href="#" data-options="货流" data-div="mddhsj">门店间调货</a></li>
+								<li><a href="#" data-options="货流" data-div="thggys">退货给供应商</a></li>
+								<li><a href="#" data-options="货流" data-div="wljl">货流记录</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-				
-				<div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse"
-                        data-parent="#accordion2" href="#collapseSeven">
-                        <a class="accordion-toggle">网店</a>
-                    </div>
-                    <div id="collapseSeven" class="panel-collapse collapse"
-                        style="height: 0px;">
-                        <div class="panel-body">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#" data-options="网店">门店信息</a></li>
-                                <li><a href="#" data-options="网店">分类管理</a></li>
-                                <li><a href="#" data-options="网店">商品管理</a></li>
-								<li><a href="#" data-options="网店">网店二维码</a></li>
-								<li><a href="#" data-options="网店">网店广告</a></li>
-								<li><a href="#" data-options="网店">网店订单</a></li>
-								<li><a href="#" data-options="网店">自定义热卖</a></li>
-								<li><a href="#" data-options="网店">温馨提醒</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+			
 				
 				<div class="panel panel-default">
                     <div class="panel-heading" data-toggle="collapse"
@@ -406,11 +386,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         style="height: 0px;">
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#" data-options="设置">账户管理</a></li>
-                                <li><a href="#" data-options="设置">系统设置</a></li>
-                                <li><a href="#" data-options="设置">修改密码</a></li>
-								<li><a href="#" data-options="设置">清空数据</a></li>
-								<li><a href="#" data-options="设置">支付方式</a></li>
+                                <li><a href="#" data-options="设置" data-div="zhgl">账户管理</a></li>
+                                <li><a href="#" data-options="设置" data-div="xtsz">系统设置</a></li>
+                                <li><a href="#" data-options="设置" data-div="xxmm">修改密码</a></li>
+								<li><a href="#" data-options="设置" data-div="qksj">清空数据</a></li>
+								<li><a href="#" data-options="设置" data-div="zffs">支付方式</a></li>
                             </ul>
                         </div>
                     </div>
@@ -450,11 +430,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            	<jsp:include page="pages/xiaoshu.jsp" flush="true"></jsp:include>
            	
            	<!--商品  -->
-           	
+           	<jsp:include page="pages/goods.jsp" flush="true"></jsp:include>
            	<!--会员  -->
-           	
+           	<jsp:include page="pages/vip.jsp" flush="true"></jsp:include>
            	<!--等等  -->
-           
+            <jsp:include page="pages/emp.jsp" flush="true"></jsp:include>
+            
+            <jsp:include page="pages/huoliu.jsp" flush="true"></jsp:include>
+            
+            <jsp:include page="pages/sys.jsp" flush="true"></jsp:include>
+            
+            <jsp:include page="pages/yingxiao.jsp" flush="true"></jsp:include>
         <div>
   
 </div>

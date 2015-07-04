@@ -1,9 +1,12 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
+	contentType="text/html; charset=utf-8"%>
 
-			<div id="rjbb" class="myclass">黄鹏 日结报表</div>
-           	<div id="xsdj" class="myclass">黄鹏 销售单据</div>
-           	<div id="csfx" class="myclass">黄鹏 趋势分析</div>
-           	<div id="zbtj" class="myclass">黄鹏 占比统计</div>
-            <div id="spxs" class="myclass">黄鹏 商品销售</div>
-            <div id="fjz" class="myclass">黄鹏 反结账</div>
-            <div id="wdgh" class="myclass">黄鹏 我的供货</div>
+
+<div id="hyzl" class="myclass">会员资料</div>
+<div id="hydj" class="myclass">会员等级</div>
+<div id="hybz" class="myclass">会员报账</div>
+<div id="czmx" class="myclass">充值明细</div>
+<div id="hygmjl" class="myclass">会员购买查询</div>
+<div id="fsdx" class="myclass">发送短信</div>
+<div id="dxjl" class="myclass">短信记录</div>
+<div id="jfzd" class="myclass">积分制度</div>
