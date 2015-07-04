@@ -91,6 +91,12 @@ public final class JdbcUtils {
          datasource.setPoolProperties(p);
         return datasource.getConnection();
     }
+    
+    public DataSource getDataSource(){
+    	DataSource ds= new DataSource();
+    	ds.setPoolProperties(p);
+    	return ds;
+    }
  
 
     public void free(Connection conn, Statement st, ResultSet rs) {
@@ -121,7 +127,4 @@ public final class JdbcUtils {
             }
         }
     }
-    public static void main(String[] args) {
-		
-	}
 }
