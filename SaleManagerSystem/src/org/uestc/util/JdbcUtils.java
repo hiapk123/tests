@@ -16,7 +16,7 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 public final class JdbcUtils {
     
-    //������ݿ�Ĳ���
+   
     private static String url = null;
     private static String user = null;
     private static String driver = null;
@@ -41,13 +41,13 @@ public final class JdbcUtils {
         return instance;
     }
      
-    //�����ļ�
+   
     private static Properties prop = new Properties();
     private static PoolProperties p = new PoolProperties();
-    //ע����
+   
     static {
         try {
-            //�������������ȡ�����ļ�
+           
             InputStream is = JdbcUtils.class.getClassLoader().getResourceAsStream("dbInfo.properties");
             prop.load(is);
             url = prop.getProperty("url");
@@ -121,7 +121,7 @@ public final class JdbcUtils {
             }
         }
     }
-     public static void main(String[] args) {
+    public static void main(String[] args) {
 		
 	}
 }
