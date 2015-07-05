@@ -96,6 +96,4 @@ public class SalesDaoImp implements SalesDao{
 	public void save(String sql) {
 		
 	}
-
-
 }
