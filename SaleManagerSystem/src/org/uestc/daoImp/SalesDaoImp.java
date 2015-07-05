@@ -1,6 +1,8 @@
 package org.uestc.daoImp;
 
-import org.apache.commons.dbutils.DbUtils;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import org.apache.commons.dbutils.QueryRunner;
 import org.uestc.dao.SalesDao;
 import org.uestc.util.JdbcUtils;
@@ -92,7 +94,6 @@ public class SalesDaoImp implements SalesDao{
 	
 	@Override
 	public void save(String sql) {
-		QueryRunner qr=new QueryRunner(JdbcUtils.getInstance().getDataSource());
 		
 	}
 
