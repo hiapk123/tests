@@ -20,6 +20,10 @@ public class ForGift implements java.io.Serializable {
 	private String EEndDate;
 	private Integer EGoodsNum;
 	private Short EGoodsType;
+	private String EBuyList;
+	private String EBuyCount;
+	private String EGiving;
+	private String EGivingCount;
 
 	// Constructors
 
@@ -30,7 +34,9 @@ public class ForGift implements java.io.Serializable {
 	/** full constructor */
 	public ForGift(Coupons coupons, Goods goods, Integer EParentId,
 			Integer EGiftType, String EName, String EStartDate, Integer EType,
-			Integer SDel, String EEndDate, Integer EGoodsNum, Short EGoodsType) {
+			Integer SDel, String EEndDate, Integer EGoodsNum, Short EGoodsType,
+			String EBuyList, String EBuyCount, String EGiving,
+			String EGivingCount) {
 		this.coupons = coupons;
 		this.goods = goods;
 		this.EParentId = EParentId;
@@ -42,6 +48,10 @@ public class ForGift implements java.io.Serializable {
 		this.EEndDate = EEndDate;
 		this.EGoodsNum = EGoodsNum;
 		this.EGoodsType = EGoodsType;
+		this.EBuyList = EBuyList;
+		this.EBuyCount = EBuyCount;
+		this.EGiving = EGiving;
+		this.EGivingCount = EGivingCount;
 	}
 
 	// Property accessors
@@ -140,6 +150,38 @@ public class ForGift implements java.io.Serializable {
 
 	public void setEGoodsType(Short EGoodsType) {
 		this.EGoodsType = EGoodsType;
+	}
+
+	public String getEBuyList() {
+		return this.EBuyList;
+	}
+
+	public void setEBuyList(String EBuyList) {
+		this.EBuyList = EBuyList;
+	}
+
+	public String getEBuyCount() {
+		return this.EBuyCount;
+	}
+
+	public void setEBuyCount(String EBuyCount) {
+		this.EBuyCount = EBuyCount;
+	}
+
+	public String getEGiving() {
+		return this.EGiving;
+	}
+
+	public void setEGiving(String EGiving) {
+		this.EGiving = EGiving;
+	}
+
+	public String getEGivingCount() {
+		return this.EGivingCount;
+	}
+
+	public void setEGivingCount(String EGivingCount) {
+		this.EGivingCount = EGivingCount;
 	}
 
 }

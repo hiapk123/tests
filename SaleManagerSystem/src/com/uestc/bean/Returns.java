@@ -16,6 +16,7 @@ public class Returns implements java.io.Serializable {
 	private Short retFlag;
 	private String retDate;
 	private Short SDel;
+	private String SDescription;
 
 	// Constructors
 
@@ -30,7 +31,8 @@ public class Returns implements java.io.Serializable {
 
 	/** full constructor */
 	public Returns(Integer retId, Goods goods, Booking booking, String retGNum,
-			String retSerialNum, Short retFlag, String retDate, Short SDel) {
+			String retSerialNum, Short retFlag, String retDate, Short SDel,
+			String SDescription) {
 		this.retId = retId;
 		this.goods = goods;
 		this.booking = booking;
@@ -39,6 +41,7 @@ public class Returns implements java.io.Serializable {
 		this.retFlag = retFlag;
 		this.retDate = retDate;
 		this.SDel = SDel;
+		this.SDescription = SDescription;
 	}
 
 	// Property accessors
@@ -105,6 +108,14 @@ public class Returns implements java.io.Serializable {
 
 	public void setSDel(Short SDel) {
 		this.SDel = SDel;
+	}
+
+	public String getSDescription() {
+		return this.SDescription;
+	}
+
+	public void setSDescription(String SDescription) {
+		this.SDescription = SDescription;
 	}
 
 }

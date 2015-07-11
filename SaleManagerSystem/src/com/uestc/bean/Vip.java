@@ -19,8 +19,16 @@ public class Vip implements java.io.Serializable {
 	private String VCardNo;
 	private String VBalance;
 	private Short SDel;
-	private Set oppositesales = new HashSet(0);
+	private String vipStartdate;
+	private String vipEnddate;
+	private String vipDsicount;
+	private String vipTel;
+	private Short vipAllow;
+	private String vipHowmuch;
+	private String vipAddr;
+	private String vipPwd;
 	private Set sales = new HashSet(0);
+	private Set goodses = new HashSet(0);
 	private Set vipConsumeLogs = new HashSet(0);
 
 	// Constructors
@@ -37,8 +45,10 @@ public class Vip implements java.io.Serializable {
 	/** full constructor */
 	public Vip(Integer VId, Users users, String VLevel,
 			String VCommodityIntegral, Short VStatus, String VCardNo,
-			String VBalance, Short SDel, Set oppositesales, Set sales,
-			Set vipConsumeLogs) {
+			String VBalance, Short SDel, String vipStartdate,
+			String vipEnddate, String vipDsicount, String vipTel,
+			Short vipAllow, String vipHowmuch, String vipAddr, String vipPwd,
+			Set sales, Set goodses, Set vipConsumeLogs) {
 		this.VId = VId;
 		this.users = users;
 		this.VLevel = VLevel;
@@ -47,8 +57,16 @@ public class Vip implements java.io.Serializable {
 		this.VCardNo = VCardNo;
 		this.VBalance = VBalance;
 		this.SDel = SDel;
-		this.oppositesales = oppositesales;
+		this.vipStartdate = vipStartdate;
+		this.vipEnddate = vipEnddate;
+		this.vipDsicount = vipDsicount;
+		this.vipTel = vipTel;
+		this.vipAllow = vipAllow;
+		this.vipHowmuch = vipHowmuch;
+		this.vipAddr = vipAddr;
+		this.vipPwd = vipPwd;
 		this.sales = sales;
+		this.goodses = goodses;
 		this.vipConsumeLogs = vipConsumeLogs;
 	}
 
@@ -118,12 +136,68 @@ public class Vip implements java.io.Serializable {
 		this.SDel = SDel;
 	}
 
-	public Set getOppositesales() {
-		return this.oppositesales;
+	public String getVipStartdate() {
+		return this.vipStartdate;
 	}
 
-	public void setOppositesales(Set oppositesales) {
-		this.oppositesales = oppositesales;
+	public void setVipStartdate(String vipStartdate) {
+		this.vipStartdate = vipStartdate;
+	}
+
+	public String getVipEnddate() {
+		return this.vipEnddate;
+	}
+
+	public void setVipEnddate(String vipEnddate) {
+		this.vipEnddate = vipEnddate;
+	}
+
+	public String getVipDsicount() {
+		return this.vipDsicount;
+	}
+
+	public void setVipDsicount(String vipDsicount) {
+		this.vipDsicount = vipDsicount;
+	}
+
+	public String getVipTel() {
+		return this.vipTel;
+	}
+
+	public void setVipTel(String vipTel) {
+		this.vipTel = vipTel;
+	}
+
+	public Short getVipAllow() {
+		return this.vipAllow;
+	}
+
+	public void setVipAllow(Short vipAllow) {
+		this.vipAllow = vipAllow;
+	}
+
+	public String getVipHowmuch() {
+		return this.vipHowmuch;
+	}
+
+	public void setVipHowmuch(String vipHowmuch) {
+		this.vipHowmuch = vipHowmuch;
+	}
+
+	public String getVipAddr() {
+		return this.vipAddr;
+	}
+
+	public void setVipAddr(String vipAddr) {
+		this.vipAddr = vipAddr;
+	}
+
+	public String getVipPwd() {
+		return this.vipPwd;
+	}
+
+	public void setVipPwd(String vipPwd) {
+		this.vipPwd = vipPwd;
 	}
 
 	public Set getSales() {
@@ -132,6 +206,14 @@ public class Vip implements java.io.Serializable {
 
 	public void setSales(Set sales) {
 		this.sales = sales;
+	}
+
+	public Set getGoodses() {
+		return this.goodses;
+	}
+
+	public void setGoodses(Set goodses) {
+		this.goodses = goodses;
 	}
 
 	public Set getVipConsumeLogs() {

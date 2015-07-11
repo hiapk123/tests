@@ -16,11 +16,11 @@ public class Swap implements java.io.Serializable {
 	private String SStartDate;
 	private String SEndDate;
 	private Integer SType1;
-	private Integer SSwapGoods;
-	private Integer SGoodsNum;
 	private String STotalPrice;
 	private String SDifPrice;
 	private Integer SDel;
+	private String SSwapGoods;
+	private String SGoodsNum;
 
 	// Constructors
 
@@ -31,8 +31,8 @@ public class Swap implements java.io.Serializable {
 	/** full constructor */
 	public Swap(Coupons coupons, Integer SParentId, Integer SSwapType,
 			String SName, String SStartDate, String SEndDate, Integer SType1,
-			Integer SSwapGoods, Integer SGoodsNum, String STotalPrice,
-			String SDifPrice, Integer SDel) {
+			String STotalPrice, String SDifPrice, Integer SDel,
+			String SSwapGoods, String SGoodsNum) {
 		this.coupons = coupons;
 		this.SParentId = SParentId;
 		this.SSwapType = SSwapType;
@@ -40,11 +40,11 @@ public class Swap implements java.io.Serializable {
 		this.SStartDate = SStartDate;
 		this.SEndDate = SEndDate;
 		this.SType1 = SType1;
-		this.SSwapGoods = SSwapGoods;
-		this.SGoodsNum = SGoodsNum;
 		this.STotalPrice = STotalPrice;
 		this.SDifPrice = SDifPrice;
 		this.SDel = SDel;
+		this.SSwapGoods = SSwapGoods;
+		this.SGoodsNum = SGoodsNum;
 	}
 
 	// Property accessors
@@ -113,22 +113,6 @@ public class Swap implements java.io.Serializable {
 		this.SType1 = SType1;
 	}
 
-	public Integer getSSwapGoods() {
-		return this.SSwapGoods;
-	}
-
-	public void setSSwapGoods(Integer SSwapGoods) {
-		this.SSwapGoods = SSwapGoods;
-	}
-
-	public Integer getSGoodsNum() {
-		return this.SGoodsNum;
-	}
-
-	public void setSGoodsNum(Integer SGoodsNum) {
-		this.SGoodsNum = SGoodsNum;
-	}
-
 	public String getSTotalPrice() {
 		return this.STotalPrice;
 	}
@@ -151,6 +135,22 @@ public class Swap implements java.io.Serializable {
 
 	public void setSDel(Integer SDel) {
 		this.SDel = SDel;
+	}
+
+	public String getSSwapGoods() {
+		return this.SSwapGoods;
+	}
+
+	public void setSSwapGoods(String SSwapGoods) {
+		this.SSwapGoods = SSwapGoods;
+	}
+
+	public String getSGoodsNum() {
+		return this.SGoodsNum;
+	}
+
+	public void setSGoodsNum(String SGoodsNum) {
+		this.SGoodsNum = SGoodsNum;
 	}
 
 }

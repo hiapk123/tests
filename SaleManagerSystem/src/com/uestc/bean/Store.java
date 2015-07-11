@@ -17,10 +17,12 @@ public class Store implements java.io.Serializable {
 	private Integer SParentId;
 	private Integer SFlag;
 	private Integer SDel;
-	private Set orders = new HashSet(0);
-	private Set logisticsesForSIdIn = new HashSet(0);
-	private Set logisticsesForSIdOut = new HashSet(0);
+	private String SAddr;
+	private String SUname;
+	private String STel;
+	private Set sales = new HashSet(0);
 	private Set employees = new HashSet(0);
+	private Set vipConsumeLogs = new HashSet(0);
 	private Set goodses = new HashSet(0);
 
 	// Constructors
@@ -31,17 +33,19 @@ public class Store implements java.io.Serializable {
 
 	/** full constructor */
 	public Store(Users users, String SName, Integer SParentId, Integer SFlag,
-			Integer SDel, Set orders, Set logisticsesForSIdIn,
-			Set logisticsesForSIdOut, Set employees, Set goodses) {
+			Integer SDel, String SAddr, String SUname, String STel, Set sales,
+			Set employees, Set vipConsumeLogs, Set goodses) {
 		this.users = users;
 		this.SName = SName;
 		this.SParentId = SParentId;
 		this.SFlag = SFlag;
 		this.SDel = SDel;
-		this.orders = orders;
-		this.logisticsesForSIdIn = logisticsesForSIdIn;
-		this.logisticsesForSIdOut = logisticsesForSIdOut;
+		this.SAddr = SAddr;
+		this.SUname = SUname;
+		this.STel = STel;
+		this.sales = sales;
 		this.employees = employees;
+		this.vipConsumeLogs = vipConsumeLogs;
 		this.goodses = goodses;
 	}
 
@@ -95,28 +99,36 @@ public class Store implements java.io.Serializable {
 		this.SDel = SDel;
 	}
 
-	public Set getOrders() {
-		return this.orders;
+	public String getSAddr() {
+		return this.SAddr;
 	}
 
-	public void setOrders(Set orders) {
-		this.orders = orders;
+	public void setSAddr(String SAddr) {
+		this.SAddr = SAddr;
 	}
 
-	public Set getLogisticsesForSIdIn() {
-		return this.logisticsesForSIdIn;
+	public String getSUname() {
+		return this.SUname;
 	}
 
-	public void setLogisticsesForSIdIn(Set logisticsesForSIdIn) {
-		this.logisticsesForSIdIn = logisticsesForSIdIn;
+	public void setSUname(String SUname) {
+		this.SUname = SUname;
 	}
 
-	public Set getLogisticsesForSIdOut() {
-		return this.logisticsesForSIdOut;
+	public String getSTel() {
+		return this.STel;
 	}
 
-	public void setLogisticsesForSIdOut(Set logisticsesForSIdOut) {
-		this.logisticsesForSIdOut = logisticsesForSIdOut;
+	public void setSTel(String STel) {
+		this.STel = STel;
+	}
+
+	public Set getSales() {
+		return this.sales;
+	}
+
+	public void setSales(Set sales) {
+		this.sales = sales;
 	}
 
 	public Set getEmployees() {
@@ -125,6 +137,14 @@ public class Store implements java.io.Serializable {
 
 	public void setEmployees(Set employees) {
 		this.employees = employees;
+	}
+
+	public Set getVipConsumeLogs() {
+		return this.vipConsumeLogs;
+	}
+
+	public void setVipConsumeLogs(Set vipConsumeLogs) {
+		this.vipConsumeLogs = vipConsumeLogs;
 	}
 
 	public Set getGoodses() {

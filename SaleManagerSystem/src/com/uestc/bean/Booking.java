@@ -13,8 +13,8 @@ public class Booking implements java.io.Serializable {
 
 	private Integer BId;
 	private Goods goods;
-	private Order order;
 	private String BNum;
+	private Integer SId;
 	private String BStatus;
 	private String BInfo;
 	private String BDate;
@@ -33,13 +33,13 @@ public class Booking implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Booking(Integer BId, Goods goods, Order order, String BNum,
+	public Booking(Integer BId, Goods goods, String BNum, Integer SId,
 			String BStatus, String BInfo, String BDate, Short SDel,
 			Set returnses) {
 		this.BId = BId;
 		this.goods = goods;
-		this.order = order;
 		this.BNum = BNum;
+		this.SId = SId;
 		this.BStatus = BStatus;
 		this.BInfo = BInfo;
 		this.BDate = BDate;
@@ -65,20 +65,20 @@ public class Booking implements java.io.Serializable {
 		this.goods = goods;
 	}
 
-	public Order getOrder() {
-		return this.order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-
 	public String getBNum() {
 		return this.BNum;
 	}
 
 	public void setBNum(String BNum) {
 		this.BNum = BNum;
+	}
+
+	public Integer getSId() {
+		return this.SId;
+	}
+
+	public void setSId(Integer SId) {
+		this.SId = SId;
 	}
 
 	public String getBStatus() {

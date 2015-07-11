@@ -12,6 +12,7 @@ public class Coupons implements java.io.Serializable {
 	// Fields
 
 	private Integer CId;
+	private CouponsFunction couponsFunction;
 	private String CName;
 	private String CStartDate;
 	private String CEndDate;
@@ -21,6 +22,7 @@ public class Coupons implements java.io.Serializable {
 	private Short COnlyVip;
 	private String CMeetPrice;
 	private String CModel;
+	private String CNo;
 	private Set discounts = new HashSet(0);
 	private Set forGifts = new HashSet(0);
 	private Set cashBacks = new HashSet(0);
@@ -34,10 +36,12 @@ public class Coupons implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Coupons(String CName, String CStartDate, String CEndDate,
-			Integer CNum, Short CStatus, String CDescribe, Short COnlyVip,
-			String CMeetPrice, String CModel, Set discounts, Set forGifts,
-			Set cashBacks, Set packages, Set swaps) {
+	public Coupons(CouponsFunction couponsFunction, String CName,
+			String CStartDate, String CEndDate, Integer CNum, Short CStatus,
+			String CDescribe, Short COnlyVip, String CMeetPrice, String CModel,
+			String CNo, Set discounts, Set forGifts, Set cashBacks,
+			Set packages, Set swaps) {
+		this.couponsFunction = couponsFunction;
 		this.CName = CName;
 		this.CStartDate = CStartDate;
 		this.CEndDate = CEndDate;
@@ -47,6 +51,7 @@ public class Coupons implements java.io.Serializable {
 		this.COnlyVip = COnlyVip;
 		this.CMeetPrice = CMeetPrice;
 		this.CModel = CModel;
+		this.CNo = CNo;
 		this.discounts = discounts;
 		this.forGifts = forGifts;
 		this.cashBacks = cashBacks;
@@ -62,6 +67,14 @@ public class Coupons implements java.io.Serializable {
 
 	public void setCId(Integer CId) {
 		this.CId = CId;
+	}
+
+	public CouponsFunction getCouponsFunction() {
+		return this.couponsFunction;
+	}
+
+	public void setCouponsFunction(CouponsFunction couponsFunction) {
+		this.couponsFunction = couponsFunction;
 	}
 
 	public String getCName() {
@@ -134,6 +147,14 @@ public class Coupons implements java.io.Serializable {
 
 	public void setCModel(String CModel) {
 		this.CModel = CModel;
+	}
+
+	public String getCNo() {
+		return this.CNo;
+	}
+
+	public void setCNo(String CNo) {
+		this.CNo = CNo;
 	}
 
 	public Set getDiscounts() {

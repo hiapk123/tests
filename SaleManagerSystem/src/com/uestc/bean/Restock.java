@@ -14,6 +14,7 @@ public class Restock implements java.io.Serializable {
 	private Short RFlag;
 	private String RDate;
 	private Short SDel;
+	private String GPrice;
 
 	// Constructors
 
@@ -23,12 +24,13 @@ public class Restock implements java.io.Serializable {
 
 	/** full constructor */
 	public Restock(Goods goods, Integer GNum, Short RFlag, String RDate,
-			Short SDel) {
+			Short SDel, String GPrice) {
 		this.goods = goods;
 		this.GNum = GNum;
 		this.RFlag = RFlag;
 		this.RDate = RDate;
 		this.SDel = SDel;
+		this.GPrice = GPrice;
 	}
 
 	// Property accessors
@@ -79,6 +81,14 @@ public class Restock implements java.io.Serializable {
 
 	public void setSDel(Short SDel) {
 		this.SDel = SDel;
+	}
+
+	public String getGPrice() {
+		return this.GPrice;
+	}
+
+	public void setGPrice(String GPrice) {
+		this.GPrice = GPrice;
 	}
 
 }

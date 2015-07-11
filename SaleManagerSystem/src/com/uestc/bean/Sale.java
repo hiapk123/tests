@@ -11,6 +11,7 @@ public class Sale implements java.io.Serializable {
 	private Long saId;
 	private Employee employee;
 	private Goods goods;
+	private Store store;
 	private Vip vip;
 	private String saSerialNum;
 	private String saDate;
@@ -20,6 +21,7 @@ public class Sale implements java.io.Serializable {
 	private String saType;
 	private String saProfit;
 	private Short SDel;
+	private Integer saFlag;
 
 	// Constructors
 
@@ -28,18 +30,20 @@ public class Sale implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Sale(Long saId) {
+	public Sale(Long saId, String saType) {
 		this.saId = saId;
+		this.saType = saType;
 	}
 
 	/** full constructor */
-	public Sale(Long saId, Employee employee, Goods goods, Vip vip,
-			String saSerialNum, String saDate, String saGoodsNum,
+	public Sale(Long saId, Employee employee, Goods goods, Store store,
+			Vip vip, String saSerialNum, String saDate, String saGoodsNum,
 			String saGoodsPrice, String saRealPrice, String saType,
-			String saProfit, Short SDel) {
+			String saProfit, Short SDel, Integer saFlag) {
 		this.saId = saId;
 		this.employee = employee;
 		this.goods = goods;
+		this.store = store;
 		this.vip = vip;
 		this.saSerialNum = saSerialNum;
 		this.saDate = saDate;
@@ -49,6 +53,7 @@ public class Sale implements java.io.Serializable {
 		this.saType = saType;
 		this.saProfit = saProfit;
 		this.SDel = SDel;
+		this.saFlag = saFlag;
 	}
 
 	// Property accessors
@@ -75,6 +80,14 @@ public class Sale implements java.io.Serializable {
 
 	public void setGoods(Goods goods) {
 		this.goods = goods;
+	}
+
+	public Store getStore() {
+		return this.store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 	public Vip getVip() {
@@ -147,6 +160,14 @@ public class Sale implements java.io.Serializable {
 
 	public void setSDel(Short SDel) {
 		this.SDel = SDel;
+	}
+
+	public Integer getSaFlag() {
+		return this.saFlag;
+	}
+
+	public void setSaFlag(Integer saFlag) {
+		this.saFlag = saFlag;
 	}
 
 }

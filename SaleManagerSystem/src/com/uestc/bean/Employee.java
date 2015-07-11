@@ -22,7 +22,6 @@ public class Employee implements java.io.Serializable {
 	private Short empStatus;
 	private Integer SDel;
 	private Set shiftChanges = new HashSet(0);
-	private Set oppositesales = new HashSet(0);
 	private Set sales = new HashSet(0);
 
 	// Constructors
@@ -39,8 +38,7 @@ public class Employee implements java.io.Serializable {
 	/** full constructor */
 	public Employee(Integer empId, Store store, String empName, String empNo,
 			Integer empType, String empPwd, String empTel, String empPrivilege,
-			Short empStatus, Integer SDel, Set shiftChanges, Set oppositesales,
-			Set sales) {
+			Short empStatus, Integer SDel, Set shiftChanges, Set sales) {
 		this.empId = empId;
 		this.store = store;
 		this.empName = empName;
@@ -52,7 +50,6 @@ public class Employee implements java.io.Serializable {
 		this.empStatus = empStatus;
 		this.SDel = SDel;
 		this.shiftChanges = shiftChanges;
-		this.oppositesales = oppositesales;
 		this.sales = sales;
 	}
 
@@ -144,14 +141,6 @@ public class Employee implements java.io.Serializable {
 
 	public void setShiftChanges(Set shiftChanges) {
 		this.shiftChanges = shiftChanges;
-	}
-
-	public Set getOppositesales() {
-		return this.oppositesales;
-	}
-
-	public void setOppositesales(Set oppositesales) {
-		this.oppositesales = oppositesales;
 	}
 
 	public Set getSales() {

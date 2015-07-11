@@ -9,6 +9,7 @@ public class VipConsumeLog implements java.io.Serializable {
 	// Fields
 
 	private Long VCId;
+	private Store store;
 	private Vip vip;
 	private String VDate;
 	private String VPayinOff;
@@ -26,9 +27,10 @@ public class VipConsumeLog implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public VipConsumeLog(Long VCId, Vip vip, String VDate, String VPayinOff,
-			Short SDel) {
+	public VipConsumeLog(Long VCId, Store store, Vip vip, String VDate,
+			String VPayinOff, Short SDel) {
 		this.VCId = VCId;
+		this.store = store;
 		this.vip = vip;
 		this.VDate = VDate;
 		this.VPayinOff = VPayinOff;
@@ -43,6 +45,14 @@ public class VipConsumeLog implements java.io.Serializable {
 
 	public void setVCId(Long VCId) {
 		this.VCId = VCId;
+	}
+
+	public Store getStore() {
+		return this.store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 	public Vip getVip() {

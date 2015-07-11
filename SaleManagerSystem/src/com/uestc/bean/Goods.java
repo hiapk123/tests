@@ -15,13 +15,15 @@ public class Goods implements java.io.Serializable {
 	private Supplier supplier;
 	private Category category;
 	private Store store;
+	private CommissionRule commissionRule;
+	private Vip vip;
+	private IntegralRule integralRule;
 	private String GName;
 	private String SName;
 	private String GStockNum;
 	private String GPurPrice;
 	private String GSalePrice;
 	private String GTradePrice;
-	private String GVipPrice;
 	private String CName;
 	private String GIntegral;
 	private String GBarcode;
@@ -35,13 +37,15 @@ public class Goods implements java.io.Serializable {
 	private String suName;
 	private Integer GFlag;
 	private Integer GDel;
+	private String GUnit;
+	private String GHowmuch;
 	private Set restocks = new HashSet(0);
 	private Set discounts = new HashSet(0);
 	private Set returnses = new HashSet(0);
 	private Set forGifts = new HashSet(0);
 	private Set sales = new HashSet(0);
+	private Set priceGoodses = new HashSet(0);
 	private Set bookings = new HashSet(0);
-	private Set logisticses = new HashSet(0);
 
 	// Constructors
 
@@ -51,23 +55,27 @@ public class Goods implements java.io.Serializable {
 
 	/** full constructor */
 	public Goods(Supplier supplier, Category category, Store store,
+			CommissionRule commissionRule, Vip vip, IntegralRule integralRule,
 			String GName, String SName, String GStockNum, String GPurPrice,
-			String GSalePrice, String GTradePrice, String GVipPrice,
-			String CName, String GIntegral, String GBarcode, String GStockMin,
+			String GSalePrice, String GTradePrice, String CName,
+			String GIntegral, String GBarcode, String GStockMin,
 			String GStockMax, String GProdDate, String GGiq, String GScale,
 			String GPm, String GImgPath, String suName, Integer GFlag,
-			Integer GDel, Set restocks, Set discounts, Set returnses,
-			Set forGifts, Set sales, Set bookings, Set logisticses) {
+			Integer GDel, String GUnit, String GHowmuch, Set restocks,
+			Set discounts, Set returnses, Set forGifts, Set sales,
+			Set priceGoodses, Set bookings) {
 		this.supplier = supplier;
 		this.category = category;
 		this.store = store;
+		this.commissionRule = commissionRule;
+		this.vip = vip;
+		this.integralRule = integralRule;
 		this.GName = GName;
 		this.SName = SName;
 		this.GStockNum = GStockNum;
 		this.GPurPrice = GPurPrice;
 		this.GSalePrice = GSalePrice;
 		this.GTradePrice = GTradePrice;
-		this.GVipPrice = GVipPrice;
 		this.CName = CName;
 		this.GIntegral = GIntegral;
 		this.GBarcode = GBarcode;
@@ -81,13 +89,15 @@ public class Goods implements java.io.Serializable {
 		this.suName = suName;
 		this.GFlag = GFlag;
 		this.GDel = GDel;
+		this.GUnit = GUnit;
+		this.GHowmuch = GHowmuch;
 		this.restocks = restocks;
 		this.discounts = discounts;
 		this.returnses = returnses;
 		this.forGifts = forGifts;
 		this.sales = sales;
+		this.priceGoodses = priceGoodses;
 		this.bookings = bookings;
-		this.logisticses = logisticses;
 	}
 
 	// Property accessors
@@ -122,6 +132,30 @@ public class Goods implements java.io.Serializable {
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public CommissionRule getCommissionRule() {
+		return this.commissionRule;
+	}
+
+	public void setCommissionRule(CommissionRule commissionRule) {
+		this.commissionRule = commissionRule;
+	}
+
+	public Vip getVip() {
+		return this.vip;
+	}
+
+	public void setVip(Vip vip) {
+		this.vip = vip;
+	}
+
+	public IntegralRule getIntegralRule() {
+		return this.integralRule;
+	}
+
+	public void setIntegralRule(IntegralRule integralRule) {
+		this.integralRule = integralRule;
 	}
 
 	public String getGName() {
@@ -170,14 +204,6 @@ public class Goods implements java.io.Serializable {
 
 	public void setGTradePrice(String GTradePrice) {
 		this.GTradePrice = GTradePrice;
-	}
-
-	public String getGVipPrice() {
-		return this.GVipPrice;
-	}
-
-	public void setGVipPrice(String GVipPrice) {
-		this.GVipPrice = GVipPrice;
 	}
 
 	public String getCName() {
@@ -284,6 +310,22 @@ public class Goods implements java.io.Serializable {
 		this.GDel = GDel;
 	}
 
+	public String getGUnit() {
+		return this.GUnit;
+	}
+
+	public void setGUnit(String GUnit) {
+		this.GUnit = GUnit;
+	}
+
+	public String getGHowmuch() {
+		return this.GHowmuch;
+	}
+
+	public void setGHowmuch(String GHowmuch) {
+		this.GHowmuch = GHowmuch;
+	}
+
 	public Set getRestocks() {
 		return this.restocks;
 	}
@@ -324,20 +366,20 @@ public class Goods implements java.io.Serializable {
 		this.sales = sales;
 	}
 
+	public Set getPriceGoodses() {
+		return this.priceGoodses;
+	}
+
+	public void setPriceGoodses(Set priceGoodses) {
+		this.priceGoodses = priceGoodses;
+	}
+
 	public Set getBookings() {
 		return this.bookings;
 	}
 
 	public void setBookings(Set bookings) {
 		this.bookings = bookings;
-	}
-
-	public Set getLogisticses() {
-		return this.logisticses;
-	}
-
-	public void setLogisticses(Set logisticses) {
-		this.logisticses = logisticses;
 	}
 
 }
