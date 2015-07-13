@@ -11,7 +11,9 @@
 <div id="spfl" class="myclass">商品分类</div>
 <div id="plsz" class="myclass">批量设置</div>
 <div id="kcyd" class="myclass">库存预警</div>
-<div id="spxxfx" class="myclass">商品信息分析</div>
+<div id="spxxfx" class="myclass">
+<jsp:include page="goods/analyze-goods.jsp"></jsp:include>
+</div>
 <div id="kcpdjl" class="myclass">库存盘点记录</div>
 <div id="kcbdjl" class="myclass">库存变动记录</div>
 <div id="zzcf" class="myclass">组装拆分</div>
