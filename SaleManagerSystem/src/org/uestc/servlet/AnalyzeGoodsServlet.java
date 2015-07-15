@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -62,24 +63,31 @@ public class AnalyzeGoodsServlet extends HttpServlet{
 	//初始化商品分类
 	private void initStore(HttpServletRequest req,HttpServletResponse resp) throws IOException{
 		
-		JSONArray array=new JSONArray();
-		
-		String type=req.getParameter("type");//获取类型
-		if("All".equals(type)){
-			List<Object[]> list= goodService.findStoreByUserId(1);//查询所有分类，父ID为-1
-			for(int i=0;i<list.size();i++){
-				JSONObject jsonObject=new JSONObject();
-				jsonObject.put("sid", list.get(i)[0]);
-				jsonObject.put("sname", list.get(i)[1]);
-				array.add(jsonObject);
+		try {
+			JSONArray array=new JSONArray();
+			HttpSession session=req.getSession();
+			int uid=(Integer)session.getAttribute("uid");
+			String type=req.getParameter("type");//获取类型
+			if("All".equals(type)){
+				List<Object[]> list= goodService.findStoreByUserId(uid);//查询所有分类，父ID为-1
+				for(int i=0;i<list.size();i++){
+					JSONObject jsonObject=new JSONObject();
+					jsonObject.put("sid", list.get(i)[0]);
+					jsonObject.put("sname", list.get(i)[1]);
+					array.add(jsonObject);
+				}
+				resp.setContentType("text/json; charset=utf-8");
+				resp.setCharacterEncoding("UTF-8");
+				PrintWriter out = resp.getWriter();
+				
+				out.write(array.toString());
+				out.flush();
+				out.close();
 			}
-			resp.setContentType("text/json; charset=utf-8");
-			resp.setCharacterEncoding("UTF-8");
-			PrintWriter out = resp.getWriter();
+		} catch (Exception e) {
 			
-			out.write(array.toString());
-			out.flush();
-			out.close();
+			e.printStackTrace();
+			return;
 		}
 		
 	}
