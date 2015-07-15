@@ -7,7 +7,7 @@
 			+ path + "/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <!--
         ===
@@ -53,6 +53,8 @@
 <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
 <link href='css/uploadify.css' rel='stylesheet'>
 <link href='css/animate.min.css' rel='stylesheet'>
+<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
+<link href="css/jquery.dataTables.min.css" rel="stylesheet">
 
 <!-- jQuery -->
 <script src="bower_components/jquery/jquery.min.js"></script>
@@ -66,7 +68,7 @@
 <link rel="shortcut icon" href="img/favicon.ico">
 
 <!-- external javascript -->
-<link rel="shortcut icon" href="css/datepicker.css">
+
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <!-- library for cookie management -->
@@ -100,7 +102,8 @@
 <script src="js/jquery.history.js"></script>
 <!-- application script for Charisma demo -->
 <script src="js/charisma.js"></script>
-
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function() {
 		$("li a")
@@ -136,7 +139,18 @@
 
 						});
 		
-
+						   $('#datetimepicker_analyze_1').datetimepicker({
+							        format: 'yyyy-mm-dd hh:ii:ss',
+							        autoclose:true,
+							        language:'zh-CN'
+							});
+							$('#datetimepicker_analyze_2').datetimepicker({
+							        format: 'yyyy-mm-dd hh:ii:ss',
+							        autoclose:true,
+							        language:'zh-CN'
+							});
+							
+				
 	});
 </script>
 <style type="text/css">

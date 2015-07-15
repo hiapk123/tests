@@ -19,9 +19,24 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="商品,信息,分析">
 <meta http-equiv="description" content="商品信息分析页面">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+
+<script type="text/javascript">
+$(function(){
+
+			$.post('<%=basePath%>AnalyzeGoods',{"type":"All","m":"initStore"},function(data){
+				var list=$('#zxt_dropdown-menu');
+				list.empty();
+				for(var i=0;i<data.length;i++){
+					list.append("<li data-id="+data[i].sid+">"+data[i].sname+"</li>");
+				}
+				
+			},"json");
+		$('#select_store').click(function(){
+			
+		});
+		
+});
+</script>
 
 </head>
 
@@ -34,16 +49,12 @@
 			<div style="float:right;width:85%;">
 
 				<div class="btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle"
+					<button id="select_store" type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown">
 						选择店铺<span class="caret"></span>
+						
 					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">功能</a></li>
-						<li><a href="#">另一个功能</a></li>
-						<li><a href="#">其他</a></li>
-						<li class="divider"></li>
-						<li><a href="#">分离的链接</a></li>
+					<ul class="dropdown-menu" role="menu" id="zxt_dropdown-menu">
 					</ul>
 				</div>
 				<div class="btn-group">
@@ -51,7 +62,7 @@
 						data-toggle="dropdown">
 						全部分类<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu" role="menu">
+					<ul class="dropdown-menu" role="menu" >
 						<li><a href="#">功能</a></li>
 						<li><a href="#">另一个功能</a></li>
 						<li><a href="#">其他</a></li>
@@ -59,9 +70,9 @@
 						<li><a href="#">分离的链接</a></li>
 					</ul>
 				</div>
-
-				<input type="text" value="日期一">至<input type="text"
-					value="日期二"> <input type="text" value="条码/名称">
+	
+				<input type="text" value="" id="datetimepicker_analyze_1">至<input type="text"
+					value="" id="datetimepicker_analyze_2"> <input type="text" value="条码/名称">
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary dropdown-toggle">
 						分析</button>
@@ -71,8 +82,7 @@
 	</div>
 	<div class="panel panel-default">
 		<div style="overflow: scroll;">
-			<table class="table-responsive">
-				
+			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>品名</th>
@@ -114,44 +124,6 @@
 						<td>Tanmay</td>
 						<td>Bangalore</td>
 
-					</tr>
-					<tr>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-					</tr>
-					<tr>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
 					</tr>
 				</tbody>
 			</table>
