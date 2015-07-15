@@ -1,4 +1,4 @@
-package AnalyseGoodsDao;
+package org.uestc.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
