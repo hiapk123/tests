@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
+<%@ page language="java" import="java.util.*,org.uestc.util.PageObject" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
 <%
 	String path = request.getContextPath();
@@ -19,23 +19,48 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="商品,信息,分析">
 <meta http-equiv="description" content="商品信息分析页面">
-
 <script type="text/javascript">
 $(function(){
-
-			$.post('<%=basePath%>AnalyzeGoods',{"type":"All","m":"initStore"},function(data){
-				var list=$('#zxt_dropdown-menu');
+			//初始化店铺
+			$.post('<%=basePath%>AnalyzeGoods',{"m":"initStore"},function(data){
+				var list=$('#zxt_store');
 				list.empty();
+				list.append("<option disabled selected>请选择店铺</option>");
 				for(var i=0;i<data.length;i++){
-					list.append("<li data-id="+data[i].sid+">"+data[i].sname+"</li>");
+					list.append("<option value="+data[i].sid+">"+data[i].sname+"</option>");
 				}
-				
+
 			},"json");
-		$('#select_store').click(function(){
+			//初始化分类
+			$.post('<%=basePath%>AnalyzeGoods', {"m" : "initCategory"}, function(data) {
+			var list = $('#zxt_category');
+			list.empty();
+			list.append("<option disabled selected>请选择分类</option>");
+			list.append("<option value='-1'>全部</option>");
+			for (var i = 0; i < data.length; i++) {
+				list.append("<option value="+data[i].cid+">" + data[i].cname
+						+ "</option>");
+			}
+			//初始化页数
 			
-		});
+
+		}, "json");
 		
-});
+	$('#zxt_search').click(function(){
+		var store=$('#zxt_store').val();
+		var category=$('#zxt_category').val();
+		var startdate=$('#datetimepicker_analyze_1').val();
+		var enddate=$('#datetimepicker_analyze_2').val();
+		var num=$('#zxt_num').val();
+		
+		var jsonObject={"m":"initPageCount","store":store,"category":category,"startdate":startdate,"enddate":enddate,"num":num};
+		//console.info(store+":"+category+":"+startdate+":"+enddate+":"+num);
+		$.post('<%=basePath%>AnalyzeGoods',jsonObject,function(data){
+			alert(data.count);
+		},"json");
+	});
+
+	});
 </script>
 
 </head>
@@ -49,34 +74,24 @@ $(function(){
 			<div style="float:right;width:85%;">
 
 				<div class="btn-group">
-					<button id="select_store" type="button" class="btn btn-default dropdown-toggle"
-						data-toggle="dropdown">
-						选择店铺<span class="caret"></span>
-						
-					</button>
-					<ul class="dropdown-menu" role="menu" id="zxt_dropdown-menu">
-					</ul>
+
+					<select id="zxt_store">
+
+					</select> 
+					<select id="zxt_category">
+
+					</select>
 				</div>
-				<div class="btn-group">
-					<button type="button" class="btn btn-primary dropdown-toggle"
-						data-toggle="dropdown">
-						全部分类<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu" >
-						<li><a href="#">功能</a></li>
-						<li><a href="#">另一个功能</a></li>
-						<li><a href="#">其他</a></li>
-						<li class="divider"></li>
-						<li><a href="#">分离的链接</a></li>
-					</ul>
-				</div>
-	
-				<input type="text" value="" id="datetimepicker_analyze_1">至<input type="text"
-					value="" id="datetimepicker_analyze_2"> <input type="text" value="条码/名称">
-				<div class="btn-group">
-					<button type="button" class="btn btn-primary dropdown-toggle">
-						分析</button>
-				</div>
+
+
+				<input type="text" value="" id="datetimepicker_analyze_1">至<input
+					type="text" value="" id="datetimepicker_analyze_2"> <input
+					type="text" value="条码/名称" id="zxt_num">
+
+				<button type="button" class="btn btn-primary dropdown-toggle" id="zxt_search">
+					分析
+				</button>
+
 			</div>
 		</div>
 	</div>
@@ -88,15 +103,15 @@ $(function(){
 						<th>品名</th>
 						<th>条形码</th>
 						<th>商品状态</th>
-						<th>累计进货</th>
+						<!-- <th>累计进货</th>
 						<th>累计出货</th>
 						<th>累计退货</th>
-						<th>累计销售</th>
+						<th>累计销售</th> -->
 						<th>库存数量</th>
 						<th>零售单价</th>
 						<th>成本单价</th>
 						<th>差价</th>
-						<th>毛利润</th>
+						<!-- <th>毛利润</th> -->
 						<th>折让总额</th>
 						<th>零售总额</th>
 						<th>零售成本</th>
@@ -118,16 +133,13 @@ $(function(){
 						<td>Tanmay</td>
 						<td>Bangalore</td>
 						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
-						<td>560001</td>
-						<td>Tanmay</td>
-						<td>Bangalore</td>
+
 
 					</tr>
 				</tbody>
 			</table>
-
+			<!--记录当前页数  -->
+			
 			<div>
 				<ul class="pagination pagination-lg" style="float: right;">
 					<li><a href="#">&laquo;</a></li>
