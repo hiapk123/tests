@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PageObject {
 
-	private final int DEFAULT_PAGE_SIZE = 10;// 默认显示记录数
+	public static final int DEFAULT_PAGE_SIZE = 10;// 默认显示记录数
 
-	private final int DEFAULT_CUR_SIZE = 1;// 默认当前页
+	private static final int DEFAULT_CUR_SIZE = 1;// 默认当前页
 
 	private List data;// 数据列表
 

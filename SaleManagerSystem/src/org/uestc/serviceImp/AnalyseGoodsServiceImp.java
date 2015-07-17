@@ -23,7 +23,7 @@ public class AnalyseGoodsServiceImp implements AnalyseGoodsService {
 	@Override
 	public List<Object[]> findStoreByUserId(int uid) {
 
-		String sql = "SELECT t1.s_name,t1.s_id FROM store t1 WHERE t1.s_del=1 and t1.s_flag=1 and t1.u_id=?";
+		String sql = "SELECT t1.s_id,t1.s_name FROM store t1 WHERE t1.s_del=1 and t1.s_flag=1 and t1.u_id=?";
 		return goodDao.find(sql, uid);
 	}
 
@@ -39,7 +39,7 @@ public class AnalyseGoodsServiceImp implements AnalyseGoodsService {
 			String endDate, int ordering) {
 		// 注日期为毫秒数
 		boolean isNull = true;
-		String sql = "select t1.*,t2.*,t1.g_sale_price-t1.g_pur_price as chajia from goods t1,sale t2 where t1.g_id=t2.g_id and t1.s_id=? and t1.g_del=1 and t1.g_flag=1 and t2.sa_date between ? and ?";
+		String sql = "select t1.*,t2.*,t1.g_sale_price-t1.g_pur_price as chajia from goods t1,sale t2 where t1.g_id=t2.g_id and t1.s_id=? and t1.c_id=? and t1.g_del=1 and t1.g_flag=1 and t2.sa_date between ? and ?";
 		if (!"".equals(num) && null != num) {
 			sql += " and t1.g_barcode=?";
 			isNull = false;
@@ -93,10 +93,10 @@ public class AnalyseGoodsServiceImp implements AnalyseGoodsService {
 		}
 		sql += " limit ?,?";
 		if (isNull)
-			return goodDao.find(sql, store, startDate, endDate, currentPage,
+			return goodDao.find(sql, store,category, startDate, endDate, currentPage,
 					pageSize);
 		else
-			return goodDao.find(sql, store, startDate, endDate, num,
+			return goodDao.find(sql, store,category, startDate, endDate, num,
 					currentPage, pageSize);
 	}
 
@@ -104,7 +104,7 @@ public class AnalyseGoodsServiceImp implements AnalyseGoodsService {
 	public int getCount(int store, int category, String num, String startDate,
 			String endDate) {
 		boolean isNull = true;
-		String sql = "select count(t1.g_id) from goods t1,sale t2 where t1.g_id=t2.g_id and t1.s_id=? and t1.g_del=1 and t1.g_flag=1 and t2.sa_date between ? and ?";
+		String sql = "select t1.g_id from goods t1,sale t2 where t1.g_id=t2.g_id and t1.s_id=? and t1.c_id=? and t1.g_del=1 and t1.g_flag=1 and t2.sa_date between ? and ?";
 		if (!"".equals(num) && null != num) {
 			sql += " and t1.g_barcode=?";
 			isNull = false;
@@ -112,9 +112,9 @@ public class AnalyseGoodsServiceImp implements AnalyseGoodsService {
 		
 		try {
 			if (isNull)
-				return (Integer.valueOf(goodDao.find(sql, store, startDate, endDate).get(0)[0].toString()));
+				return goodDao.find(sql, store,category, startDate, endDate).size();
 			else
-				return (Integer.valueOf(goodDao.find(sql, store, startDate, endDate, num).get(0)[0].toString()));
+				return goodDao.find(sql, store,category, startDate, endDate, num).size();
 		} catch (Exception e) {
 			
 			e.printStackTrace();

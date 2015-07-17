@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -15,7 +16,10 @@
 <div id="plsz" class="myclass">批量设置</div>
 <div id="kcyd" class="myclass">库存预警</div>
 <div id="spxxfx" class="myclass">
-<jsp:include page="goods/analyze-goods.jsp"></jsp:include>
+<iframe src="<%=basePath %>AnalyzeGoods?m=initThisPage" width="100%" height="600px"></iframe>
+<%-- <c:import url="/AnalyzeGoods?m=initThisPage"></c:import> --%>
+
+<%-- <jsp:include page="goods/analyze-goods.jsp"></jsp:include>  --%>
 </div>
 <div id="kcpdjl" class="myclass">库存盘点记录</div>
 <div id="kcbdjl" class="myclass">库存变动记录</div>

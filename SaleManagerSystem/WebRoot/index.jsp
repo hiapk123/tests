@@ -123,6 +123,8 @@
 							var div_id = $(this).attr("data-div");
 							$("div#content").children().css("display", "none");
 							$("#" + div_id).css("display", "block");
+							if(div_id==""){
+							}
 
 						});
 
@@ -139,16 +141,7 @@
 
 						});
 		
-						   $('#datetimepicker_analyze_1').datetimepicker({
-							        format: 'yyyy-mm-dd hh:ii:ss',
-							        autoclose:true,
-							        language:'zh-CN'
-							});
-							$('#datetimepicker_analyze_2').datetimepicker({
-							        format: 'yyyy-mm-dd hh:ii:ss',
-							        autoclose:true,
-							        language:'zh-CN'
-							});
+						
 							
 				
 	});

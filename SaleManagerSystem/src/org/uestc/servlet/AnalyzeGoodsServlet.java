@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import org.uestc.service.AnalyseGoodsService;
 import org.uestc.serviceImp.AnalyseGoodsServiceImp;
 import org.uestc.util.DateFormatUtils;
+import org.uestc.util.PageObject;
 
 import com.mysql.fabric.xmlrpc.base.Data;
 
@@ -56,58 +57,100 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 			if ("initStore".equals(m)) {
 				initStore(req, resp);
 			} else if ("initCategory".equals(m)) {
-				initCategory(req,resp);
-			}else if("searchGoods".equals(m)){
-				searchGoods(req,resp);
-			}else if("initPageCount".equals(m)){
-				initPageCount(req,resp);
+				initCategory(req, resp);
+			} else if ("searchGoods".equals(m)) {
+				searchGoods(req, resp);
+			} else if ("initPageCount".equals(m)) {
+				initPageCount(req, resp);
+			}else if("initThisPage".equals(m)){
+				req.getRequestDispatcher("/pages/goods/analyze-goods.jsp").forward(req, resp);
+				
 			}
 		}
 	}
-	//初始化页数
+
+	// 初始化页数
 	private void initPageCount(HttpServletRequest req, HttpServletResponse resp) {
-		int count=0;
+		int count = 0;
 		int store;
 		int category;
 		String num;
 		String startDate;
 		String endDate;
-		PrintWriter pw=null;
+		PrintWriter pw = null;
+		PageObject pageObject=null;
 		try {
-			store=Integer.valueOf(req.getParameter("store"));
-			category=Integer.valueOf(req.getParameter("category"));
-			num=req.getParameter("num");
-			//获取毫秒数
-			startDate=getLongTime(req.getParameter("startdate"));
-			endDate=getLongTime(req.getParameter("enddate"));
-			count=goodService.getCount(store, category, num, startDate, endDate);
-			pw=resp.getWriter();
-			JSONObject jsonObject=new JSONObject();
-			jsonObject.accumulate("count", count);
+			store = Integer.valueOf(req.getParameter("store"));
+			category = Integer.valueOf(req.getParameter("category"));
+			num = req.getParameter("num");
+			// 获取毫秒数
+			startDate = getLongTime(req.getParameter("startdate"));
+			endDate = getLongTime(req.getParameter("enddate"));
+			count = goodService.getCount(store, category, num, startDate,
+					endDate);
+			pw = resp.getWriter();
+			int total=count/pageObject.DEFAULT_PAGE_SIZE+1;//得到总页数
+			JSONObject jsonObject = new JSONObject();
+			//jsonObject.accumulate("count", count);
+			jsonObject.accumulate("total", total);
 			pw.println(jsonObject);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			if(pw!=null){
+		} finally {
+			if (pw != null) {
 				pw.flush();
 				pw.close();
 			}
 		}
-		
-		
+
 	}
 
 	private String getLongTime(String parameter) {
-		
+
 		return DateFormatUtils.StrToDate(parameter);
 	}
 
-	//条件搜索商品
+	// 条件搜索商品
 	private void searchGoods(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		
+		PrintWriter out =null; 
+		int store;
+		int category;
+		String num;
+		String startDate;
+		String endDate;
+		try {
+			store = Integer.valueOf(req.getParameter("store"));
+			category = Integer.valueOf(req.getParameter("category"));
+			num = req.getParameter("num");
+			// 获取毫秒数
+			startDate = getLongTime(req.getParameter("startdate"));
+			endDate = getLongTime(req.getParameter("enddate"));
+			
+			JSONArray array = new JSONArray();
+			out=resp.getWriter();
+			List<Object[]> list = null;//goodService.findGoodsByCondition(currentPage, pageSize, store, category, num, startDate, endDate, ordering);
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("cid", list.get(i)[0]);
+				jsonObject.put("cname", list.get(i)[1]);
+				array.add(jsonObject);
+			}
+			resp.setContentType("text/json; charset=utf-8");
+			resp.setCharacterEncoding("UTF-8");
+
+			out.write(array.toString());
+
+		}catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.flush();
+				out.close();
+			}
+		}
+
 	}
 
 	// 初始化店铺
@@ -146,7 +189,7 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 
 		try {
 			JSONArray array = new JSONArray();
-			
+
 			List<Object[]> list = goodService.findByCategoryId(-1);// 查询所有分类，父ID为-1
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject jsonObject = new JSONObject();
