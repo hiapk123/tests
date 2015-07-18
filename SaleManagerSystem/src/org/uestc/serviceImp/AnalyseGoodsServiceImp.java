@@ -28,9 +28,9 @@ public class AnalyseGoodsServiceImp implements AnalyseGoodsService {
 	}
 
 	@Override
-	public List<Object[]> findByCategoryId(int pid) {
-		String sql = "select * from category where c_parent_id=?";
-		return goodDao.find(sql, pid);
+	public List<Object[]> findByCategoryId(int pid,int store) {
+		String sql = "select * from category where c_parent_id=? and s_id=?";
+		return goodDao.find(sql, pid,store);
 	}
 
 	@Override

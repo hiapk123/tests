@@ -12,7 +12,7 @@ public interface AnalyseGoodsService {
 	
 	public List<Object[]> findStoreByUserId(int uid);
 	
-	public List<Object[]> findByCategoryId(int pid);
+	public List<Object[]> findByCategoryId(int pid,int store);
 	
 	public int getCount(int store,int category,String num,String startDate,String endDate);
 }

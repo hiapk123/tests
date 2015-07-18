@@ -149,7 +149,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#spxxfx').click(function(){
-			$('#if_content').attr('src','<%=basePath %>AnalyzeGoods?m=initThisPage');
+			$('#if_content').attr('src','<%=basePath %>AnalyzeGoods?m=analyzeGoods');
 		});
 	});
 	

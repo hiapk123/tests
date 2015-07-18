@@ -1,10 +1,11 @@
-<%@ page language="java" import="java.util.*,org.uestc.util.PageObject" pageEncoding="utf-8"
-	contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.util.*,org.uestc.util.PageObject"
+	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+	+ request.getServerName() + ":" + request.getServerPort()
+	+ path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -20,17 +21,23 @@
 <meta http-equiv="keywords" content="商品,信息,分析">
 <meta http-equiv="description" content="商品信息分析页面">
 <!-- The styles -->
-<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css" rel="stylesheet">
+<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
+	rel="stylesheet">
 
 <link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
-<link href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
+<link
+	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
 	rel='stylesheet'>
-<link href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
+<link
+	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
 	rel='stylesheet' media='print'>
-<link href='<%=basePath%>bower_components/chosen/chosen.min.css' rel='stylesheet'>
-<link href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
+<link href='<%=basePath%>bower_components/chosen/chosen.min.css'
 	rel='stylesheet'>
-<link href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
+<link
+	href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
 	rel='stylesheet'>
 <link
 	href='<%=basePath%>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
@@ -42,7 +49,8 @@
 <link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
 <link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
 <link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
-<link href="<%=basePath%>css/bootstrap-datetimepicker.css" rel="stylesheet">
+<link href="<%=basePath%>css/bootstrap-datetimepicker.css"
+	rel="stylesheet">
 <link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
 
 <!-- jQuery -->
@@ -58,24 +66,28 @@
 
 <!-- external javascript -->
 
-<script src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script
+	src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <!-- library for cookie management -->
 <script src="<%=basePath%>js/jquery.cookie.js"></script>
 <!-- calender plugin -->
 <script src='<%=basePath%>bower_components/moment/min/moment.min.js'></script>
-<script src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+<script
+	src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
 <!-- data table plugin -->
 <script src='<%=basePath%>js/jquery.dataTables.min.js'></script>
 
 <!-- select or dropdown enhancer -->
 <script src="<%=basePath%>bower_components/chosen/chosen.jquery.min.js"></script>
 <!-- plugin for gallery image view -->
-<script src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
+<script
+	src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
 <!-- notification plugin -->
 <script src="<%=basePath%>js/jquery.noty.js"></script>
 <!-- library for making tables responsive -->
-<script src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
+<script
+	src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
 <!-- tour plugin -->
 <script
 	src="<%=basePath%>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
@@ -92,79 +104,30 @@
 <!-- application script for Charisma demo -->
 <script src="<%=basePath%>js/charisma.js"></script>
 <script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
-<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
+<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
+	charset="utf-8"></script>
 <script type="text/javascript">
 $(function(){
-
-			   			$('#datetimepicker_analyze_1').datetimepicker({
+						$('#datetimepicker_analyze_1').datetimepicker({
 							        format: 'yyyy-mm-dd hh:ii:ss',
 							        autoclose:true,
 							        language:'zh-CN'
 							});
-							$('#datetimepicker_analyze_2').datetimepicker({
+						$('#datetimepicker_analyze_2').datetimepicker({
 							        format: 'yyyy-mm-dd hh:ii:ss',
 							        autoclose:true,
 							        language:'zh-CN'
 							});
+							
+						$('#zxt_store').change(function(){
+							var store=$(this).val();
+							$.post('<%=basePath %>AnalyzeGoods',{"store":store,"m":"getCategoty"},function(data){
+							
+							},"json");
+						});
+						
+});
 
-			//初始化店铺
-			$.post('<%=basePath%>AnalyzeGoods',{"m":"initStore"},function(data){
-				var list=$('#zxt_store');
-				list.empty();
-				list.append("<option disabled selected>请选择店铺</option>");
-				for(var i=0;i<data.length;i++){
-					list.append("<option value="+data[i].sid+">"+data[i].sname+"</option>");
-				}
-
-			},"json");
-			//初始化分类
-			$.post('<%=basePath%>AnalyzeGoods', {"m" : "initCategory"}, function(data) {
-			var list = $('#zxt_category');
-			list.empty();
-			list.append("<option disabled selected>请选择分类</option>");
-			list.append("<option value='-1'>全部</option>");
-			for (var i = 0; i < data.length; i++) {
-				list.append("<option value="+data[i].cid+">" + data[i].cname
-						+ "</option>");
-			}
-			//初始化页数
-			
-
-		}, "json");
-		
-	$('#zxt_search').click(function(){
-		var store=$('#zxt_store').val();
-		var category=$('#zxt_category').val();
-		var startdate=$('#datetimepicker_analyze_1').val();
-		var enddate=$('#datetimepicker_analyze_2').val();
-		var curPage=$('#zxt_currentPage').val();
-		var num=$('#zxt_num').val();
-		
-		var jsonObject={"m":"initPageCount","store":store,"category":category,"startdate":startdate,"enddate":enddate,"num":num,"curPage":curPage};
-		//console.info(store+":"+category+":"+startdate+":"+enddate+":"+num);
-		$.post('<%=basePath%>AnalyzeGoods',jsonObject,function(data){
-			var total=data.total;
-			var page=$('#zxt_page');//获取分页
-			if(total==1){
-				page.empty();
-				page.append('<li><a href="#">1</a></li>');
-			}
-			var search={"m":"searchGoods","store":store,"category":category,"startdate":startdate,"enddate":enddate,"num":num};
-			if(count>0){//zxt_table
-			
-				
-				$.post('<%=basePath%>AnalyzeGoods',search,function(content){
-					$('#zxt_table').empty();
-					for(var i=0;i<data.length;i++){
-					
-					}
-					
-				},'json');
-			}
-		},"json");
-	});
-
-	});
 </script>
 
 </head>
@@ -180,10 +143,21 @@ $(function(){
 				<div class="btn-group">
 
 					<select id="zxt_store">
+						<option selected="selected" disabled="disabled">请选择</option>
+						<%
+							List<Object[]> store = (List<Object[]>) request.getAttribute("store");
+							if (store != null && store.size() != 0) {
 
+								for (Object[] obj : store) {
+						%>
+						<option value="<%=obj[0]%>"><%=obj[1]%></option>
+						<%
+							}
+							}
+						%>
 					</select> 
 					<select id="zxt_category">
-
+							<option selected="selected" value="-1">全部分类</option>
 					</select>
 				</div>
 
@@ -192,9 +166,8 @@ $(function(){
 					type="text" value="" id="datetimepicker_analyze_2"> <input
 					type="text" value="条码/名称" id="zxt_num">
 
-				<button type="button" class="btn btn-primary dropdown-toggle" id="zxt_search">
-					分析
-				</button>
+				<button type="button" class="btn btn-primary dropdown-toggle"
+					id="zxt_search">分析</button>
 
 			</div>
 		</div>
@@ -247,9 +220,10 @@ $(function(){
 			<!--总记录数 -->
 			<input type="hidden" id="zxt_count" value="0">
 			<div>
-				<ul class="pagination pagination-lg" style="float: right;" id="zxt_page">
-					
-					
+				<ul class="pagination pagination-lg" style="float: right;"
+					id="zxt_page">
+
+
 					<li><a href="#" onclick="javascript:void(0);">&laquo;</a></li>
 					<li><a href="#">1</a></li>
 					<li><a href="#">2</a></li>

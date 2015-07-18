@@ -3,9 +3,11 @@ package org.uestc.servlet;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +24,7 @@ import org.uestc.util.DateFormatUtils;
 import org.uestc.util.PageObject;
 
 import com.mysql.fabric.xmlrpc.base.Data;
+import com.uestc.bean.Category;
 
 @WebServlet(urlPatterns = { "/AnalyzeGoods" }, name = "analyzeGoodsServlet")
 public class AnalyzeGoodsServlet extends HttpServlet {
@@ -45,29 +48,16 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 		String m = req.getParameter("m");// 获取类型
 
 		goodService = new AnalyseGoodsServiceImp();
-		// 为空返回
-		if (null == m) {
-			// 失败状态返回为0
-			PrintWriter pw = resp.getWriter();
-			StringBuffer sb = new StringBuffer();
-			sb.append("{\"status\":\"0\"}");
-			pw.write(sb.toString());
-		} else {
-			// 初始化店铺
-			if ("initStore".equals(m)) {
-				initStore(req, resp);
-			} else if ("initCategory".equals(m)) {
-				initCategory(req, resp);
-			} else if ("searchGoods".equals(m)) {
-				searchGoods(req, resp);
-			} else if ("initPageCount".equals(m)) {
-				initPageCount(req, resp);
-			}else if("initThisPage".equals(m)){
-				req.getRequestDispatcher("/pages/goods/analyze-goods.jsp").forward(req, resp);
-			}
+		
+		if(m.equals("analyzeGoods")){
+			this.analyzeGoods(req,resp);
+			req.getRequestDispatcher("/pages/goods/analyze-goods.jsp").forward(req, resp);
+		}else if(m.equals("getCategoty")){
+			this.getCategoty(req,resp);
 		}
+		
 	}
-
+/*
 	// 初始化页数
 	private void initPageCount(HttpServletRequest req, HttpServletResponse resp) {
 		int count = 0;
@@ -209,6 +199,51 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+	}*/
+
+	private void getCategoty(HttpServletRequest req, HttpServletResponse resp) {
+		int store=Integer.valueOf(req.getParameter("store"));
+		//获取根目录
+		List<Object[]> storeList=goodService.findByCategoryId(-1, store);
+		if(null!=storeList&&storeList.size()==1){
+			Object[] obj=storeList.get(0);
+			Integer cid=(Integer)obj[0];//当前分类的id
+			storeList=goodService.findByCategoryId(cid, store);
+			for (int i = 0; i < storeList.size(); i++) {
+				
+			}
+		}else{
+			
+		}
+		
+	}
+
+	//List<List<Category>> tree=new ArrayList<List<Category>>();
+	
+	void getTree(List<List<Category>> tree,int pid,int store,List<Category> category){
+		//List<Category> category=null;//new ArrayList<Category>();
+		List<Object[]> storeList=goodService.findByCategoryId(pid, store);
+		for (int i = 0; i < storeList.size(); i++) {
+			Object[] obj=storeList.get(i);
+			//category=new ArrayList<Category>();
+			Category c=new Category();
+			c.setCId((Integer)obj[0]);
+			c.setCName(obj[1].toString());
+			c.setCParentId((Integer)obj[2]);
+			c.setSDel(1);
+			category.add(c);
+			getTree(tree, c.getCId(), store, category);
+		}
+		
+	}
+	
+	private void analyzeGoods(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException {
+		
+		HttpSession session = req.getSession();//获取用户所有店铺
+		int uid = (Integer) session.getAttribute("uid");
+		List<Object[]> store = goodService.findStoreByUserId(uid);
+		req.setAttribute("store", store);
+		
 	}
 
 }
