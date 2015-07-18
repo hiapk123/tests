@@ -64,7 +64,6 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 				initPageCount(req, resp);
 			}else if("initThisPage".equals(m)){
 				req.getRequestDispatcher("/pages/goods/analyze-goods.jsp").forward(req, resp);
-				
 			}
 		}
 	}
