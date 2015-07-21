@@ -151,6 +151,10 @@
 		$('#spxxfx').click(function(){
 			$('#if_content').attr('src','<%=basePath %>AnalyzeGoods?m=analyzeGoods');
 		});
+		$('#kcyd').click(function(){
+			<%-- $('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp'); --%>
+			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=loadBaseMessage');
+		});
 	});
 	
 </script>

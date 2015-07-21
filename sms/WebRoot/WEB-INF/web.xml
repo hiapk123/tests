@@ -35,4 +35,13 @@
 		<filter-name>forceNoCacheFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+  <servlet>
+    <servlet-name>InventoryWarningServlet</servlet-name>
+    <servlet-class>org.uestc.servlet.InventoryWarningServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>InventoryWarningServlet</servlet-name>
+    <url-pattern>/InventoryWarningServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
