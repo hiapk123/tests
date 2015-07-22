@@ -148,6 +148,10 @@
 </script>
 <script type="text/javascript">
 	$(function(){
+		$('#spfl').click(function(){
+			
+			$('#if_content').attr('src','<%=basePath %>CategoryGoods?type=initPage');
+		});
 		$('#spxxfx').click(function(){
 			$('#if_content').attr('src','<%=basePath %>AnalyzeGoods?m=analyzeGoods');
 		});
