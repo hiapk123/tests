@@ -72,6 +72,7 @@ public final class JdbcUtils {
             p.setMinEvictableIdleTimeMillis(30000);
             p.setMinIdle(10);
             p.setLogAbandoned(true);
+            	
             p.setRemoveAbandoned(true);
             p.setJdbcInterceptors(
               "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+

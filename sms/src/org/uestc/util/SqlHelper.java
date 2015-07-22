@@ -89,8 +89,10 @@ public final class SqlHelper {
 		return null;
 	}
 
+		
 	// 统一的select语句，为了能够访问结果集，将结果集放入ArrayList，这样可以直接关闭资源
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	public ArrayList executeQuery(String sql, String[] parameters) {
 		ArrayList results = new ArrayList();
 
