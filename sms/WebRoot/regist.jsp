@@ -5,12 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>登录页面</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description"
-	content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
-<meta name="author" content="Muhammad Usman">
+<title>注册页面</title>
 
 <!-- The styles -->
 <link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
@@ -84,18 +79,18 @@
 <!-- application script for Charisma demo -->
 <script src="js/charisma.js"></script>
 
-<!-- 登录页面js文件 -->
-<script type="text/javascript" src="<c:url value='js/login.js'/>"></script>
+
+<!-- 注册页面js文件 -->
+<script type="text/javascript" src="<c:url value='js/regist.js'/>"></script>
 
 </head>
 <body>
-
 	<div class="ch-container">
 		<div class="row">
 
 			<div class="row">
 				<div class="col-md-12 center login-header">
-					<h2>欢迎来到收银系统</h2>
+					<h2>欢迎注册收银系统</h2>
 				</div>
 				<!--/span-->
 			</div>
@@ -103,15 +98,12 @@
 
 			<div class="row">
 				<div class="well col-md-5 center login-box">
-					<div class="alert alert-info">请用您的用户名和密码登录。</div>
+					<div class="alert alert-info">请您填写下列注册信息。</div>
 					<form class="form-horizontal"
 						action="<c:url value='/UserServlet'/>" method="post"
-						id="loginForm">
-						<input type="hidden" name="method" value="login" />
+						id="registForm">
+						<input type="hidden" name="method" value="regist" />
 						<fieldset>
-							<div>
-								<label style="color: #f40000" class="error" id="msg">${msg }</label>
-							</div>
 							<div class="input-group input-group-lg">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user red"></i></span> <input type="text"
@@ -121,6 +113,7 @@
 							<div>
 								<label for="loginname" style="color: #f40000" class="errorClass"
 									id="loginnameError">${errors.loginname }</label>
+								<!-- class="control-label" -->
 							</div>
 							<div class="clearfix"></div>
 							<br>
@@ -136,27 +129,41 @@
 									id="loginpassError">${errors.loginpass }</label>
 							</div>
 							<div class="clearfix"></div>
-
-							<div class="input-prepend">
-								<label class="remember" for="remember"><input
-									type="checkbox" id="remember"> 记住我</label>
+							<br>
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon"><i
+									class="glyphicon glyphicon-lock red"></i></span> <input
+									type="password" class="form-control" placeholder="确认密码"
+									name="reloginpass" id="reloginpass">
+							</div>
+							<div>
+								<label for="reloginpass" style="color: #f40000" class="errorClass"
+									id="reloginpassError">${errors.reloginpass }</label>
 							</div>
 							<div class="clearfix"></div>
-
-
-							<!-- <p class="center col-md-5">
-								<button type="submit" class="btn btn-primary">登录</button>
-							</p> -->
-							<div class="col-md-12">
-								<!-- class="center col-md-10" 也比较好看，两个按钮缩小-->
-								<div class="col-md-6">
-									<button type="submit" class="btn btn-primary">登录</button>
-								</div>
-								<div class="col-md-6">
-									<a type="button" class="btn btn-primary"
-										href="<c:url value='/regist.jsp'/>">注册新用户</a>
-								</div>
+							<br>
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon"><i
+									class="glyphicon glyphicon-send red"></i></span> <input type="text"
+									class="form-control" placeholder="Email" name="email"
+									id="email" value="${formUser.UEmail }">
 							</div>
+							<div>
+								<label for="email" style="color: #f40000" class="errorClass"
+									id="emailError">${errors.email }</label>
+							</div>
+							<div class="clearfix"></div>
+							<br>
+
+							<!-- <div class="input-prepend">
+								<label class="remember" for="remember"><input
+									type="checkbox" id="remember"> 记住我</label>
+							</div> -->
+							<div class="clearfix"></div>
+
+							<p class="center col-md-5">
+								<button type="submit" class="btn btn-primary">立即注册</button>
+							</p>
 						</fieldset>
 					</form>
 				</div>
@@ -168,8 +175,6 @@
 
 	</div>
 	<!--/.fluid-container-->
-
-
 
 </body>
 </html>

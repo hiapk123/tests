@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Users implements java.io.Serializable {
 
-	// Fields
+	// Fields --------对应数据库表字段
 
 	private Long UId;
 	private Integer UType;
@@ -23,8 +23,29 @@ public class Users implements java.io.Serializable {
 	private Set vips = new HashSet(0);
 	private Set stores = new HashSet(0);
 
-	// Constructors
+	// ------------新加字段UPassword------------
+	private String UPassword;
+	private String Reloginpass;
+	
+	public String getReloginpass() {
+		return Reloginpass;
+	}
 
+	public void setReloginpass(String reloginpass) {
+		Reloginpass = reloginpass;
+	}
+
+	public String getUPassword() {
+		return UPassword;
+	}
+
+	public void setUPassword(String uPassword) {
+		UPassword = uPassword;
+	}
+
+	
+	// Constructors
+	
 	/** default constructor */
 	public Users() {
 	}

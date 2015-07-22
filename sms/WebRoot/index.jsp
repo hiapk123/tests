@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -184,12 +185,12 @@
 				<button class="btn btn-default dropdown-toggle"
 					data-toggle="dropdown">
 					<i class="glyphicon glyphicon-user"></i><span
-						class="hidden-sm hidden-xs"> admin</span> <span class="caret"></span>
+						class="hidden-sm hidden-xs">${sessionScope.sessionUser.UName }</span> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><a href="#">资料</a></li>
-					<li class="divider"></li>
-					<li><a href="login.html">退出</a></li>
+					<!-- <li><a href="#">资料</a></li>
+					<li class="divider"></li> -->
+					<li><a href="<c:url value='/UserServlet?method=quit'/>">退出</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->

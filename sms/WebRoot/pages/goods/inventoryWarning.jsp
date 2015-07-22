@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -105,22 +106,45 @@
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
 
+<!-- Export Excel Resources -->
+<script src="<c:url value='/exportExcel/jquery-1.9.1.min.js'/>"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<script type="text/javascript"
+	src="<c:url value='/exportExcel/jquery.base64.js' />"></script>
+
+<script type="text/javascript"
+	src="<c:url value='/exportExcel/tableExport.js'/>"></script>
+
+<script type="text/javascript"
+	src="<c:url value='/exportExcel/jspdf/libs/sprintf.js'/>">
+	
+</script>
+
+<script type="text/javascript"
+	src="http://localhost:8082/myphp/tableExport.jquery.plugin-master/jspdf/jspdf.js"></script>
+<script type="text/javascript"
+	src="<c:url value='/exportExcel/jspdf/base64.js'/>"></script>
+
+
 </head>
 
 <body>
 
 	<div class="panel panel-default">
 		<div class="panel-footer">
-			<form action="<c:url value='/InventoryWarningServlet?method=findByCriteria' />" method="post">
+			<form
+				action="<c:url value='/InventoryWarningServlet?method=findByCriteria' />"
+				method="post">
 				<div class="row">
 					<div class="col-md-2">
 						<h4>库存预警</h4>
 					</div>
 					<div class="col-md-2">
-						<select class="form-control" name="hp_store" >
+						<select class="form-control" name="hp_store">
 							<option value="-1">全部门店</option>
 							<c:forEach items="${storeList }" var="store">
-								<option <c:if test="${storeName eq store.SName}">selected</c:if> >${store.SName }</option>
+								<option <c:if test="${storeName eq store.SName}">selected</c:if>>${store.SName }</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -137,7 +161,8 @@
 						<select class="form-control" name="hp_category">
 							<option value="-1">全部分类</option>
 							<c:forEach items="${categoryList }" var="category">
-								<option <c:if test="${categoryName eq category.CName}">selected</c:if> >${category.CName }</option>
+								<option
+									<c:if test="${categoryName eq category.CName}">selected</c:if>>${category.CName }</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -145,15 +170,16 @@
 						<select class="form-control" name="hp_supplier">
 							<option value="-1">全部供货商</option>
 							<c:forEach items="${supplierList }" var="supplier">
-								<option <c:if test="${supplierName eq supplier.suName}">selected</c:if> >${supplier.suName }</option>
+								<option
+									<c:if test="${supplierName eq supplier.suName}">selected</c:if>>${supplier.suName }</option>
 							</c:forEach>
 						</select>
 					</div>
 					<div class="col-md-2">
 						<select class="form-control" name="hp_inventoryStatus">
-							<option <c:if test="${inventoryStatus eq '库存不足'}">selected</c:if> >库存不足</option>
-							<option <c:if test="${inventoryStatus eq '库存过剩'}">selected</c:if> >库存过剩</option>
-							<option <c:if test="${inventoryStatus eq '过期预警'}">selected</c:if> >过期预警</option>
+							<option <c:if test="${inventoryStatus eq '库存不足'}">selected</c:if>>库存不足</option>
+							<option <c:if test="${inventoryStatus eq '库存过剩'}">selected</c:if>>库存过剩</option>
+							<option <c:if test="${inventoryStatus eq '过期预警'}">selected</c:if>>过期预警</option>
 						</select>
 					</div>
 					<div class="col-md-1">
@@ -161,7 +187,7 @@
 						<!-- <input type="submit" class="btn btn-primary">查询</input> -->
 					</div>
 					<div class="col-md-1">
-						<button type="button" class="btn btn-primary">导出</button>
+						<button type="button" class="btn btn-primary" id="hp_exportBtn">导出</button>
 						<!-- 导出货单 -->
 					</div>
 				</div>
@@ -177,25 +203,25 @@
 		</div> -->
 
 		<!-- Table -->
-		<table class="table table-bordered table-hover">
-			<thead style="font-weight: 900">
-				<th>
-				<td>商品名称</td>
-				<td>所属门店</td>
-				<td>商品分类</td>
-				<td>供货商</td>
-				<td>条码</td>
-				<td>库存量</td>
-				<td>库存上限</td>
-				<td>库存下限</td>
-				<td>到期日期</td>
-				<td>剩余有效天数</td>
-				</th>
+		<table id="hp_kcyj" class="table table-bordered table-hover">
+			<thead> <!--  style="font-weight: 900" -->
+				<tr>
+					<th>商品名称</th>
+					<th>所属门店</th>
+					<th>商品分类</th>
+					<th>供货商</th>
+					<th>条码</th>
+					<th>库存量</th>
+					<th>库存上限</th>
+					<th>库存下限</th>
+					<th>到期日期</th>
+					<th>剩余有效天数</th>
+				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${goodsList }" var="goods" varStatus="status">
 					<tr>
-						<td>${status.index + 1 }</td>
+						<%-- <td>${status.index + 1 }</td> --%>
 						<td>${goods.GName }</td>
 						<td>${goods.SName }</td>
 						<td>${goods.CName }</td>
@@ -238,6 +264,18 @@
 			</tbody>
 		</table>
 	</div>
+
+	<script type="text/javascript">
+		$(function() {
+			$("#hp_exportBtn").click(function() {
+				$("#hp_kcyj").tableExport({
+					type : 'excel',
+					escape : 'false'
+				});
+				alert('我在底部被点击了！');
+			});
+		});
+	</script>
 
 </body>
 </html>
