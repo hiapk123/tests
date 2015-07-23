@@ -51,7 +51,7 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 		
 		if(m.equals("analyzeGoods")){
 			this.analyzeGoods(req,resp);
-			req.getRequestDispatcher("/pages/goods/analyze-goods.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/sales/sales-info.jsp").forward(req, resp);
 		}else if(m.equals("getCategoty")){
 			this.getCategoty(req,resp);
 		}
