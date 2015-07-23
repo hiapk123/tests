@@ -351,7 +351,7 @@ function afterReload(){
 
 			<!--div end  -->
 		</div>
-			<button id="mbt_btnwarn" style="display: none;" data-noty-options="{&quot;text&quot;:&quot;请先删除子分类！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;error&quot;}" class="btn btn-primary noty">
+			<button id="mbt_btnwarn" style="display: none;" data-noty-options="{&quot;text&quot;:&quot;请先删除子分类！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;error&quot;,&quot;timeout&quot;:&quot;500&quot;}" class="btn btn-primary noty">
 			<i class="glyphicon glyphicon-bell icon-white"></i> Center
 			</button>
 
