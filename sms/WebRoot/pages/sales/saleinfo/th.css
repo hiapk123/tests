@@ -1,0 +1,11 @@
+/*表格头部样式  */
+th{
+  height: 40px;
+  background: #d5e9ed;
+  border-right: 1px solid #abd3db;
+  box-shadow: inset 1px 0 0 rgba(255,255,255,.3);
+  font-size: 14px;
+  color: #09c;
+  font-weight: bold;
+  }
+  
