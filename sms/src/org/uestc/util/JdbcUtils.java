@@ -3,11 +3,10 @@ package org.uestc.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -21,7 +20,7 @@ public final class JdbcUtils {
     private static String user = null;
     private static String driver = null;
     private static String password = null;
-   
+    
     private JdbcUtils () {
     	
     }
@@ -44,7 +43,7 @@ public final class JdbcUtils {
    
     private static Properties prop = new Properties();
     private static PoolProperties p = new PoolProperties();
-   
+    private static DataSource datasource=new DataSource();
     static {
         try {
            
@@ -65,7 +64,7 @@ public final class JdbcUtils {
             p.setTestOnReturn(false);
             p.setValidationInterval(30000);
             p.setTimeBetweenEvictionRunsMillis(30000);
-            p.setMaxActive(100);
+            p.setMaxActive(1000);
             p.setInitialSize(10);
             p.setMaxWait(10000);
             p.setRemoveAbandonedTimeout(60);
@@ -86,17 +85,42 @@ public final class JdbcUtils {
     }
      
    
+    public int getCount(String sql,Object ...params){
+    	
+    	try {
+    		PreparedStatement psmt=getConnection().prepareStatement(sql);
+			for (int i = 0; i < params.length; i++) {
+				psmt.setObject((i+1), params[i]);
+			}
+			ResultSet rs=psmt.executeQuery();
+			Object nValue=null;
+			if(rs.next()){
+				nValue=rs.getObject(1);
+				return Integer.valueOf(nValue.toString());
+			}
+			return 0;
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+    	return 0;
+    	
+    }
+    
     public Connection getConnection() throws SQLException {
-    	 DataSource datasource=null;
-    	 datasource = new DataSource();
+    	if(datasource!=null){
+    		datasource.setPoolProperties(p);
+    	}
          datasource.setPoolProperties(p);
         return datasource.getConnection();
     }
     
     public DataSource getDataSource(){
-    	DataSource ds= new DataSource();
-    	ds.setPoolProperties(p);
-    	return ds;
+    	if(datasource!=null){
+    		datasource.setPoolProperties(p);
+    	}
+    	return datasource;
     }
  
 
