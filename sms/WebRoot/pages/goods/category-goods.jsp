@@ -118,6 +118,7 @@
 <script type="text/javascript">
 $(function(){
 		cate_reset();
+		$('#mbt_addroot').hide();
 	 	$.post('<%=basePath%>CategoryGoods',{"type":"initStore"},function(data){
 			var list=$('#mbt_dropdown-menu');
 			list.empty();
@@ -136,12 +137,14 @@ function afterReload(){
 	 $(".ajax-link").bind('dblclick',dbClick);
 }
 
-	 function getCate(data,name){
-		  $.post('<%= basePath%>CategoryGoods', {"type" : "initCategory","id":data}, function(data) {
+	 function getCate(storeID,name){
+		  $.post('<%= basePath%>CategoryGoods', {"type" : "initCategory","id":storeID}, function(data) {
 				$("#mbtCateList").empty();
 				$("#mbtCateList").html("");
 				$("#mbtCateList").html(data);
 				//alert(data);
+				$('#mbt_hidstoreID').val(storeID);
+				$('#mbt_addroot').show();
 				$('#mbt_caname').empty();
 			   $('#mbt_caname').html("<i class=\"glyphicon red\">"+name+"</i>");
 			    afterReload();
@@ -170,10 +173,11 @@ function afterReload(){
 	    	 isdb=true;	    	 
 	    	 var mbt_id = $(this).attr("data-value");
 	    	 var mbt_name = $(this).attr("name");
-	    	 
+	    	 var cla = $(this).attr("isFinal");
+	    	// alert(cla);
 	    	 $('#mbt_hidid').val(mbt_id);
 	    	 $('#mbt_hidname').val(mbt_name);
-	    	 
+	    	 $('#mbt_delflag').val(cla);
 	    	 //alert(mbt_name);
 	    	 //alert(mbt_id);
 	    	 $(".mbt_hid").hide();
@@ -182,7 +186,7 @@ function afterReload(){
 	    	};
 	    	
 	    	//处理弹出层点击事件
-	    	 function mbt_show(type){
+	     function mbt_show(type){
 	    		$('#mbt_setting').hide();
 	    		$('#mbt_add').show();
 	    		
@@ -191,7 +195,7 @@ function afterReload(){
 	    			//alert("add");
 	    			
 	    			$("#mbt_showspan").empty();
-	    			$("#mbt_showspan").append("新增子分类：");
+	    			$("#mbt_showspan").append("新增分类：");
 	    			$('#mbt_hidtype').val("add");
 	    		}
 	    		
@@ -206,14 +210,30 @@ function afterReload(){
 	    		}
 	    		if(type=="del"){
 	    			$('#mbt_hidtype').val("del");
+	    			$('#mbt_showtext').val("分类");
+	    			var delflag=$('#mbt_delflag').val();
+	    			if(delflag==1)
+	    			saveChange();
+	    			else
+	    				{
+		    				function cancel(){
+		    					$("#mbt_btnwarn").trigger("click")
+		    					//alert("请先删除子分类!");
+		    					cate_reset();
+		    				}
+	    					setTimeout(cancel,200);
+	    				
+	    				}
+	    				
 	    		}
 	    	} 	
-	    	 
+	    	
 	    	 function cate_reset(){
 	    		 $('#mbt_showtext').val("");
 	    		 $('#mbt_hidid').val("");
 		    	 $('#mbt_hidname').val("");
 		    	 $('#mbt_hidtype').val("");
+		    	 $('#mbt_delflag').val("");
 	    		 $('#mbt_setting').show();
 		    	 $('#mbt_add').hide();
 		    	 
@@ -224,18 +244,24 @@ function afterReload(){
 		    	 var catype = $('#mbt_hidtype').val();
 		    	 var name = $('#mbt_showtext').val();
 		    	 var storeID = $('#mbt_caname').attr("data-value");
-		    	 
+		    	 //alert(name);
 		    	 if(name!=""){
 		   	 		$.post('<%= basePath%>CategoryGoods', {"type" : "saveCategory","id":id,"catype":catype,"name":name,"storeID":storeID}, function(storeName) {		 					
 		   	 			
 		   	 			getCate(storeID,storeName);
 		   	 		//	afterReload();
+		   	 			$("#mbt_btnsucc").trigger("click")
 		 				}, "text");	 
 		   	 	
 		    	 	}
 		    	 
 		    	 cate_reset();
 	    		
+	    	 }
+	    	 function addroot(){
+	    		 //alert("addroot");
+	    		 $("#mbt_a_addroot").trigger("dblclick");
+	    		 mbt_show("add");
 	    	 }
 </script>
 
@@ -245,6 +271,9 @@ function afterReload(){
 	<input type="hidden" id= "mbt_hidid" />
 	<input type ="hidden" id = "mbt_hidname" />
 	<input type ="hidden" id = "mbt_hidtype" />
+	<input type="hidden" id= "mbt_delflag" />
+	<input type="hidden" id="mbt_hidstoreID">
+	<a id="mbt_a_addroot" style="display: none" link-rel="myModal" data-value="-1" isfinal="1"  name="根目录" class="ajax-link">添加根目录</a>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div style="float: left; width: 15%;">
@@ -263,7 +292,9 @@ function afterReload(){
 						<li><a class="mbt_a" data-value="cerulean" href="#"><i
 								class="whitespace"></i> 无可用门店</a></li>
 					</ul>
+					
 				</div>
+				<a id="mbt_addroot" style="float: right;" href="#" onclick="addroot();" class="btn btn-primary"> 添加根目录</a>
 			</div>
 		</div>
 	</div>
@@ -274,35 +305,7 @@ function afterReload(){
 					<div class="">
 						<div class="nav-canvas">
 							<ul id="mbtCateList" class="nav nav-pills nav-stacked main-menu">
-								<li class="nav-header 	"><span id="mbt_caname"data-value=1 calss="input-group-addon"><i  class="glyphicon
- red">门店一</i></span></li><li class="accordion"><a href="javascript:void(0);" name=水果 data-value=1 link-rel
-="myModal" ><i	class="glyphicon glyphicon-plus"></i><span>水果</span></a><ul class="nav nav-pills nav-stacked"
-><li class="accordion"><a href="javascript:void(0);" name=苹果 data-value=2 link-rel="myModal" ><i	class
-="glyphicon glyphicon-plus"></i><span>苹果</span></a><ul class="nav nav-pills nav-stacked"><li><a link-rel
-="myModal" name=烟台红富士 data-value=4 class="ajax-link" href="javascript:void(0);"><span> 烟台红富士</span><
-/a></li></ul></li><li class="accordion"><a href="javascript:void(0);" name=香蕉 data-value=3 link-rel="myModal"
- ><i	class="glyphicon glyphicon-plus"></i><span>香蕉</span></a><ul class="nav nav-pills nav-stacked"><li
-><a link-rel="myModal" name=南海 data-value=12 class="ajax-link" href="javascript:void(0);"><span> 南海<
-/span></a></li></ul></li></ul></li><li class="accordion"><a href="javascript:void(0);" name=酒 data-value
-=5 link-rel="myModal" ><i	class="glyphicon glyphicon-plus"></i><span>酒</span></a><ul class="nav nav-pills
- nav-stacked"><li class="accordion"><a href="javascript:void(0);" name=啤酒 data-value=10 link-rel="myModal"
- ><i	class="glyphicon glyphicon-plus"></i><span>啤酒</span></a><ul class="nav nav-pills nav-stacked"><li
-><a link-rel="myModal" name=哈啤 data-value=13 class="ajax-link" href="javascript:void(0);"><span> 哈啤<
-/span></a></li><li><a link-rel="myModal" name=哈啤 data-value=14 class="ajax-link" href="javascript:void
-(0);"><span> 哈啤</span></a></li></ul></li><li class="accordion"><a href="javascript:void(0);" name=白酒
- data-value=11 link-rel="myModal" ><i	class="glyphicon glyphicon-plus"></i><span>白酒</span></a><ul class
-="nav nav-pills nav-stacked"><li><a link-rel="myModal" name=北京二锅头 data-value=15 class="ajax-link" href
-="javascript:void(0);"><span> 北京二锅头</span></a></li><li><a link-rel="myModal" name=牛栏山 data-value=16 class
-="ajax-link" href="javascript:void(0);"><span> 牛栏山</span></a></li><li><a link-rel="myModal" name=飞天 data-value
-=17 class="ajax-link" href="javascript:void(0);"><span> 飞天</span></a></li><li><a link-rel="myModal" name
-=浏阳河  data-value=18 class="ajax-link" href="javascript:void(0);"><span> 浏阳河 </span></a></li></ul></li
-><li class="accordion"><a href="javascript:void(0);" name=葡萄酒 data-value=19 link-rel="myModal" ><i	class
-="glyphicon glyphicon-plus"></i><span>葡萄酒</span></a><ul class="nav nav-pills nav-stacked"><li><a link-rel
-="myModal" name=国产 data-value=20 class="ajax-link" href="javascript:void(0);"><span> 国产</span></a></li
-><li class="accordion"><a href="javascript:void(0);" name=法国葡萄酒 data-value=21 link-rel="myModal" ><i
-	class="glyphicon glyphicon-plus"></i><span>法国葡萄酒</span></a><ul class="nav nav-pills nav-stacked"><li
-><a link-rel="myModal" name=1982 data-value=22 class="ajax-link" href="javascript:void(0);"><span> 1982
-</span></a></li></ul></li></ul></li></ul></li>
+	
 							</ul>
 
 						</div>
@@ -328,8 +331,8 @@ function afterReload(){
 										   	<a	class=" btn btn-info col-sm-3 col-lg-3"style="margin-left: 10%;" onclick="mbt_show('edit')"> 
 										   		<i class="glyphicon glypgion-edit icon-white"></i> 编辑
 												</a>
-												 <a class=" btn btn-danger col-sm-3 col-lg-3"style="margin-left:10%;margin-bottom: 5%;" onclick="mbt_show('del')">
-													<i class="glyphicon geditlyphicon-trash icon-white"></i> 删除 
+												 <a class=" btn btn-danger col-sm-3 col-lg-3" data-dismiss="modal"  style="margin-left:10%;margin-bottom: 5%;" onclick="mbt_show('del')">
+													<i class="glyphicon geditlyphicon-trash icon-white" ></i> 删除 
 												</a>
 											</div>
 											<div class="panel-body mbt_hid" id="mbt_add">
@@ -348,6 +351,14 @@ function afterReload(){
 
 			<!--div end  -->
 		</div>
+			<button id="mbt_btnwarn" style="display: none;" data-noty-options="{&quot;text&quot;:&quot;请先删除子分类！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;error&quot;}" class="btn btn-primary noty">
+			<i class="glyphicon glyphicon-bell icon-white"></i> Center
+			</button>
+
+
+			<button id="mbt_btnsucc" style="display: none" data-noty-options="{&quot;text&quot;:&quot;操作已保存！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;alert&quot;,&quot;animateOpen&quot;: {&quot;opacity&quot;: &quot;show&quot;}}" class="btn btn-primary noty">
+			<i class="glyphicon glyphicon-bell icon-white"></i> Center (fade)
+			</button>
 </body>
 </html>
 

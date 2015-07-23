@@ -45,7 +45,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 				  sb = getSuper(cid,storeID,sb,cname);
 				  
 			 }else{  //无子节点
-				 sb.append("<li><a link-rel=\"myModal\" name="+cname+" class=\"ajax-link\"  data-value="+cid+"  href=\"javascript:void(0);\"><span> "+cname+"</span></a></li>");
+				 sb.append("<li><a isfinal=\"1\" link-rel=\"myModal\" name="+cname+" class=\"ajax-link\"  data-value="+cid+"  href=\"javascript:void(0);\"><span> "+cname+"</span></a></li>");
 			 }
 			}
 		return sb.toString();
@@ -56,7 +56,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 	 */
 	public StringBuffer getSuper(int parentID,int storeID,StringBuffer sb,String cname){
 		sb.append("<li class=\"accordion\">");
-		sb.append("<a href=\"javascript:void(0);\" name="+cname+" data-value="+parentID+" link-rel=\"myModal\" ><i	class=\"glyphicon glyphicon-plus\"></i><span>"+cname+"</span></a>");			 
+		sb.append("<a isfinal=\"0\" href=\"javascript:void(0);\" name="+cname+" data-value="+parentID+" link-rel=\"myModal\" ><i	class=\"glyphicon glyphicon-plus\"></i><span>"+cname+"</span></a>");			 
 		sb.append("<ul class=\"nav nav-pills nav-stacked\">");
 		String sql = "select t1.c_id,t1.c_name,t1.is_final from category t1 where t1.c_parent_id= "+parentID+" and t1.s_del = 1 and t1.s_id = " +storeID;
 		String parameters[]= {};
@@ -73,7 +73,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 					
 				}else if(isFinal==1){
 					
-					sb.append("<li><a link-rel=\"myModal\" name="+cname1+" data-value="+cid+" class=\"ajax-link\" href=\"javascript:void(0);\"><span> "+cname1+"</span></a></li>");
+					sb.append("<li><a isfinal=\"1\" link-rel=\"myModal\" name="+cname1+" data-value="+cid+" class=\"ajax-link\" href=\"javascript:void(0);\"><span> "+cname1+"</span></a></li>");
 				}
 		}
 		sb.append("</ul>");
@@ -98,15 +98,45 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		
 	}
 	@Override
-	public void deleteCate(int id) {
+	public boolean deleteCate(int id,int storeID) {
 		// TODO Auto-generated method stub
-		String sql = "";
+		
+		boolean flag = true;
+		//获得该分类
+		String getCate = "select c_parent_id,is_final from category where c_id =  "+id;
+		String parameters[] ={}; 
+		List<Object[]> ca = sqlhelp.executeQuery(getCate, parameters);
+		if(id!=-1&&ca.size()!=0&& (int)ca.get(0)[1]==1)
+		{
+			int parentID = (int) ca.get(0) [0];
+			String sql = "delete from category where c_id = "+ id;
+			sqlhelp.executeUpdate(sql, parameters);
+			
+			//子分类是否为0
+			String sqlIsFianl = "select * from category where s_id = "+storeID+" and c_parent_id = "+parentID +" and s_del = 1 ";
+			List<Object[]> fianlList= sqlhelp.executeQuery(sqlIsFianl, parameters);
+			if(fianlList.size()==0){
+				String updaSql = "update category set is_final = 1 where c_id = "+parentID;
+				sqlhelp.executeUpdate(updaSql, parameters);
+			}
+		}else if (id==-1){			
+			String sql = "delete from category where c_id = "+ id;
+			sqlhelp.executeUpdate(sql, parameters);
+		}
+		else{
+			flag = false;
+		}
+		
+		return  flag;
+		
 		
 	}
 	@Override
 	public void updateCate(int id, String name) {
 		// TODO Auto-generated method stub
 		String sql = "update category set c_name = ? where c_id = "+id;
+		String [] para = {name};
+		sqlhelp.executeUpdate(sql, para);
 		
 	}
 	@Override

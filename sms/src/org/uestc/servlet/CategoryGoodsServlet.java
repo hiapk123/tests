@@ -109,8 +109,9 @@ public class CategoryGoodsServlet extends HttpServlet {
 			CateService.addCate(id, name, storeID);
 			
 		}else if("del".equals(catype)){
-			
-			CateService.deleteCate(storeID);
+			boolean flag = CateService.deleteCate(id, storeID);
+		}else if("edit".equals(catype)){
+			CateService.updateCate(id, name);
 		}
 		String sname = CateService.getStoreNameById(storeID);
 		resp.setCharacterEncoding("utf8");
