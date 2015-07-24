@@ -32,8 +32,46 @@ public final class SqlHelper {
 		return list;
 	}
 	
+	// 统一的select语句，为了能够访问结果集，将结果集放入ArrayList，这样可以直接关闭资源
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	
-// 该方法执行一个update/delete/insert语句
+	public ArrayList executeQuery(String sql, String[] parameters) {
+		ArrayList results = new ArrayList();
+
+		try {
+			conn = jdbcUtils.getConnection();
+			ps = conn.prepareStatement(sql);
+
+			if (parameters != null) {
+				for (int i = 0; i < parameters.length; i++) {
+					ps.setString(i + 1, parameters[i]);
+				}
+			}
+
+			rs = ps.executeQuery();
+
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int column = rsmd.getColumnCount();
+
+			while (rs.next()) {
+				Object[] objects = new Object[column];
+
+				for (int i = 1; i <= column; i++) {
+					objects[i - 1] = rs.getObject(i);
+				}
+
+				results.add(objects);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			jdbcUtils.free(conn, ps, rs);
+		}
+		return results;
+	}
+	
+	// 该方法执行一个update/delete/insert语句
 	// sql语句是带问号的格式，如：update table_name set column_name = ? where ...
 	// parameters = {"...", "..."...}；
 	public void executeUpdate(String sql, String[] parameters) {
