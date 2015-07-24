@@ -11,7 +11,12 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import com.uestc.bean.Users;
 
 public final class SqlHelper {
+	// 定义需要的变量
+	private Connection conn = null;
+	private PreparedStatement ps = null;
+	private ResultSet rs = null;
 
+	JdbcUtils jdbcUtils = JdbcUtils.getInstance();
 	public static List<Object[]> find(String sql,Object ...params) {
 		List<Object[]> list=null;
 		QueryRunner runner=null;
@@ -28,7 +33,68 @@ public final class SqlHelper {
 	}
 	
 	
+// 该方法执行一个update/delete/insert语句
+	// sql语句是带问号的格式，如：update table_name set column_name = ? where ...
+	// parameters = {"...", "..."...}；
+	public void executeUpdate(String sql, String[] parameters) {
 
+		try {
+			conn = jdbcUtils.getConnection();
+			ps = conn.prepareStatement(sql);
+			// 给？赋值
+			if (parameters != null) {
+				for (int i = 0; i < parameters.length; i++) {
+					ps.setString(i + 1, parameters[i]);
+				}
+			}
+			// 执行语句
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			// 关闭资源
+			jdbcUtils.free(conn, ps, rs);
+		}
+	}
+
+	// 可以执行多个update、delete、insert语句（考虑事务）
+	public void executeUpdate(String[] sqls, String[][] parameters) {
+		try {
+			// 得到连接
+			conn = jdbcUtils.getConnection();
+			// 多个sql语句，考虑事务
+			conn.setAutoCommit(false);
+
+			for (int i = 0; i < sqls.length; i++) {
+				if (parameters[i] != null) {
+					ps = conn.prepareStatement(sqls[i]);
+
+					for (int j = 0; j < parameters[i].length; j++) {
+						ps.setString(j + 1, parameters[i][j]);
+					}
+
+					ps.executeUpdate();
+				}
+
+			}
+
+			conn.commit();
+		} catch (SQLException e) {
+			// 回滚
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			jdbcUtils.free(conn, ps, rs);
+		}
+	}
+	
 	
 	
 	public static <T> List<T> findBean(Class<T> clazz,String sql,Object ...params) {	
