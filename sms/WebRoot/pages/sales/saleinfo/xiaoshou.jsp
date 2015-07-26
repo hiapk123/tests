@@ -42,7 +42,7 @@
 
 			<tr>
 				<td>总计</td>
-				<td class="center">2012/01/21</td>
+				<td class="center">${lirun+shouru-zhichu+vipin-vipout }</td>
 				<td class="center">--</td>
 				<td class="center">0</td>
 				<td class="center">0</td>

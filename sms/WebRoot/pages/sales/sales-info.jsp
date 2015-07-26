@@ -155,10 +155,10 @@ select {
 		</select>
 		<div id="dateTimeRangeBox" class="dateTimeRangeBox">
 			<input id="ui-timePicker-begin-158008" type="text"
-				class="timeInput hasDatepicker" value="2015.07.22 00:00" size="16"><span>-</span>
+				class="timeInput hasDatepicker" value="2015-07-26 00:00:00" size="16"><span>-</span>
 			<input
 				id="ui-timePicker-end-76244" type="text"
-				class="timeInput hasDatepicker" value="2015.07.22 23:59" size="16">
+				class="timeInput hasDatepicker" value="2015-07-26 23:59:00" size="16">
 		</div>
 		<!-- <input placeholder="2015-07-20" type="text" id='start'> 
 		<input placeholder="2018-07-20" type="text" id='end'>  -->

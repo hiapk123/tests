@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+	pageEncoding="utf-8" import="java.util.*,com.uestc.bean.*"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	//request.getRequestDispatcher(action).forward(request, response);
 %>
-<link href="<%=basePath %>pages/sales/saleinfo/th.css" rel="stylesheet">
+<link href="<%=basePath%>pages/sales/saleinfo/th.css" rel="stylesheet">
 
 <table class="table table-bordered">
 	<thead>
@@ -22,15 +22,25 @@
 		</tr>
 	</thead>
 	<tbody>
+		<%
+			List<ShiftChange> shlist = (List<ShiftChange>) request.getAttribute("shList");
+			if (shlist != null && shlist.size() > 0) {
+				for (ShiftChange shiftChange : shlist) {
+		%>
 		<tr>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
+			<td><%=shiftChange.shiftStartDate%></td>
+			<td><%=shiftChange.shiftEndDate%></td>
+			<td><%=shiftChange.empName%></td>
+			<td><%=shiftChange.shiftTotalMoney%></td>
+			<td><%=shiftChange.cash%></td>
+			<td><%=shiftChange.bank%></td>
+			<td><%=shiftChange.online%></td>
+			<td><%=shiftChange.pettyCash%></td>
 		</tr>
+		<%
+			}
+			}
+		%>
+
 	</tbody>
 </table>

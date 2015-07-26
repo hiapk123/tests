@@ -15,6 +15,8 @@ import org.uestc.service.SalesService;
 import org.uestc.serviceImp.SalesServiceImp;
 import org.uestc.util.DateFormatUtils;
 
+import com.uestc.bean.ShiftChange;
+
 @WebServlet(urlPatterns = { "/sales" })
 public class SalesServlet extends HttpServlet {
 	/**
@@ -22,7 +24,7 @@ public class SalesServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 6005017459312388968L;
 
-	private SalesService sale = new SalesServiceImp();// ·şÎñÀà
+	private SalesService sale = new SalesServiceImp();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,13 +52,17 @@ public class SalesServlet extends HttpServlet {
 	}
 
 	private void cash(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-
+		
 	}
-
+	/***
+	 * äº¤æ¥ç­è®°å½•
+	 * @param req
+	 * @param resp
+	 */
 	private void jiaoBan(HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-
+		Struct struct=new Struct(req);
+		List<ShiftChange> shList=sale.findShiftChange(struct.sid, struct.start, struct.end);
+		req.setAttribute("shList", shList);
 	}
 
 	private void salesInfo(HttpServletRequest req, HttpServletResponse resp) {
@@ -73,95 +79,115 @@ public class SalesServlet extends HttpServlet {
 		}
 
 	}
-
+	/***
+	 * é”€å”®æ±‡æ€»
+	 * @param req
+	 * @param resp
+	 */
 	private void xiaoShou(HttpServletRequest req, HttpServletResponse resp) {
 		Struct struct = new Struct(req);
 		List<Object[]> list = sale.getXiaoshouAndLiRun(struct.sid, struct.start, struct.end);
-		double xiaoshou = 0.0;// ÏúÊÛ¶î
-		double lirun = 0.0;// ÀûÈó
-		double shouru = 0.0;// ÊÕÈë£º0£¬Ö§³ö£º0
+		double xiaoshou = 0.0;//
+		double lirun = 0.0;//
+		double shouru = 0.0;//
 		double zhichu = 0.0;
 		if (list != null && list.size() == 1) {
 			Object[] obj = list.get(0);
 
-			for (int i = 0; i < obj.length; i++) {
-				if (obj[i] == null) {
-					System.out.println("²éÑ¯µÄ½á¹û¼¯Îª¿Õ£¡");
-					return;
-				}
+			try {
+				xiaoshou = (double) obj[0];
+				lirun = (double) obj[1];
+				shouru = (double) obj[2];
+				zhichu = (double) obj[3];
+			} catch (Exception e) {
+				// pass
 			}
-			xiaoshou = (double) obj[0];
-			lirun = (double) obj[1];
-			shouru = (double) obj[2];
-			zhichu = (double) obj[3];
 
 		}
 		list.clear();
-		double cash = 0.0;// ÏÖ½ğÖ§¸¶½ğ¶î
-		double bank = 0.0;// ÒøÁª¿¨Ö§¸¶½ğ¶î
-		double online = 0.0;// ÍøÒøÖ§¸¶½ğ¶î
-		list = sale.get(struct.sid, struct.start, struct.end, 0);
-		if (list != null && list.size() == 1) {
-			Object[] obj = list.get(0);
-			if(obj[0]==null)return;
-			cash = (double) obj[0];
-		}
-		list.clear();
+		double cash = 0.0;//
+		double bank = 0.0;//
+		double online = 0.0;//
 		list = sale.get(struct.sid, struct.start, struct.end, 1);
 		if (list != null && list.size() == 1) {
 			Object[] obj = list.get(0);
-			if(obj[0]==null)return;
-			bank = (double) obj[0];
+			if (obj[0] != null)
+				cash = (double) obj[0];
 		}
 		list.clear();
 		list = sale.get(struct.sid, struct.start, struct.end, 2);
 		if (list != null && list.size() == 1) {
 			Object[] obj = list.get(0);
-			if(obj[0]==null)return;
+			if (obj[0] != null)
+				bank = (double) obj[0];
+		}
+		list.clear();
+		list = sale.get(struct.sid, struct.start, struct.end, 3);
+		if (list != null && list.size() == 1) {
+			Object[] obj = list.get(0);
+			if (obj[0] == null)
+				return;
 			online = (double) obj[0];
 		}
 		list.clear();
-		double vipCash = 0.0;// »áÔ±¿¨ÏÖ½ğ³äÖµ×Ü¶î
-		double vipBank = 0.0;// »áÔ±ÒøĞĞ¿¨³äÖµ
-		double vipOnline = 0.0;// »áÔ±¿¨ÍøÒø
-		list = sale.getVip(struct.sid, struct.start, struct.end, 0);
-		if (list != null && list.size() == 1) {
-			Object[] obj = list.get(0);
-			if(obj[0]==null)return;
-			vipCash = (double) obj[0];
-		}
-		list.clear();
+		double vipCash = 0.0;//
+		double vipBank = 0.0;
+		double vipOnline = 0.0;//
 		list = sale.getVip(struct.sid, struct.start, struct.end, 1);
 		if (list != null && list.size() == 1) {
 			Object[] obj = list.get(0);
-			vipBank = (double) obj[0];
+			if (obj[0] == null) {
+				vipCash = 0.0;
+			} else
+				vipCash = (double) obj[0];
 		}
 		list.clear();
 		list = sale.getVip(struct.sid, struct.start, struct.end, 2);
 		if (list != null && list.size() == 1) {
 			Object[] obj = list.get(0);
-			if(obj[0]==null)return;
-			vipOnline = (double) obj[0];
+			if (obj[0] == null) {
+				vipBank = 0.0;
+			} else
+				vipBank = (double) obj[0];
 		}
 		list.clear();
-		// ÏúÊÛµ¥Êı
-		int xiaoshoucount = sale.getXiaoShouCount(struct.sid, struct.start, struct.end);
-		// ³äÖµµ¥Êı
-		int chongzhicount = sale.getChongZhiCount(struct.sid, struct.start, struct.end);
-
-		list = sale.getChongzhiAndGiv(struct.sid, struct.start, struct.end);
-		double vipin = 0.0;// ³äÖµ
-		double vipout = 0.0;// ÔùËÍ
+		list = sale.getVip(struct.sid, struct.start, struct.end, 3);
 		if (list != null && list.size() == 1) {
 			Object[] obj = list.get(0);
-			if(obj[0]==null||obj[1]==null)return;
-			vipin = (double) obj[0];
-			vipout = (double) obj[1];
+			if (obj[0] == null) {
+				vipOnline = 0.0;
+			} else
+				vipOnline = (double) obj[0];
 		}
+		list.clear();
+
+		int xiaoshoucount = 0;
+		int chongzhicount = 0;
+		try {
+			xiaoshoucount = sale.getXiaoShouCount(struct.sid, struct.start, struct.end);
+
+			chongzhicount = sale.getChongZhiCount(struct.sid, struct.start, struct.end);
+		} catch (Exception e) {
+
+		}
+
+		list = sale.getChongzhiAndGiv(struct.sid, struct.start, struct.end);
+		double vipin = 0.0;// ä¼šå‘˜æ”¯å‡ºÖµ
+		double vipout = 0.0;
+		if (list != null && list.size() == 1) {
+			Object[] obj = list.get(0);
+			if (obj[0] != null && obj[1] != null) {
+				vipin = (double) obj[0];
+				vipout = (double) obj[1];
+			}
+
+		}
+		java.text.DecimalFormat df = new java.text.DecimalFormat("#0.##");
 		String[] args = { "xiaoshou", "lirun", "shouru", "zhichu", "cash", "bank", "online", "vipCash", "vipBank",
 				"vipOnline", "xiaoshoucount", "chongzhicount", "vipin", "vipout" };
-		setAttribute(req, args, xiaoshou, lirun, shouru, zhichu, cash, bank, online, vipCash, vipBank, vipOnline,
-				xiaoshoucount, chongzhicount, vipin, vipout);
+		setAttribute(req, args, df.format(xiaoshou), df.format(lirun), df.format(shouru), df.format(zhichu),
+				df.format(cash), df.format(bank), df.format(online), df.format(vipCash), df.format(vipBank), df.format(vipOnline), xiaoshoucount, chongzhicount,
+				df.format(vipin), df.format(vipout));
 
 	}
 
@@ -175,13 +201,13 @@ public class SalesServlet extends HttpServlet {
 	}
 
 	private class Struct {
-		public int sid = -1;// µêÆÌid
-		public String start = "";// ¿ªÊ¼ÈÕÆÚ£¬ºÁÃëÊı
-		public String end = "";// ½áÊøÈÕÆÚ£¬ºÁÃëÊı
+		public int sid = -1;//
+		public String start = "";//
+		public String end = "";//
 
 		public Struct(HttpServletRequest req) {
 			String tempId = req.getParameter("store");
-			String tempStart = req.getParameter("start");// readonlyÎŞĞèÑéÖ¤
+			String tempStart = req.getParameter("start");// Ö¤
 			String tempEnd = req.getParameter("end");
 			/*
 			 * Pattern pattern=Pattern.compile("[0-9]+"); Matcher

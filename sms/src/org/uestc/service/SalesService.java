@@ -2,35 +2,38 @@ package org.uestc.service;
 
 import java.util.List;
 
+import com.uestc.bean.ShiftChange;
+
 public interface SalesService {
-	public void save();
-	
-	//²éÑ¯¸ÃÓÃ»§ËùÓĞµÄµêÆÌ
+
 	public List<Object[]> findStoreByUserID(int uid);
-	//°´ÕÕµêÆÌºÍÈÕÆÚ²éÑ¯ÏúÊÛ¶îºÍÀûÈó,ÏÖÔÚÖ§³ö,ÏÖ½ğÊÕÈë
+
 	public List<Object[]> getXiaoshouAndLiRun(int sid, String start, String end);
-	//¸ù¾İµêÆÌºÍÈÕÆÚ²éÑ¯ÏúÊÛ×Üµ¥Êı
+
 	public int getXiaoShouCount(int sid, String start, String end);
-	//ÏÖ½ğµ¥Êı
+
 	public int getCashCount(int sid, String start, String end);
-	//ÒøÁªµ¥Êı
+
 	public int getBankCount(int sid, String start, String end);
-	//ÍøÒøµ¥Êı
+
 	public int getOnlineCount(int sid, String start, String end);
-	//»áÔ±³äÖµ´ÎÊı
+
 	public int getChongZhiCount(int sid, String start, String end);
-	//³äÖµÔùËÍ½ğ¶î
+
 	public List<Object[]> getChongzhiAndGiv(int sid, String start, String end);
-	//ÏÖ½ğÏúÊÛµ¥Êı½ğ¶î
-	//public List<Object[]> getCash(int sid, String start, String end);
-	//ÒøĞĞ¿¨ÏúÊÛ½ğ¶î
-	//public List<Object[]> getBank(int sid, String start, String end);
-	//ÍøÒø
-	//public List<Object[]> getOnline(int sid, String start, String end);
-	//ÉÏÃæ3¸ö»ã×Ü
-	public List<Object[]> get(int sid, String start, String end,int type);
-	//»áÔ±³äÖµ·½Ê½
-	public List<Object[]> getVip(int sid, String start, String end,int type);
-	
+
+	public List<Object[]> get(int sid, String start, String end, int type);
+
+	public List<Object[]> getVip(int sid, String start, String end, int type);
+
+	public List<Object[]> getJiaoBanList(int sid, String start, String end);
+	/***
+	 * äº¤æ¥ç­è®°å½•
+	 * @param sid
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<ShiftChange> findShiftChange(int sid, String start, String end);
 
 }
