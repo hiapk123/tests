@@ -5,6 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateFormatUtils {
+	
+	
+	public static String LongTimeToDate(long datetime){
+		Date date=new Date(datetime);
+		return DateToStr(date);
+	}
+	
 	/**
 	 * 日期转换成字符串
 	 * 

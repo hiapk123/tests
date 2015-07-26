@@ -2,15 +2,12 @@ package org.uestc.serviceImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.uestc.service.SalesService;
+import org.uestc.util.DateFormatUtils;
 import org.uestc.util.JdbcUtils;
 import org.uestc.util.SqlHelper;
 
@@ -173,8 +170,8 @@ public class SalesServiceImp implements SalesService {
 			for (int i = 0; i < raw.size(); i++) {
 				ShiftChange shiftChange = new ShiftChange();
 				shiftChange.shiftId = (Integer) raw.get(i)[0];
-				shiftChange.shiftStartDate = (String) raw.get(i)[1];
-				shiftChange.shiftEndDate = (String) raw.get(i)[2];
+				shiftChange.shiftStartDate = DateFormatUtils.LongTimeToDate((Long)raw.get(i)[1]);//日期毫秒数转化为日期字符串
+				shiftChange.shiftEndDate = DateFormatUtils.LongTimeToDate((Long)raw.get(i)[2]);//日期毫秒数转化为日期字符串
 				shiftChange.pettyCash = (String) raw.get(i)[3];
 				shiftChange.empName = (String) raw.get(i)[5];
 				shiftChange.shiftTotalMoney = this.getTotalCash((Integer) raw.get(i)[4], start, end);
@@ -232,5 +229,12 @@ public class SalesServiceImp implements SalesService {
 			}
 		}
 		return total;
+	}
+
+	@Override
+	public List<Object[]> findCash(int sid, String start, String end) {
+		String sql="SELECT t1.cash_date,t2.emp_name,t1.cash_howmuch,t1.cash_type,t1.cash_info from cash t1,employee t2 where t1.empid=t2.emp_id and t2.store_id=? and t1.cash_date between ? and ?";
+		List<Object[]> list=SqlHelper.find(sql, sid,start,end);
+		return list;
 	}
 }

@@ -35,5 +35,13 @@ public interface SalesService {
 	 * @return
 	 */
 	public List<ShiftChange> findShiftChange(int sid, String start, String end);
+	/***
+	 * 查询某一时间段内改收银员现金收支明细
+	 * @param sid
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<Object[]> findCash(int sid, String start, String end);
 
 }

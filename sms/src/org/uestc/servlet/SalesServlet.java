@@ -50,9 +50,15 @@ public class SalesServlet extends HttpServlet {
 		}
 
 	}
-
+	/**
+	 * 现金收支明细
+	 * @param req
+	 * @param resp
+	 */
 	private void cash(HttpServletRequest req, HttpServletResponse resp) {
-		
+		RequestHelper reqHelper=new RequestHelper(req);
+		List<Object[]> list=sale.findCash(reqHelper.sid, reqHelper.start, reqHelper.end);
+		req.setAttribute("cashList", list);
 	}
 	/***
 	 * 交接班记录
@@ -60,7 +66,7 @@ public class SalesServlet extends HttpServlet {
 	 * @param resp
 	 */
 	private void jiaoBan(HttpServletRequest req, HttpServletResponse resp) {
-		Struct struct=new Struct(req);
+		RequestHelper struct=new RequestHelper(req);
 		List<ShiftChange> shList=sale.findShiftChange(struct.sid, struct.start, struct.end);
 		req.setAttribute("shList", shList);
 	}
@@ -85,7 +91,7 @@ public class SalesServlet extends HttpServlet {
 	 * @param resp
 	 */
 	private void xiaoShou(HttpServletRequest req, HttpServletResponse resp) {
-		Struct struct = new Struct(req);
+		RequestHelper struct = new RequestHelper(req);
 		List<Object[]> list = sale.getXiaoshouAndLiRun(struct.sid, struct.start, struct.end);
 		double xiaoshou = 0.0;//
 		double lirun = 0.0;//
@@ -200,12 +206,12 @@ public class SalesServlet extends HttpServlet {
 
 	}
 
-	private class Struct {
+	private class RequestHelper {
 		public int sid = -1;//
 		public String start = "";//
 		public String end = "";//
 
-		public Struct(HttpServletRequest req) {
+		public RequestHelper(HttpServletRequest req) {
 			String tempId = req.getParameter("store");
 			String tempStart = req.getParameter("start");// ֤
 			String tempEnd = req.getParameter("end");
@@ -226,4 +232,6 @@ public class SalesServlet extends HttpServlet {
 			}
 		}
 	}
+	
+	
 }
