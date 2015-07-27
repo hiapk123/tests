@@ -117,6 +117,11 @@
 			
 			$('#if_content').attr('src','<%=basePath %>CategoryGoods?type=initPage');
 		});
+		//销售单据
+		$('#xsdj').click(function(){
+			$('#if_content').attr('src','<%=basePath %>sales?m=saledetails');
+		});
+		
 	});
 	
 </script>
@@ -374,7 +379,7 @@
 
 
 			<div id="content" class="col-lg-10 col-sm-10">
-				<iframe src="" width="100%" height="800px" id="if_content" style="border: 0;margin: 0;"></iframe>
+				<iframe src="" id="if_content" style="border: 0;margin: 0;width: 100%;height: 2000px;"></iframe>
 			
 				<%-- <!--要添加的地方  -->
 				<!--销售  -->

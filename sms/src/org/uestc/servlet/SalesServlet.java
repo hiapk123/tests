@@ -47,9 +47,30 @@ public class SalesServlet extends HttpServlet {
 		} else if (m.equals("cash")) {
 			this.cash(req, resp);
 			req.getRequestDispatcher("/pages/sales/saleinfo/cash.jsp").forward(req, resp);
+		}else if(m.equals("saledetails")){
+			this.saleDatails(req,resp);
+			req.getRequestDispatcher("/pages/sales/sales-xiaoshou.jsp").forward(req, resp);
+		}else if(m.equals("showdetails")){
+			this.showDetails(req,resp);
+			req.getRequestDispatcher("/pages/sales/saleinfo/xiaoshou-details.jsp").forward(req, resp);
 		}
 
 	}
+	private void showDetails(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/***
+	 * 销售单据
+	 * @param req
+	 * @param resp
+	 */
+	private void saleDatails(HttpServletRequest req, HttpServletResponse resp) {
+		
+		this.salesInfo(req, resp);
+	}
+
 	/**
 	 * 现金收支明细
 	 * @param req
