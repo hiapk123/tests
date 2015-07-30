@@ -3,7 +3,7 @@
 <tlib-version>1.0</tlib-version> 
 <jsp-version>1.2</jsp-version> 
 <short-name>page</short-name> 
-<uri>http://www.kevin.com/taglibs/page</uri> 
+<uri>http://www.dky.com/taglibs/page</uri> 
 <tag> 
 <name>htmlPage</name> 
 <tag-class>org.uestc.util.PageTag</tag-class> 
