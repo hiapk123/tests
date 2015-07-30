@@ -10,7 +10,9 @@
 <link href="<%=basePath%>pages/sales/saleinfo/th.css" rel="stylesheet">
 <script>
 	$(function() {
-
+		$('.pagination').click(function(){
+			alert($("#page").val());
+		});
 	});
 </script>
 
@@ -77,8 +79,9 @@
 				
 			</tbody>
 		</table>
+		<input type="hidden" id="page" value="20"/>
 		<ul class="pagination">
-			<page:htmlPage pageNo="2" url="www.baidu.com" totalSum="50" showPage="10" pageSize="10"/>
+			<page:htmlPage pageNo="20" url="www.baidu.com" totalSum="980" showPage="10" pageSize="10"/>
 		</ul>
 		<%-- <page:htmlPage pageNo="${pageNo}" url="your_url" totalSum="${totalSum}" showPage="10" pageSize="12"/> --%>
 	</div>

@@ -73,7 +73,7 @@ public final class JdbcUtils {
 			p.setRemoveAbandoned(true);
 			p.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"
 					+ "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-
+			datasource.setPoolProperties(p);
 			// Class.forName(driver);
 
 		} catch (IOException e) {
@@ -108,17 +108,10 @@ public final class JdbcUtils {
 	}
 
 	public Connection getConnection() throws SQLException {
-		if (datasource != null) {
-			datasource.setPoolProperties(p);
-		}
-		datasource.setPoolProperties(p);
 		return datasource.getConnection();
 	}
 
 	public DataSource getDataSource() {
-		if (datasource != null) {
-			datasource.setPoolProperties(p);
-		}
 		return datasource;
 	}
 
