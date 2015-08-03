@@ -1,4 +1,8 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+
+
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
+	contentType="text/html; charset=utf-8"%>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -6,20 +10,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title></title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content=",keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
+<head>
+<base href="<%=basePath%>">
+
+<title></title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content=",keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
- <SCRIPT LANGUAGE="javascript">
+<SCRIPT LANGUAGE="javascript">
 <!--
 function ShowNewProductDiv()
 {
@@ -145,146 +149,105 @@ window.open ('pages/goods/fuzhishangpin.jsp','newwindow','height=500,width=800,t
 <script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
+<script type="text/javascript">
+	$(function(){
+	
+		$("#search").click(function(){
+			var store=$("#store").val();
+			var number=$("#category").val();
+			
+			if(store==null){
+				alert("请重新选择店铺！");
+				return;
+			}
+			
+			$("#goodsinfodiv").empty();
+		
+				
+			$.post("<%=basePath%>goods", {
+				"m" : "findGoods",
+				"store" : store,
+				"catagory" :number  ,
+				
+			}, function(data) {
+				$("#goodsinfodiv").append(data);
+			}, "html");
+			
 
-  </head>
-  
-   <body   >
- 
- <span class="label label-default" style="padding:10px">商品资料</span>  &nbsp;&nbsp;
-<button type="button" class="btn btn-success" name="submit" onclick="ShowNewProductDiv()">新增商品</button>    &nbsp;&nbsp;
-<button type="button" class="btn btn-success" name="submit" onclick="DaoRu()">导入</button>       &nbsp;&nbsp;
-<button type="button" class="btn btn-success" name="submit" onclick="daochu()">导出</button>      &nbsp;&nbsp;
-<button type="button" class="btn btn-success" name="submit" onclick="fuzhishangpin()">复制商品</button>  &nbsp;&nbsp;
- 
-<a href="pages/goods/kuaisuluru.jsp"><input type="button" class="btn btn-success" value="快速录入"></input></a> &nbsp;&nbsp;
-    <div class="btn-group">
-   <button type="button" class="btn btn-default dropdown-toggle" 
-      data-toggle="dropdown">
-      小六子食品店 <span class="caret"></span>
-   </button>
-   <ul class="dropdown-menu" role="menu">
-      <li><a href="#">悠食客1店</a></li>
-      <li><a href="#">悠食客2店</a></li>
-   </ul>
-</div>
-&nbsp;&nbsp;&nbsp;
-<div class="btn-group">
-   <button type="button" class="btn btn-primary dropdown-toggle" 
-      data-toggle="dropdown">
-      启用 <span class="caret"></span>
-   </button>
-   <ul class="dropdown-menu" role="menu">
-      <li><a href="#">禁用</a></li>
-      
-   </ul>
-</div>
+		});
+		
+		$('#btnExport').click(function(){
+			alert("Hello");
+		});
+		<%-- $("#page").click(function(){
+			$.post("<%=basePath%>goods", {
+				"m" : "findGoodByPage",
+				"currentPage" : currentPage,
+				"pageNo" :pageNo  ,
+				
+			}, function(data) {
+				$("#goodsinfodiv").append(data);
+			}, "html");
+		}); --%>
+	});
+</script>
+</head>
 
+<body>
 
+	<span class="label label-default" style="padding: 10px">商品资料</span>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="ShowNewProductDiv()">新增商品</button>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="DaoRu()">导入</button>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="daochu()">导出</button>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="fuzhishangpin()">复制商品</button>
+	&nbsp;&nbsp;
 
- 
+	<a href="pages/goods/kuaisuluru.jsp"><input type="button"
+		class="btn btn-success" value="快速录入"></input></a> &nbsp;&nbsp;
+	<select id="store" class="singleSelector">
+		<option value="-1" selected="selected" disabled="disabled">选择店铺</option>
 
+		<%
+				List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
+				if (list != null && list.size() != 0) {
+					for (Object[] obj : list) {
+			%>
+		<option value='<%=obj[0]%>'><%=obj[1]%></option>
+		<%
+				}
+				}
+			%>
 
-<div style = "float:right;">
-<input class="input-medium search-query" type="text" float:right/> <button type="submit" class="btn">查找</button>
-<button type="button" class="btn btn-success" float:right>按分类</button>	
-</div>
-  
-  <div data-spy="scroll" style="width:1600px;  overflow:auto; position: relative;" data-offset="10" 
-   >
-   <div data-spy="scroll" style="height:350px;  overflow:auto; position: relative;" data-offset="10" 
-   > 
-  
+	</select>
 
+	<select id="category">
+		<option value="0" selected="selected">有效单据</option>
+		<option value="1">作废单据</option>
+	</select>
 
-<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-    <thead>
-    <tr>
-          <th >操作</th>
-         <th >商品名称</th>
-         <th>所属门店</th>
-         <th>库存量</th>
-         <th>进货价</th>
-         <th>销售价</th>
-         <th>批发价</th>
-         <th>会员价</th>
-         <th>分类</th>
-         <th>条码</th>
-         <th>会员折扣</th>
-         <th>库存上限</th>
-         <th>库存下限</th>
-         <th>生产日期</th>
-         <th>保质期 ↑ ↓</th>
-         <th>拼音码</th>
-         <th>供货商</th>
-         <th>自定义1</th>
-         <th>自定义2</th>
-         <th>自定义3</th>
-         <th>自定义4</th>
-         <th>最小起订量</th>
-         <th>最低陈列量</th>
-         <th>畅销量</th>
-         <th>正常销售量</th>
-         <th>库存合理值</th>
-         <th>是否锁定</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-     <td class="center">
-            <a href="#">
-               
-                View
-            </a>
-            <a href="#">
-               
-                Edit
-            </a>
-            <a  href="#">
-                
-                Delete
-            </a>
-        </td>
-        <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-        <td class="center">
-            <span class="label-success label label-default">Active</span>
-        </td>
-       
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td>David R</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-         <td class="center">Member</td>
-       
-    </tr>
-   
-    
-    </tbody>
-    </table>
-
-
-
-</div> 
+	<div style="float: right;">
+		<input class="input-medium search-query" type="text" float:right /> <input
+			type="button" value="查询" id="search" class="submitBtn" />
+		<button type="button" class="btn btn-success" float:right>按分类</button>
+	</div>
+<div data-spy="scroll" style="width:100%;  overflow:auto; position: relative;" data-offset="10">
+<%-- <ul class="pagination" id="page">
+							<page:htmlPage pageNo="${currentPage }" url="/goods?m=findGoodByPage&currentPage=${currentPage }" totalSum="${totalPage }" showPage="10" pageSize="10"/>
+						</ul>	 --%>
+	
+<div id="goodsinfodiv"></div>
+	
 </div>
 
+						
+</body>
 
-  </body>
 </html>

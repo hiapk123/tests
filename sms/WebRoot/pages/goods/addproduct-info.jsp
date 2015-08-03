@@ -64,11 +64,6 @@ function setTab(m,n){
 </script>
 
 <style>
-.center-block {
-  display: block;     /*将页面元素设置为块级元素*/
-  margin-right: auto;    /*左右居中显示*/
-  margin-left: auto;
-}
 .main {
 	clear: both;
 	padding: 8px;
@@ -103,7 +98,7 @@ function setTab(m,n){
 
 	<div id="main0">
 
-		<form class="block" style="height:300px; width:600px">
+		<form class="block">
 
 			<label for="name">所属门店</label> <select>
 				<option>小六子食品店</option>
@@ -130,7 +125,7 @@ function setTab(m,n){
 		</form>
 
 		<!--扩展资料-->
-		<form role="form" style="height:300px; width:600px">
+		<form role="form">
 			<div class="form-group">
 
 
@@ -172,7 +167,7 @@ function setTab(m,n){
 
 
 <!-- 报表参数 -->
-		<form role="form" style="height:300px; width:600px">
+		<form role="form">
 			<label>最小起订量</label> <input type="text" id="zuixiaoqidingliang">
            <label>畅销量</label> <input type="text" id="changxiaoliang"></br>
           <label>最低陈列量</label> <input type="text" id="zuidichenlieliang">
@@ -188,14 +183,14 @@ function setTab(m,n){
 
 
 <!-- 商品描述 -->
-		<form role="form" style="height:300px; width:600px">
+		<form role="form">
 		
 			<input type="text" style="width:600px; height:300px;" id="shangpinmiaoshu">
 
 		</form>
 
 <!-- 上传图片 -->
-		<form role="form" style="height:300px; width:600px">
+		<form role="form">
 		
 			 <input type="file" id="file" >
               <button type="button" class="btn btn-success" name="submit">上传</button>
@@ -206,11 +201,9 @@ function setTab(m,n){
 					
 				</select>
 		</form>
-		    
-            <button type="button" class="btn btn-success center-block" name="submit" ">保存</button>
+            <button type="button" class="btn btn-success" name="submit">保存</button>
 
-			<button type="submit" class="btn btn-default center-block" >取消</button>
-			
+			<button type="submit" class="btn btn-default">取消</button>
 	</div>
 </body>
 </html>
