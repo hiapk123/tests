@@ -10,7 +10,7 @@
 <div id="spzl" class="myclass">
 
 <jsp:include page="goods/test.jsp"></jsp:include>
-
+<jsp:include page="goods/goods-info.jsp"></jsp:include>
 </div>
 <div id="spfl" class="myclass">商品分类</div>
 <div id="plsz" class="myclass">批量设置</div>
