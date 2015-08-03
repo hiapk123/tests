@@ -2,6 +2,7 @@ package com.uestc.app;
 
 public class Test {
 	public static void main(String[] args) {
-		System.out.println("MyEsclipse 2015ÉÁÍË£¬´ó¼Ò¶¼ÊÇÓÃesclipse°É£¡");
+		System.out.println("MyEsclipse 2015ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½ï¿½ï¿½esclipseï¿½É£ï¿½");
+		//sb
 	}
 }
