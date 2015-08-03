@@ -24,6 +24,10 @@ public class CharacterEncodingFilter implements Filter {
 	public void destroy() {
 		filterConfig = null;
 		encoding = null;
+		
+		
+		
+		
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {

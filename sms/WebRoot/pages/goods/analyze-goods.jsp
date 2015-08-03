@@ -1,6 +1,8 @@
 <%@ page language="java" import="java.util.*,org.uestc.util.PageObject"
 	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 
+
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"

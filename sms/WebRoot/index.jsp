@@ -111,7 +111,7 @@
 		});
 		
 		$('#spzl').click(function(){
-			$('#if_content').attr('src','<%=basePath %>pages/goods/goods-info.jsp');
+			$('#if_content').attr('src','<%=basePath %>goods?m=goodsinfo');
 		});
 		$('#spfl').click(function(){
 			
