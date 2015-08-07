@@ -206,6 +206,7 @@
 		<table id="hp_kcyj" class="table table-bordered table-hover">
 			<thead> <!--  style="font-weight: 900" -->
 				<tr>
+					<th>序号</th>
 					<th>商品名称</th>
 					<th>所属门店</th>
 					<th>商品分类</th>
@@ -221,7 +222,7 @@
 			<tbody>
 				<c:forEach items="${goodsList }" var="goods" varStatus="status">
 					<tr>
-						<%-- <td>${status.index + 1 }</td> --%>
+						<td>${status.index + 1 }</td>
 						<td>${goods.GName }</td>
 						<td>${goods.SName }</td>
 						<td>${goods.CName }</td>
