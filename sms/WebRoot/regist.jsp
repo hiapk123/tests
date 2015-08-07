@@ -137,8 +137,8 @@
 									name="reloginpass" id="reloginpass">
 							</div>
 							<div>
-								<label for="reloginpass" style="color: #f40000" class="errorClass"
-									id="reloginpassError">${errors.reloginpass }</label>
+								<label for="reloginpass" style="color: #f40000"
+									class="errorClass" id="reloginpassError">${errors.reloginpass }</label>
 							</div>
 							<div class="clearfix"></div>
 							<br>
@@ -161,9 +161,21 @@
 							</div> -->
 							<div class="clearfix"></div>
 
-							<p class="center col-md-5">
+							<!-- <p class="center col-md-5">
 								<button type="submit" class="btn btn-primary">立即注册</button>
-							</p>
+							</p> -->
+
+							<div class="col-md-12">
+								<!-- class="center col-md-10" 也比较好看，两个按钮缩小-->
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary">立即注册</button>
+								</div>
+								<div class="col-md-6">
+									<a type="button" class="btn btn-primary"
+										href="<c:url value='/login.jsp'/>">立即登录</a>
+								</div>
+							</div>
+
 						</fieldset>
 					</form>
 				</div>
