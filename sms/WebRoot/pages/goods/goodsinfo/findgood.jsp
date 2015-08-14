@@ -15,6 +15,7 @@
 		});
 	});
 </script>
+
 <table class="table table-striped table-bordered">
 	<thead>
 		<tr>
@@ -52,16 +53,18 @@
 		<%
 					List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
 					String StrPage = request.getParameter("Page");
-
+                    String s_id=request.getAttribute("s_id").toString();
+                    System.out.println("liuyan"+s_id);
 					if (goods != null && goods.size() > 0) {
 						for (int i = 0; i < goods.size(); i++) {
 				%>
 		<tr>
-			<td class="center"><a href="#"> View </a> <a href="#"> Edit
-			</a> <a href="#"> Delete </a></td>
+			<td ><a href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[3]%>"> 删除 </a> 
+		<a href="<%=basePath%>goods?m=editGood&g_id=<%=goods.get(i)[3]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&c_name=<%=goods.get(i)[4]%>&s_id=<%=s_id%>">编辑</a>
+			<a href="#"> 图片 </a></td>
 			<%
-						for (int j = 0; j <= 4; j++) {
-					%>
+						for (int j = 0; j <= 5; j++) {
+			%>
 			<td><%=goods.get(i)[j]%></td>
 			<%
 						}

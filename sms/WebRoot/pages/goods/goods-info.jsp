@@ -21,24 +21,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<SCRIPT LANGUAGE="javascript">
+<%-- <SCRIPT LANGUAGE="javascript">
 <!--
 function ShowNewProductDiv()
 {
-window.open ('pages/goods/addproduct.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+	var id=$("#store").val();
+	var name=$("#store :selected").text();
+window.open ("<%=basePath%>goods?m=addGoods&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 function DaoRu()
 {
-window.open ('pages/goods/daoru.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
-</SCRIPT>
+</SCRIPT> --%>
 <SCRIPT LANGUAGE="javascript">
 <!--
 
 function DaoRu()
 {
-window.open ('pages/goods/daoru.jsp','newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -47,7 +49,7 @@ window.open ('pages/goods/daoru.jsp','newwindow','height=600,width=800,top=100,l
 
 function daochu()
 {
-window.open ('pages/goods/daochu.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ('pages/goods/goodsinfo/daochu.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -56,10 +58,11 @@ window.open ('pages/goods/daochu.jsp','newwindow','height=500,width=800,top=100,
 
 function fuzhishangpin()
 {
-window.open ('pages/goods/fuzhishangpin.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
+
 
 <!-- The styles -->
 <link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
@@ -171,9 +174,32 @@ window.open ('pages/goods/fuzhishangpin.jsp','newwindow','height=500,width=800,t
 				$("#goodsinfodiv").append(data);
 			}, "html");
 			
-
 		});
 		
+		//新增商品
+		$("#xinzengshangpin").click(function(){
+		
+			var s_id=$("#store").val();
+			var s_name=$("#store :selected").text();
+			
+			if(store==null){
+				alert("请重新选择店铺！");
+				return;
+			}
+			
+			$("#goodsinfodiv").empty();
+		
+				
+			$.post("<%=basePath%>goods", {
+				"m" : "addGoods",
+				"s_id" :s_id,
+				"s_name" :s_name  ,
+				
+			}, function(data) {
+				$("#goodsinfodiv").append(data);
+			}, "html");
+			
+		});
 		$('#btnExport').click(function(){
 			alert("Hello");
 		});
@@ -195,7 +221,7 @@ window.open ('pages/goods/fuzhishangpin.jsp','newwindow','height=500,width=800,t
 
 	<span class="label label-default" style="padding: 10px">商品资料</span>
 	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
+	<button type="button"  id="xinzengshangpin" class="btn btn-success" name="submit"
 		onclick="ShowNewProductDiv()">新增商品</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
@@ -241,7 +267,11 @@ window.open ('pages/goods/fuzhishangpin.jsp','newwindow','height=500,width=800,t
 							<page:htmlPage pageNo="${currentPage }" url="/goods?m=findGoodByPage&currentPage=${currentPage }" totalSum="${totalPage }" showPage="10" pageSize="10"/>
 						</ul>	 --%>
 	
-<div id="goodsinfodiv"></div>
+<div id="goodsinfodiv">
+
+	
+
+</div>
 	
 </div>
 

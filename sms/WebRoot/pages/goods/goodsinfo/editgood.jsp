@@ -96,7 +96,6 @@
 </head>
 
 <body>
-
 	<nav class="navbar navbar-default" role="navigation">
 
 	<div>
@@ -113,34 +112,51 @@
 
 
 	<div id="main0">
-		<form action="<%=basePath%>goods?m=addGood" method="post">
+		<form action="<%=basePath%>goods?m=editGood2" method="post">
+		<!--必填资料-->
 			<li class="block">
 				<%
-					String storeId = request.getParameter("storeID");
-					String name = request.getParameter("storeName");
-					String GBarcode = request.getParameter("shangpintiaoma");
-				%> <input type="hidden" value="<%=storeId%>" name="storeID">
-				<label>店铺名：<%=name%></label> <input type="hidden" value="<%=name%>"
-				name="storeName">
+				String g_id = request.getParameter("g_id");
+				String s_id = (String)request.getAttribute("s_id");
+		
+				System.out.println("sb"+s_id);
+				
+				
+				
 
+				String s_name = request.getParameter("s_name");
+	        //    String zhuangtai = request.getParameter("g_flag");
+	         // int Zhuangtai = Integer.parseInt(zhuangtai);
+	          String tiaoma = request.getParameter("g_barcode");
+	         String jinhuojia = request.getParameter("g_pur_price");
+	            String g_name = request.getParameter("g_name");
+	         String xiaoshoujia = request.getParameter("g_sale_price");
+	            String c_name = request.getParameter("c_name");
+	         String kucun = request.getParameter("g_stock_num");
+	         request.setAttribute("g_id", g_id);
+				%> 
+				<input type="hidden" value="<%=g_id%>" name="g_id">
+				<input type="hidden" value="<%=s_id%>" name="s_id">
+               <label>店铺名：</label>   <input  type="text" name="storename"
+								value="<%=s_name%>" >
 
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label
+			<%-- 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label
 				for="name">商品状态</label> <select name="state">
-					<option value=1>启用</option>
-					<option value=0>禁用</option>
+					<option value=<%=Zhuangtai%>>状态</option>
+					<!-- <option value=0>禁用</option> --> --%>
 
 			</select> </br> <label>商品条码</label> <input type="text" name="tiaoma"
-				value="<%=GBarcode%>">
+				value="<%=tiaoma%>" >
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>进货价</label>
-				<input type="text" name="jinhuojia"> </br> <label>商品名称</label> <input
-				type="text" name="productname"> <label>销售价</label> <input
-				type="text" name="xiaoshoujia"> </br> <label for="name">商品分类</label>
-				<select name="fenlei">
+				<input type="text" name="jinhuojia"  value="<%=jinhuojia%>"}> </br> <label>商品名称</label> <input
+				type="text" name="g_name"  value="<%=g_name%>"> <label>销售价</label> <input
+				type="text" name="xiaoshoujia" value="<%=xiaoshoujia%>"> </br> <label for="name">商品分类</label>
+				<select name="c_name">
 					<option>水果</option>
 					<option>散装</option>
 
 
-			</select> <label>库存</label> <input type="text" name="kucun"> </br>
+			</select> <label>库存</label> <input type="text" name="kucun" value="<%=kucun%>"> </br>
 			</li>
 
 			<!--扩展资料-->
@@ -214,5 +230,6 @@
 			<button type="button" class="btn btn-default center-block">取消</button>
 		</form>
 	</div>
+	<a href="<%=basePath %>goods?m=goodsInfo">跳转商品资料页面</a>
 </body>
 </html>
