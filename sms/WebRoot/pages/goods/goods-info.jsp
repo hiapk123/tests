@@ -2,8 +2,9 @@
 	contentType="text/html; charset=utf-8"%>
 
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -166,7 +167,7 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 		
 				
 			$.post("<%=basePath%>goods", {
-				"m" : "findGoods",
+				"m" : "findGoodByPage",
 				"store" : store,
 				"catagory" :number  ,
 				
@@ -221,8 +222,8 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 
 	<span class="label label-default" style="padding: 10px">商品资料</span>
 	&nbsp;&nbsp;
-	<button type="button"  id="xinzengshangpin" class="btn btn-success" name="submit"
-		onclick="ShowNewProductDiv()">新增商品</button>
+	<button type="button" id="xinzengshangpin" class="btn btn-success"
+		name="submit" onclick="ShowNewProductDiv()">新增商品</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
 		onclick="DaoRu()">导入</button>
@@ -240,15 +241,15 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 		<option value="-1" selected="selected" disabled="disabled">选择店铺</option>
 
 		<%
-				List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
-				if (list != null && list.size() != 0) {
-					for (Object[] obj : list) {
-			%>
+			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
+			if (list != null && list.size() != 0) {
+				for (Object[] obj : list) {
+		%>
 		<option value='<%=obj[0]%>'><%=obj[1]%></option>
 		<%
-				}
-				}
-			%>
+			}
+			}
+		%>
 
 	</select>
 
@@ -262,20 +263,16 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 			type="button" value="查询" id="search" class="submitBtn" />
 		<button type="button" class="btn btn-success" float:right>按分类</button>
 	</div>
-<div data-spy="scroll" style="width:100%;  overflow:auto; position: relative;" data-offset="10">
-<%-- <ul class="pagination" id="page">
-							<page:htmlPage pageNo="${currentPage }" url="/goods?m=findGoodByPage&currentPage=${currentPage }" totalSum="${totalPage }" showPage="10" pageSize="10"/>
-						</ul>	 --%>
-	
-<div id="goodsinfodiv">
+	<div data-spy="scroll"
+		style="width: 100%; overflow: auto; position: relative;"
+		data-offset="10">
 
-	
 
-</div>
-	
-</div>
+		<div id="goodsinfodiv"></div>
 
-						
+	</div>
+
+
 </body>
 
 </html>

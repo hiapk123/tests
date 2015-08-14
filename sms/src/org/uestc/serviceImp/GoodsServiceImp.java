@@ -53,22 +53,30 @@ public class GoodsServiceImp implements GoodsService {
 	}
 
 	@Override
-	public void editgood(int s_id, String s_name, String g_name,String g_stock_num, String g_sale_price,
-			String g_pur_price, String c_name, String g_barcode,int g_id) {
+	public void editgood(int s_id, String s_name, String g_name, String g_stock_num, String g_sale_price,
+			String g_pur_price, String c_name, String g_barcode, int g_id) {
 		// TODO Auto-generated method stub
-		String sql="update goods set s_id=?,s_name=?, g_name=?,g_stock_num=?,g_sale_price=?, g_pur_price=?,c_name=?,c_name=?  where g_id=?";
-	
-		SqlHelper.executeUpdate(sql, new String[] { s_id + "" , s_name, g_name,g_stock_num, g_sale_price,
-				g_pur_price, c_name, g_barcode,g_id+"" });
+		String sql = "update goods set s_id=?,s_name=?, g_name=?,g_stock_num=?,g_sale_price=?, g_pur_price=?,c_name=?,c_name=?  where g_id=?";
+
+		SqlHelper.executeUpdate(sql, new String[] { s_id + "", s_name, g_name, g_stock_num, g_sale_price, g_pur_price,
+				c_name, g_barcode, g_id + "" });
 	}
 
 	@Override
-	public void deletegood( int g_id) {
+	public void deletegood(int g_id) {
 		// TODO Auto-generated method stub
 		String sql = "delete from goods where g_id=?";
-		SqlHelper.executeUpdate(sql, new String[] { g_id+"" });
+		SqlHelper.executeUpdate(sql, new String[] { g_id + "" });
 	}
 
-	
+	@Override
+	public int getTotalSize(int store) {
+		String sql = "select count(g_id) from goods where g_del=1 and g_flag=1 and s_id=?";
+		List<Object[]> list = SqlHelper.find(sql, store);
+		if (null != list && list.size() == 1) {
+			return Integer.valueOf(list.get(0)[0]+"");
+		}
+		return 0;
+	}
 
 }
