@@ -17,30 +17,31 @@ import com.uestc.bean.Users;
 
 public final class SqlHelper {
 	// 定义需要的变量
-	private Connection conn = null;
-	private PreparedStatement ps = null;
-	private ResultSet rs = null;
+	private static Connection conn = null;
+	private static PreparedStatement ps = null;
+	private static ResultSet rs = null;
 
-	JdbcUtils jdbcUtils = JdbcUtils.getInstance();
-	public static List<Object[]> find(String sql,Object ...params) {
-		List<Object[]> list=null;
-		QueryRunner runner=null;
+	private static JdbcUtils jdbcUtils = JdbcUtils.getInstance();
+
+	public static List<Object[]> find(String sql, Object... params) {
+		List<Object[]> list = null;
+		QueryRunner runner = null;
 		try {
-			runner= new QueryRunner(JdbcUtils.getInstance().getDataSource());
-		    list = runner.query(sql, new ArrayListHandler(),params);
+			runner = new QueryRunner(JdbcUtils.getInstance().getDataSource());
+			list = runner.query(sql, new ArrayListHandler(), params);
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
-		}finally {
-			runner=null;
+		} finally {
+			runner = null;
 		}
 		return list;
 	}
-	
+
 	// 统一的select语句，为了能够访问结果集，将结果集放入ArrayList，这样可以直接关闭资源
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	
-	public ArrayList executeQuery(String sql, String[] parameters) {
+
+	public static ArrayList executeQuery(String sql, String[] parameters) {
 		ArrayList results = new ArrayList();
 
 		try {
@@ -75,11 +76,11 @@ public final class SqlHelper {
 		}
 		return results;
 	}
-	
+
 	// 该方法执行一个update/delete/insert语句
 	// sql语句是带问号的格式，如：update table_name set column_name = ? where ...
 	// parameters = {"...", "..."...}；
-	public void executeUpdate(String sql, String[] parameters) {
+	public static void executeUpdate(String sql, String[] parameters) {
 
 		try {
 			conn = jdbcUtils.getConnection();
@@ -103,7 +104,7 @@ public final class SqlHelper {
 	}
 
 	// 可以执行多个update、delete、insert语句（考虑事务）
-	public void executeUpdate(String[] sqls, String[][] parameters) {
+	public static void executeUpdate(String[] sqls, String[][] parameters) {
 		try {
 			// 得到连接
 			conn = jdbcUtils.getConnection();
@@ -137,25 +138,23 @@ public final class SqlHelper {
 			jdbcUtils.free(conn, ps, rs);
 		}
 	}
-	
-	
-	
-	public static <T> List<T> findBean(Class<T> clazz,String sql,Object ...params) {	
-		
-		List<T> list=null;
+
+	public static <T> List<T> findBean(Class<T> clazz, String sql, Object... params) {
+
+		List<T> list = null;
 		try {
 			QueryRunner runner = new QueryRunner(JdbcUtils.getInstance().getDataSource());
-		    list = runner.query(sql, new BeanListHandler<T>(clazz),params);
-		    runner=null;
+			list = runner.query(sql, new BeanListHandler<T>(clazz), params);
+			runner = null;
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
+
 	public static void main(String[] args) {
-		//test
-		
+		// test
+
 	}
 }
