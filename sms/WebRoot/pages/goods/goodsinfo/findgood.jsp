@@ -12,6 +12,8 @@
 	$(function() {
 		$('.pagination').click(function() {
 			alert($("#page").val());
+			
+			
 		});
 
 		$("li a").click(function() {
