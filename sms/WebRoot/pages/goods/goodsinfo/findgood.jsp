@@ -14,6 +14,8 @@
 			alert($("#page").val());
 			
 			
+			
+			
 		});
 
 		$("li a").click(function() {
