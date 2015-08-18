@@ -109,7 +109,7 @@ $("#save").click(function(){
 	var g_barcode=$("#g_barcode").val();
 	
 	var g_flag=$("#g_flag option:selected").val();  //获取选中的项
-	//alert(g_flag);   //拿到选中项的值
+	alert(g_flag);   //拿到选中项的值
 	
 	$("#liuyan").empty();
 		
@@ -119,7 +119,7 @@ $("#save").click(function(){
 		"s_name" :s_name ,
 		"g_name" :g_name ,
 		"g_barcode" :g_barcode  ,
-		"g-flag" :g_flag,
+		"g_flag" :g_flag,
 		
 	}, function(data) {
 		$("#liuyan").append(data);
