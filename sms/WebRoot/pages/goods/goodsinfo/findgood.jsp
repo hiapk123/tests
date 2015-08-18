@@ -11,22 +11,15 @@
 <script>
 	$(function() {
 		$('.pagination').click(function() {
-			alert($("#page").val());
-			
-			
-			
-			
-			
-			//ssss
-			
-			
+	//		alert($("#page").val());
+	
 		});
 
 		$("li a").click(function() {
 			//alert($(this).text());
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-			alert(storeID);
+			//alert(storeID);
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {

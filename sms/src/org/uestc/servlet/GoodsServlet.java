@@ -34,7 +34,7 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 6005017459312388968L;
 	private int s_id = 0;
-	private GoodsService good = new GoodsServiceImp();// ������
+	private GoodsService good = new GoodsServiceImp();// 锟斤拷锟斤拷锟斤拷
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,8 +56,12 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
 		} else if (m.equals("addGood")) {
 			this.addGood(req, resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/addgood.jsp").forward(req, resp);
-		} else if (m.equals("addGoods")) {
+			req.getRequestDispatcher("/pages/goods/goodsi"
+					+ "nfo/addgood.jsp").forward(req, resp);
+		} else if (m.equals("addGood1")) {
+		    this.addGood0(req, resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/addproduct-info.jsp").forward(req, resp);
+		}else if (m.equals("addGoods")) {
 			this.addGoods(req, resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/addproduct.jsp").forward(req, resp);
 		} else if (m.equals("editGood")) {
@@ -71,7 +75,7 @@ public class GoodsServlet extends HttpServlet {
 		} else if (m.equals("deleteGood")) {
 			this.deleteGood(req, resp);
 
-			String url = req.getHeader("Referer"); // 获得前一页的URL
+			String url = req.getHeader("Referer"); // 鑾峰緱鍓嶄竴椤电殑URL
 			resp.sendRedirect(url);
 		} else if (m.equals("findByPage")) {
 			this.findGoodByPage(req,resp);
@@ -80,10 +84,25 @@ public class GoodsServlet extends HttpServlet {
 
 	}
 
-	
+	/***
+	 * 
+	 * 
+	 * @param req
+	 * @param resp
+	 */
+
+	private void addGood0(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id = req.getParameter("s_id");
+		String s_name = req.getParameter("s_name");
+		String g_barcode = req.getParameter("g_barcode");
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("s_name", s_name);
+		req.setAttribute("g_barcode", g_barcode);
+	}
 
 	/***
-	 * 删除商品
+	 * 鍒犻櫎鍟嗗搧
 	 * 
 	 * @param req
 	 * @param resp
@@ -101,7 +120,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 修改商品2
+	 * 淇敼鍟嗗搧2
 	 * 
 	 * @param req
 	 * @param resp
@@ -143,7 +162,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 修改商品
+	 * 淇敼鍟嗗搧
 	 * 
 	 * @param req
 	 * @param resp
@@ -167,11 +186,11 @@ public class GoodsServlet extends HttpServlet {
 		req.setAttribute("g_id", g_id);
 		req.setAttribute("g_name", g_name);
 		req.setAttribute("s_id", s_id);
-		System.out.println(s_id);
+		
 	}
 
 	/***
-	 * 新增商品进入页面
+	 * 鏂板鍟嗗搧杩涘叆椤甸潰
 	 * 
 	 * @param req
 	 * @param resp
@@ -182,30 +201,35 @@ public class GoodsServlet extends HttpServlet {
 
 		String s_id = req.getParameter("s_id");
 		String s_name = req.getParameter("s_name");
-		req.setAttribute(s_id, s_id);
-		req.setAttribute(s_name, s_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("s_name", s_name);
 	}
 
 	/***
-	 * 新增商品
+	 * 鏂板鍟嗗搧
 	 * 
 	 * @param req
 	 * @param resp
 	 */
 	private void addGood(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		String s_id = req.getParameter("storeID");
-		String s_name = req.getParameter("storeName");
-		String g_name = req.getParameter("productname");
-		String g_flag = req.getParameter("state");
+		String s_id = req.getParameter("s_id");
+		String s_name = req.getParameter("s_name");
+		String g_name = req.getParameter("g_name");
+		String g_flag = req.getParameter("g_flag");
 		String g_stock_num = req.getParameter("kucun");
 		String g_sale_price = req.getParameter("xiaoshoujia");
 		String g_pur_price = req.getParameter("jinhuojia");
 		String c_name = req.getParameter("fenlei");
-		String g_barcode = req.getParameter("tiaoma");
-		int g_flag0 = Integer.parseInt(g_flag);
+		String g_barcode = req.getParameter("g_barcode");
+		System.out.println("gg"+s_id);
+		System.out.println("gg"+s_name);
+		System.out.println("gg"+g_barcode);
+		System.out.println("gg"+g_flag);
+	
+		
 		try {
-			good.addgood(Integer.valueOf(s_id), s_name, g_name, g_flag0, g_stock_num, g_sale_price, g_pur_price, c_name,
+			good.addgood(Integer.valueOf(s_id), s_name, g_name, Integer.valueOf(g_flag), g_stock_num, g_sale_price, g_pur_price, c_name,
 					g_barcode);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -215,7 +239,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 分页查询
+	 * 鍒嗛〉鏌ヨ
 	 * 
 	 * @param req
 	 * @param resp
@@ -260,7 +284,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 查询商品
+	 * 鏌ヨ鍟嗗搧
 	 * 
 	 * @param req
 	 * @param resp
@@ -293,7 +317,7 @@ public class GoodsServlet extends HttpServlet {
 
 	}
 
-	// 实现
+	// 瀹炵幇
 	private int getTotalSize(String id) {
 		try {
 			return good.getTotalSize(Integer.valueOf(id));

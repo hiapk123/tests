@@ -80,8 +80,8 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 	<tbody>
 
 		<%
-		            String storeid = request.getParameter("storeID");
-					String storename = request.getParameter("store");
+		            String s_id = request.getParameter("s_id");
+					String s_name = request.getParameter("s_name");
 		            String zhuangtai = request.getParameter("state");
 		            String tiaoma = request.getParameter("tiaoma");
 		            String jinhuojia = request.getParameter("jinhuojia");
@@ -90,15 +90,7 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 		            String fenlei = request.getParameter("fenlei");
 		            String kucun = request.getParameter("kucun");
 		            
-		            request.setAttribute( "storeid", storeid);
-		            request.setAttribute("storename", storename);
-		          //  request.setAttribute("zhuangtai", zhuangtai);
-		            request.setAttribute("tiaoma", tiaoma);
-		            request.setAttribute("jinhuojia", jinhuojia);
-		            request.setAttribute("productname", productname);
-		            request.setAttribute("xiaoshoujia", xiaoshoujia);
-		            request.setAttribute("fenlei", fenlei);
-		            request.setAttribute("kucun", kucun); 
+		           
 				%>
 				
 				
@@ -110,7 +102,7 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 			<a href="#"> Delete </a></td>
 			
 					
-			<td><%=storename%></td>
+			<td><%=s_name%></td>
 			<td><%=zhuangtai%></td>
 			<td><%=tiaoma%></td>
 					

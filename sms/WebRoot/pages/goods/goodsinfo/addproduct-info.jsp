@@ -61,6 +61,14 @@
 	}
 //-->
 </script>
+<%
+					String s_id = request.getParameter("s_id");
+					String s_name = request.getParameter("s_name");
+					
+					String g_barcode = request.getParameter("g_barcode");
+					System.out.println("nima"+s_id);
+				
+				%> 
 
 <style>
 .center-block {
@@ -93,10 +101,36 @@
 	display: block;
 }
 </style>
+<script>
+$("#save").click(function(){
+	var s_id=<%=s_id%>;
+	var s_name=<%=s_name%>;
+	var g_name=$("#g_name").val();
+	var g_barcode=$("#g_barcode").val();
+	
+	var g_flag=$("#g_flag option:selected").val();  //获取选中的项
+	alert(g_flag);   //拿到选中项的值
+	
+	$("#liuyan").empty();
+		
+	$.post("<%=basePath%>goods", {
+		"m" : "addGood",
+		"s_id" :s_id,
+		"s_name" :s_name ,
+		"g_name" :g_name ,
+		"g_barcode" :g_barcode  ,
+		"g-flag" :g_flag,
+		
+	}, function(data) {
+		$("#liuyan").append(data);
+	}, "html");
+	
+});
+</script>
 </head>
 
 <body>
-
+<div id="liuyan">
 	<nav class="navbar navbar-default" role="navigation">
 
 	<div>
@@ -113,27 +147,23 @@
 
 
 	<div id="main0">
-		<form action="<%=basePath%>goods?m=addGood" method="post">
+		<ul >
 			<li class="block">
-				<%
-					String storeId = request.getParameter("storeID");
-					String name = request.getParameter("storeName");
-					String GBarcode = request.getParameter("shangpintiaoma");
-				%> <input type="hidden" value="<%=storeId%>" name="storeID">
-				<label>店铺名：<%=name%></label> <input type="hidden" value="<%=name%>"
-				name="storeName">
+				
+				<label>店铺名：<%=s_name%></label> <input type="hidden" value="<%=s_name%>"
+				>
 
 
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label
-				for="name">商品状态</label> <select name="state">
-					<option value=1>启用</option>
-					<option value=0>禁用</option>
+				for="name">商品状态</label> <select  id="g_flag" >
+					<option  value="1">启用</option>
+					<option value="0">禁用</option>
 
-			</select> </br> <label>商品条码</label> <input type="text" name="tiaoma"
-				value="<%=GBarcode%>">
+			</select> </br> <label>商品条码</label> <input type="text" id="g_barcode"
+				value="<%=g_barcode%>">
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>进货价</label>
 				<input type="text" name="jinhuojia"> </br> <label>商品名称</label> <input
-				type="text" name="productname"> <label>销售价</label> <input
+				type="text" id="g_name" > <label>销售价</label> <input
 				type="text" name="xiaoshoujia"> </br> <label for="name">商品分类</label>
 				<select name="fenlei">
 					<option>水果</option>
@@ -209,10 +239,12 @@
 			</select></li>
 
 			<button type="submit" class="btn btn-success center-block"
-				name="submit"">保存</button>
+				name="submit" id="save">保存</button>
 
 			<button type="button" class="btn btn-default center-block">取消</button>
-		</form>
+		</ul>
 	</div>
+	</div>
+	
 </body>
 </html>

@@ -223,7 +223,7 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 	<span class="label label-default" style="padding: 10px">商品资料</span>
 	&nbsp;&nbsp;
 	<button type="button" id="xinzengshangpin" class="btn btn-success"
-		name="submit" onclick="ShowNewProductDiv()">新增商品</button>
+		name="submit" >新增商品</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
 		onclick="DaoRu()">导入</button>

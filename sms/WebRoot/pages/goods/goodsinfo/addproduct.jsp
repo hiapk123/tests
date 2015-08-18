@@ -20,66 +20,63 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
-<%-- <script type="text/javascript">
-	$(function(){
-	
-		
-		
-		//进入填资料页面
-		$("#deliver").click(function(){
-		
-			
-			
-			$("#goodsinfodiv").empty();
-		
-				
-			$.post("<%=basePath%>goods", {
-				"m" : "addGood",
-				
-				
-			}, function(data) {
-				$("#goodsinfodiv").append(data);
-			}, "html");
-			
-		});
-	
-	});
-</script> --%>
-</head>
-
-<body>
-
-	<form role="form" action="pages/goods/goodsinfo/addproduct-info.jsp"
-		method="post">
-
-
-		<%
+<%
 			String s_id = request.getParameter("s_id");
 			String s_name = request.getParameter("s_name");
 		%>
 
-		<input type="hidden" value="<%=s_id%>" name="storeID"><label>店铺名：<%=s_name%></label>
-		<input type="hidden" value="<%=s_name%>" name="storeName">
-		<div class="form-group">
+</head>
+
+<body>
+<div id="addproduct">
+	<!-- <form role="form" action="pages/goods/goodsinfo/addproduct-info.jsp"
+		method="post"> -->
+
+
+		
+
+		<input type="hidden" value="<%=s_id%>" ><label>店铺名：<%=s_name%></label>
+		<input type="hidden" value="<%=s_name%>" >
+		
 			<label for="lastname" class="col-sm-2 control-label">商品条码</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" name="shangpintiaoma"
+			
+				<input type="text" class="form-control" name="g_barcode" id="g_barcode"
 					placeholder="请输入商品条码">
-				<button type="button" class="btn btn-success" name="submit">确定</button>
+					
+				<button type="button" class="btn btn-success" name="submit" id="deliver">确定</button>
+                
+				<button type="submit" class="btn btn-default" >生成</button>
+			
+		
 
-				<button type="submit" class="btn btn-default" id="deliver">生成</button>
-			</div>
-		</div>
+	<!-- </form> -->
 
-	</form>
-
-<div id="goodsinfodiv">
-
-	
 
 </div>
-
-
+<script>
+$("#deliver").click(function(){
+	
+	var s_id=<%=s_id%>;
+	var s_name=<%=s_name%>;
+	var g_barcode=$("#g_barcode").val();
+	if(store==null){
+		alert("请重新选择店铺！");
+		return;
+	}
+	
+	
+	$("#addproduct").empty();
+		
+	$.post("<%=basePath%>goods", {
+		"m" : "addGood1",
+		"s_id" :s_id,
+		"s_name" :s_name  ,
+		"g_barcode" :g_barcode  ,
+	}, function(data) {
+		$("#addproduct").append(data);
+	}, "html");
+	
+});
+</script>
 </body>
 </html>
