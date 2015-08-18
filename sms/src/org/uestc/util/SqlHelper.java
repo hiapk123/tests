@@ -6,14 +6,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-
-import com.uestc.bean.Users;
 
 public final class SqlHelper {
 	// 定义需要的变量
@@ -36,6 +35,39 @@ public final class SqlHelper {
 			runner = null;
 		}
 		return list;
+	}
+
+	// 返回Map集合，取值容易，耦合降低
+	public static ArrayList<Map> findAll(String sql, Object... parameters) {
+		ArrayList<Map> results = new ArrayList<>();
+
+		try {
+			conn = jdbcUtils.getConnection();
+			ps = conn.prepareStatement(sql);
+
+			if (parameters != null) {
+				for (int i = 0; i < parameters.length; i++) {
+					ps.setObject(i + 1, parameters[i]);
+				}
+			}
+
+			rs = ps.executeQuery();
+
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int column = rsmd.getColumnCount();
+
+			while (rs.next()) {
+				Map<String, Object> map = new HashMap<>();
+				for (int i = 1; i <= column; i++) {
+					map.put(rsmd.getColumnName(i), rs.getObject(i));
+				}
+				results.add(map);
+			}
+		} catch (SQLException e) {
+		} finally {
+			jdbcUtils.free(conn, ps, rs);
+		}
+		return results;
 	}
 
 	// 统一的select语句，为了能够访问结果集，将结果集放入ArrayList，这样可以直接关闭资源
