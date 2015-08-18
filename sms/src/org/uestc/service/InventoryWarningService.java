@@ -22,4 +22,8 @@ public interface InventoryWarningService {
 
 	public List<Goods> findByCriteria(String sName, String cName, String suName, String inventoryStatus);
 
+	public List<Store> findAllStoresByUid(Long uid);
+
+	public List<Goods> findAllGoods();
+
 }

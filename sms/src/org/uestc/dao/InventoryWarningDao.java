@@ -23,4 +23,8 @@ public interface InventoryWarningDao {
 
 	public List<Goods> findByCriteria(String sName, String cName, String suName, String inventoryStatus) throws SQLException;
 
+	public List<Store> findAllStoresByUid(Long uid) throws SQLException;
+
+	public List<Goods> findAllGoods() throws SQLException;
+
 }

@@ -47,7 +47,7 @@ public class UserDaoImp implements UserDao {
 
 	@Override
 	public Users findByLoginnameAndLoginpass(String loginname, String loginpass) throws SQLException {
-		String sql = "select u_name,u_password from users where u_name=? and u_password=?";
+		String sql = "select u_name,u_password,u_id from users where u_name=? and u_password=?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), loginname, loginpass);
 //		System.out.println("list为空：" + list == null);
 //		System.out.println("list.size() = " + list.size());
@@ -56,6 +56,7 @@ public class UserDaoImp implements UserDao {
 			Object[] obj = list.get(0);
 			user.setUName(obj[0].toString());
 			user.setUPassword(obj[1].toString());
+			user.setUId(Long.valueOf(obj[2].toString()));
 			return user;
 		}
 		return null;
@@ -63,9 +64,11 @@ public class UserDaoImp implements UserDao {
 
 	@Test
 	public void testLogin() throws Exception {
-		Users user = findByLoginnameAndLoginpass("沙发上对方", "test");
+		Users user = findByLoginnameAndLoginpass("test", "test");
 		if (user == null) {
 			System.out.println("该用户不存在");
+		} else {
+			System.out.println("用户id为："+user.getUId());
 		}
 	}
 

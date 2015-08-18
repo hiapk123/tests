@@ -17,6 +17,7 @@ import com.uestc.bean.Category;
 import com.uestc.bean.Goods;
 import com.uestc.bean.Store;
 import com.uestc.bean.Supplier;
+import com.uestc.bean.Users;
 
 public class InventoryWarningServlet extends BaseServlet {
 
@@ -36,10 +37,12 @@ public class InventoryWarningServlet extends BaseServlet {
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("inventoryStatus", inventoryStatus);
 
+		
+		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		/*
 		 * 1.加载门店下拉框
 		 */
-		List<Store> storeList = inventoryWarningService.findAllStore();
+		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
 		request.setAttribute("storeList", storeList);
 		/*
 		 * 2.加载分类下拉框
@@ -64,8 +67,14 @@ public class InventoryWarningServlet extends BaseServlet {
 		/*
 		 * 1.加载门店下拉框
 		 */
-		List<Store> storeList = inventoryWarningService.findAllStore();
+		
+		Users user = (Users) request.getSession().getAttribute("sessionUser");
+		
+//		System.out.println("该用户名为："+user.getUName()+"\t"+"id为："+user.getUId());
+		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
 		request.setAttribute("storeList", storeList);
+//		List<Store> storeList = inventoryWarningService.findAllStore();
+//		request.setAttribute("storeList", storeList);
 		/*
 		 * 2.加载分类下拉框
 		 */
@@ -77,15 +86,17 @@ public class InventoryWarningServlet extends BaseServlet {
 		List<Supplier> supplierList = inventoryWarningService.findAllSuppliers();
 		request.setAttribute("supplierList", supplierList);
 
-		String sName = "王二小食品店";
-		String cName = "散装";
-		String suName = "张飞";
-		String inventoryStatus = "";
+//		String sName = "王二小食品店";
+//		String cName = "散装";
+//		String suName = "张飞";
+//		String inventoryStatus = "";
 		/*
 		 * 4.预加载所有的商品信息
 		 */
-		List<Goods> goodsList = inventoryWarningService.findByCriteria(sName, cName, suName, inventoryStatus);
+		List<Goods> goodsList = inventoryWarningService.findAllGoods();
 		request.setAttribute("goodsList", goodsList);
+//		List<Goods> goodsList = inventoryWarningService.findByCriteria(sName, cName, suName, inventoryStatus);
+//		request.setAttribute("goodsList", goodsList);
 
 		return "f:/pages/goods/inventoryWarning.jsp";
 	}
