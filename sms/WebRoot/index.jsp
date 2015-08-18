@@ -156,6 +156,9 @@
 			<%-- $('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp'); --%>
 			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=loadBaseMessage');
 		});
+		$('#ckgl').click(function(){
+			$('#if_content').attr('src','<%=basePath %>PayPerRideServlet?method=loadBaseMessage');
+		});
 	});
 	
 </script>
