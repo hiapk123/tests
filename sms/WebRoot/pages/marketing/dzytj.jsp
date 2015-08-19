@@ -1,4 +1,3 @@
-
 <%@ page language="java" import="java.util.*,org.uestc.util.PageObject"
 	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 <%
@@ -7,21 +6,14 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
+<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<%! 	String show_type ="设置";
-	%>
+
 <base href="<%=basePath%>">
 
-<title>商品信息分析</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="商品,信息,分析">
-<meta http-equiv="description" content="商品信息分析页面">
+<title>打折与特价</title>
 <!-- The styles -->
 <link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
 	rel="stylesheet">
@@ -51,8 +43,7 @@
 <link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
 <link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
 <link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
-<link href="<%=basePath%>css/bootstrap-datetimepicker.css"
-	rel="stylesheet">
+
 <link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
 
 <!-- jQuery -->
@@ -105,20 +96,28 @@
 <script src="<%=basePath%>js/jquery.history.js"></script>
 <!-- application script for Charisma demo -->
 <script src="<%=basePath%>js/charisma.js"></script>
+
+
 <script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
-<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
-	charset="utf-8"></script>
+<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"charset="utf-8"></script>
+<link href="<%=basePath%>css/bootstrap-datetimepicker.css"rel="stylesheet">	
+ 
+
+<%-- <link href="<%=basePath%>js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript" src="<%=basePath%>js/datetimepicker/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=basePath%>js/datetimepicker/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+ --%>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="商品,分类">
-<meta http-equiv="description" content="商品分类">
+<meta http-equiv="keywords" content="营销,活动">
+<meta http-equiv="description" content="打折与特价">
 
-<script type="text/javascript">
-$(function(){
-		cate_reset();
-		$('#mbt_addroot').hide();
+<script type="text/javascript" >
+
+ <%-- $(function(){
 	 	$.post('<%=basePath%>CategoryGoods',{"type":"initStore"},function(data){
 			var list=$('#mbt_dropdown-menu');
 			list.empty();
@@ -128,239 +127,219 @@ $(function(){
 			}
 	
 		},"json"); 
-	});
+	});  --%>
+	var mainPanel ;
+	$(function(){
+		backToList();	
+	}); 
+	function backToList(){
+		 mainPanel = $('#mbt_dzytj_panel');
+			mainPanel.empty();
+			mainPanel.append('<%=request.getAttribute("init_html") %>');
+			$("#mbt_dzytj_head").empty();
+			$("#mbt_dzytj_head").html("<a style=\"float: right;\" href=\"javascript:void(0)\" onclick='addactive();' class=\"btn btn-primary\">添加</a>");
+			$("#mbt_zjytj_content_head").addClass("content_head");
+	}
+	function addactive(){		
+		mainPanel.empty();
+	 	$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"init_add_active"},function(str){
+			mainPanel.html(str);
+			$("#mbt_dzytj_head").empty();
+			$("#mbt_dzytj_head").html("<a style=\"float: right;\" href=\"javascript:void(0)\" onclick='backToList();' class=\"btn btn-primary\">返回列表</a>");
+			$("#mbt_zjytj_content_head").removeClass("content_head");
+	 	} )		
+		}
+	//弹出层使用：设置a 标签 link-rel 为待弹出div ID 
+    function dbClick() {
+    	// isdb=true;	    	 
+    	 //var mbt_id = $(this).attr("data-value");
+    	// var mbt_name = $(this).attr("name");
+    	// var cla = $(this).attr("isFinal");
+    	// alert(cla);
+    	// $('#mbt_hidid').val(mbt_id);
+    	// $('#mbt_hidname').val(mbt_name);
+    	// $('#mbt_delflag').val(cla);
+    	 //alert(mbt_name);
+    	 //alert(mbt_id);
+    	// $(".mbt_hid").hide();
+    	 var cl = $(this).attr("link-rel");
+    	 $("#"+cl).modal('show');
+    	};	
+	function addgoods(){
+		$(".ajax-link").bind('dblclick',dbClick);
+		$("#mbt_a_addgoods").trigger("dblclick");
+	}
 
-function afterReload(){
-	 $(".accordion > a").bind('click',oneClick);
-	 $(".accordion > a").bind('dblclick',dbClick);
-	 $(".ajax-link").bind('click',oneClick);
-	 $(".ajax-link").bind('dblclick',dbClick);
-}
-
-	 function getCate(storeID,name){
-		  $.post('<%= basePath%>CategoryGoods', {"type" : "initCategory","id":storeID}, function(data) {
-				$("#mbtCateList").empty();
-				$("#mbtCateList").html("");
-				$("#mbtCateList").html(data);
-				//alert(data);
-				$('#mbt_hidstoreID').val(storeID);
-				$('#mbt_addroot').show();
-				$('#mbt_caname').empty();
-			   $('#mbt_caname').html("<i class=\"glyphicon red\">"+name+"</i>");
-			    afterReload();
-			}, "text");	 		
-		}	
 	
-		 var isdb;
-	    
-	    function oneClick () {	        
-	        isdb=false;
-	        	var cur = $(this)
-	        function sigle(){
-	             if(isdb!=false)	return;
-	             var $ul = cur.siblings('ul');
-	             var $li = cur.parent();
-	             
-	              /* if ($ul.is(':visible')) $li.removeClass('active');
-	             else                    $li.addClass('active');   */
-	             $ul.slideToggle();
-	       	  }
-		     setTimeout(sigle,400);             
-	    };
-	    	
-	       	//弹出层使用：设置a 标签 link-rel 为待弹出div ID 
-	    function dbClick() {
-	    	 isdb=true;	    	 
-	    	 var mbt_id = $(this).attr("data-value");
-	    	 var mbt_name = $(this).attr("name");
-	    	 var cla = $(this).attr("isFinal");
-	    	// alert(cla);
-	    	 $('#mbt_hidid').val(mbt_id);
-	    	 $('#mbt_hidname').val(mbt_name);
-	    	 $('#mbt_delflag').val(cla);
-	    	 //alert(mbt_name);
-	    	 //alert(mbt_id);
-	    	 $(".mbt_hid").hide();
-	    	 var cl = $(this).attr("link-rel");
-	    	 $("#"+cl).modal('show');
-	    	};
-	    	
-	    	//处理弹出层点击事件
-	     function mbt_show(type){
-	    		$('#mbt_setting').hide();
-	    		$('#mbt_add').show();
-	    		
-	    		
-	    		if(type=="add"){
-	    			//alert("add");
-	    			
-	    			$("#mbt_showspan").empty();
-	    			$("#mbt_showspan").append("新增分类：");
-	    			$('#mbt_hidtype').val("add");
-	    		}
-	    		
-	    		if(type == "edit"){
-	    			//alert("edit");
-	    			$("#mbt_showspan").empty();
-	    			$("#mbt_showspan").append("修改分类名称：");
-	    			$('#mbt_hidtype').val("edit");
-	    			var name = $('#mbt_hidname').val();
-	    			$('#mbt_showtext').val(name);
-	    		
-	    		}
-	    		if(type=="del"){
-	    			$('#mbt_hidtype').val("del");
-	    			$('#mbt_showtext').val("分类");
-	    			var delflag=$('#mbt_delflag').val();
-	    			if(delflag==1)
-	    			saveChange();
-	    			else
-	    				{
-		    				function cancel(){
-		    					$("#mbt_btnwarn").trigger("click")
-		    					//alert("请先删除子分类!");
-		    					cate_reset();
-		    				}
-	    					setTimeout(cancel,200);
-	    				
-	    				}
-	    				
-	    		}
-	    	} 	
-	    	
-	    	 function cate_reset(){
-	    		 $('#mbt_showtext').val("");
-	    		 $('#mbt_hidid').val("");
-		    	 $('#mbt_hidname').val("");
-		    	 $('#mbt_hidtype').val("");
-		    	 $('#mbt_delflag').val("");
-	    		 $('#mbt_setting').show();
-		    	 $('#mbt_add').hide();
-		    	 
-	    	 }
-	    	 
-	    	 function saveChange(){
-	    		 var id = $('#mbt_hidid').val();		    	 
-		    	 var catype = $('#mbt_hidtype').val();
-		    	 var name = $('#mbt_showtext').val();
-		    	 var storeID = $('#mbt_caname').attr("data-value");
-		    	 //alert(name);
-		    	 if(name!=""){
-		   	 		$.post('<%= basePath%>CategoryGoods', {"type" : "saveCategory","id":id,"catype":catype,"name":name,"storeID":storeID}, function(storeName) {		 					
-		   	 			
-		   	 			getCate(storeID,storeName);
-		   	 		//	afterReload();
-		   	 			$("#mbt_btnsucc").trigger("click")
-		 				}, "text");	 
-		   	 	
-		    	 	}
-		    	 
-		    	 cate_reset();
-	    		
-	    	 }
-	    	 function addroot(){
-	    		 //alert("addroot");
-	    		 $("#mbt_a_addroot").trigger("dblclick");
-	    		 mbt_show("add");
-	    	 }
 </script>
 
+<style>
+	.trBack{
+			background-color:silver;
+			
+	}
+	.trBack th{
+		text-align: center;
+	}
+	.tbd tr td{
+		text-align: center;
+	}
+	.content_head{
+		display: none;
+	}
+</style>
 </head>
 
 <body>
-	<input type="hidden" id= "mbt_hidid" />
-	<input type ="hidden" id = "mbt_hidname" />
-	<input type ="hidden" id = "mbt_hidtype" />
-	<input type="hidden" id= "mbt_delflag" />
-	<input type="hidden" id="mbt_hidstoreID">
-	<a id="mbt_a_addroot" style="display: none" link-rel="myModal" data-value="-1" isfinal="1"  name="根目录" class="ajax-link">添加根目录</a>
+<a id="mbt_a_addgoods" style="display: none" link-rel="myModal" data-value="-1" isfinal="1"  name="根目录" class="ajax-link">添加根目录</a>
+	<%	String pageType=(String)request.getAttribute("pageType");%>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div style="float: left; width: 15%;">
-				<h4>商品分类</h4>
+				<h4>打折与特价</h4>
 			</div>
-			<div style="float: right; width: 85%;">
-
-				<div class="btn-group">
-					<button id="select_store" type="button"
-						class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						选择店铺<span class="caret"></span>
-
-					</button>
-					<ul class="dropdown-menu" id="mbt_dropdown-menu">
-
-						<li><a class="mbt_a" data-value="cerulean" href="#"><i
-								class="whitespace"></i> 无可用门店</a></li>
-					</ul>
-					
-				</div>
-				<a id="mbt_addroot" style="float: right;" href="#" onclick="addroot();" class="btn btn-primary"> 添加根目录</a>
+			<div id="mbt_dzytj_head" style="float: right; width: 85%;">			
+				
 			</div>
 		</div>
 	</div>
-		<!-- div start -->
-		<div class="panel panel-default">
+	<!-- div start -->
+ <div class="panel panel-default">
+ 			<div id="mbt_zjytj_content_head" class="panel-heading">
+ 						 活动名称：<input id="mbt_dzytj_active_name" type="text" />开始时间:<input type="text" value="开始时间"/>
+			 			 结束时间：<input type="text" value="结束时间"  /> 可用于： 
+			 			 <label class="checkbox-inline">
+			      		<input type="radio" name="optionsRadiosinline" id="optionsRadios1" 
+			         	value="shitidian" checked> 实体店
+			   		</label>
+			  			 <label class="checkbox-inline">
+			      			<input type="radio" name="optionsRadiosinline" id="optionsRadios2" 
+			         		value="wangdian"> 网店
+			   		</label>
+			   		 <label class="checkbox-inline">
+			      			<input type="radio" name="optionsRadiosinline" id="optionsRadios3" 
+			         		value="huiyuanzhuanxiang"> 会员专享
+			   		</label>
+			</div> 
 			<div class="panel-body">
-				<div class="col-sm-12 col-lg-12">
-					<div class="">
-						<div class="nav-canvas">
-							<ul id="mbtCateList" class="nav nav-pills nav-stacked main-menu">
-	
-							</ul>
-
-						</div>
-						
-					</div>
-				</div>
-			</div>
-										
+				<div id="mbt_dzytj_panel" class="col-sm-12 col-lg-12">
+				
+			   </div>
+			</div> 
 			
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+								<div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					
 									<div class="modal-dialog">
+								   
 										<div class="modal-content">
 											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal">×</button>
-												<h3><%=show_type %></h3>
+												<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+												<h3 style="text-align: center;padding-top: 0;padding-bottom: 10px">搜索商品并添加</h3>
+												搜索关键字：<input type="text" value="商品名/条形码" />
+												<select><option>全部分类</option></select>
+												<button class="button" style="margin-left: 20px" type="button" value="搜索" >搜索</button>
 											</div>
-											<div class="panel-body" id="mbt_setting">
-											  <a class=" btn btn-success col-sm-3 col-lg-3" onclick="mbt_show('add')">
-											   	<i class="glyphicon glypgion-edit icon-white"></i> 新增
-										   	</a> 
-										   	<a	class=" btn btn-info col-sm-3 col-lg-3"style="margin-left: 10%;" onclick="mbt_show('edit')"> 
-										   		<i class="glyphicon glypgion-edit icon-white"></i> 编辑
-												</a>
-												 <a class=" btn btn-danger col-sm-3 col-lg-3" data-dismiss="modal"  style="margin-left:10%;margin-bottom: 5%;" onclick="mbt_show('del')">
-													<i class="glyphicon geditlyphicon-trash icon-white" ></i> 删除 
-												</a>
-											</div>
-											<div class="panel-body mbt_hid" id="mbt_add">
-											 <form action="">
-											 	<span id="mbt_showspan">请输入分类名称:</span><input type="text" id="mbt_showtext" />
-											 </form>
+										
+											<div class="panel-body " >
+											<table class="col-sm-12 col-lg-12 table">
+												<thead style="background-color: silver;">
+													<tr>
+														<th><input type="checkbox" /></th>
+														<th>商品名称</th>
+														<th>分类</th>
+														<th>原价</th>
+														<th>进货价</th>
+													</tr>
+												</thead>
+												<tbody >
+												
+												</tbody>
+											</table>
 											</div>
 											<div class="modal-footer">
-												<a href="#" class="btn btn-default" onclick="cate_reset()" data-dismiss="modal">取消</a>
-												<a href="#" class="btn btn-primary" onclick="saveChange()" data-dismiss="modal">保存</a>
+												<a href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
+												<a href="#" class="btn btn-primary"  data-dismiss="modal">保存</a>
 											</div>
 										</div>
 									</div>
 								</div>
-							
-
-			<!--div end  -->
-		</div>
-			<button id="mbt_btnwarn" style="display: none;" data-noty-options="{&quot;text&quot;:&quot;请先删除子分类！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;error&quot;,&quot;timeout&quot;:&quot;500&quot;}" class="btn btn-primary noty">
-			<i class="glyphicon glyphicon-bell icon-white"></i> Center
-			</button>
-
-
-			<button id="mbt_btnsucc" style="display: none" data-noty-options="{&quot;text&quot;:&quot;操作已保存！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;alert&quot;,&quot;animateOpen&quot;: {&quot;opacity&quot;: &quot;show&quot;}}" class="btn btn-primary noty">
-			<i class="glyphicon glyphicon-bell icon-white"></i> Center (fade)
-			</button>
+		
 </body>
 </html>
 
+ <%-- 	<input type="hidden" id="page" value="20"/>
+							<ul class="pagination">
+								<page:htmlPage pageNo="20" url="index.jsp" totalSum="980" showPage="10" pageSize="10"/>
+							</ul> --%>
  
  
+ 		<!-- <table class="col-sm-12 col-lg-12 table">
+						<thead >
+							<tr class="trBack">
+								<th>活动名称</th>
+								<th>开始时间</th>
+								<th>结束时间</th>
+								<th>适用于</th>
+								<th>捆绑优惠券</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody class="tbd"> 
+						<tr>
+						<td>开业大放送</td>
+						<td>2015.07.11</td>
+						<td>2015.07.21</td>
+						<td>实体店 网店</td>
+						<td><a href="javascript:void(0)">立即捆绑</a></td>
+						<td><a href="javascript:void(0)">详细</a> | <a href="javascript:void(0)">修改</a> | <a href="javascript:void(0)">删除</a></td>
+						</tr>
+						
+							
+						</tbody>
+					</table>
+						 -->
+						 
+			<!--  
+			
+ 			
+ 			 活动名称：<input id="mbt_dzytj_active_name" type="text" />开始时间:<input type="text" value="开始时间"/>
+ 			 结束时间：<input type="text" value="结束时间"  /> 可用于： 
+ 			 <label class="checkbox-inline">
+      		<input type="radio" name="optionsRadiosinline" id="optionsRadios1" 
+         	value="shitidian" checked> 实体店
+   		</label>
+  			 <label class="checkbox-inline">
+      			<input type="radio" name="optionsRadiosinline" id="optionsRadios2" 
+         		value="wangdian"> 网店
+   		</label>
+   		 <label class="checkbox-inline">
+      			<input type="radio" name="optionsRadiosinline" id="optionsRadios3" 
+         		value="huiyuanzhuanxiang"> 会员专享
+   		</label>
+										   
+	
+			<table class="col-sm-12 col-lg-12 table">
+						<thead >
+							<tr class="trBack">
+								<th>商品名</th>
+								<th>分类</th>
+								<th>原价</th>
+								<th>折扣</th>
+								<th>删除</th>
+								
+							</tr>
+						</thead>
+						<tbody class="tbd"> 
+					 	<tr>
+							<td>伊犁牛奶</td>
+							<td>定价</td>
+							<td>5.5</td>
+							<td><input type="text" value=100 /></td>
+							<td><a href="javascript:void(0)">删除</a></td>
+						</tr> 
+						<tr ><td style="text-align: left;"><a href="javascript:void(0)">点此打开商品搜索</a></td></tr>
+						
+							
+						</tbody>
+					</table> -->

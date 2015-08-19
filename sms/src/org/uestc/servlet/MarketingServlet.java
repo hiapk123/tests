@@ -1,6 +1,7 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,14 +31,23 @@ public class MarketingServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		System.out.println("MarketingServlet-------doGet()");
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+	//	response.setCharacterEncoding("GBK");
+		response.setHeader("Content-Type", "text/html;charset=UTF-8");
+		//response.getWriter();
+		//response.setHeader("Content-Type", "text/html;charset=UTF-8");
+		//
+		String encodeType = response.getCharacterEncoding();
+		System.out.println(encodeType);
 		RequestDispatcher rd ;
 		String type  = request.getParameter("type");
 		System.out.println("MarketingServlet---doGet()---type:"+type);
 		switch (type) {
 		case "dzytj":
 			dzytj(request,response);
+			
 			break;
 
 		default:
@@ -61,10 +71,9 @@ public class MarketingServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void dzytj(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String subType =  request.getParameter("subType");
-		if(subType==null){
-			request.getRequestDispatcher("/pages/marketing/dzytj.jsp").forward(request, response);
-		}
+
+		request.getRequestDispatcher("/DzytjServlet").forward(request, response);
+	
 	}
 
 }
