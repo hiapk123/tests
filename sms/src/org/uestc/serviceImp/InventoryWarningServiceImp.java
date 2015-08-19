@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.uestc.service.InventoryWarningService;
+import org.uestc.util.PageBean;
 
 import com.uestc.bean.Category;
 import com.uestc.bean.Goods;
@@ -82,6 +83,15 @@ public class InventoryWarningServiceImp implements InventoryWarningService {
 	public List<Goods> findAllGoods(Long uid) {
 		try {
 			return inventoryWarningDao.findAllGoods(uid);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<Goods> findByUid(Long uid, int pc) {
+		try {
+			return inventoryWarningDao.findByUid(uid, pc);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

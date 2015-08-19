@@ -154,8 +154,12 @@
 		});
 		$('#kcyd').click(function(){
 			<%-- $('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp'); --%>
-			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=loadBaseMessage');
+			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=findByUid');
 		});
+<%-- 		$('#kcyd').click(function(){
+			$('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp');
+			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=loadBaseMessage');
+		}); --%>
 		$('#ckgl').click(function(){
 			$('#if_content').attr('src','<%=basePath %>PayPerRideServlet?method=loadBaseMessage');
 		});

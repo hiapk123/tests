@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.uestc.util.Expression;
 import org.uestc.util.JdbcUtils;
+import org.uestc.util.PageBean;
 
 import com.uestc.bean.Category;
 import com.uestc.bean.Goods;
@@ -27,6 +29,9 @@ public interface InventoryWarningDao {
 
 //	public List<Goods> findAllGoods() throws SQLException;
 
-	List<Goods> findAllGoods(Long uid) throws SQLException;
-
+	public List<Goods> findAllGoods(Long uid) throws SQLException;
+	
+	public PageBean<Goods> findByCriteria(List<Expression> exprList, int pc) throws SQLException;
+	
+	public PageBean<Goods> findByUid(Long uid, int pc) throws SQLException;
 }

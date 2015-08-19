@@ -62,7 +62,7 @@
 
 <!-- The fav icon -->
 <link rel="shortcut icon" href="<%=basePath%>img/favicon.ico">
-
+<link rel="stylesheet" type="text/css" href="<c:url value='/pager.css'/>" />
 <!-- external javascript -->
 
 <script
@@ -220,7 +220,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${goodsList }" var="goods" varStatus="status">
+				<c:forEach items="${pb.beanList }" var="goods" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
 						<td>${goods.GName }</td>
@@ -235,6 +235,21 @@
 						<td>-</td>
 					</tr>
 				</c:forEach>
+<%-- 				<c:forEach items="${goodsList }" var="goods" varStatus="status">
+					<tr>
+						<td>${status.index + 1 }</td>
+						<td>${goods.GName }</td>
+						<td>${goods.SName }</td>
+						<td>${goods.CName }</td>
+						<td>${goods.suName }</td>
+						<td>${goods.GBarcode }</td>
+						<td>${goods.GStockNum }</td>
+						<td>${goods.GStockMax }</td>
+						<td>${goods.GStockMin }</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+				</c:forEach> --%>
 
 				<!-- <tr>
 					<td>2</td>
@@ -264,6 +279,20 @@
 				</tr> -->
 			</tbody>
 		</table>
+	</div>
+
+	<div style="float: left; width: 100%; text-align: center;">
+	<!-- 底部分页div -->
+	<%-- <%@include file="/pager.jsp" %> --%>
+	
+	<c:choose>
+		<c:when test="${pb.tp eq 0}">
+			未找到符合条件商品！
+		</c:when>
+		<c:otherwise>
+			<%@include file="/pager.jsp" %>
+		</c:otherwise>
+	</c:choose>
 	</div>
 
 	<script type="text/javascript">
