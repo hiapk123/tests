@@ -76,10 +76,10 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 		}else if (m.equals("upsort")) {
 			this.upsort(req,resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/sort.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/upsort.jsp").forward(req, resp);
 		}else if (m.equals("downsort")) {
 			this.downsort(req,resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/sort.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/downsort.jsp").forward(req, resp);
 		}
 
 	}
@@ -91,6 +91,7 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private void downsort(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
+		//String sorted=req.getParameter("sorted");
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String store = req.getParameter("store");
@@ -138,7 +139,7 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private void upsort(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		
+		//String sorted=req.getParameter("sorted");
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String store = req.getParameter("store");

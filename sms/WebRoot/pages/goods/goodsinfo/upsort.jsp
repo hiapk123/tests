@@ -31,24 +31,21 @@
 			} else {
 
 			}
-			
+			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			$.post("<%=basePath%>goods", {
 				"which" : which,
 				"store" : storeID,
-				"m" : "findByPage",
+				"m" : "upsort",
 				"currentPage" : pageNo
 			}, function(data) {
 				$("#tableContent").html(data);
 			}, "html");
 		});
-		
-		$("#up").click(function(){
-			
+$("#up").click(function(){
+	      //  var sorted="g_pur_price";
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-			//var sorted=$("#up").val();
-			// var sorted="g_pur_price";
 			//alert(storeID);
 			if (which === "首页") {
 				which="first";
@@ -61,14 +58,17 @@
 			} else if(which=="↑") {
 				which="first";
 			} 
-			
+			//alert(which);
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
+			
+		
+				
 			$.post("<%=basePath%>goods", {
 				"m" : "upsort",
 				"which" : which,
 				"store" : storeID,
-				//"sorted" : sorted,
+			//	"sorted":sorted,
 				"currentPage" : pageNo
 				
 			}, function(data) {
@@ -77,10 +77,10 @@
 			alert(sorted);
 		});
 $("#down").click(function(){
-	       // var sorted="g_pur_price";
+	      //  var sorted="g_pur_price"; 
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-		//	alert(sorted);
+			//alert(storeID);
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -95,11 +95,14 @@ $("#down").click(function(){
 			
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
+			
+		
+				
 			$.post("<%=basePath%>goods", {
 				"m" : "downsort",
 				"which" : which,
 				"store" : storeID,
-				//"sorted" : sorted,
+				//"sorted":sorted,
 				"currentPage" : pageNo
 				
 			}, function(data) {
@@ -107,6 +110,7 @@ $("#down").click(function(){
 			}, "html");
 			//alert(sorted);
 		});
+		
 	});
 </script>
 <div id="tableContent">
@@ -119,7 +123,7 @@ $("#down").click(function(){
 				<th>库存量</th>
 				<th>进货价</th>
 				<th>销售价</th>
-				<th>批发价<a id="up" >&uarr;</a>&nbsp;&nbsp;<a id="down">&darr;</a></th>
+				<th>批发价<a id="up">&uarr;</a>&nbsp;&nbsp;<a id="down">&darr;</a></th>
 				<th>会员价</th>  
 				<th>分类</th>
 				<th>条码</th>
@@ -146,17 +150,14 @@ $("#down").click(function(){
 
 			<%
 				List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
-
 				String storeID = request.getAttribute("store").toString();
-				System.out.println("liuyan" + storeID);
+				
 				if (goods != null && goods.size() > 0) {
 					for (int i = 0; i < goods.size(); i++) {%>
 			<tr>
 				<td><a
-					href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[3]%>">
-						删除 </a> <a
-					href="<%=basePath%>goods?m=editGood&g_id=<%=goods.get(i)[3]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&c_name=<%=goods.get(i)[4]%>&s_id=<%=storeID%>">编辑</a>
-					<a href="#"> 图片 </a></td>
+					href="">
+						删除 </a> </td>
 				<%
 					for (int j = 0; j <= 6; j++) {
 				%>
@@ -173,14 +174,11 @@ $("#down").click(function(){
 		</tbody>
 
 	</table>
+	
+	</div>
 	<input type="hidden" id="page" value="${currentPage }" />
-</div>
-<input type="hidden" id="storeID" value="<%=storeID%>" />
+    <input type="hidden" id="storeID" value="<%=storeID%>" />
 
-<ul class="pagination" id="page">
-	<page:htmlPage pageNo="${currentPage }"
-		url="/goods?m=findByPage&currentPage=${currentPage }"
-		totalSum="${totalPage }" showPage="10" pageSize="10" />
-</ul>
+
 
 

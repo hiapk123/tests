@@ -98,7 +98,7 @@ function setTab(m,n){
 
 		<form class="block">
           <label>1.还没创建过导入数据文件</label>
-			<a href=#>下载模版</a></br>
+			<a href="pages/goods/goodsinfo/do_download.jsp">下载</a></br>
 		  <label>2.已创建好导入数据文件，直接导入：</label>
 		  <label>所属门店</label>   <select>
 					<option>小六子食品店</option>

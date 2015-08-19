@@ -83,7 +83,8 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public List<Object[]> upsort(  int sid,int currentPage) {
 		// TODO Auto-generated method stub
-		String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price asc limit ?,10";
+		String a="g_pur_price";
+		String sql="select * from goods where s_id=? and g_del=1  order by "+ a+" asc limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
 		return list;
 	}
@@ -91,7 +92,9 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public List<Object[]> downsort(int sid, int currentPage) {
 		// TODO Auto-generated method stub
+		String a="g_pur_price";
 		String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price desc limit ?,10";
+		//String sql="select * from goods where s_id=? and g_del=1  order by "+ a+" desc limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
 		return list;
 	}

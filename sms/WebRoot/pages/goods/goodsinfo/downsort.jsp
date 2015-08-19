@@ -36,14 +36,14 @@
 			$.post("<%=basePath%>goods", {
 				"which" : which,
 				"store" : storeID,
-				"m" : "upsort",
+				"m" : "downsort",
 				"currentPage" : pageNo
 			}, function(data) {
 				$("#tableContent").html(data);
 			}, "html");
 		});
 $("#up").click(function(){
-			
+	      //  var sorted="g_pur_price";
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
 			//alert(storeID);
@@ -58,7 +58,7 @@ $("#up").click(function(){
 			} else if(which=="↑") {
 				which="first";
 			} 
-			alert(which);
+			//alert(which);
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			
@@ -68,16 +68,16 @@ $("#up").click(function(){
 				"m" : "upsort",
 				"which" : which,
 				"store" : storeID,
-				
+			//	"sorted":sorted,
 				"currentPage" : pageNo
 				
 			}, function(data) {
 				$("#tableContent").append(data);
 			}, "html");
-			
+			alert(sorted);
 		});
 $("#down").click(function(){
-			
+	      //  var sorted="g_pur_price"; 
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
 			//alert(storeID);
@@ -92,7 +92,7 @@ $("#down").click(function(){
 			}  else if(which=="↓") {
 				which="first";
 			}
-			alert(which);
+			
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			
@@ -102,13 +102,13 @@ $("#down").click(function(){
 				"m" : "downsort",
 				"which" : which,
 				"store" : storeID,
-				
+				//"sorted":sorted,
 				"currentPage" : pageNo
 				
 			}, function(data) {
 				$("#tableContent").append(data);
 			}, "html");
-			
+			//alert(sorted);
 		});
 		
 	});
@@ -174,6 +174,7 @@ $("#down").click(function(){
 		</tbody>
 
 	</table>
+	
 	</div>
 	<input type="hidden" id="page" value="${currentPage }" />
     <input type="hidden" id="storeID" value="<%=storeID%>" />
