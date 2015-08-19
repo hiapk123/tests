@@ -123,7 +123,7 @@ $("#down").click(function(){
 				<th>库存量</th>
 				<th>进货价</th>
 				<th>销售价</th>
-				<th>批发价<button class="btn btn-success btn-xs" id="up">&uarr;</button><button class="btn btn-success btn-xs" id="down">&darr;</button></th>
+				<th>批发价<a id="up">&uarr;</a>&nbsp;&nbsp;<a id="down">&darr;</a></th>
 				<th>会员价</th>  
 				<th>分类</th>
 				<th>条码</th>
