@@ -101,10 +101,12 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 	}
 
 	@Override
-	public List<Goods> findAllGoods() throws SQLException {
-		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods";
+	public List<Goods> findAllGoods(Long uid) throws SQLException {
+		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name in(select s_name from store where u_id=?)";
+//		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name="+"\"门店1\"";
+//		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods";
 		// String sql = "select * from goods where s_name=? and c_name=? and su_name=?";
-		List<Object[]> list = qr.query(sql, new ArrayListHandler());
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), uid);
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();

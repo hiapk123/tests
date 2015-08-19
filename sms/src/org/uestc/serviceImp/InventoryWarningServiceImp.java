@@ -79,9 +79,9 @@ public class InventoryWarningServiceImp implements InventoryWarningService {
 	}
 
 	@Override
-	public List<Goods> findAllGoods() {
+	public List<Goods> findAllGoods(Long uid) {
 		try {
-			return inventoryWarningDao.findAllGoods();
+			return inventoryWarningDao.findAllGoods(uid);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

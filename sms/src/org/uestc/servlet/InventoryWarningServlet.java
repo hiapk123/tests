@@ -93,7 +93,7 @@ public class InventoryWarningServlet extends BaseServlet {
 		/*
 		 * 4.预加载所有的商品信息
 		 */
-		List<Goods> goodsList = inventoryWarningService.findAllGoods();
+		List<Goods> goodsList = inventoryWarningService.findAllGoods(user.getUId());
 		request.setAttribute("goodsList", goodsList);
 //		List<Goods> goodsList = inventoryWarningService.findByCriteria(sName, cName, suName, inventoryStatus);
 //		request.setAttribute("goodsList", goodsList);

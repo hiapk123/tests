@@ -25,6 +25,8 @@ public interface InventoryWarningDao {
 
 	public List<Store> findAllStoresByUid(Long uid) throws SQLException;
 
-	public List<Goods> findAllGoods() throws SQLException;
+//	public List<Goods> findAllGoods() throws SQLException;
+
+	List<Goods> findAllGoods(Long uid) throws SQLException;
 
 }

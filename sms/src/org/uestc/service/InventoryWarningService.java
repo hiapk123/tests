@@ -24,6 +24,8 @@ public interface InventoryWarningService {
 
 	public List<Store> findAllStoresByUid(Long uid);
 
-	public List<Goods> findAllGoods();
+//	public List<Goods> findAllGoods();
+
+	List<Goods> findAllGoods(Long uid);
 
 }
