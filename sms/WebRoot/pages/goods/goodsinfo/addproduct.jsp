@@ -29,27 +29,28 @@
 
 <body>
 <div id="addproduct">
-	<!-- <form role="form" action="pages/goods/goodsinfo/addproduct-info.jsp"
-		method="post"> -->
-
-
+	
+</br>
+</br>
 		
-
-		<input type="hidden" value="<%=s_id%>" ><label>店铺名：<%=s_name%></label>
+  <center>
+		<input type="hidden" value="<%=s_id%>" >
+		<label   >店铺名：<%=s_name%></label>
 		<input type="hidden" value="<%=s_name%>" >
 		
-			<label for="lastname" class="col-sm-2 control-label">商品条码</label>
-			
-				<input type="text" class="form-control" name="g_barcode" id="g_barcode"
-					placeholder="请输入商品条码">
-					
-				<button type="button" class="btn btn-success" name="submit" id="deliver">确定</button>
-                
+			</br>
+			<label   >商品条码:</label> <input type="text" id="g_barcode"
+				placeholder="请输入商品条码">
+				</br>
+					</br>
+				<button type="submit" class="btn btn-success"  id="deliver">确定</button>
+              
 				<button type="submit" class="btn btn-default" >生成</button>
-			
+				 
+</center>	
 		
 
-	<!-- </form> -->
+	
 
 
 </div>

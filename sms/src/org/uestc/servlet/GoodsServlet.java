@@ -48,9 +48,6 @@ public class GoodsServlet extends HttpServlet {
 		if (m.equals("goodsInfo")) {
 			this.goodsInfo(req, resp);
 			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);
-		} else if (m.equals("findGoods")) {
-			this.findGoods(req, resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
 		} else if ("findGoodByPage".equals(m)) {
 			this.findGoodByPage(req, resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
@@ -59,7 +56,7 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goodsi"
 					+ "nfo/addgood.jsp").forward(req, resp);
 		} else if (m.equals("addGood1")) {
-		    this.addGood0(req, resp);
+			this.addGood0(req, resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/addproduct-info.jsp").forward(req, resp);
 		}else if (m.equals("addGoods")) {
 			this.addGoods(req, resp);
@@ -69,18 +66,117 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goodsinfo/editgood.jsp").forward(req, resp);
 		} else if (m.equals("editGood2")) {
 			this.editGood2(req, resp);
-			// req.getRequestDispatcher("<%=basePath
-			// %>goods?m=goodsInfo").forward(req, resp);
 			resp.sendRedirect("<%=basePath %>goods?m=goodsInfo");
 		} else if (m.equals("deleteGood")) {
 			this.deleteGood(req, resp);
-
 			String url = req.getHeader("Referer"); // 鑾峰緱鍓嶄竴椤电殑URL
 			resp.sendRedirect(url);
 		} else if (m.equals("findByPage")) {
 			this.findGoodByPage(req,resp);
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
+		}else if (m.equals("upsort")) {
+			this.upsort(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/sort.jsp").forward(req, resp);
+		}else if (m.equals("downsort")) {
+			this.downsort(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/sort.jsp").forward(req, resp);
 		}
+
+	}
+	/***
+	 * 降序
+	 * 
+	 * @param req
+	 * @param resp
+	 */
+	private void downsort(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String currentPage = req.getParameter("currentPage");
+		String which = req.getParameter("which");
+		String store = req.getParameter("store");
+		int totalSize = getTotalSize(store);
+		int totalPage = 0;
+		if(""==currentPage){
+			currentPage="1";
+		}
+		
+			int pageNo = Integer.valueOf(currentPage.trim());
+			if ("" == which) {
+				which = "first";
+				pageNo = 1;
+			} else if ("first".equals(which)) {
+				which = "first";
+				pageNo = 1;
+			}else if ("↑".equals(which)) {
+				which = "first";
+				pageNo = 1;
+			}  else if ("next".equals(which)) {
+				pageNo++;
+			} else if ("prev".equals(which)) {
+				pageNo--;
+			} else if ("last".equals(which)) {
+				totalPage = (totalSize % 10 == 0 ? totalSize / 10 : (totalSize / 10 + 1));
+				pageNo = totalPage;
+			}else {
+				pageNo = Integer.valueOf(which.trim());
+			}
+			List<Object[]> list = good.downsort(Integer.valueOf(store), (pageNo-1) * 10+1);
+			
+            
+			
+			req.setAttribute("goodsList", list);
+			req.setAttribute("store", store);
+			req.setAttribute("currentPage", pageNo);
+			req.setAttribute("totalPage", totalSize);
+	}
+
+	/***
+	 * 升序
+	 * 
+	 * @param req
+	 * @param resp
+	 */
+	private void upsort(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		
+		String currentPage = req.getParameter("currentPage");
+		String which = req.getParameter("which");
+		String store = req.getParameter("store");
+		int totalSize = getTotalSize(store);
+		int totalPage = 0;
+		if(""==currentPage){
+			currentPage="1";
+		}
+		
+			int pageNo = Integer.valueOf(currentPage.trim());
+			if ("" == which) {
+				which = "first";
+				pageNo = 1;
+			} else if ("first".equals(which)) {
+				which = "first";
+				pageNo = 1;
+			}else if ("↑".equals(which)) {
+				which = "first";
+				pageNo = 1;
+			}  else if ("next".equals(which)) {
+				pageNo++;
+			} else if ("prev".equals(which)) {
+				pageNo--;
+			} else if ("last".equals(which)) {
+				totalPage = (totalSize % 10 == 0 ? totalSize / 10 : (totalSize / 10 + 1));
+				pageNo = totalPage;
+			}else {
+				pageNo = Integer.valueOf(which.trim());
+			}
+			List<Object[]> list = good.upsort(Integer.valueOf(store), (pageNo-1) * 10+1);
+			
+            
+			
+			req.setAttribute("goodsList", list);
+			req.setAttribute("store", store);
+			req.setAttribute("currentPage", pageNo);
+			req.setAttribute("totalPage", totalSize);
+		
 
 	}
 
@@ -186,7 +282,7 @@ public class GoodsServlet extends HttpServlet {
 		req.setAttribute("g_id", g_id);
 		req.setAttribute("g_name", g_name);
 		req.setAttribute("s_id", s_id);
-		
+
 	}
 
 	/***
@@ -226,8 +322,8 @@ public class GoodsServlet extends HttpServlet {
 		System.out.println("gg"+s_name);
 		System.out.println("gg"+g_barcode);
 		System.out.println("gg"+g_flag);
-	
-		
+
+
 		try {
 			good.addgood(Integer.valueOf(s_id), s_name, g_name, Integer.valueOf(g_flag), g_stock_num, g_sale_price, g_pur_price, c_name,
 					g_barcode);
@@ -289,7 +385,7 @@ public class GoodsServlet extends HttpServlet {
 	 * @param req
 	 * @param resp
 	 */
-	private void findGoods(HttpServletRequest req, HttpServletResponse resp) {
+	/*private void findGoods(HttpServletRequest req, HttpServletResponse resp) {
 		RequestHelper reqHelper = new RequestHelper(req);
 		List<Object[]> list = good.goodssearch(reqHelper.sid, 0);
 		int totalPage = 0;
@@ -301,7 +397,7 @@ public class GoodsServlet extends HttpServlet {
 		req.setAttribute("s_id", s_id);
 
 	}
-
+*/
 	private void goodsInfo(HttpServletRequest req, HttpServletResponse resp) {
 		List<Object[]> storeList = null;
 		HttpSession session = req.getSession();

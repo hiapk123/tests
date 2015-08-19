@@ -36,7 +36,7 @@ public class GoodsServiceImp implements GoodsService {
 
 	@Override
 	public List<Object[]> goodssearch(int sid, int currentPage) {
-		String sql = "SELECT g_name,s_name,c_id,g_id,c_name,s_id from goods where s_id=? and g_del=1 limit ?,10";
+		String sql = "SELECT g_name,s_name,c_id,g_id,c_name,s_id,g_pur_price from goods where s_id=? and g_del=1 limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql, sid, currentPage);
 		return list;
 	}
@@ -78,5 +78,28 @@ public class GoodsServiceImp implements GoodsService {
 		}
 		return 0;
 	}
+
+
+	@Override
+	public List<Object[]> upsort(  int sid,int currentPage) {
+		// TODO Auto-generated method stub
+		String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price asc limit ?,10";
+		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
+		return list;
+	}
+
+	@Override
+	public List<Object[]> downsort(int sid, int currentPage) {
+		// TODO Auto-generated method stub
+		String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price desc limit ?,10";
+		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
+		return list;
+	}
+
+	
+
+
+
+	
 
 }

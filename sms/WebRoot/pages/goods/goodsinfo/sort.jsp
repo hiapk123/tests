@@ -31,19 +31,18 @@
 			} else {
 
 			}
-			
+			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			$.post("<%=basePath%>goods", {
 				"which" : which,
 				"store" : storeID,
-				"m" : "findByPage",
+				"m" : "upsort",
 				"currentPage" : pageNo
 			}, function(data) {
 				$("#tableContent").html(data);
 			}, "html");
 		});
-		
-		$("#up").click(function(){
+$("#up").click(function(){
 			
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
@@ -111,6 +110,7 @@ $("#down").click(function(){
 			}, "html");
 			
 		});
+		
 	});
 </script>
 <div id="tableContent">
@@ -150,17 +150,14 @@ $("#down").click(function(){
 
 			<%
 				List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
-
 				String storeID = request.getAttribute("store").toString();
-				System.out.println("liuyan" + storeID);
+				
 				if (goods != null && goods.size() > 0) {
 					for (int i = 0; i < goods.size(); i++) {%>
 			<tr>
 				<td><a
-					href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[3]%>">
-						删除 </a> <a
-					href="<%=basePath%>goods?m=editGood&g_id=<%=goods.get(i)[3]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&c_name=<%=goods.get(i)[4]%>&s_id=<%=storeID%>">编辑</a>
-					<a href="#"> 图片 </a></td>
+					href="">
+						删除 </a> </td>
 				<%
 					for (int j = 0; j <= 6; j++) {
 				%>
@@ -177,14 +174,10 @@ $("#down").click(function(){
 		</tbody>
 
 	</table>
+	</div>
 	<input type="hidden" id="page" value="${currentPage }" />
-</div>
-<input type="hidden" id="storeID" value="<%=storeID%>" />
+    <input type="hidden" id="storeID" value="<%=storeID%>" />
 
-<ul class="pagination" id="page">
-	<page:htmlPage pageNo="${currentPage }"
-		url="/goods?m=findGoodByPage&currentPage=${currentPage }"
-		totalSum="${totalPage }" showPage="10" pageSize="10" />
-</ul>
+
 
 

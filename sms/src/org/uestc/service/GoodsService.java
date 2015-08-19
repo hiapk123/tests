@@ -20,7 +20,12 @@ public interface GoodsService {
    public void editgood(int s_id,String s_name, String g_name, String g_stock_num, String g_sale_price,
 			String g_pur_price, String c_name, String g_barcode,int g_id);
    public void deletegood(int g_id);
-   
+ 
    public int getTotalSize(int store);
+
+List<Object[]> upsort(int sid,int currentPage);
+List<Object[]> downsort(int sid,int currentPage);
+
+  
 
 }

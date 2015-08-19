@@ -204,16 +204,7 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 		$('#btnExport').click(function(){
 			alert("Hello");
 		});
-		<%-- $("#page").click(function(){
-			$.post("<%=basePath%>goods", {
-				"m" : "findGoodByPage",
-				"currentPage" : currentPage,
-				"pageNo" :pageNo  ,
-				
-			}, function(data) {
-				$("#goodsinfodiv").append(data);
-			}, "html");
-		}); --%>
+		
 	});
 </script>
 </head>
