@@ -187,6 +187,13 @@
 	.content_head{
 		display: none;
 	}
+	.mytable {
+		max-height: 200px;
+		overflow: auto;
+	}
+	
+	
+		
 </style>
 </head>
 
@@ -209,15 +216,15 @@
  						 活动名称：<input id="mbt_dzytj_active_name" type="text" />开始时间:<input type="text" value="开始时间"/>
 			 			 结束时间：<input type="text" value="结束时间"  /> 可用于： 
 			 			 <label class="checkbox-inline">
-			      		<input type="radio" name="optionsRadiosinline" id="optionsRadios1" 
+			      		<input type="checkbox" name="optionsRadiosinline" id="optionsRadios1" 
 			         	value="shitidian" checked> 实体店
 			   		</label>
 			  			 <label class="checkbox-inline">
-			      			<input type="radio" name="optionsRadiosinline" id="optionsRadios2" 
+			      			<input type="checkbox" name="optionsRadiosinline" id="optionsRadios2" 
 			         		value="wangdian"> 网店
 			   		</label>
 			   		 <label class="checkbox-inline">
-			      			<input type="radio" name="optionsRadiosinline" id="optionsRadios3" 
+			      			<input type="checkbox" name="optionsRadiosinline" id="optionsRadios3" 
 			         		value="huiyuanzhuanxiang"> 会员专享
 			   		</label>
 			</div> 
@@ -229,33 +236,42 @@
 			
 </div>
 								<div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								
+								
 					
-									<div class="modal-dialog">
+									<div class="modal-dialog" >
 								   
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header" >
 												<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
 												<h3 style="text-align: center;padding-top: 0;padding-bottom: 10px">搜索商品并添加</h3>
 												搜索关键字：<input type="text" value="商品名/条形码" />
 												<select><option>全部分类</option></select>
 												<button class="button" style="margin-left: 20px" type="button" value="搜索" >搜索</button>
 											</div>
-										
-											<div class="panel-body " >
-											<table class="col-sm-12 col-lg-12 table">
-												<thead style="background-color: silver;">
-													<tr>
-														<th><input type="checkbox" /></th>
-														<th>商品名称</th>
-														<th>分类</th>
-														<th>原价</th>
-														<th>进货价</th>
-													</tr>
-												</thead>
-												<tbody >
-												
-												</tbody>
-											</table>
+										  
+											<div class="panel-body ">
+													<div class="col-sm-12 col-lg-12" style="display: block">
+														<table class="col-sm-12 col-lg-12 table "   >
+															<thead style="background-color: silver;">
+																<tr>
+																	<th><input type="checkbox" /></th>
+																	<th>商品名称</th>
+																	<th>分类</th>
+																	<th>原价</th>
+																	<th>进货价</th>
+																</tr>
+															</thead>
+															</table>
+													</div>
+													<div class="col-sm-12 col-lg-12" style="max-height: 200px;overflow: scroll;" >
+														<table class="col-sm-12 col-lg-12 table "   >
+														
+														<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+														<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>												
+														</table>
+													
+													</div>
 											</div>
 											<div class="modal-footer">
 												<a href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
