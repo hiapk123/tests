@@ -168,7 +168,7 @@ public class InventoryWarningServlet extends BaseServlet {
 		/*
 		 * 3.获取查询条件，本方法就是uid，即当前登录用户的id
 		 */
-//		Users user = (Users) request.getSession().getAttribute("sessionUser");
+		
 		/*
 		 * 4.使用pc和uid调用service得到pb
 		 */
