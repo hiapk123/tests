@@ -62,9 +62,9 @@ public class InventoryWarningServiceImp implements InventoryWarningService {
 	}
 
 	@Override
-	public List<Goods> findByCriteria(String sName, String cName, String suName, String inventoryStatus) {
+	public PageBean<Goods> findByCombination(String sName, String cName, String suName, String inventoryStatus, Long uid, int pc) {
 		try {
-			return inventoryWarningDao.findByCriteria(sName, cName, suName, inventoryStatus);
+			return inventoryWarningDao.findByCombination(sName, cName, suName, inventoryStatus, uid, pc);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

@@ -21,7 +21,7 @@ public interface InventoryWarningService {
 
 	public List<Category> findAllCategory();
 
-	public List<Goods> findByCriteria(String sName, String cName, String suName, String inventoryStatus);
+	public PageBean<Goods> findByCombination(String sName, String cName, String suName, String inventoryStatus, Long uid, int pc);
 
 	public List<Store> findAllStoresByUid(Long uid);
 

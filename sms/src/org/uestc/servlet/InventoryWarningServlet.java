@@ -24,41 +24,55 @@ public class InventoryWarningServlet extends BaseServlet {
 
 	private InventoryWarningService inventoryWarningService = new InventoryWarningServiceImp();
 
-	public String findByCriteria(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+
+		///--------------------------------------------------------------------------------
+		///--------------------------------------------------------------------------------
+		///--------------------------------------------------------------------------------
+		///--------------------------------------------------------------------------------
+		Users user = (Users) request.getSession().getAttribute("sessionUser");
+		
+		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		request.setAttribute("storeList", storeList);
+
+		List<Category> categoryList = inventoryWarningService.findAllCategory();
+		request.setAttribute("categoryList", categoryList);
+
+		List<Supplier> supplierList = inventoryWarningService.findAllSuppliers();
+		request.setAttribute("supplierList", supplierList);
+		
+		
 		String storeName = request.getParameter("hp_store");
-		// System.out.println("hp_store下拉框的值：" + storeName);
 		String categoryName = request.getParameter("hp_category");
-		// System.out.println("hp_category下拉框的值：" + categoryName);
 		String supplierName = request.getParameter("hp_supplier");
-		// System.out.println("hp_supplier下拉框的值：" + supplierName);
 		String inventoryStatus = request.getParameter("hp_inventoryStatus");
-		// System.out.println("hp_inventoryStatus下拉框的值：" + inventoryStatus);
+		
+		System.out.println("-----------------------------------------");
+		System.out.println("storeName:\t"+storeName);
+		System.out.println("categoryName:\t"+categoryName);
+		System.out.println("supplierName:\t"+supplierName);
+		System.out.println("inventoryStatus:\t"+inventoryStatus);
+		System.out.println("-----------------------------------------");
+		
 		request.setAttribute("storeName", storeName);
 		request.setAttribute("categoryName", categoryName);
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("inventoryStatus", inventoryStatus);
-
 		
-		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		/*
-		 * 1.加载门店下拉框
-		 */
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
-		request.setAttribute("storeList", storeList);
-		/*
-		 * 2.加载分类下拉框
-		 */
-		List<Category> categoryList = inventoryWarningService.findAllCategory();
-		request.setAttribute("categoryList", categoryList);
-		/*
-		 * 3.加载供货商下拉框
-		 */
-		List<Supplier> supplierList = inventoryWarningService.findAllSuppliers();
-		request.setAttribute("supplierList", supplierList);
+		
+		
+		int pc = getPc(request);
 
-		List<Goods> goodsList = inventoryWarningService.findByCriteria(storeName, categoryName, supplierName, inventoryStatus);
-		request.setAttribute("goodsList", goodsList);
+		String url = getUrl(request);
+
+		PageBean<Goods> pb = inventoryWarningService.findByCombination(storeName, categoryName, supplierName, inventoryStatus, user.getUId(), pc);
+
+		pb.setUrl(url);
+		request.setAttribute("pb", pb);
+		
 		return "f:/pages/goods/inventoryWarning.jsp";
+		
 	}
 
 	public String loadBaseMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -134,7 +134,7 @@
 	<div class="panel panel-default">
 		<div class="panel-footer">
 			<form
-				action="<c:url value='/InventoryWarningServlet?method=findByCriteria' />"
+				action="<c:url value='/InventoryWarningServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
 					<div class="col-md-2">
@@ -142,24 +142,17 @@
 					</div>
 					<div class="col-md-2">
 						<select class="form-control" name="hp_store">
-							<option value="-1">全部门店</option>
+							<option>全部门店</option>
+<!-- 							<option value="-1">全部门店</option> -->
 							<c:forEach items="${storeList }" var="store">
 								<option <c:if test="${storeName eq store.SName}">selected</c:if>>${store.SName }</option>
 							</c:forEach>
 						</select>
 					</div>
-					<!-- 				<div class="col-md-2">
-					<select class="form-control"  placeholder=".col-md-2">
-						<option>门店下拉1</option>
-						<option>门店下拉2</option>
-						<option>门店下拉3</option>
-						<option>门店下拉4</option>
-						<option>门店下拉5</option>
-					</select>
-				</div> -->
 					<div class="col-md-2">
 						<select class="form-control" name="hp_category">
-							<option value="-1">全部分类</option>
+							<option>全部分类</option>
+<!-- 							<option value="-1">全部分类</option> -->
 							<c:forEach items="${categoryList }" var="category">
 								<option
 									<c:if test="${categoryName eq category.CName}">selected</c:if>>${category.CName }</option>
@@ -168,7 +161,8 @@
 					</div>
 					<div class="col-md-2">
 						<select class="form-control" name="hp_supplier">
-							<option value="-1">全部供货商</option>
+							<option>全部供货商</option>
+<!-- 							<option value="-1">全部供货商</option> -->
 							<c:forEach items="${supplierList }" var="supplier">
 								<option
 									<c:if test="${supplierName eq supplier.suName}">selected</c:if>>${supplier.suName }</option>

@@ -66,10 +66,45 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 	}
 
 	@Override
-	public List<Goods> findByCriteria(String sName, String cName, String suName, String inventoryStatus) throws SQLException {
-		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and su_name=?";
-		// String sql = "select * from goods where s_name=? and c_name=? and su_name=?";
-		List<Object[]> list = qr.query(sql, new ArrayListHandler(), sName, cName, suName);
+	public PageBean<Goods> findByCombination(String sName, String cName, String suName, String inventoryStatus, Long uid, int pc) throws SQLException {
+//		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and su_name=?";
+//		List<Object[]> list = qr.query(sql, new ArrayListHandler(), sName, cName, suName);
+//		List<Goods> goodsList = new ArrayList<Goods>();
+//		for (Object[] obj : list) {
+//			Goods goods = new Goods();
+//			goods.setGName(obj[0].toString());
+//			goods.setSName(obj[1].toString());
+//			goods.setCName(obj[2].toString());
+//			goods.setSuName(obj[3].toString());
+//			goods.setGBarcode(obj[4].toString());
+//			goods.setGStockNum(obj[5].toString());
+//			goods.setGStockMax(obj[6].toString());
+//			goods.setGStockMin(obj[7].toString());
+//			goods.setGProdDate(obj[8].toString());
+//			goods.setGGiq(obj[9].toString());
+//			goodsList.add(goods);
+//		}
+//
+//		return goodsList;
+		
+		
+		/*
+		 * 1.得到ps
+		 * 2.得到tr
+		 * 3.得到beanList
+		 * 4.创建PageBean，返回
+		 */
+		
+		// 1.得到ps
+		int ps = PageConstants.GOODS_PAGE_SIZE;
+		// 2.得到tr
+		String sql = "select count(*) from goods where s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
+		
+		Number number = (Number) qr.query(sql, new ScalarHandler(), sName, cName, suName, uid);
+		int tr = number.intValue();
+		// 3.得到beanList,即当前页记录
+		sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and su_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), sName, cName, suName, uid, (pc-1)*ps, ps);
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();
@@ -85,8 +120,15 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 			goods.setGGiq(obj[9].toString());
 			goodsList.add(goods);
 		}
-
-		return goodsList;
+		
+		// 4.创建PageBean，返回
+		PageBean<Goods> pb = new PageBean<Goods>();
+		pb.setBeanList(goodsList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
 	}
 
 	@Override

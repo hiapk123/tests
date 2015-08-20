@@ -23,7 +23,7 @@ public interface InventoryWarningDao {
 
 	public List<Category> findAllCategory() throws SQLException;
 
-	public List<Goods> findByCriteria(String sName, String cName, String suName, String inventoryStatus) throws SQLException;
+	public PageBean<Goods> findByCombination(String sName, String cName, String suName, String inventoryStatus, Long uid, int pc) throws SQLException;
 
 	public List<Store> findAllStoresByUid(Long uid) throws SQLException;
 
