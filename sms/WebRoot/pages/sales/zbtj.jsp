@@ -119,9 +119,50 @@
 <script type="text/javascript"
 	src="<c:url value='/exportExcel/jspdf/base64.js'/>"></script>
 
-
 </head>
 <body>
-占比统计页面
+	<div class="panel panel-default">
+		<div class="panel-footer">
+			<form
+				action="<c:url value='/ZBTJServlet?method=findAll' />"
+				method="post">
+				<div class="row">
+					<div class="col-md-4">
+						<h4>占比统计</h4>
+					</div>
+					<div class="col-md-2">
+						<select class="form-control" name="hp_store">
+							<option>全部门店</option>
+							<c:forEach items="${storeList }" var="store">
+								<option <c:if test="${storeName eq store.SName}">selected</c:if>>${store.SName }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-2">
+						<select class="form-control" name="hp_begintime">
+							<option>开始时间</option>
+							<c:forEach items="${categoryList }" var="category">
+								<option
+									<c:if test="${categoryName eq category.CName}">selected</c:if>>${category.CName }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-2">
+						<select class="form-control" name="hp_endtime">
+							<option>结束时间</option>
+							<c:forEach items="${supplierList }" var="supplier">
+								<option
+									<c:if test="${supplierName eq supplier.suName}">selected</c:if>>${supplier.suName }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary">统计分析</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
 </body>
 </html>
