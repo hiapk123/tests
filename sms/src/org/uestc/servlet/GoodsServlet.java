@@ -160,6 +160,7 @@ public class GoodsServlet extends HttpServlet {
 			currentPage="1";
 		}
 		
+		
 			int pageNo = Integer.valueOf(currentPage.trim());
 			if ("" == which) {
 				which = "first";

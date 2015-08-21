@@ -18,6 +18,9 @@
 %>
 
 
+
+
+
 <script>
 	$(function() {
 		$('.pagination').click(function() {
@@ -169,7 +172,7 @@
 	});
 </script>
 <div id="tableContent">
-	<table class="table table-striped table-bordered">
+	<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
 			<tr>
 				<th>操作</th>
@@ -177,8 +180,8 @@
 				<th>所属门店</th>
 				<th>销售价</th>
 				<th>批发价</th>
-				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button>&nbsp;&nbsp;<button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button>&nbsp;&nbsp;<button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
+				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
+				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
 				<th>会员价</th>  
 				<th>分类</th>
 				<th>条码</th>

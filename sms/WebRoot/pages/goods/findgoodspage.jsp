@@ -7,8 +7,12 @@
 			+ path + "/";
 %>
 <%
+String method=application.getAttribute("method").toString();
+if(method!="findByPage"){
 String sorted=application.getAttribute("sorted").toString();
 System.out.println("排序字段"+sorted);
+}
+
 %>
 <script>
 	$(function() {
@@ -51,7 +55,7 @@ System.out.println("排序字段"+sorted);
         	var sorted=$("#down-g_stock_num").val();
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-	;
+	
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -121,7 +125,7 @@ System.out.println("排序字段"+sorted);
         	var sorted=$("#down").val();
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-	;
+	
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -151,7 +155,7 @@ System.out.println("排序字段"+sorted);
 	});
 </script>
 
-<table class="table table-striped table-bordered">
+<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
 	<thead>
 		<tr>
 			<th>操作</th>
@@ -159,8 +163,8 @@ System.out.println("排序字段"+sorted);
 			<th>所属门店</th>
 			<th>销售价</th>
 			<th>批发价</th>
-			<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button>&nbsp;&nbsp;<button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-			<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button>&nbsp;&nbsp;<button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
+			<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
+			<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
 			<th>会员价</th>
 			<th>分类</th>
 			<th>条码</th>
