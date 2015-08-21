@@ -36,7 +36,7 @@ public class GoodsServiceImp implements GoodsService {
 
 	@Override
 	public List<Object[]> goodssearch(int sid, int currentPage) {
-		String sql = "SELECT g_name,s_name,g_id,s_id,g_stock_num,g_pur_price from goods where s_id=? and g_del=1 limit ?,10";
+		String sql = "SELECT g_name,s_name,g_barcode,s_id,g_stock_num,g_pur_price,g_id from goods where s_id=? and g_del=1 limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql, sid, currentPage);
 		return list;
 	}
@@ -56,7 +56,7 @@ public class GoodsServiceImp implements GoodsService {
 	public void editgood(int s_id, String s_name, String g_name, String g_stock_num, String g_sale_price,
 			String g_pur_price, String c_name, String g_barcode, int g_id) {
 		// TODO Auto-generated method stub
-		String sql = "update goods set s_id=?,s_name=?, g_name=?,g_stock_num=?,g_sale_price=?, g_pur_price=?,c_name=?,c_name=?  where g_id=?";
+		String sql = "update goods set s_id=?,s_name=?, g_name=?,g_stock_num=?,g_sale_price=?, g_pur_price=?,c_name=? ,g_barcode=? where g_id=?";
 
 		SqlHelper.executeUpdate(sql, new String[] { s_id + "", s_name, g_name, g_stock_num, g_sale_price, g_pur_price,
 				c_name, g_barcode, g_id + "" });

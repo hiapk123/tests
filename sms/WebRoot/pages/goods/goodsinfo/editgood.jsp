@@ -116,9 +116,9 @@
 		<!--必填资料-->
 			<li class="block">
 				<%
-				String g_id = request.getParameter("g_id");
+				String g_barcode = request.getParameter("g_barcode");
 				String s_id = (String)request.getAttribute("s_id");
-		
+				String g_id = request.getParameter("g_id");
 				System.out.println("sb"+s_id);
 				
 				
@@ -127,14 +127,15 @@
 				String s_name = request.getParameter("s_name");
 	        //    String zhuangtai = request.getParameter("g_flag");
 	         // int Zhuangtai = Integer.parseInt(zhuangtai);
-	          String tiaoma = request.getParameter("g_barcode");
+	         
 	         String jinhuojia = request.getParameter("g_pur_price");
 	            String g_name = request.getParameter("g_name");
 	         String xiaoshoujia = request.getParameter("g_sale_price");
 	            String c_name = request.getParameter("c_name");
 	         String kucun = request.getParameter("g_stock_num");
-	         request.setAttribute("g_id", g_id);
+	         request.setAttribute("g_barcode", g_barcode);
 				%> 
+			
 				<input type="hidden" value="<%=g_id%>" name="g_id">
 				<input type="hidden" value="<%=s_id%>" name="s_id">
                <label>店铺名：</label>   <input  type="text" name="storename"
@@ -145,8 +146,8 @@
 					<option value=<%=Zhuangtai%>>状态</option>
 					<!-- <option value=0>禁用</option> --> --%>
 
-			</select> </br> <label>商品条码</label> <input type="text" name="tiaoma"
-				value="<%=tiaoma%>" >
+			</select> </br>  <label>商品条码：</label>   <input  type="text" name="g_barcode"
+								value="<%=g_barcode%>" >
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>进货价</label>
 				<input type="text" name="jinhuojia"  value="<%=jinhuojia%>"}> </br> <label>商品名称</label> <input
 				type="text" name="g_name"  value="<%=g_name%>"> <label>销售价</label> <input

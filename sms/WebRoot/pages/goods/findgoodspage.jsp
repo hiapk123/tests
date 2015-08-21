@@ -161,8 +161,8 @@ System.out.println("排序字段"+sorted);
 			<th>操作</th>
 			<th>商品名称</th>
 			<th>所属门店</th>
+			<th>商品条码</th>
 			<th>销售价</th>
-			<th>批发价</th>
 			<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
 			<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
 			<th>会员价</th>
@@ -199,9 +199,9 @@ System.out.println("排序字段"+sorted);
 		%>
 		<tr>
 			<td><a
-				href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[3]%>">
+				href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[6]%>">
 					删除 </a> <a
-				href="<%=basePath%>goods?m=editGood&g_id=<%=goods.get(i)[3]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&c_name=<%=goods.get(i)[4]%>&s_id=<%=storeID%>">编辑</a>
+				href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=storeID%>">编辑</a>
 				<a href="#"> 图片 </a></td>
 			<%
 				for (int j = 0; j <= 5; j++) {

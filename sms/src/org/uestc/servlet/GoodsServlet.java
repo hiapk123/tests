@@ -251,11 +251,11 @@ public class GoodsServlet extends HttpServlet {
 		String g_sale_price = req.getParameter("xiaoshoujia");
 		String g_pur_price = req.getParameter("jinhuojia");
 		String c_name = req.getParameter("c_name");
-		String g_barcode = req.getParameter("tiaoma");
+		String g_barcode = req.getParameter("g_barcode");
 		// int g_flag0 = Integer.parseInt(g_flag);
 
-		System.out.println(g_name);
-		System.out.println("nimei" + s_id);
+		
+		
 
 		/*
 		 * req.setAttribute(s_name, s_name); req.setAttribute(g_name, g_name);
@@ -284,8 +284,8 @@ public class GoodsServlet extends HttpServlet {
 
 	private void editGood(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-
 		String g_id = req.getParameter("g_id");
+		String g_barcode = req.getParameter("g_barcode");
 		String s_id = req.getParameter("s_id");
 		String s_name = req.getParameter("s_name");
 		String g_name = req.getParameter("g_name");
@@ -297,9 +297,10 @@ public class GoodsServlet extends HttpServlet {
 		// String g_barcode = req.getParameter("tiaoma");
 		req.setAttribute("s_name", s_name);
 		req.setAttribute("c_name", c_name);
-		req.setAttribute("g_id", g_id);
+		req.setAttribute("g_barcode", g_barcode);
 		req.setAttribute("g_name", g_name);
 		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_id", g_id);
 
 	}
 
