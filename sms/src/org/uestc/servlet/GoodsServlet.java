@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.uestc.service.GoodsService;
 import org.uestc.serviceImp.GoodsServiceImp;
@@ -34,7 +36,7 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 6005017459312388968L;
 	private int s_id = 0;
-	private GoodsService good = new GoodsServiceImp();// 锟斤拷锟斤拷锟斤拷
+	private GoodsService good = new GoodsServiceImp();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -69,17 +71,17 @@ public class GoodsServlet extends HttpServlet {
 			resp.sendRedirect("<%=basePath %>goods?m=goodsInfo");
 		} else if (m.equals("deleteGood")) {
 			this.deleteGood(req, resp);
-			String url = req.getHeader("Referer"); // 鑾峰緱鍓嶄竴椤电殑URL
+			String url = req.getHeader("Referer");
 			resp.sendRedirect(url);
 		} else if (m.equals("findByPage")) {
 			this.findGoodByPage(req,resp);
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 		}else if (m.equals("upsort")) {
 			this.upsort(req,resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/upsort.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 		}else if (m.equals("downsort")) {
 			this.downsort(req,resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/downsort.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 		}
 
 	}
@@ -91,7 +93,8 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private void downsort(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		//String sorted=req.getParameter("sorted");
+		String method=req.getParameter("m");
+		String sorted=req.getParameter("sorted");
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String store = req.getParameter("store");
@@ -121,7 +124,7 @@ public class GoodsServlet extends HttpServlet {
 			}else {
 				pageNo = Integer.valueOf(which.trim());
 			}
-			List<Object[]> list = good.downsort(Integer.valueOf(store), (pageNo-1) * 10+1);
+			List<Object[]> list = good.downsort(Integer.valueOf(store), (pageNo-1) * 10,sorted);
 			
             
 			
@@ -129,6 +132,12 @@ public class GoodsServlet extends HttpServlet {
 			req.setAttribute("store", store);
 			req.setAttribute("currentPage", pageNo);
 			req.setAttribute("totalPage", totalSize);
+			req.setAttribute("sorted", sorted);
+			HttpSession session=(HttpSession)req.getSession();
+			ServletContext application=(ServletContext)session.getServletContext();
+
+			application.setAttribute("method",method);
+			application.setAttribute("sorted",sorted);
 	}
 
 	/***
@@ -139,7 +148,9 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private void upsort(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		//String sorted=req.getParameter("sorted");
+		String method=req.getParameter("m");
+		String sorted=req.getParameter("sorted");
+		
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String store = req.getParameter("store");
@@ -169,16 +180,21 @@ public class GoodsServlet extends HttpServlet {
 			}else {
 				pageNo = Integer.valueOf(which.trim());
 			}
-			List<Object[]> list = good.upsort(Integer.valueOf(store), (pageNo-1) * 10+1);
-			
+			List<Object[]> list = good.upsort(Integer.valueOf(store), (pageNo-1) * 10,sorted);
+		
             
 			
 			req.setAttribute("goodsList", list);
 			req.setAttribute("store", store);
 			req.setAttribute("currentPage", pageNo);
 			req.setAttribute("totalPage", totalSize);
-		
+			req.setAttribute("sort", sorted);
+			HttpSession session=(HttpSession)req.getSession();
+			ServletContext application=(ServletContext)session.getServletContext();
 
+			application.setAttribute("method",method);
+			application.setAttribute("sorted",sorted);
+             
 	}
 
 	/***
@@ -199,7 +215,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 鍒犻櫎鍟嗗搧
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
@@ -217,7 +233,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 淇敼鍟嗗搧2
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
@@ -259,7 +275,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 淇敼鍟嗗搧
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
@@ -287,7 +303,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 鏂板鍟嗗搧杩涘叆椤甸潰
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
@@ -303,7 +319,7 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 鏂板鍟嗗搧
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
@@ -336,21 +352,24 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 	/***
-	 * 鍒嗛〉鏌ヨ
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
 	 */
 	private void findGoodByPage(HttpServletRequest req, HttpServletResponse resp) {
+	   
+		
+	    String method="findByPage";
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String store = req.getParameter("store");
 		int totalSize = getTotalSize(store);
 		int totalPage = 0;
-		if(null==currentPage){
+		if(""==currentPage){
 			currentPage="1";
 		}
-		try {
+		
 			int pageNo = Integer.valueOf(currentPage.trim());
 			if (null == which) {
 				which = "first";
@@ -374,14 +393,16 @@ public class GoodsServlet extends HttpServlet {
 			req.setAttribute("store", store);
 			req.setAttribute("currentPage", pageNo);
 			req.setAttribute("totalPage", totalSize);
-		} catch (NumberFormatException e) {
-			// TODO: handle exception
-		}
+			HttpSession session=(HttpSession)req.getSession();
+			ServletContext application=(ServletContext)session.getServletContext();
+
+			application.setAttribute("method",method);
+			
 
 	}
 
 	/***
-	 * 鏌ヨ鍟嗗搧
+	 * 
 	 * 
 	 * @param req
 	 * @param resp
@@ -414,7 +435,7 @@ public class GoodsServlet extends HttpServlet {
 
 	}
 
-	// 瀹炵幇
+	// 
 	private int getTotalSize(String id) {
 		try {
 			return good.getTotalSize(Integer.valueOf(id));

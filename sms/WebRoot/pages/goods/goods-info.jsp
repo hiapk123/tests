@@ -157,7 +157,7 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 		$("#search").click(function(){
 			var store=$("#store").val();
 			var number=$("#category").val();
-			
+			var currentPage=null;
 			if(store==null){
 				alert("请重新选择店铺！");
 				return;
@@ -170,7 +170,7 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 				"m" : "findGoodByPage",
 				"store" : store,
 				"catagory" :number  ,
-				
+				"currentPage":currentPage,
 			}, function(data) {
 				$("#goodsinfodiv").append(data);
 			}, "html");

@@ -23,8 +23,8 @@ public interface GoodsService {
  
    public int getTotalSize(int store);
 
-List<Object[]> upsort(int sid,int currentPage);
-List<Object[]> downsort(int sid,int currentPage);
+List<Object[]> upsort(int sid,int currentPage, String sorted);
+List<Object[]> downsort(int sid,int currentPage, String sorted);
 
   
 
