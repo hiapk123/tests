@@ -257,11 +257,11 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 				if (suName.equals("全部供货商")) {
 					// 0 1 1
 					if (inventoryStatus.equals("库存不足")) {
-						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL) and s_name=? s_name in (select s_name from store where u_id=?) limit ?,?";
+						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL) and s_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
 					} else if (inventoryStatus.equals("库存过剩")) {
-						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where CAST(g_stock_num AS DECIMAL)>=CAST(g_stock_max AS DECIMAL) and s_name=? s_name in (select s_name from store where u_id=?) limit ?,?";
+						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where CAST(g_stock_num AS DECIMAL)>=CAST(g_stock_max AS DECIMAL) and s_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
 					} else {
-						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? s_name in (select s_name from store where u_id=?) limit ?,?";
+						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
 					}
 					list = qr.query(sql, new ArrayListHandler(), sName, uid, (pc-1)*ps, ps);
 				} else {
