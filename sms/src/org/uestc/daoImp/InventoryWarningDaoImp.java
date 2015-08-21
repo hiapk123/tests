@@ -67,27 +67,6 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 
 	@Override
 	public PageBean<Goods> findByCombination(String sName, String cName, String suName, String inventoryStatus, Long uid, int pc) throws SQLException {
-//		String sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and su_name=?";
-//		List<Object[]> list = qr.query(sql, new ArrayListHandler(), sName, cName, suName);
-//		List<Goods> goodsList = new ArrayList<Goods>();
-//		for (Object[] obj : list) {
-//			Goods goods = new Goods();
-//			goods.setGName(obj[0].toString());
-//			goods.setSName(obj[1].toString());
-//			goods.setCName(obj[2].toString());
-//			goods.setSuName(obj[3].toString());
-//			goods.setGBarcode(obj[4].toString());
-//			goods.setGStockNum(obj[5].toString());
-//			goods.setGStockMax(obj[6].toString());
-//			goods.setGStockMin(obj[7].toString());
-//			goods.setGProdDate(obj[8].toString());
-//			goods.setGGiq(obj[9].toString());
-//			goodsList.add(goods);
-//		}
-//
-//		return goodsList;
-		
-		
 		/*
 		 * 1.得到ps
 		 * 2.得到tr
@@ -97,14 +76,123 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		
 		// 1.得到ps
 		int ps = PageConstants.GOODS_PAGE_SIZE;
-		// 2.得到tr
-		String sql = "select count(*) from goods where s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
 		
-		Number number = (Number) qr.query(sql, new ScalarHandler(), sName, cName, suName, uid);
-		int tr = number.intValue();
+		// 2.得到tr
+		String sql = "";
+		Number number = null;
+		int tr = 0;
+		
+		// -----------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------
+
+		if (sName.equals("全部门店")) {
+			if (cName.equals("全部分类")) {
+				if (suName.equals("全部供货商")) {
+					// 1 1 1
+					sql = "select count(*) from goods where s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), uid);
+					tr = number.intValue();
+				} else {
+					// 1 1 0
+					sql = "select count(*) from goods where su_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), suName, uid);
+					tr = number.intValue();
+				}
+			} else {
+				if (suName.equals("全部供货商")) {
+					// 1 0 1
+					sql = "select count(*) from goods where c_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), cName, uid);
+					tr = number.intValue();
+				} else {
+					// 1 0 0
+					sql = "select count(*) from goods where c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), cName, suName, uid);
+					tr = number.intValue();
+				}
+			}
+		} else {
+			if (cName.equals("全部分类")) {
+				if (suName.equals("全部供货商")) {
+					// 0 1 1
+					sql = "select count(*) from goods where s_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), sName, uid);
+					tr = number.intValue();
+				} else {
+					// 0 1 0
+					sql = "select count(*) from goods where s_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), sName, suName, uid);
+					tr = number.intValue();
+				}
+			} else {
+				if (suName.equals("全部供货商")) {
+					// 0 0 1
+					sql = "select count(*) from goods where s_name=? and c_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), sName, cName, uid);
+					tr = number.intValue();
+				} else {
+					// 0 0 0
+					sql = "select count(*) from goods where s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
+					number = (Number) qr.query(sql, new ScalarHandler(), sName, cName, suName, uid);
+					tr = number.intValue();
+				}
+			}
+		}
+
+		// -----------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------
+
 		// 3.得到beanList,即当前页记录
-		sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and su_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
-		List<Object[]> list = qr.query(sql, new ArrayListHandler(), sName, cName, suName, uid, (pc-1)*ps, ps);
+		List<Object[]> list = null;
+		
+		if (sName.equals("全部门店")) {
+			if (cName.equals("全部分类")) {
+				if (suName.equals("全部供货商")) {
+					// 1 1 1
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), uid, (pc-1)*ps, ps);
+				} else {
+					// 1 1 0
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where su_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), suName, uid, (pc-1)*ps, ps);
+				}
+			} else {
+				if (suName.equals("全部供货商")) {
+					// 1 0 1
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where c_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), cName, uid, (pc-1)*ps, ps);
+				} else {
+					// 1 0 0
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where c_name=? and su_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), cName, suName, uid, (pc-1)*ps, ps);
+				}
+			}
+		} else {
+			if (cName.equals("全部分类")) {
+				if (suName.equals("全部供货商")) {
+					// 0 1 1
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), sName, uid, (pc-1)*ps, ps);
+				} else {
+					// 0 1 0
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and su_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), sName, suName, uid, (pc-1)*ps, ps);
+				}
+			} else {
+				if (suName.equals("全部供货商")) {
+					// 0 0 1
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), sName, cName, uid, (pc-1)*ps, ps);
+				} else {
+					// 0 0 0
+					sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and c_name=? and su_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), sName, cName, suName, uid, (pc-1)*ps, ps);
+				}
+			}
+		}
+				
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();
