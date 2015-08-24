@@ -37,7 +37,7 @@ public class ZBTJServlet extends BaseServlet {
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
 		request.setAttribute("storeList", storeList);
 		
-		PageBean<Sale> pb = zbtjService.findAllSalesByUid(user.getUId());
+		PageBean<Sale> pb = zbtjService.findAllSalesByUid(user.getUId(), 0);
 		
 		
 		return "f:/pages/sales/zbtj.jsp";
