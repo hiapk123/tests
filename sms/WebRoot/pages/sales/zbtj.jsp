@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
@@ -11,125 +11,38 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>占比统计</title>
-
-<!-- The styles -->
-<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
-	rel="stylesheet">
-
-<link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/pager.css'/>" />
+<!-- 日期控件css资源 -->
+<link href="<c:url value='/datetimepicker/css/bootstrap.min.css'/>"
+	rel="stylesheet" media="screen">
 <link
-	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
-	rel='stylesheet' media='print'>
-<link href='<%=basePath%>bower_components/chosen/chosen.min.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
-	rel='stylesheet'>
-<link href='<%=basePath%>css/jquery.noty.css' rel='stylesheet'>
-<link href='<%=basePath%>css/noty_theme_default.css' rel='stylesheet'>
-<link href='<%=basePath%>css/elfinder.min.css' rel='stylesheet'>
-<link href='<%=basePath%>css/elfinder.theme.css' rel='stylesheet'>
-<link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
-<link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
-<link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
-<link href="<%=basePath%>css/bootstrap-datetimepicker.css"
-	rel="stylesheet">
-<link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
+	href="<c:url value='/datetimepicker/css/bootstrap-datetimepicker.min.css'/>"
+	rel="stylesheet" media="screen">
 
-<!-- jQuery -->
-<script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
-
-<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-<!-- The fav icon -->
-<link rel="shortcut icon" href="<%=basePath%>img/favicon.ico">
-<link rel="stylesheet" type="text/css" href="<c:url value='/pager.css'/>" />
-<!-- external javascript -->
-
-<script
-	src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<!-- library for cookie management -->
-<script src="<%=basePath%>js/jquery.cookie.js"></script>
-<!-- calender plugin -->
-<script src='<%=basePath%>bower_components/moment/min/moment.min.js'></script>
-<script
-	src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
-<!-- data table plugin -->
-<script src='<%=basePath%>js/jquery.dataTables.min.js'></script>
-
-<!-- select or dropdown enhancer -->
-<script src="<%=basePath%>bower_components/chosen/chosen.jquery.min.js"></script>
-<!-- plugin for gallery image view -->
-<script
-	src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
-<!-- notification plugin -->
-<script src="<%=basePath%>js/jquery.noty.js"></script>
-<!-- library for making tables responsive -->
-<script
-	src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
-<!-- tour plugin -->
-<script
-	src="<%=basePath%>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
-<!-- star rating plugin -->
-<script src="<%=basePath%>js/jquery.raty.min.js"></script>
-<!-- for iOS style toggle switch -->
-<script src="<%=basePath%>js/jquery.iphone.toggle.js"></script>
-<!-- autogrowing textarea plugin -->
-<script src="<%=basePath%>js/jquery.autogrow-textarea.js"></script>
-<!-- multiple file upload plugin -->
-<script src="<%=basePath%>js/jquery.uploadify-3.1.min.js"></script>
-<!-- history.js for cross-browser state change on ajax -->
-<script src="<%=basePath%>js/jquery.history.js"></script>
-<!-- application script for Charisma demo -->
-<script src="<%=basePath%>js/charisma.js"></script>
-<script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
-<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
-	charset="utf-8"></script>
-
-<!-- Export Excel Resources -->
-<script src="<c:url value='/exportExcel/jquery-1.9.1.min.js'/>"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<!-- 日期控件js资源 -->
 <script type="text/javascript"
-	src="<c:url value='/exportExcel/jquery.base64.js' />"></script>
-
+	src="<c:url value='/datetimepicker/jquery/jquery-1.8.3.min.js'/>"
+	charset="UTF-8"></script>
 <script type="text/javascript"
-	src="<c:url value='/exportExcel/tableExport.js'/>"></script>
-
+	src="<c:url value='/datetimepicker/js/bootstrap.min.js'/>"></script>
 <script type="text/javascript"
-	src="<c:url value='/exportExcel/jspdf/libs/sprintf.js'/>">
-	
-</script>
-
+	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.js'/>"
+	charset="UTF-8"></script>
 <script type="text/javascript"
-	src="http://localhost:8082/myphp/tableExport.jquery.plugin-master/jspdf/jspdf.js"></script>
-<script type="text/javascript"
-	src="<c:url value='/exportExcel/jspdf/base64.js'/>"></script>
-
+	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js'/>"
+	charset="UTF-8"></script>
 </head>
 <body>
 	<div class="panel panel-default">
 		<div class="panel-footer">
-			<form
-				action="<c:url value='/ZBTJServlet?method=findAll' />"
+			<form action="<c:url value='/ZBTJServlet?method=findAll' />"
 				method="post">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<h4>占比统计</h4>
 					</div>
+
 					<div class="col-md-2">
 						<select class="form-control" name="hp_store">
 							<option>全部门店</option>
@@ -138,24 +51,45 @@
 							</c:forEach>
 						</select>
 					</div>
+
+					<div class="input-group date form_date col-md-3" data-date=""
+						data-date-format="" data-link-field="dtp_input2"
+						data-link-format="yyyy-mm-dd">
+						<input class="form-control" size="16" type="text" value=""
+							readonly> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+					<input type="hidden" id="dtp_input2" value="" />
+					<!--<br/>-->
+
+					<div class="input-group date form_date col-md-3" data-date=""
+						data-date-format="" data-link-field="dtp_input2"
+						data-link-format="yyyy-mm-dd">
+						<input class="form-control" size="16" type="text" value=""
+							readonly> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+					<input type="hidden" id="dtp_input2" value="" />
+					<!--<br/>-->
+
 					<div class="col-md-2">
-						<select class="form-control" name="hp_begintime">
-							<option>开始时间</option>
-							<c:forEach items="${categoryList }" var="category">
-								<option
-									<c:if test="${categoryName eq category.CName}">selected</c:if>>${category.CName }</option>
-							</c:forEach>
+						<select class="form-control" name="hp_condition">
+							<option>按门店</option>
+							<option>按商品分类</option>
+							<option>按导购员</option>
+							<option>按收银员</option>
+							<option>按支付方式</option>
+							<option>是否会员</option>
+							<!--<c:forEach items="${storeList }" var="store">
+								<option <c:if test="${storeName eq store.SName}">selected</c:if>>${store.SName }</option>
+							</c:forEach>-->
 						</select>
 					</div>
-					<div class="col-md-2">
-						<select class="form-control" name="hp_endtime">
-							<option>结束时间</option>
-							<c:forEach items="${supplierList }" var="supplier">
-								<option
-									<c:if test="${supplierName eq supplier.suName}">selected</c:if>>${supplier.suName }</option>
-							</c:forEach>
-						</select>
-					</div>
+
 					<div class="col-md-2">
 						<button type="submit" class="btn btn-primary">统计分析</button>
 					</div>
@@ -163,6 +97,77 @@
 			</form>
 		</div>
 	</div>
-	
+
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<!-- <div class="panel-heading">Panel heading</div> -->
+		<!-- <div class="panel-body">
+			<p>...</p>
+		</div> -->
+
+		<!-- Table -->
+		<table id="hp_zbtj" class="table table-bordered table-hover">
+			<thead>
+				<!--  style="font-weight: 900" -->
+				<tr>
+					<th>序号</th>
+					<th>门店</th>
+					<th>销售单数</th>
+					<th>实收金额</th>
+					<th>利润</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						</tr>
+				<%-- <c:forEach items="${pb.beanList }" var="goods" varStatus="status">
+					<tr>
+						<td>${status.index + 1 }</td>
+						<td>${goods.GName }</td>
+						<td>${goods.SName }</td>
+						<td>${goods.CName }</td>
+						<td>${goods.suName }</td>
+						<td>${goods.GBarcode }</td>
+						<td>${goods.GStockNum }</td>
+						<td>${goods.GStockMax }</td>
+						<td>${goods.GStockMin }</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+				</c:forEach> --%>
+			</tbody>
+		</table>
+	</div>
+
+	<div style="float: left; width: 100%; text-align: center;">
+		<c:choose>
+			<c:when test="${pb.tp eq 0}">
+			未找到符合条件商品！
+		</c:when>
+			<c:otherwise>
+				<%@include file="/pager.jsp"%>
+			</c:otherwise>
+		</c:choose>
+	</div>
+
+
+	<script type="text/javascript">
+		$('.form_date').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			minView : 2,
+			forceParse : 0
+		});
+	</script>
+
 </body>
 </html>

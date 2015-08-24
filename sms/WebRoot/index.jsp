@@ -157,8 +157,8 @@
 			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=findByUid');
 		});
 		$('#zbtj').click(function(){
-			$('#if_content').attr('src','<%=basePath %>pages/sales/zbtj.jsp');
-			<%-- $('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=findByUid'); --%>
+			<%-- $('#if_content').attr('src','<%=basePath %>pages/sales/zbtj.jsp'); --%>
+			$('#if_content').attr('src','<%=basePath %>ZBTJServlet?method=initLoad');
 		});
 <%-- 		$('#kcyd').click(function(){
 			$('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp');
