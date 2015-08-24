@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.junit.Test;
 import org.uestc.service.InventoryWarningService;
 import org.uestc.service.ZBTJService;
 import org.uestc.serviceImp.InventoryWarningServiceImp;
@@ -33,13 +34,49 @@ public class ZBTJServlet extends BaseServlet {
 	private ZBTJService zbtjService = new ZBTJServiceImp();
 	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("ZBTJServlet.initLoad()");
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
 		request.setAttribute("storeList", storeList);
 		
-		PageBean<Sale> pb = zbtjService.findAllSalesByUid(user.getUId(), 0);
+		int pc = getPc(request);
+		String url = getUrl(request);
 		
+		PageBean<Sale> pb = zbtjService.findAllSalesByUid(user.getUId(), pc);
+		pb.setUrl(url);
+		request.setAttribute("pb", pb);
 		
 		return "f:/pages/sales/zbtj.jsp";
 	}
+
+	private int getPc(HttpServletRequest request) {
+		int pc = 1;
+		String pcParam = request.getParameter("pc");
+		if (pcParam != null) {
+			if (!pcParam.trim().isEmpty()) {
+				try {
+					pc = Integer.parseInt(pcParam);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		return pc;
+	}
+
+	private String getUrl(HttpServletRequest request) {
+		String url = request.getRequestURI() + "?" + request.getQueryString();
+		// 如果url中存在pc参数，截取掉，如果不存在就不用截取
+		int index = url.lastIndexOf("&pc");
+		if (index != -1) {
+			url = url.substring(0, index);
+		}
+		return url;
+	}
+	
+//	@Test
+//	public void testInitLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		initLoad(request, response);
+//
+//	}
 }

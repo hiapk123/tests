@@ -118,28 +118,22 @@
 				</tr>
 			</thead>
 			<tbody>
-			<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						</tr>
-				<%-- <c:forEach items="${pb.beanList }" var="goods" varStatus="status">
+				<!-- <tr>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+				</tr> -->
+				<c:forEach items="${pb.beanList }" var="sale" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
-						<td>${goods.GName }</td>
-						<td>${goods.SName }</td>
-						<td>${goods.CName }</td>
-						<td>${goods.suName }</td>
-						<td>${goods.GBarcode }</td>
-						<td>${goods.GStockNum }</td>
-						<td>${goods.GStockMax }</td>
-						<td>${goods.GStockMin }</td>
-						<td>-</td>
-						<td>-</td>
+						<td>${sale.store.SName }</td>
+						<td>${sale.saGoodsNum }</td>
+						<td>${sale.saRealPrice }</td>
+						<td>${sale.saProfit }</td>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -150,7 +144,7 @@
 			未找到符合条件商品！
 		</c:when>
 			<c:otherwise>
-				<%@include file="/pager.jsp"%>
+				<%@include file="/pager_zbtj.jsp"%>
 			</c:otherwise>
 		</c:choose>
 	</div>
