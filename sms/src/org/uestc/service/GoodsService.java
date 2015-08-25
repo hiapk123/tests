@@ -27,6 +27,6 @@ public interface GoodsService {
 List<Object[]> upsort(int sid,int currentPage, String sorted);
 List<Object[]> downsort(int sid,int currentPage, String sorted);
 public void importExcel() throws FileNotFoundException;
-  
+
 
 }

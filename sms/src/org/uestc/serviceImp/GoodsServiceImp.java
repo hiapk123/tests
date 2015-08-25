@@ -195,6 +195,8 @@ public class GoodsServiceImp implements GoodsService {
 				good.getG_barcode()+"'"+")";
 		SqlHelper.executeUpdate(sql, new String[] { good.getS_id() + "" });
 	}
+
+	
 	
 	
 

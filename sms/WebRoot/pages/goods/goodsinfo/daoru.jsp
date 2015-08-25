@@ -87,7 +87,7 @@ function setTab(m,n){
 		<ul class="nav navbar-nav" id="menu0">
 			<button type="button" onclick="setTab(0,0)" class="btn btn-success">导入商品信息</button>
 			<button type="button" onclick="setTab(0,1)">导入商品图片</button>
-			
+
 
 		</ul>
 	</div>
@@ -96,48 +96,48 @@ function setTab(m,n){
 
 	<div id="main0">
 
-		<li class="block">
-          <label>1.还没创建过导入数据文件</label>
-			<a href="pages/goods/goodsinfo/do_download.jsp">下载</a></br>
-		  <label>2.已创建好导入数据文件，直接导入：</label>
-		  <label>所属门店</label>   <select>
-					<option>小六子食品店</option>
-					<option>悠食客1店</option>
-					<option>悠食客2店</option>
-					
-				</select> 
-				
-				<input type="file" id="file" >
-              <button type="button" class="btn btn-success" name="submit">导入</button>
-              
-             <form action="<%=basePath%>goods?m=excToMqsql" method="post">
-			
-					<input type="submit" value="将excel数据添加到mysql中">
-			
-		     </form>
-					
-				
-		</li>
+		<li class="block"><label>1.还没创建过导入数据文件</label> <a
+			href="pages/goods/goodsinfo/do_download.jsp">下载</a></br> <label>2.已创建好导入数据文件，直接导入：</label>
+			<label>所属门店</label> <select>
+				<option>小六子食品店</option>
+				<option>悠食客1店</option>
+				<option>悠食客2店</option>
 
-		
+		</select>
+
+			<form
+				action="<%=basePath%>goods?m=Shangchuanwenjian"
+				enctype="multipart/form-data" method="post">
+				 上传文件：<input
+					type="file" name="file1"><br /> 
+					 <input type="submit" value="提交">
+			</form>
+
+			<form action="<%=basePath%>goods?m=excToMqsql" method="post">
+
+				<input type="submit" value="将excel数据添加到mysql中">
+
+			</form></li>
+
+
 		<li role="form">
 			<div class="form-group">
 
 
-				<label>说明：上传的图片以条码作为文件名，图片格式为（jpg,jpeg），最佳大小：900*1200，每张不超过3M，一次不超过50张.</label> 
-				<label>所属门店</label>   <select>
+				<label>说明：上传的图片以条码作为文件名，图片格式为（jpg,jpeg），最佳大小：900*1200，每张不超过3M，一次不超过50张.</label>
+				<label>所属门店</label> <select>
 					<option>小六子食品店</option>
 					<option>悠食客1店</option>
 					<option>悠食客2店</option>
-					
-				</select> 
-				
-              <!--  <input type="file" id="file" >
+
+				</select>
+
+				<!--  <input type="file" id="file" >
               <button type="button" class="btn btn-success" name="submit" >shangchuan</button> -->
 
-    	
-    
-           </div>
+
+
+			</div>
 		</li>
 
 
