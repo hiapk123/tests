@@ -1,5 +1,6 @@
 package org.uestc.servlet;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -68,7 +69,8 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goodsinfo/editgood.jsp").forward(req, resp);
 		} else if (m.equals("editGood2")) {
 			this.editGood2(req, resp);
-			resp.sendRedirect("<%=basePath %>goods?m=goodsInfo");
+			req.getRequestDispatcher("/pages/goods/goodsinfo/tiaozhuan.jsp").forward(req, resp);
+		//	resp.sendRedirect("<%=basePath %>goods?m=goodsInfo");
 		} else if (m.equals("deleteGood")) {
 			this.deleteGood(req, resp);
 			String url = req.getHeader("Referer");
@@ -82,9 +84,24 @@ public class GoodsServlet extends HttpServlet {
 		}else if (m.equals("downsort")) {
 			this.downsort(req,resp);
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
+		}else if (m.equals("excToMqsql")) {
+			this.ExcelToMySql(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/daoru.jsp").forward(req, resp);
 		}
 
 	}
+	/***
+	 * 将商品模板导入数据库
+	 * @param req
+	 * @param resp
+	 * @throws FileNotFoundException 
+	 */
+	private void ExcelToMySql(HttpServletRequest req, HttpServletResponse resp) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		good.importExcel();
+		
+	}
+
 	/***
 	 * 降序
 	 * 

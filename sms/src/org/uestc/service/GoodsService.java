@@ -1,5 +1,6 @@
 package org.uestc.service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import com.uestc.bean.Category;
@@ -25,7 +26,7 @@ public interface GoodsService {
 
 List<Object[]> upsort(int sid,int currentPage, String sorted);
 List<Object[]> downsort(int sid,int currentPage, String sorted);
-
+public void importExcel() throws FileNotFoundException;
   
 
 }

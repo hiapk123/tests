@@ -228,8 +228,9 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 
 	<a href="pages/goods/kuaisuluru.jsp"><input type="button"
 		class="btn btn-success" value="快速录入"></input></a> &nbsp;&nbsp;
+	
 	<select id="store" class="singleSelector">
-		<option value="-1" selected="selected" disabled="disabled">选择店铺</option>
+		<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
 
 		<%
 			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
@@ -254,12 +255,49 @@ window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,w
 			type="button" value="查询" id="search" class="submitBtn" />
 		<button type="button" class="btn btn-success" float:right>按分类</button>
 	</div>
+	
 	<div data-spy="scroll"
 		style="width: 100%; overflow: auto; position: relative;"
 		data-offset="10">
+     
 
+		<div id="goodsinfodiv">
+		<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+		<thead>
+			<tr>
+				<th>操作</th>
+				<th>商品名称</th>
+				<th>所属门店</th>
+				<th>商品条码</th>
+				<th>销售价</th>
+				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
+				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
+				<th>会员价</th>  
+				<th>分类</th>
+				<th>批发价</th>
+				<th>会员折扣</th>
+				<th>库存上限</th>
+				<th>库存下限</th>
+				<th>生产日期</th>
+				<th>保质期 ↑ ↓</th>
+				<th>拼音码</th>
+				<th>供货商</th>
+				<th>自定义1</th>
+				<th>自定义2</th>
+				<th>自定义3</th>
+				<th>自定义4</th>
+				<th>最小起订量</th>
+				<th>最低陈列量</th>
+				<th>畅销量</th>
+				<th>正常销售量</th>
+				<th>库存合理值</th>
+				<th>是否锁定</th>
+			</tr>
+		</thead>
+		
 
-		<div id="goodsinfodiv"></div>
+	</table>
+		</div>
 
 	</div>
 

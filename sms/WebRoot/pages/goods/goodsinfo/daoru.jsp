@@ -47,7 +47,7 @@ function setTab(m,n){
 
  var tli=document.getElementById("menu"+m).getElementsByTagName("button");
 
- var mli=document.getElementById("main"+m).getElementsByTagName("form");
+ var mli=document.getElementById("main"+m).getElementsByTagName("li");
 
  for(i=0;i<tli.length;i++){
 
@@ -70,11 +70,11 @@ function setTab(m,n){
 	text-align: center;
 }
 
-#main0 form {
+#main0 li {
 	display: none;
 }
 
-#main0 form.block {
+#main0 li.block {
 	display: block;
 }
 </style>
@@ -96,7 +96,7 @@ function setTab(m,n){
 
 	<div id="main0">
 
-		<form class="block">
+		<li class="block">
           <label>1.还没创建过导入数据文件</label>
 			<a href="pages/goods/goodsinfo/do_download.jsp">下载</a></br>
 		  <label>2.已创建好导入数据文件，直接导入：</label>
@@ -110,13 +110,17 @@ function setTab(m,n){
 				<input type="file" id="file" >
               <button type="button" class="btn btn-success" name="submit">导入</button>
               
-             
+             <form action="<%=basePath%>goods?m=excToMqsql" method="post">
+			
+					<input type="submit" value="将excel数据添加到mysql中">
+			
+		     </form>
 					
 				
-		</form>
+		</li>
 
 		
-		<form role="form">
+		<li role="form">
 			<div class="form-group">
 
 
@@ -128,11 +132,13 @@ function setTab(m,n){
 					
 				</select> 
 				
-               <input type="file" id="file" >
-              <button type="button" class="btn btn-success" name="submit" >shangchuan</button>
+              <!--  <input type="file" id="file" >
+              <button type="button" class="btn btn-success" name="submit" >shangchuan</button> -->
 
+    	
+    
            </div>
-		</form>
+		</li>
 
 
 
