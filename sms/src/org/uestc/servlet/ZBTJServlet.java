@@ -34,7 +34,6 @@ public class ZBTJServlet extends BaseServlet {
 	private ZBTJService zbtjService = new ZBTJServiceImp();
 	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("ZBTJServlet.initLoad()");
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
 		request.setAttribute("storeList", storeList);

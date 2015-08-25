@@ -20,7 +20,8 @@ public class ZBTJDaoImp implements ZBTJDao {
 	public PageBean<Sale> findAllSalesByUid(Long uId, int pc) throws SQLException {
 		int ps = PageConstants.SALE_PAGE_SIZE;
 		
-		String sql = "select count(*) from sale where store_id in(select s_id from store where u_id=?)";
+		String sql = "select count(DISTINCT(sa_serial_num)) from sale where store_id in(select s_id from store where u_id=?)";
+//		String sql = "select count(*) from sale where store_id in(select s_id from store where u_id=?) GROUP BY sa_serial_num";
 		Number number = qr.query(sql, new ScalarHandler(), uId);
 		int tr = number.intValue();
 

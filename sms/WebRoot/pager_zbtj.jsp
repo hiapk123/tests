@@ -11,7 +11,7 @@
 			alert('请输入正确的页码！');
 			return;
 		}
-		location = "${pb.url}&pc="+pc+"&hp_store=${storeName}&hp_category=${categoryName}&hp_supplier=${supplierName}&hp_inventoryStatus=${inventoryStatus}";
+		location = "${pb.url}&pc="+pc;
 	}
 </script>
 
@@ -24,7 +24,7 @@
 				<span class="spanBtnDisabled">上一页</span>
 			</c:when>
 			<c:otherwise>
-				<a href="${pb.url }&pc=${pb.pc-1}&hp_store=${storeName}&hp_category=${categoryName}&hp_supplier=${supplierName}&hp_inventoryStatus=${inventoryStatus}" class="aBtn bold">上一页</a>
+				<a href="${pb.url }&pc=${pb.pc-1}" class="aBtn bold">上一页</a>
 			</c:otherwise>
 		</c:choose>
 
@@ -59,7 +59,7 @@
 					<span class="spanBtnSelect">${i }</span>
 				</c:when>
 				<c:otherwise>
-					<a href="${pb.url }&pc=${i}&hp_store=${storeName}&hp_category=${categoryName}&hp_supplier=${supplierName}&hp_inventoryStatus=${inventoryStatus}" class="aBtn">${i }</a>
+					<a href="${pb.url }&pc=${i}" class="aBtn">${i }</a>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
@@ -84,7 +84,7 @@
 				<span class="spanBtnDisabled">下一页</span>
 			</c:when>
 			<c:otherwise>
-				<a href="${pb.url }&pc=${pb.pc+1}&hp_store=${storeName}&hp_category=${categoryName}&hp_supplier=${supplierName}&hp_inventoryStatus=${inventoryStatus}" class="aBtn bold">下一页</a>
+				<a href="${pb.url }&pc=${pb.pc+1}" class="aBtn bold">下一页</a>
 <%-- 				<a href="${pb.url }&pc=${pb.pc+1}" class="aBtn bold">下一页</a> --%>
 			</c:otherwise>
 		</c:choose>
@@ -93,7 +93,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 		<%-- 共N页 到M页 --%>
-		<span>共${pb.tp }页</span> <span>到</span> <input type="text" style="width: 25px; height: 33px"
+		<span>共${pb.tp }页</span> <span>到</span> <input type="text" style="width: 25px; height: 33px; text-align: center;"
 			class="inputPageCode" id="pageCode" value="${pb.pc }" /> <span>页</span>
 		<a href="javascript:_go();" class="aSubmit">确定</a>
 	</div>
