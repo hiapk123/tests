@@ -117,6 +117,8 @@ public class GoodsServlet extends HttpServlet {
              tmpFile.mkdir();
          }
          
+         
+         
          //消息提示
          String message = "";
          try{
