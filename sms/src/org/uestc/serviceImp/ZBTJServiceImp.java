@@ -18,4 +18,14 @@ public class ZBTJServiceImp implements ZBTJService {
 		}
 	}
 
+	@Override
+	public PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, String condition,
+			Long uId, int pc) {
+		try {
+			return zbtjDao.findByCombination(storeName, beginTime, endTime, condition, uId, pc);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

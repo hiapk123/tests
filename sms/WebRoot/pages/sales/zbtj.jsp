@@ -36,7 +36,7 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-footer">
-			<form action="<c:url value='/ZBTJServlet?method=findAll' />"
+			<form action="<c:url value='/ZBTJServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
 					<div class="col-md-2">
@@ -51,11 +51,11 @@
 							</c:forEach>
 						</select>
 					</div>
-
+					<!-- data-date-format="yyyy-mm-dd HH:mm:ss" -->
 					<div class="input-group date form_date col-md-3" data-date=""
 						data-date-format="" data-link-field="dtp_input2"
 						data-link-format="yyyy-mm-dd">
-						<input class="form-control" size="16" type="text" value=""
+						<input name="beginTime" class="form-control" size="16" type="text" value="${beginTime }"
 							readonly> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
@@ -67,7 +67,7 @@
 					<div class="input-group date form_date col-md-3" data-date=""
 						data-date-format="" data-link-field="dtp_input2"
 						data-link-format="yyyy-mm-dd">
-						<input class="form-control" size="16" type="text" value=""
+						<input name="endTime" class="form-control" size="16" type="text" value="${endTime }"
 							readonly> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
@@ -78,15 +78,18 @@
 
 					<div class="col-md-2">
 						<select class="form-control" name="hp_condition">
-							<option>按门店</option>
+							<option <c:if test="${condition eq '按门店'}">selected</c:if>>按门店</option>
+							<option <c:if test="${condition eq '按商品分类'}">selected</c:if>>按商品分类</option>
+							<option <c:if test="${condition eq '按导购员'}">selected</c:if>>按导购员</option>
+							<option <c:if test="${condition eq '按收银员'}">selected</c:if>>按收银员</option>
+							<option <c:if test="${condition eq '按支付方式'}">selected</c:if>>按支付方式</option>
+							<option <c:if test="${condition eq '是否会员'}">selected</c:if>>是否会员</option>
+							<!-- <option>按门店</option>
 							<option>按商品分类</option>
 							<option>按导购员</option>
 							<option>按收银员</option>
 							<option>按支付方式</option>
-							<option>是否会员</option>
-							<!--<c:forEach items="${storeList }" var="store">
-								<option <c:if test="${storeName eq store.SName}">selected</c:if>>${store.SName }</option>
-							</c:forEach>-->
+							<option>是否会员</option> -->
 						</select>
 					</div>
 
@@ -141,7 +144,7 @@
 	<div style="float: left; width: 100%; text-align: center;">
 		<c:choose>
 			<c:when test="${pb.tp eq 0}">
-			未找到符合条件商品！
+			未找到符合条件的记录！
 		</c:when>
 			<c:otherwise>
 				<%@include file="/pager_zbtj.jsp"%>

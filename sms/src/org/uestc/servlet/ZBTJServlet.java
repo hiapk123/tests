@@ -33,6 +33,31 @@ public class ZBTJServlet extends BaseServlet {
 	private InventoryWarningService inventoryWarningService = new InventoryWarningServiceImp();
 	private ZBTJService zbtjService = new ZBTJServiceImp();
 	
+	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Users user = (Users) request.getSession().getAttribute("sessionUser");
+		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		request.setAttribute("storeList", storeList);
+		
+		String storeName = request.getParameter("hp_store");
+		String beginTime = request.getParameter("beginTime");
+		String endTime = request.getParameter("endTime");
+		String condition = request.getParameter("hp_condition");
+		
+		request.setAttribute("storeName", storeName);
+		request.setAttribute("beginTime", beginTime);
+		request.setAttribute("endTime", endTime);
+		request.setAttribute("condition", condition);
+		
+		int pc = getPc(request);
+		String url = getUrl(request);
+		
+		PageBean<Sale> pb = zbtjService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		pb.setUrl(url);
+		request.setAttribute("pb", pb);
+		
+		return "f:/pages/sales/zbtj.jsp";
+	}
+	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
@@ -73,9 +98,4 @@ public class ZBTJServlet extends BaseServlet {
 		return url;
 	}
 	
-//	@Test
-//	public void testInitLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		initLoad(request, response);
-//
-//	}
 }

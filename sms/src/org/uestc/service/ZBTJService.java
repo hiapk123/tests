@@ -13,4 +13,7 @@ public interface ZBTJService {
 	public ZBTJDao zbtjDao = new ZBTJDaoImp();
 
 	PageBean<Sale> findAllSalesByUid(Long uId, int pc);
+
+	PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, String condition, Long uId,
+			int pc);
 }
