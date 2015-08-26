@@ -21,17 +21,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
   </head>
-  
+  <%
+			String s_id = request.getParameter("s_id");
+			String s_name = request.getParameter("s_name");
+			request.setAttribute("s_id", s_id);
+			request.setAttribute("s_name", s_name);
+		%>
   <body>
    <form role="form">
    <div class="form-group">
-      <label for="name">选择门店</label>
-      <select class="form-control">
-         <option>小六子食品店</option>
-         <option>悠食客1店</option>
-         <option>悠食客2店</option>
-        
-      </select>
+     <input type="hidden" value="<%=s_id%>" >
+		<label   >店铺名：<%=s_name%></label>
+		<input type="hidden" value="<%=s_name%>" >
        <label for="name">商品分类</label>
       <select class="form-control">
          <option>散装</option>
@@ -40,9 +41,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
       </select>
    </div>
-  <button type="button" class="btn btn-success" name="submit" >导出</button>
+  
   
    
+</form>
+<form action="<%=basePath%>goods?m=toExcel&s_id=<%=s_id%>" method="post">
+   
+   <input type=submit value=导出数据到Excel>
 </form>
   </body>
 </html>

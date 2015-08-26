@@ -41,7 +41,9 @@ window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=500,width=800
 
 function DaoRu()
 {
-window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+	var id=$("#store").val();
+	var name=$("#store :selected").text();
+window.open ("<%=basePath%>goods?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -50,7 +52,9 @@ window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=600,width=800
 
 function daochu()
 {
-window.open ('pages/goods/goodsinfo/daochu.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+	var id=$("#store").val();
+	var name=$("#store :selected").text();
+window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>

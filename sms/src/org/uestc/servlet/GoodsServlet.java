@@ -64,8 +64,7 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
 		} else if (m.equals("addGood")) {
 			this.addGood(req, resp);
-			req.getRequestDispatcher("/pages/goods/goodsi"
-					+ "nfo/addgood.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/addgood.jsp").forward(req, resp);
 		} else if (m.equals("addGood1")) {
 			this.addGood0(req, resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/addproduct-info.jsp").forward(req, resp);
@@ -92,15 +91,66 @@ public class GoodsServlet extends HttpServlet {
 		}else if (m.equals("downsort")) {
 			this.downsort(req,resp);
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
+		}else if (m.equals("daoru")) {
+			this.daoru(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/daoru.jsp").forward(req, resp);
 		}else if (m.equals("Shangchuanwenjian")) {
 			this.shangchuan(req,resp);
-			
-			//req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
+		}else if (m.equals("daochu")) {
+			this.daochu(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/daochu.jsp").forward(req, resp);
+		}else if (m.equals("toExcel")) {
+			this.toExcel(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/toExcel.jsp").forward(req, resp);
 		}
 
 	}
 	/***
-	 * 上传文件
+	 * 点击导入商品按钮进入导入商品页面
+	 * @param req
+	 * @param resp
+	 */
+	private void daoru(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		 String s_id = req.getParameter("s_id");
+		 String s_name = req.getParameter("s_name");
+			
+			
+			req.setAttribute("s_id", s_id);
+			req.setAttribute("s_name", s_name);
+	}
+
+	/***
+	 * 点击导出商品按钮进入导出商品页面
+	 * @param req
+	 * @param resp
+	 */
+	private void daochu(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+        String s_id = req.getParameter("s_id");
+		
+		
+		
+		req.setAttribute("s_id", s_id);
+		
+	}
+
+	/***
+	 * 将数据从数据库导入表格并下载
+	 * @param req
+	 * @param resp
+	 */
+	private void toExcel(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id = req.getParameter("s_id");
+		
+		List<Object[]> list = good.toExcel(Integer.valueOf(s_id));
+		req.setAttribute("goodsList", list);
+		req.setAttribute("s_id", s_id);
+	}
+
+	/***
+	 * 上传文件并导入数据库
 	 * @param req
 	 * @param resp
 	 * @throws IOException 

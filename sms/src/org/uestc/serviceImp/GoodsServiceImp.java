@@ -225,6 +225,14 @@ public class GoodsServiceImp implements GoodsService {
 		SqlHelper.executeUpdate(sql, new String[] { good.getS_id() + "" });
 	}
 
+	@Override
+	public List<Object[]> toExcel(int s_id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT g_name,s_name,g_barcode from goods where s_id=? and g_del=1 ";
+		List<Object[]> list = SqlHelper.find(sql, s_id);
+		return list;
+	}
+
 	
 	
 	

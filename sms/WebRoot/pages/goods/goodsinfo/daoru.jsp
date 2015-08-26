@@ -81,6 +81,12 @@ function setTab(m,n){
 </head>
 
 <body>
+<%
+			String s_id = request.getParameter("s_id");
+			String s_name = request.getParameter("s_name");
+			request.setAttribute("s_id", s_id);
+			request.setAttribute("s_name", s_name);
+		%>
 	<nav class="navbar navbar-default" role="navigation">
 
 	<div>
@@ -98,12 +104,11 @@ function setTab(m,n){
 
 		<li class="block"><label>1.还没创建过导入数据文件</label> <a
 			href="pages/goods/goodsinfo/do_download.jsp">下载</a></br> <label>2.已创建好导入数据文件，直接导入：</label>
-			<label>所属门店</label> <select>
-				<option>小六子食品店</option>
-				<option>悠食客1店</option>
-				<option>悠食客2店</option>
-
-		</select>
+			<br>
+			<br>
+			 <input type="hidden" value="<%=s_id%>" >
+		<label   >店铺名：<%=s_name%></label>
+		<input type="hidden" value="<%=s_name%>" >
 
 			<form
 				action="<%=basePath%>goods?m=Shangchuanwenjian"
