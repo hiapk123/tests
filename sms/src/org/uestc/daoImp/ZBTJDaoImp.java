@@ -676,16 +676,6 @@ public class ZBTJDaoImp implements ZBTJDao {
 		return "";
 	}
 	
-//	private String isVip(Long buyerId) throws SQLException {
-//		String sql = "select emp_name from sale where emp_id=?";
-//		List<Object[]> list = qr.query(sql, new ArrayListHandler(), empId);
-//		if (list.size() > 0) {
-//			Object[] obj = list.get(0);
-//			return obj[0].toString();
-//		}
-//		return null;
-//	}
-	
 	private String findEmpNameByEmpId(Long empId) throws SQLException {
 		String sql = "select emp_name from employee where emp_id=?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), empId);

@@ -160,6 +160,10 @@
 			<%-- $('#if_content').attr('src','<%=basePath %>pages/sales/zbtj.jsp'); --%>
 			$('#if_content').attr('src','<%=basePath %>ZBTJServlet?method=initLoad');
 		});
+		$('#spxs').click(function(){
+			<%-- $('#if_content').attr('src','<%=basePath %>pages/sales/zbtj.jsp'); --%>
+			$('#if_content').attr('src','<%=basePath %>SPXSServlet?method=initLoad');
+		});
 <%-- 		$('#kcyd').click(function(){
 			$('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp');
 			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=loadBaseMessage');
@@ -253,7 +257,7 @@
 											<li><a href="#" data-options="销售" id="xsdj">销售单据</a></li>
 											<li><a href="#" data-options="销售" id="csfx">趋势分析</a></li>
 											<li><a href="#" data-options="销售" id="zbtj">占比统计</a></li>
-											<li><a href="#" data-options="销售" id="spxs">商品销售查询</a></li>
+											<li><a href="#" data-options="销售" id="spxs">商品销售统计</a></li>
 											<li><a href="#" data-options="销售" id="fjz">反结账单据</a></li>
 											<li><a href="#" data-options="销售" id="wdgh">我的供货</a></li>
 										</ul>
