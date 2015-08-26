@@ -92,12 +92,10 @@ public class GoodsServlet extends HttpServlet {
 		}else if (m.equals("downsort")) {
 			this.downsort(req,resp);
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
-		}else if (m.equals("excToMqsql")) {
-			this.ExcelToMySql(req,resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/daoru.jsp").forward(req, resp);
 		}else if (m.equals("Shangchuanwenjian")) {
 			this.shangchuan(req,resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/daoru.jsp").forward(req, resp);
+			
+			//req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
 		}
 
 	}
@@ -105,8 +103,10 @@ public class GoodsServlet extends HttpServlet {
 	 * 上传文件
 	 * @param req
 	 * @param resp
+	 * @throws IOException 
+	 * @throws ServletException 
 	 */
-	private void shangchuan(HttpServletRequest req, HttpServletResponse resp) {
+	private void shangchuan(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 String savePath = this.getServletContext().getRealPath("/WEB-INF/upload");
          //上传时生成的临时文件保存目录
@@ -116,9 +116,6 @@ public class GoodsServlet extends HttpServlet {
              //创建临时目录
              tmpFile.mkdir();
          }
-         
-         
-         
          //消息提示
          String message = "";
          try{
@@ -198,22 +195,28 @@ public class GoodsServlet extends HttpServlet {
                      //关闭输出流
                      out.close();
                      //删除处理文件上传时生成的临时文件
-                    
+                     message = "文件上传成功！";
+                     
                  }
              }
          }catch (FileUploadBase.FileSizeLimitExceededException e) {
              e.printStackTrace();
-            
+             req.setAttribute("message", "单个文件超出最大值！！！");
+             req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
              return;
          }catch (FileUploadBase.SizeLimitExceededException e) {
              e.printStackTrace();
-            
+             req.setAttribute("message", "上传文件的总的大小超出限制的最大值！！！");
+             req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
              return;
          }catch (Exception e) {
-            
+        	 message= "文件上传失败！";
+             
              e.printStackTrace();
          }
-        
+        // req.setAttribute("message",message);
+         //req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
+         good.importExcel(req,resp);
 }
 	
 
@@ -223,11 +226,11 @@ public class GoodsServlet extends HttpServlet {
 	 * @param resp
 	 * @throws FileNotFoundException 
 	 */
-	private void ExcelToMySql(HttpServletRequest req, HttpServletResponse resp) throws FileNotFoundException {
+	/*private void ExcelToMySql(HttpServletRequest req, HttpServletResponse resp) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		good.importExcel();
 		
-	}
+	}*/
 
 	/***
 	 * 降序

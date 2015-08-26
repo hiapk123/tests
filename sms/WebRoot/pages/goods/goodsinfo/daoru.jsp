@@ -109,15 +109,16 @@ function setTab(m,n){
 				action="<%=basePath%>goods?m=Shangchuanwenjian"
 				enctype="multipart/form-data" method="post">
 				 上传文件：<input
-					type="file" name="file1"><br /> 
+					type="file" name="file1" ><br /> 
 					 <input type="submit" value="提交">
 			</form>
 
-			<form action="<%=basePath%>goods?m=excToMqsql" method="post">
+			<%-- <form action="<%=basePath%>goods?m=excToMqsql" method="post">
 
 				<input type="submit" value="将excel数据添加到mysql中">
 
-			</form></li>
+			</form> --%>
+			</li>
 
 
 		<li role="form">

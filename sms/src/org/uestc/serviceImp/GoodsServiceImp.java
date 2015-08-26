@@ -12,6 +12,13 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.uestc.service.GoodsService;
@@ -106,13 +113,16 @@ public class GoodsServiceImp implements GoodsService {
 		return list;
 	}
 	@Override
-	public void importExcel() throws FileNotFoundException {
+	public void importExcel(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		String []goodArrary={"门店id","商品名称","门店名称","商品条码"};
         int gid = 0;
 		List liststu=new ArrayList();
 		// 找到导入的文件
 		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
-		String sFilePath = "F:/商品导入模板.xls";  
+		String sFilePath = "F:/liuyan0/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/商品导入模板.xls";  
+		String message=null;
 		InputStream is = new FileInputStream(sFilePath);  
 		try {
 			//创建工作簿
@@ -121,7 +131,14 @@ public class GoodsServiceImp implements GoodsService {
 			jxl.Sheet sheet=wb.getSheet(0);
 			String content=null; 
 			String flag="add";
-
+            for (int m = 0; m < sheet.getColumns(); m++) {
+            	content=sheet.getCell(m, 0).getContents();
+            	if(!content.equals(goodArrary[m])){
+            		message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+goodArrary[m];
+            		
+            		throw new Exception();
+            	}
+			}
 			for(int i=1;i<sheet.getRows();i++)
 			{   
 				Good good=new Good();
@@ -170,14 +187,26 @@ public class GoodsServiceImp implements GoodsService {
 				}else if(flag=="update"){
 					daoruexcel1(good,gid);
 				}
+				message= "成功！";
 			}
+			
 		} catch (BiffException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
 		}
+		
+		req.setAttribute("message",message);
+	     req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
 	}
 	private void daoruexcel1(Good good,int g_id) {
 		// TODO Auto-generated method stub

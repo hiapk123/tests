@@ -1,7 +1,12 @@
 package org.uestc.service;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.uestc.bean.Category;
 import com.uestc.bean.CommissionRule;
@@ -26,7 +31,7 @@ public interface GoodsService {
 
 List<Object[]> upsort(int sid,int currentPage, String sorted);
 List<Object[]> downsort(int sid,int currentPage, String sorted);
-public void importExcel() throws FileNotFoundException;
+public void importExcel(HttpServletRequest req,HttpServletResponse resp) throws FileNotFoundException, ServletException, IOException;
 
 
 }
