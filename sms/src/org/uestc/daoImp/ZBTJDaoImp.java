@@ -25,10 +25,10 @@ public class ZBTJDaoImp implements ZBTJDao {
 			Long uId, int pc) throws SQLException, ParseException {
 		
 		if (!beginTime.equals("")) {
-			beginTime = dateToString(beginTime);
+			beginTime = StrToDate(beginTime);
 		}
 		if (!endTime.equals("")) {
-			endTime = dateToString(endTime);
+			endTime = StrToDate(endTime);
 		}
 		
 		
@@ -232,6 +232,19 @@ public class ZBTJDaoImp implements ZBTJDao {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return Long.toString(cal.getTimeInMillis());
+	}
+	
+	private String StrToDate(String str) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd
+		// HH:mm:ss");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "" + date.getTime();
 	}
 
 }
