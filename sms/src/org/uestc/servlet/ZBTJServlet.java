@@ -51,7 +51,9 @@ public class ZBTJServlet extends BaseServlet {
 		int pc = getPc(request);
 		String url = getUrl(request);
 		
-		PageBean<Sale> pb = zbtjService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		PageBean<Sale> pb = null;
+		pb = zbtjService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
 		

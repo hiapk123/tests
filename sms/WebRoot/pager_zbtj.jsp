@@ -11,7 +11,7 @@
 			alert('请输入正确的页码！');
 			return;
 		}
-		location = "${pb.url}&pc="+pc+"&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&condition=${condition}";
+		location = "${pb.url}&pc="+pc+"&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&hp_condition=${condition}";
 	}
 </script>
 
@@ -24,7 +24,7 @@
 				<span class="spanBtnDisabled">上一页</span>
 			</c:when>
 			<c:otherwise>
-				<a href="${pb.url }&pc=${pb.pc-1}&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&condition=${condition}" class="aBtn bold">上一页</a>
+				<a href="${pb.url }&pc=${pb.pc-1}&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&hp_condition=${condition}" class="aBtn bold">上一页</a>
 			</c:otherwise>
 		</c:choose>
 
@@ -59,7 +59,7 @@
 					<span class="spanBtnSelect">${i }</span>
 				</c:when>
 				<c:otherwise>
-					<a href="${pb.url }&pc=${i}&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&condition=${condition}" class="aBtn">${i }</a>
+					<a href="${pb.url }&pc=${i}&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&hp_condition=${condition}" class="aBtn">${i }</a>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
@@ -84,7 +84,7 @@
 				<span class="spanBtnDisabled">下一页</span>
 			</c:when>
 			<c:otherwise>
-				<a href="${pb.url }&pc=${pb.pc+1}&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&condition=${condition}" class="aBtn bold">下一页</a>
+				<a href="${pb.url }&pc=${pb.pc+1}&hp_store=${storeName}&beginTime=${beginTime}&endTime=${endTime}&hp_condition=${condition}" class="aBtn bold">下一页</a>
 <%-- 				<a href="${pb.url }&pc=${pb.pc+1}" class="aBtn bold">下一页</a> --%>
 			</c:otherwise>
 		</c:choose>

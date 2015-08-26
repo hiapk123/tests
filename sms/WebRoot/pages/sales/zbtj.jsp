@@ -79,8 +79,8 @@
 					<div class="col-md-2">
 						<select class="form-control" name="hp_condition">
 							<option <c:if test="${condition eq '按门店'}">selected</c:if>>按门店</option>
-							<option <c:if test="${condition eq '按商品分类'}">selected</c:if>>按商品分类</option>
-							<option <c:if test="${condition eq '按导购员'}">selected</c:if>>按导购员</option>
+							<%-- <option <c:if test="${condition eq '按商品分类'}">selected</c:if>>按商品分类</option>
+							<option <c:if test="${condition eq '按导购员'}">selected</c:if>>按导购员</option> --%>
 							<option <c:if test="${condition eq '按收银员'}">selected</c:if>>按收银员</option>
 							<option <c:if test="${condition eq '按支付方式'}">selected</c:if>>按支付方式</option>
 							<option <c:if test="${condition eq '是否会员'}">selected</c:if>>是否会员</option>
@@ -114,7 +114,13 @@
 				<!--  style="font-weight: 900" -->
 				<tr>
 					<th>序号</th>
-					<th>门店</th>
+					<th>
+					<c:if test="${empty condition}">门店</c:if>
+					<c:if test="${condition eq '按门店'}">门店</c:if>
+					<c:if test="${condition eq '按收银员'}">收银员</c:if>
+					<c:if test="${condition eq '按支付方式'}">支付方式</c:if>
+					<c:if test="${condition eq '是否会员'}">是否会员</c:if>
+					</th>
 					<th>销售单数</th>
 					<th>实收金额</th>
 					<th>利润</th>
@@ -131,7 +137,16 @@
 				<c:forEach items="${pb.beanList }" var="sale" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
-						<td>${sale.store.SName }</td>
+						<td>
+							<c:if test="${empty condition}">${sale.store.SName }</c:if>
+							<c:if test="${condition eq '按门店'}">${sale.store.SName }</c:if>
+							<c:if test="${condition eq '按支付方式'}">${sale.saType }</c:if>
+							<c:if test="${condition eq '按收银员'}">${sale.employee.empName }</c:if>
+							<c:if test="${condition eq '是否会员'}">
+								<c:if test="${sale.vip.VId ne '10000'}">是</c:if>
+								<c:if test="${sale.vip.VId eq '10000'}">否</c:if>
+							</c:if>
+						</td>
 						<td>${sale.saGoodsNum }</td>
 						<td>${sale.saRealPrice }</td>
 						<td>${sale.saProfit }</td>
