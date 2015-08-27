@@ -40,9 +40,9 @@
 				action="<c:url value='/ZBTJServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<div class="col-md-2">
+					<!-- <div class="col-md-2">
 						<h4>占比统计</h4>
-					</div>
+					</div> -->
 
 					<div class="col-md-2">
 						<select class="form-control" name="hp_store">

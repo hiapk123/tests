@@ -40,9 +40,9 @@
 				action="<c:url value='/SPXSServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<div class="col-md-2">
+					<!-- <div class="col-md-2">
 						<h4>销售单据</h4>
-					</div>
+					</div> -->
 
 					<div class="col-md-2">
 						<select class="form-control" name="hp_store">
@@ -52,7 +52,14 @@
 							</c:forEach>
 						</select>
 					</div>
-					<!-- data-date-format="yyyy-mm-dd HH:mm:ss" -->
+
+					<div class="col-md-2">
+						<select class="form-control" name="receiptType">
+							<option>有效单据</option>
+							<option>作废单据</option>
+							<option>会员单据</option>
+						</select>
+					</div>
 
 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
@@ -101,19 +108,20 @@
 			<thead>
 				<!--  style="font-weight: 900" -->
 				<tr>
-					<th>序号</th>
-					<th>商品名称</th>
-					<th>商品条码</th>
-					<th>商品分类</th>
-					<th>现有库存</th>
-					<th>销售数量</th>
-					<th>商品总价</th>
+					<th>操作</th>
+					<th>流水号</th>
+					<th>日期</th>
+					<th>类型</th>
+					<th>收银员</th>
+					<th>会员</th>
+					<th>商品数量</th>
+					<th>商品原价</th>
 					<th>实收金额</th>
 					<th>利润</th>
 				</tr>
 			</thead>
 			<tbody>
-				<!-- <tr>
+				<tr>
 					<td>1</td>
 					<td>1</td>
 					<td>1</td>
@@ -123,8 +131,9 @@
 					<td>1</td>
 					<td>1</td>
 					<td>1</td>
-				</tr> -->
-				<c:forEach items="${pb.beanList }" var="spxs" varStatus="status">
+					<td>1</td>
+				</tr>
+				<%-- <c:forEach items="${pb.beanList }" var="spxs" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
 						<td>${spxs.gName }</td>
@@ -136,7 +145,7 @@
 						<td>${spxs.saRealAmount }</td>
 						<td>${spxs.saProfit }</td>
 					</tr>
-				</c:forEach>
+				</c:forEach> --%>
 			</tbody>
 		</table>
 	</div>
@@ -151,7 +160,6 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-
 
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
