@@ -164,6 +164,10 @@
 			<%-- $('#if_content').attr('src','<%=basePath %>pages/sales/zbtj.jsp'); --%>
 			$('#if_content').attr('src','<%=basePath %>SPXSServlet?method=initLoad');
 		});
+		$('#xsdj').click(function(){
+			<%-- $('#if_content').attr('src','<%=basePath %>pages/sales/zbtj.jsp'); --%>
+			$('#if_content').attr('src','<%=basePath %>XSDJServlet?method=initLoad');
+		});
 <%-- 		$('#kcyd').click(function(){
 			$('#if_content').attr('src','<%=basePath %>pages/goods/inventoryWarning.jsp');
 			$('#if_content').attr('src','<%=basePath %>InventoryWarningServlet?method=loadBaseMessage');

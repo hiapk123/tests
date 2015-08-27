@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>商品销售统计</title>
+<title>销售单据</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/pager.css'/>" />
 <!-- 日期控件css资源 -->
@@ -41,7 +41,7 @@
 				method="post">
 				<div class="row">
 					<div class="col-md-2">
-						<h4>商品销售统计</h4>
+						<h4>销售单据</h4>
 					</div>
 
 					<div class="col-md-2">
@@ -53,12 +53,12 @@
 						</select>
 					</div>
 					<!-- data-date-format="yyyy-mm-dd HH:mm:ss" -->
+
 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input name="beginTime" class="form-control" size="16" type="text"
-							value="${beginTime }" readonly> <span
-							class="input-group-addon"><span
+						<input class="form-control" size="16" type="text" value=""
+							readonly> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-th"></span></span>
@@ -68,9 +68,8 @@
 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input name="endTime" class="form-control" size="16" type="text"
-							value="${endTime }" readonly> <span
-							class="input-group-addon"><span
+						<input class="form-control" size="16" type="text" value=""
+							readonly> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-th"></span></span>

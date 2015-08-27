@@ -36,7 +36,8 @@
 <body>
 	<div class="panel panel-default">
 		<div class="panel-footer">
-			<form action="<c:url value='/ZBTJServlet?method=findByCombination' />"
+			<form
+				action="<c:url value='/ZBTJServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
 					<div class="col-md-2">
@@ -52,29 +53,29 @@
 						</select>
 					</div>
 					<!-- data-date-format="yyyy-mm-dd HH:mm:ss" -->
-					<div class="input-group date form_date col-md-3" data-date=""
-						data-date-format="" data-link-field="dtp_input2"
-						data-link-format="yyyy-mm-dd">
-						<input name="beginTime" class="form-control" size="16" type="text" value="${beginTime }"
-							readonly> <span class="input-group-addon"><span
+					<div class="input-group date form_datetime col-md-3" data-date=""
+						data-date-format="yyyy-mm-dd HH:mm:ss"
+						data-link-field="dtp_input1">
+						<input name="beginTime" class="form-control" size="16" type="text"
+							value="${beginTime }" readonly> <span
+							class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
-							class="glyphicon glyphicon-calendar"></span></span>
+							class="glyphicon glyphicon-th"></span></span>
 					</div>
-					<input type="hidden" id="dtp_input2" value="" />
-					<!--<br/>-->
+					<input type="hidden" id="dtp_input1" value="" />
 
-					<div class="input-group date form_date col-md-3" data-date=""
-						data-date-format="" data-link-field="dtp_input2"
-						data-link-format="yyyy-mm-dd">
-						<input name="endTime" class="form-control" size="16" type="text" value="${endTime }"
-							readonly> <span class="input-group-addon"><span
+					<div class="input-group date form_datetime col-md-3" data-date=""
+						data-date-format="yyyy-mm-dd HH:mm:ss"
+						data-link-field="dtp_input1">
+						<input name="endTime" class="form-control" size="16" type="text"
+							value="${endTime }" readonly> <span
+							class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
-							class="glyphicon glyphicon-calendar"></span></span>
+							class="glyphicon glyphicon-th"></span></span>
 					</div>
-					<input type="hidden" id="dtp_input2" value="" />
-					<!--<br/>-->
+					<input type="hidden" id="dtp_input1" value="" />
 
 					<div class="col-md-2">
 						<select class="form-control" name="hp_condition">
@@ -114,13 +115,11 @@
 				<!--  style="font-weight: 900" -->
 				<tr>
 					<th>序号</th>
-					<th>
-					<c:if test="${empty condition}">门店</c:if>
-					<c:if test="${condition eq '按门店'}">门店</c:if>
-					<c:if test="${condition eq '按收银员'}">收银员</c:if>
-					<c:if test="${condition eq '按支付方式'}">支付方式</c:if>
-					<c:if test="${condition eq '是否会员'}">是否会员</c:if>
-					</th>
+					<th><c:if test="${empty condition}">门店</c:if> <c:if
+							test="${condition eq '按门店'}">门店</c:if> <c:if
+							test="${condition eq '按收银员'}">收银员</c:if> <c:if
+							test="${condition eq '按支付方式'}">支付方式</c:if> <c:if
+							test="${condition eq '是否会员'}">是否会员</c:if></th>
 					<th>销售单数</th>
 					<th>实收金额</th>
 					<th>利润</th>
@@ -137,16 +136,14 @@
 				<c:forEach items="${pb.beanList }" var="sale" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
-						<td>
-							<c:if test="${empty condition}">${sale.store.SName }</c:if>
-							<c:if test="${condition eq '按门店'}">${sale.store.SName }</c:if>
-							<c:if test="${condition eq '按支付方式'}">${sale.saType }</c:if>
-							<c:if test="${condition eq '按收银员'}">${sale.employee.empName }</c:if>
-							<c:if test="${condition eq '是否会员'}">
+						<td><c:if test="${empty condition}">${sale.store.SName }</c:if>
+							<c:if test="${condition eq '按门店'}">${sale.store.SName }</c:if> <c:if
+								test="${condition eq '按支付方式'}">${sale.saType }</c:if> <c:if
+								test="${condition eq '按收银员'}">${sale.employee.empName }</c:if> <c:if
+								test="${condition eq '是否会员'}">
 								<c:if test="${sale.vip.VId ne '10000'}">是</c:if>
 								<c:if test="${sale.vip.VId eq '10000'}">否</c:if>
-							</c:if>
-						</td>
+							</c:if></td>
 						<td>${sale.saGoodsNum }</td>
 						<td>${sale.saRealPrice }</td>
 						<td>${sale.saProfit }</td>
@@ -169,15 +166,15 @@
 
 
 	<script type="text/javascript">
-		$('.form_date').datetimepicker({
+		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
 			weekStart : 1,
 			todayBtn : 1,
 			autoclose : 1,
 			todayHighlight : 1,
 			startView : 2,
-			minView : 2,
-			forceParse : 0
+			forceParse : 0,
+			showMeridian : 1
 		});
 	</script>
 
