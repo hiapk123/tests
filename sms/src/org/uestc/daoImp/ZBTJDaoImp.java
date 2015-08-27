@@ -671,7 +671,7 @@ public class ZBTJDaoImp implements ZBTJDao {
 		} else if (value.equals("2")) {
 			return "银联卡";
 		} else if (value.equals("3")) {
-			return "支付宝";
+			return "在线";
 		}
 		return "";
 	}
