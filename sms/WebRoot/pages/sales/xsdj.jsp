@@ -83,12 +83,12 @@
 					</div>
 					<input type="hidden" id="dtp_input1" value="" />
 
-					<div class="col-md-2">
-						<input type="text" class="form-control" placeholder="商品条码/名称"
-							name="gBarcodeOrGName" id="gBarcodeOrGName" value="${condition }">
+					<div class="col-xs-1">
+						<input type="text" class="form-control" placeholder="流水号"
+							name="seriNum" id="seriNum" value="${seriNum }">
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-1">
 						<button type="submit" class="btn btn-primary">查询</button>
 					</div>
 				</div>
