@@ -137,9 +137,9 @@
 				action="<c:url value='/InventoryWarningServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<div class="col-md-2">
+					<!-- <div class="col-md-2">
 						<h4>库存预警</h4>
-					</div>
+					</div> -->
 					<div class="col-md-2">
 						<select class="form-control" name="hp_store">
 							<option>全部门店</option>
@@ -176,14 +176,14 @@
 							<option <c:if test="${inventoryStatus eq '过期预警'}">selected</c:if>>过期预警</option>
 						</select>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-2">
 						<button type="submit" class="btn btn-primary">查询</button>
 						<!-- <input type="submit" class="btn btn-primary">查询</input> -->
 					</div>
-					<div class="col-md-1">
+					<!-- <div class="col-md-1">
 						<button type="button" class="btn btn-primary" id="hp_exportBtn">导出</button>
-						<!-- 导出货单 -->
-					</div>
+						导出货单
+					</div> -->
 				</div>
 			</form>
 		</div>
