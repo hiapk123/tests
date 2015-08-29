@@ -102,9 +102,52 @@ public class GoodsServlet extends HttpServlet {
 		}else if (m.equals("toExcel")) {
 			this.toExcel(req,resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/toExcel.jsp").forward(req, resp);
+		}else if (m.equals("fuzhishangpin")) {
+			this.fuzhishangpin(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/fuzhishangpin.jsp").forward(req, resp);
+		}else if (m.equals("fuzhi")) {
+			this.fuzhishangpin1(req,resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/tiaozhuan.jsp").forward(req, resp);
 		}
 
 	}
+	/***
+	 * 复制商品
+	 * @param req
+	 * @param resp
+	 */
+	private void fuzhishangpin1(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		 String s_id1 = req.getParameter("s_id1");
+		 String s_id2 = req.getParameter("s_id2");
+		good.fuzhi(Integer.valueOf(s_id1), Integer.valueOf(s_id2));
+	}
+
+	/***
+	 * 进入复制商品页面
+	 * @param req
+	 * @param resp
+	 */
+	private void fuzhishangpin(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		 String s_id = req.getParameter("s_id");
+		 String s_name = req.getParameter("s_name");
+		 req.setAttribute("s_id", s_id);
+		 req.setAttribute("s_name", s_name);
+			List<Object[]> storeList = null;
+			HttpSession session = req.getSession();
+
+			try {
+				storeList = good.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+
+				req.setAttribute("storeList", storeList);
+
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+
+	}
+
 	/***
 	 * 点击导入商品按钮进入导入商品页面
 	 * @param req

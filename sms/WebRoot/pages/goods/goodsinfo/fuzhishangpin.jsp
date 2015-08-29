@@ -3,7 +3,42 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<%
+			String s_id1 = request.getParameter("s_id");
+			String s_name = request.getParameter("s_name");
+			request.setAttribute("s_id1", s_id1);
+			request.setAttribute("s_name", s_name);
+		%>
+<head>
 
+<script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
+
+
+<script>
+$(function(){
+$("#haha").click(function(){
+	
+	var s_id1=<%=s_id1%>;
+	var s_id2=$("#s_id2").val();
+	alert("hello");
+	
+	
+	
+	$("#fuzhishangpin").empty();
+		
+	$.post("<%=basePath%>goods", {
+		"m" : "fuzhi",
+		"s_id1" :s_id1,
+		"s_id2" :s_id2,
+		
+	}, function(data) {
+		$("#fuzhishangpin").append(data);
+	}, "html");
+	
+});
+});
+</script>
+</head>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -23,23 +58,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-   <form role="form">
-   <div class="form-group">
+  
+   <div id="fuzhishangpin">
+   
       <label for="name">复制商品到</label>
-      <select class="form-control">
-       
-         <option>小六子食品店</option>
-         <option>悠食客1店</option>
-         <option>悠食客2店</option>
-        
-      </select>
-      </div></br>
+     
+      </br>
       <label>提示：只复制目标门店没有的商品。</label>
-     <button type="button" class="btn btn-success" name="submit">保存</button>
+     
+      <select id="s_id2" class="singleSelector">
+		 <option value="-1" selected="selected" disabled="disabled">选择店铺</option> 
+
+		<%
+		  
+			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
+			if (list != null && list.size() != 0) {
+				for (Object[] obj : list) {
+					if(!s_id1.equals(obj[0].toString())){
+		%>
+		<option value='<%=obj[0]%>'><%=obj[1]%></option>
+		<%
+					}	
+			}
+			}
+		%>
+
+	</select>
+   <input type="submit" value="保存" id="haha" class="submitBtn" />
 
 			<button type="submit" class="btn btn-default">取消</button>
   
-   
-</form>
+</div>
+
   </body>
 </html>

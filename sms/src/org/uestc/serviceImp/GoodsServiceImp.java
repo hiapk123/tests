@@ -60,7 +60,7 @@ public class GoodsServiceImp implements GoodsService {
 			String g_pur_price, String c_name, String g_barcode) {
 		// TODO Auto-generated method stub
 		String sql = "insert into goods(s_id,s_name,g_name,g_flag,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_del) value(?,?,?,?,?,?,?,?,?,1)";
-	
+
 		SqlHelper.executeUpdate(sql, new String[] { s_id + "", s_name, g_name, String.valueOf(g_flag), g_stock_num, g_sale_price,
 				g_pur_price, c_name, g_barcode });
 
@@ -115,9 +115,9 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public void importExcel(HttpServletRequest req,HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		String []goodArrary={"门店id","商品名称","门店名称","商品条码"};
-        int gid = 0;
+		int gid = 0;
 		List liststu=new ArrayList();
 		// 找到导入的文件
 		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
@@ -131,13 +131,13 @@ public class GoodsServiceImp implements GoodsService {
 			jxl.Sheet sheet=wb.getSheet(0);
 			String content=null; 
 			String flag="add";
-            for (int m = 0; m < sheet.getColumns(); m++) {
-            	content=sheet.getCell(m, 0).getContents();
-            	if(!content.equals(goodArrary[m])){
-            		message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+goodArrary[m];
-            		
-            		throw new Exception();
-            	}
+			for (int m = 0; m < sheet.getColumns(); m++) {
+				content=sheet.getCell(m, 0).getContents();
+				if(!content.equals(goodArrary[m])){
+					message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+goodArrary[m];
+
+					throw new Exception();
+				}
 			}
 			for(int i=1;i<sheet.getRows();i++)
 			{   
@@ -189,24 +189,24 @@ public class GoodsServiceImp implements GoodsService {
 				}
 				message= "成功！";
 			}
-			
+
 		} catch (BiffException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
-			
+
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 		}
-		
+
 		req.setAttribute("message",message);
-	     req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
+		req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
 	}
 	private void daoruexcel1(Good good,int g_id) {
 		// TODO Auto-generated method stub
@@ -233,12 +233,51 @@ public class GoodsServiceImp implements GoodsService {
 		return list;
 	}
 
-	
-	
-	
+	@Override
+	public void fuzhi(int s_id1,int s_id2) {
+		// TODO Auto-generated method stub
+		String sql1="select * from goods where s_id=? ";
+		List<Object[]> list1 = SqlHelper.find(sql1, s_id1);
+		String sql2="select * from goods where s_id=? ";
+		List<Object[]> list2 = SqlHelper.find(sql2, s_id2);
+		String []sqls=new String[list1.size()];
+		String sql="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
+		for (int i = 0; i < sqls.length; i++) {
+			sqls[i]="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
+		}
+				
+		String [][]sb= new String [list1.size()][4];
+		//第12位为条码字段
+		for(int i=0;i<list1.size();i++){
+			int flag=0;
+			for (int j = 0; j < list2.size(); j++) {
+				//扫描另一个门店，观察有没有条码一样的商品
+				if (list1.get(i)[11].equals(list2.get(j)[11])) {
+					flag=1;
+					break;
+				}
+				//  String [][]a={{"0","1","2"},{"a","b","c"}};
+			//	sqls[i]="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
+				
+			}
+   if(flag==0){
+			sb[i][0]=s_id2+"";
+			sb[i][1]=(String) list1.get(i)[3];
+			sb[i][2]=(String) list1.get(i)[1];
+			sb[i][3]=(String) list1.get(i)[11];
+		//	new String[]{sb[i][0], sb[i][1], sb[i][2],sb[i][3]}
+		//String sql="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
+		SqlHelper.executeUpdate(sql,new String[]{sb[i][0], sb[i][1], sb[i][2],sb[i][3]} );
+   }
+		}
+	}
 
 
 
-	
+
+
+
+
+
 
 }

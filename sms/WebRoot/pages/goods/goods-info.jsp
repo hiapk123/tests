@@ -63,7 +63,9 @@ window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow',
 
 function fuzhishangpin()
 {
-window.open ('pages/goods/goodsinfo/fuzhishangpin.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+	var id=$("#store").val();
+	var name=$("#store :selected").text();
+window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
