@@ -169,7 +169,7 @@ public class ZBTJDaoImp implements ZBTJDao {
 		return pb;
 
 	}
-	
+
 	/*
 	 * 按收银员
 	 */
@@ -474,6 +474,7 @@ public class ZBTJDaoImp implements ZBTJDao {
 		}
 		if (!endTime.equals("")) {
 			endTime = StrToDate(endTime);
+			System.out.println(endTime);
 		}
 
 		int ps = PageConstants.SALE_PAGE_SIZE;
@@ -675,7 +676,7 @@ public class ZBTJDaoImp implements ZBTJDao {
 		}
 		return "";
 	}
-	
+
 	private String findEmpNameByEmpId(Long empId) throws SQLException {
 		String sql = "select emp_name from employee where emp_id=?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), empId);
@@ -685,7 +686,7 @@ public class ZBTJDaoImp implements ZBTJDao {
 		}
 		return null;
 	}
-	
+
 	private Store findStoreByStoreId(Long id) throws SQLException {
 		String sql = "select s_name from store where s_id=?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), id);
@@ -718,9 +719,7 @@ public class ZBTJDaoImp implements ZBTJDao {
 	}
 
 	private String StrToDate(String str) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd
-		// HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
 		try {
 			date = format.parse(str);

@@ -39,7 +39,7 @@ public class SPXSServlet extends BaseServlet {
 		String storeName = request.getParameter("hp_store");
 		String beginTime = request.getParameter("beginTime");
 		String endTime = request.getParameter("endTime");
-		String condition = request.getParameter("gBarcodeOrGName");
+		String condition = request.getParameter("gBarcodeOrGName").trim();
 		
 		request.setAttribute("storeName", storeName);
 		request.setAttribute("beginTime", beginTime);

@@ -37,7 +37,7 @@
 	<div class="panel panel-default">
 		<div class="panel-footer">
 			<form
-				action="<c:url value='/SPXSServlet?method=findByCombination' />"
+				action="<c:url value='/XSDJServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
 					<!-- <div class="col-md-2">
@@ -55,16 +55,19 @@
 
 					<div class="col-md-2">
 						<select class="form-control" name="receiptType">
-							<option>有效单据</option>
+						<option <c:if test="${receiptType eq '有效单据'}">selected</c:if>>有效单据</option>
+						<option <c:if test="${receiptType eq '作废单据'}">selected</c:if>>作废单据</option>
+						<option <c:if test="${receiptType eq '会员单据'}">selected</c:if>>会员单据</option>
+							<!-- <option>有效单据</option>
 							<option>作废单据</option>
-							<option>会员单据</option>
+							<option>会员单据</option> -->
 						</select>
 					</div>
 
 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input class="form-control" size="16" type="text" value=""
+						<input name="beginTime" class="form-control" size="16" type="text" value="${beginTime }"
 							readonly> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
@@ -75,7 +78,7 @@
 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input class="form-control" size="16" type="text" value=""
+						<input name="endTime" class="form-control" size="16" type="text" value="${endTime }"
 							readonly> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
@@ -121,7 +124,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<!-- <tr>
 					<td>1</td>
 					<td>1</td>
 					<td>1</td>
@@ -132,20 +135,21 @@
 					<td>1</td>
 					<td>1</td>
 					<td>1</td>
-				</tr>
-				<%-- <c:forEach items="${pb.beanList }" var="spxs" varStatus="status">
+				</tr> -->
+				<c:forEach items="${pb.beanList }" var="xsdj" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
-						<td>${spxs.gName }</td>
-						<td>${spxs.gBarcode }</td>
-						<td>${spxs.cName }</td>
-						<td>${spxs.gStockNum }</td>
-						<td>${spxs.saleQuantity }</td>
-						<td>${spxs.gTotalPrice }</td>
-						<td>${spxs.saRealAmount }</td>
-						<td>${spxs.saProfit }</td>
+						<td>${xsdj.saSeriNum }</td>
+						<td>${xsdj.saDate }</td>
+						<td>${xsdj.saType }</td>
+						<td>${xsdj.saCashier }</td>
+						<td>${xsdj.saVipName }</td>
+						<td>${xsdj.saGoodsQuantity }</td>
+						<td>${xsdj.gPurPrice }</td>
+						<td>${xsdj.saRealPrice }</td>
+						<td>${xsdj.saProfit }</td>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -156,7 +160,7 @@
 			未找到符合条件的记录！
 		</c:when>
 			<c:otherwise>
-				<%@include file="/pager_spxs.jsp"%>
+				<%@include file="/pager_xsdj.jsp"%>
 			</c:otherwise>
 		</c:choose>
 	</div>
