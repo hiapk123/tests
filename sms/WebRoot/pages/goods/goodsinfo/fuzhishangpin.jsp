@@ -11,6 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		%>
 <head>
 
+
 <script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
 
 

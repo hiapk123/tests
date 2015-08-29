@@ -7,6 +7,7 @@
 			+ path + "/";
 %>
 <%
+
 String method=application.getAttribute("method").toString();
 if(method!="findByPage"){
 String sorted=application.getAttribute("sorted").toString();

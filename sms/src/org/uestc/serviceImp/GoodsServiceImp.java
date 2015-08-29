@@ -37,6 +37,7 @@ public class GoodsServiceImp implements GoodsService {
 
 	private QueryRunner queryRunner;
 
+	
 	public GoodsServiceImp() {
 		queryRunner = new QueryRunner(JdbcUtils.getInstance().getDataSource());
 	}

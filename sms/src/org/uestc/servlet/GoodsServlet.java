@@ -43,6 +43,7 @@ public class GoodsServlet extends HttpServlet {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 6005017459312388968L;
 	private int s_id = 0;
 	private GoodsService good = new GoodsServiceImp();
