@@ -37,7 +37,7 @@ public class GoodsServiceImp implements GoodsService {
 
 	private QueryRunner queryRunner;
 
-	
+
 	public GoodsServiceImp() {
 		queryRunner = new QueryRunner(JdbcUtils.getInstance().getDataSource());
 	}
@@ -51,11 +51,21 @@ public class GoodsServiceImp implements GoodsService {
 
 	@Override
 	public List<Object[]> goodssearch(int sid, int currentPage) {
-		String sql = "SELECT g_name,s_name,g_barcode,s_id,g_stock_num,g_pur_price,g_id from goods where s_id=? and g_del=1 limit ?,10";
+		String sql = "SELECT g_name,s_name,g_barcode,s_id,g_stock_num,g_pur_price,g_id from goods where s_id=?  limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql, sid, currentPage);
 		return list;
 	}
 
+	@Override
+	public void kuaisuluru(int s_id,String g_barcode,String g_name,String c_name,String g_pur_price,String g_sale_price,String g_stock_num) {
+		// TODO Auto-generated method stub
+		String sql = "insert into goods(s_id,g_name,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_del) value(?,?,?,?,?,?,?,1)";
+
+	
+		SqlHelper.executeUpdate(sql, new String[] { s_id + "",  g_name,  g_stock_num, g_sale_price,
+				g_pur_price, c_name, g_barcode });
+
+	}
 	@Override
 	public void addgood(int s_id, String s_name, String g_name, int g_flag, String g_stock_num, String g_sale_price,
 			String g_pur_price, String c_name, String g_barcode) {
@@ -77,6 +87,7 @@ public class GoodsServiceImp implements GoodsService {
 				c_name, g_barcode, g_id + "" });
 	}
 
+
 	@Override
 	public void deletegood(int g_id) {
 		// TODO Auto-generated method stub
@@ -86,7 +97,7 @@ public class GoodsServiceImp implements GoodsService {
 
 	@Override
 	public int getTotalSize(int store) {
-		String sql = "select count(g_id) from goods where g_del=1 and g_flag=1 and s_id=?";
+		String sql = "select count(g_id) from goods where  s_id=?";
 		List<Object[]> list = SqlHelper.find(sql, store);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
@@ -99,7 +110,7 @@ public class GoodsServiceImp implements GoodsService {
 	public List<Object[]> upsort(  int sid,int currentPage,String sorted) {
 		// TODO Auto-generated method stub
 		String a=sorted;
-		String sql="select * from goods where s_id=? and g_del=1  order by cast("+ a+" as signed) asc limit ?,10";
+		String sql="select * from goods where s_id=?   order by cast("+ a+" as signed) asc limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
 		return list;
 	}
@@ -109,7 +120,7 @@ public class GoodsServiceImp implements GoodsService {
 		// TODO Auto-generated method stub
 		String a=sorted;
 		//String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price desc limit ?,10";
-		String sql="select * from goods where s_id=? and g_del=1  order by cast(" + a+" as signed) desc limit ?,10";
+		String sql="select * from goods where s_id=?   order by cast(" + a+" as signed) desc limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
 		return list;
 	}
@@ -255,7 +266,7 @@ public class GoodsServiceImp implements GoodsService {
 				//扫描另一个门店，观察有没有条码一样的商品
 				if (list1.get(i)[11].equals(list2.get(j)[11])) {
 					flag=1;
-					break;
+					
 				}
 				//  String [][]a={{"0","1","2"},{"a","b","c"}};
 			//	sqls[i]="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
@@ -266,11 +277,12 @@ public class GoodsServiceImp implements GoodsService {
 			sb[i][1]=(String) list1.get(i)[3];
 			sb[i][2]=(String) list1.get(i)[1];
 			sb[i][3]=(String) list1.get(i)[11];
-		//	new String[]{sb[i][0], sb[i][1], sb[i][2],sb[i][3]}
+		
 		//String sql="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
-		SqlHelper.executeUpdate(sql,new String[]{sb[i][0], sb[i][1], sb[i][2],sb[i][3]} );
+		
    }
 		}
+		SqlHelper.executeUpdate(sqls, sb);
 	}
 
 

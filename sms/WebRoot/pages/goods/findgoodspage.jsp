@@ -7,25 +7,19 @@
 			+ path + "/";
 %>
 <%
-
+String currentPage=request.getAttribute("currentPage").toString();
 String method=application.getAttribute("method").toString();
 if(method!="findByPage"){
 String sorted=application.getAttribute("sorted").toString();
-System.out.println("排序字段"+sorted);
 }
 
 %>
 <script>
 	$(function() {
-		
-		
 		$("#up-g_stock_num").click(function(){
-			
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
 			var sorted=$("#up-g_stock_num").val();
-			
-			
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -37,7 +31,6 @@ System.out.println("排序字段"+sorted);
 			} else if(which=="↑") {
 				which="first";
 			} 
-			
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			$.post("<%=basePath%>goods", {
@@ -46,17 +39,14 @@ System.out.println("排序字段"+sorted);
 				"store" : storeID,
 				"sorted" : sorted,
 				"currentPage" : pageNo
-				
 			}, function(data) {
 				$("#tableContent").append(data);
 			}, "html");
-			
 		});
          $("#down-g_stock_num").click(function(){
         	var sorted=$("#down-g_stock_num").val();
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-	
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -68,7 +58,6 @@ System.out.println("排序字段"+sorted);
 			}  else if(which=="↓") {
 				which="first";
 			}
-			
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			$.post("<%=basePath%>goods", {
@@ -77,25 +66,18 @@ System.out.println("排序字段"+sorted);
 				"store" : storeID,
 				"sorted" : sorted,
 				"currentPage" : pageNo
-				
 			}, function(data) {
 				$("#tableContent").append(data);
 			}, "html");
-			
 		});
 	});
 </script>
 <script>
 	$(function() {
-		
-		
 		$("#up").click(function(){
-			
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
 			var sorted=$("#up").val();
-			
-			
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -107,7 +89,6 @@ System.out.println("排序字段"+sorted);
 			} else if(which=="↑") {
 				which="first";
 			} 
-			
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			$.post("<%=basePath%>goods", {
@@ -116,17 +97,14 @@ System.out.println("排序字段"+sorted);
 				"store" : storeID,
 				"sorted" : sorted,
 				"currentPage" : pageNo
-				
 			}, function(data) {
 				$("#tableContent").append(data);
 			}, "html");
-			
 		});
          $("#down").click(function(){
         	var sorted=$("#down").val();
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
-	
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -138,7 +116,6 @@ System.out.println("排序字段"+sorted);
 			}  else if(which=="↓") {
 				which="first";
 			}
-			
 			$("#tableContent").empty();
 			var pageNo=$("#page").val()
 			$.post("<%=basePath%>goods", {
@@ -147,15 +124,12 @@ System.out.println("排序字段"+sorted);
 				"store" : storeID,
 				"sorted" : sorted,
 				"currentPage" : pageNo
-				
 			}, function(data) {
 				$("#tableContent").append(data);
 			}, "html");
-			
 		});
 	});
 </script>
-
 <table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
 	<thead>
 		<tr>
@@ -189,7 +163,6 @@ System.out.println("排序字段"+sorted);
 		</tr>
 	</thead>
 	<tbody>
-
 		<%
 			List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
 
@@ -216,10 +189,7 @@ System.out.println("排序字段"+sorted);
 			}
 			}
 		%>
-
 	</tbody>
-
 </table>
 <input type="hidden" id="method" value="${method }" />
 <input type="hidden" id="sorted" value="${sorted }" />
-<%-- <input type="hidden" id="page" value="${currentPage }" /> --%>

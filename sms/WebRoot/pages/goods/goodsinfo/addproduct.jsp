@@ -23,8 +23,17 @@
 <%
 			String s_id = request.getParameter("s_id");
 			String s_name = request.getParameter("s_name");
+			String message = request.getParameter("message");
+			
 		%>
-
+<script type="text/javascript">
+$(document).ready(function () {
+	if ($("#status").val() != "") {
+		alert($("#status").val());
+	}
+	
+});
+</script>
 </head>
 
 <body>
@@ -43,6 +52,7 @@
 				placeholder="请输入商品条码">
 				</br>
 					</br>
+					<input id="status" type="hidden" name="message" value="${message}">
 				<button type="submit" class="btn btn-success"  id="deliver">确定</button>
               
 				<button type="submit" class="btn btn-default" >生成</button>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"
-	import="java.util.*,org.uestc.util.DateFormatUtils"%>
+	import="java.util.*,org.uestc.util.*"%>
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 
 <%
@@ -8,7 +8,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<script>
+<%-- <script>
 	$(function() {
 		$('.pagination').click(function(){
 			alert($("#page").val());
@@ -24,7 +24,7 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 }
 
 -->
-</SCRIPT>
+</SCRIPT> --%>
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -45,7 +45,7 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/jquery/jquery.min.js"></script>
 <script src="js/bootstrap.file-input.js"></script>
-<table class="table table-striped table-bordered">
+<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
 	<thead>
 		<tr>
 			<th>操作</th>
@@ -81,30 +81,34 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 
 		<%
 		            String s_id = request.getParameter("s_id");
+		          //  String g_id = request.getParameter("g_id");
 					String s_name = request.getParameter("s_name");
 		            String zhuangtai = request.getParameter("state");
-		            String tiaoma = request.getParameter("tiaoma");
+		            String g_barcode = request.getParameter("g_barcode");
 		            String jinhuojia = request.getParameter("jinhuojia");
 		            String productname = request.getParameter("productname");
 		            String xiaoshoujia = request.getParameter("xiaoshoujia");
 		            String fenlei = request.getParameter("fenlei");
 		            String kucun = request.getParameter("kucun");
-		            
-		           
+		            String g_name = request.getParameter("g_name");
+		            String sql="select g_id from goods where s_id=? and g_barcode=?";
+		    		List<Object[]> list = SqlHelper.find(sql, s_id,g_barcode);
+		    		Number num = (Number) list.get(0)[0];  
+		    	   int  Num = num.intValue();
+		    		String g_id=String.valueOf(Num);
 				%>
 				
 				
 		<tr>
-			<td class="center"><a href="#"> 删除 </a> 
-			<button type="button"  id="editgood" class="btn btn-success" name="submit"
-		onclick="editgood()">编辑</button>
-	&nbsp;&nbsp;
+			<td class="center"><a href="href="<%=basePath%>goods?m=deleteGood&g_id=<%=g_id%>""> 删除 </a> <br>
+			<a href="<%=basePath%>goods?m=editGood&g_barcode=<%=g_barcode%>&g_id=<%=g_id%>&s_name=<%=s_name%>&g_name=<%=g_name%>&s_id=<%=s_id%>">编辑</a>
+<br>
 			<a href="#"> Delete </a></td>
 			
 					
 			<td><%=s_name%></td>
-			<td><%=zhuangtai%></td>
-			<td><%=tiaoma%></td>
+			<td><%=g_name%></td>
+			<td><%=g_barcode%></td>
 					
 		</tr>
 		

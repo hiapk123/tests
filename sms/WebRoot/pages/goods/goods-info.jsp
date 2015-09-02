@@ -169,10 +169,7 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 				alert("请重新选择店铺！");
 				return;
 			}
-			
 			$("#goodsinfodiv").empty();
-		
-				
 			$.post("<%=basePath%>goods", {
 				"m" : "findGoodByPage",
 				"store" : store,
@@ -186,7 +183,7 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 		
 		//新增商品
 		$("#xinzengshangpin").click(function(){
-		
+			var message="";
 			var s_id=$("#store").val();
 			var s_name=$("#store :selected").text();
 			
@@ -198,18 +195,35 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 			$("#goodsinfodiv").empty();
 		
 				
-			$.post("<%=basePath%>goods", {
+			$.post("<%=basePath%> goods",{
 				"m" : "addGoods",
 				"s_id" :s_id,
 				"s_name" :s_name  ,
+				"message" :message,
 				
 			}, function(data) {
 				$("#goodsinfodiv").append(data);
 			}, "html");
 			
 		});
-		$('#btnExport').click(function(){
-			alert("Hello");
+		$("#kuaisu").click(function(){
+			var store=$("#store").val();
+			var s_name=$("#store :selected").text();
+			if(store==null){
+				alert("请重新选择店铺！");
+				return;
+			}
+			$("#hehe").empty();
+			$.post("<%=basePath%>goods", {
+				"m" : "kuaisu",
+				"store" : store,
+				"s_name":s_name,
+				"s_id":store,
+				
+			}, function(data) {
+				$("#hehe").append(data);
+			}, "html");
+			
 		});
 		
 	});
@@ -217,7 +231,7 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 </head>
 
 <body>
-
+<div id="hehe">
 	<span class="label label-default" style="padding: 10px">商品资料</span>
 	&nbsp;&nbsp;
 	<button type="button" id="xinzengshangpin" class="btn btn-success"
@@ -232,10 +246,8 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 	<button type="button" class="btn btn-success" name="submit"
 		onclick="fuzhishangpin()">复制商品</button>
 	&nbsp;&nbsp;
-
-	<a href="pages/goods/kuaisuluru.jsp"><input type="button"
-		class="btn btn-success" value="快速录入"></input></a> &nbsp;&nbsp;
-	
+   <button type="button" id="kuaisu" class="btn btn-success"
+		name="submit" >快速录入</button>
 	<select id="store" class="singleSelector">
 		<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
 
@@ -307,7 +319,7 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 		</div>
 
 	</div>
-
+</div>
 
 </body>
 

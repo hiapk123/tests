@@ -4,33 +4,24 @@
 	pageEncoding="utf-8"
 	import="java.util.*,org.uestc.util.DateFormatUtils"%>
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
-
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
 <%
+  // String currentPage=request.getAttribute("currentPage").toString();
+   // System.out.println(currentPage);
     String method=application.getAttribute("method").toString();
-   
-    
-    
 %>
-
-
-
-
-
 <script>
 	$(function() {
 		$('.pagination').click(function() {
 			//alert(method);
 		});
 		$("li a").click(function() {
-			
-			
+			var currentPage=$("#page").val();
 			var m=$("#method").val();
-			alert("滴天髓"+m);
 			var sorted=$("#sorted").val();
 			var which = $(this).text();
 			var storeID=$("#storeID").val();
@@ -45,13 +36,13 @@
 			} else {
 			}
 			$("#tableContent").empty();
-			var pageNo=$("#page").val()
+			//var pageNo=$("#page1").val()
 			$.post("<%=basePath%>goods", {
 				"which" : which,
 				"store" : storeID,
 				"m" : m,
 				"sorted":sorted,
-				"currentPage" : pageNo
+				"currentPage" : currentPage,
 			}, function(data) {
 				$("#tableContent").html(data);
 			}, "html");
@@ -205,9 +196,7 @@
 			</tr>
 		</thead>
 		<tbody>
-
 			<%
-				
 			List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
 
 				String storeID = request.getParameter("store").toString();
@@ -217,9 +206,9 @@
 			<tr>
 				<td><a
 					href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[6]%>">
-						删除 </a> <a
+						删除 </a><br> <a
 					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=storeID%>">编辑</a>
-					<a href="#"> 图片 </a></td>
+					<br><a href="#"> 图片 </a></td>
 				<%
 					for (int j = 0; j <= 5; j++) {
 				%>
@@ -232,19 +221,16 @@
 				}
 				}
 			%>
-
 		</tbody>
-
 	</table>
 	<input type="hidden" id="method" value="${method }" />
-	<input type="hidden" id="page" value="${currentPage }" />
 </div>
 <input type="hidden" id="storeID" value="<%=storeID%>" />
 <input type="hidden" id="sorted" value="${sorted }" />
 <ul class="pagination" id="page">
 	<page:htmlPage pageNo="${currentPage }"
 		url=""
-		totalSum="${totalPage }" showPage="10" pageSize="10" />
+		totalSum="${totalSize }" showPage="10" pageSize="10" />
 </ul>
 
 
