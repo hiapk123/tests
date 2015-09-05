@@ -3,7 +3,13 @@
 
 
 
-<div id="ghszl" class="myclass">供货商资料</div>
+<div id="ghszl" class="myclass">
+
+<jsp:include page="huoliu/supplierinfo.jsp"></jsp:include>
+
+</div>
+
+
 <div id="ghsjs" class="myclass">供货商结算</div>
 <div id="ghsjsjl" class="myclass">供货结算记录</div>
 <div id="mddhqq" class="myclass">门店订货请求</div>
