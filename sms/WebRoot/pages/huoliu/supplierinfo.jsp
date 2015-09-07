@@ -27,7 +27,7 @@ function DaoRu()
 {
 	var id=$("#store").val();
 	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ("<%=basePath%>huoliu?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -38,7 +38,7 @@ function daochu()
 {
 	var id=$("#store").val();
 	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ("<%=basePath%>huoliu?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -142,20 +142,20 @@ window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow',
 				alert("请重新选择店铺！");
 				return;
 			}
-			$("#goodsinfodiv").empty();
-			$.post("<%=basePath%>goods", {
-				"m" : "findGoodByPage",
-				"store" : store,
+			$("#supplierdiv").empty();
+			$.post("<%=basePath%>huoliu", {
+				"m" : "supplierInfo",
+				"s_id" : store,
 				"catagory" :number  ,
 				"currentPage":currentPage,
 			}, function(data) {
-				$("#goodsinfodiv").append(data);
+				$("#supplierdiv").append(data);
 			}, "html");
 			
 		});
 		
-		//新增商品
-		$("#xinzengshangpin").click(function(){
+		//新增供货商
+		$("#addsupplier").click(function(){
 			var message="";
 			var s_id=$("#store").val();
 			var s_name=$("#store :selected").text();
@@ -165,48 +165,30 @@ window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow',
 				return;
 			}
 			
-			$("#goodsinfodiv").empty();
+			$("#supplierdiv").empty();
 		
 				
-			$.post("<%=basePath%> goods",{
-				"m" : "addGoods",
+			$.post("<%=basePath%> huoliu",{
+				"m" : "addsupplier",
 				"s_id" :s_id,
 				"s_name" :s_name  ,
 				"message" :message,
 				
 			}, function(data) {
-				$("#goodsinfodiv").append(data);
+				$("#supplierdiv").append(data);
 			}, "html");
 			
 		});
-		$("#kuaisu").click(function(){
-			var store=$("#store").val();
-			var s_name=$("#store :selected").text();
-			if(store==null){
-				alert("请重新选择店铺！");
-				return;
-			}
-			$("#hehe").empty();
-			$.post("<%=basePath%>goods", {
-				"m" : "kuaisu",
-				"store" : store,
-				"s_name":s_name,
-				"s_id":store,
-				
-			}, function(data) {
-				$("#hehe").append(data);
-			}, "html");
-			
-		});
+		
 		
 	});
 </script>
 </head>
 
 <body>
-<div id="hehe">
+<div id="supplierdiv">
 	
-	<button type="button" id="xinzengshangpin" class="btn btn-success"
+	<button type="button" id="addsupplier" class="btn btn-success"
 		name="submit" >新增商品</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
@@ -247,46 +229,54 @@ window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow',
 		data-offset="10">
      
 
-		<div id="goodsinfodiv">
-		<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+		
+		<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
 			<tr>
 				<th>操作</th>
-				<th>商品名称</th>
-				<th>所属门店</th>
-				<th>商品条码</th>
-				<th>销售价</th>
-				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
-				<th>会员价</th>  
-				<th>分类</th>
-				<th>批发价</th>
-				<th>会员折扣</th>
-				<th>库存上限</th>
-				<th>库存下限</th>
-				<th>生产日期</th>
-				<th>保质期 ↑ ↓</th>
-				<th>拼音码</th>
-				<th>供货商</th>
-				<th>自定义1</th>
-				<th>自定义2</th>
-				<th>自定义3</th>
-				<th>自定义4</th>
-				<th>最小起订量</th>
-				<th>最低陈列量</th>
-				<th>畅销量</th>
-				<th>正常销售量</th>
-				<th>库存合理值</th>
-				<th>是否锁定</th>
+				<th>编号</th>
+				<th>名称</th>
+				<th>联系人</th>
+				<th>电话</th>
+				<th>邮箱</th>
+				<th>授权状态</th>
 			</tr>
 		</thead>
-		
+		<tbody>
+		<%
+			List<Object[]> supplier = (List<Object[]>) request.getAttribute("list");
+
+			String s_id = request.getParameter("s_id").toString();
+			
+			if (supplier != null && supplier.size() > 0) {
+				for (int i = 0; i < supplier.size(); i++) {
+		%>
+		<tr>
+			<td> <a href="<%=basePath%>huoliu?m=editSupplier
+			&su_number=<%=supplier.get(i)[0]%>&su_name=<%=supplier.get(i)[1]%>
+			&su_contacter=<%=supplier.get(i)[2]%>&su_phone=<%=supplier.get(i)[3]%>
+			&su_email=<%=supplier.get(i)[4]%>&su_empower=<%=supplier.get(i)[5]%>
+			&su_id=<%=supplier.get(i)[6]%>&s_id=<%=supplier.get(i)[7]%>">编辑</a>
+				
+			<%
+				for (int j = 0; j <= 5; j++) {
+			%>
+			<td><%=supplier.get(i)[j]%></td>
+			<%
+				}
+			%>
+		</tr>
+		<%
+			}
+			}
+		%>
+	</tbody>
 
 	</table>
 		</div>
 
 	</div>
-</div>
+
 
 </body>
 

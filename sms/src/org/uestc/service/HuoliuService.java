@@ -5,8 +5,11 @@ import java.util.List;
 public interface HuoliuService{
 	
 	public List<Object[]> findStoreByUserID(int uid);
-	public List<Object[]> supplierInfo();
+	public List<Object[]> supplierInfo(int s_id);
+    public void editSupplier(String su_number, String su_name, String su_contacter, String su_phone, String su_email,
+			String su_empower,String su_id);
 		
+	
 	
 	
 	
