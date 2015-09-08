@@ -167,6 +167,7 @@ public class HuoliuServiceImp implements HuoliuService{
 					daoruexcel(supplier);
 				}else if(flag=="update"){
 					daoruexcel1(supplier,su_id);
+					
 				}
 				message= "成功！";
 			}
@@ -191,19 +192,19 @@ public class HuoliuServiceImp implements HuoliuService{
 	}
 	public void daoruexcel(Suppliers supplier)
 	{   
-		/*String sql="insert into supplier(su_number,su_name,su_pm,su_contacter,su_phone,su_email,su_empower,su_ps_return,su_gd_return,su_address,su_bz,su_sid)values("+
+	/*String sql="insert into supplier(su_number,su_name,su_pm,su_contacter,su_phone,su_email,su_empower,su_ps_return,su_gd_return,su_address,su_bz,su_sid)values("+
 			"'"+supplier.getSu_number()+"','"+
 				supplier.getSu_name()+"','"+
 				supplier.getSu_pm()+"','"+
 				supplier.getSu_contacter()+"','"+
 				supplier.getSu_phone()+"','"+
-				supplier.getSu_email()+"',"+
+				supplier.getSu_email()+"','"+
 				supplier.getSu_empower()+"',"+
 				supplier.getSu_ps_return()+","+
 				supplier.getSu_gd_return()+",'"+
 				supplier.getSu_address()+"','"+
-				supplier.getSu_bz()+"',"
-				+"?)";
+				supplier.getSu_bz()+"',"+"?)";
+				
 		SqlHelper.executeUpdate(sql, new String[]{ 4+"" });*/
 		String sql="insert into supplier(su_number,su_name,su_pm,su_contacter,su_phone,su_email,su_empower,su_ps_return,su_gd_return,su_address,su_bz,su_sid) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		SqlHelper.executeUpdate(sql, new String[]{ supplier.getSu_number(),supplier.getSu_name(),
@@ -212,6 +213,17 @@ public class HuoliuServiceImp implements HuoliuService{
 				String.valueOf(supplier.getSu_gd_return()),
 				supplier.getSu_address(),supplier.getSu_bz(),4+""
 		});
+	}
+
+	@Override
+	public List<Object[]> toExcel(int s_id) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		String sql = "SELECT su_number,su_name,su_pm,su_contacter,su_phone,su_email,"
+				+ "su_empower,su_ps_return,su_gd_return,su_address,"
+				+ "su_bz from supplier where su_sid=? ";
+		List<Object[]> list = SqlHelper.find(sql, s_id);
+		return list;
 	}
 	
 

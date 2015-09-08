@@ -114,6 +114,10 @@
 			$('#if_content').attr('src','<%=basePath %>goods?m=goodsInfo');
 			
 		});  
+		$('#ghszl').click(function(){
+			$('#if_content').attr('src','<%=basePath %>huoliu?m=supplierInfo&s_id=1');
+			
+		});  
 		
 		
 		$('#spfl').click(function(){

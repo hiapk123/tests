@@ -54,22 +54,37 @@ public class HuoLiuServlet extends HttpServlet {
 			this.daoru(req,resp);
 		    req.getRequestDispatcher("/pages/huoliu/daoru.jsp").forward(req,resp);
 		}else if (m.equals("Shangchuanwenjian")) {
-			try {
 				this.shangchuan(req,resp);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
+				req.getRequestDispatcher("/pages/huoliu/success.jsp").forward(req,resp);
+	    }else if (m.equals("daochu")) {
+			this.daochu(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/daochu.jsp").forward(req, resp);
+		}else if (m.equals("toExcel")) {
+				this.toExcel(req,resp);
+				req.getRequestDispatcher("/pages/huoliu/toExcel.jsp").forward(req, resp);
+	    }
 	}
+	private void daochu(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+        String s_id = req.getParameter("s_id");
+		req.setAttribute("s_id", s_id);
+	}
+
+	private void toExcel(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+        String s_id = req.getParameter("s_id");
+		List<Object[]> list = huoliu.toExcel(Integer.valueOf(s_id));
+		req.setAttribute("supplierList", list);
+		req.setAttribute("s_id", s_id);
+	}
+
 	/***
 	 * 上传文件
 	 * @param req
 	 * @param resp
 	 * @throws Exception 
 	 */
-	private void shangchuan(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	private void shangchuan(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 String savePath = this.getServletContext().getRealPath("/WEB-INF/upload");
          //上传时生成的临时文件保存目录
@@ -179,7 +194,12 @@ public class HuoLiuServlet extends HttpServlet {
          }
         // req.setAttribute("message",message);
          //req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
-         huoliu.importExcel(req,resp);
+         try {
+			huoliu.importExcel(req,resp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 }
 
 	/***

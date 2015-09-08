@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>添加商品</title>
+    <title>导出用户到EXCEL</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -28,24 +28,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			request.setAttribute("s_name", s_name);
 		%>
   <body>
-   <form role="form">
+  
    <div class="form-group">
      <input type="hidden" value="<%=s_id%>" >
 		<label   >店铺名：<%=s_name%></label>
 		<input type="hidden" value="<%=s_name%>" >
-       <label for="name">商品分类</label>
-      <select class="form-control">
-         <option>散装</option>
-         <option>水果</option>
-         <option>无</option>
-        
-      </select>
+       
    </div>
-  
-  
-   
-</form>
-<form action="<%=basePath%>goods?m=toExcel&s_id=<%=s_id%>" method="post">
+<form action="<%=basePath%>huoliu?m=toExcel&s_id=<%=s_id%>" method="post">
    
    <input type=submit value=导出数据到Excel>
 </form>
