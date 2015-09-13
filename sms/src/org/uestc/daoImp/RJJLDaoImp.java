@@ -32,17 +32,17 @@ public class RJJLDaoImp implements RJJLDao {
 //		sql = "SELECT sa_saler_id, SUM(sa_real_price) FROM sale WHERE store_id IN (SELECT s_id FROM store WHERE u_id=?) GROUP BY sa_saler_id LIMIT ?,?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
 		List<Sale> saleList = new ArrayList<Sale>();
-		for (Object[] obj : list) {
-			Sale sale = new Sale();
-			Employee employee = new Employee();
-			employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[0].toString())));
-			sale.setEmployee(employee); // 收银员
-			sale.setSaRealPrice(obj[1].toString()); // 将其看作“收银总额”
-			sale.setSaGoodsPrice(obj[2].toString()); // 将其看作“现金”
-			sale.setSaProfit(obj[3].toString()); // 将其看作“银联卡”
-			sale.setSaGoodsNum(obj[4].toString()); // 在线  将其看作“在线”
-			saleList.add(sale);
-		}
+//		for (Object[] obj : list) {
+//			Sale sale = new Sale();
+//			Employee employee = new Employee();
+//			employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[0].toString())));
+//			sale.setEmployee(employee); // 收银员
+//			sale.setSaRealPrice(obj[1].toString()); // 将其看作“收银总额”
+//			sale.setSaGoodsPrice(obj[2].toString()); // 将其看作“现金”
+//			sale.setSaProfit(obj[3].toString()); // 将其看作“银联卡”
+//			sale.setSaGoodsNum(obj[4].toString()); // 在线  将其看作“在线”
+//			saleList.add(sale);
+//		}
 
 		PageBean<Sale> pb = new PageBean<Sale>();
 		pb.setBeanList(saleList);
@@ -71,5 +71,17 @@ public class RJJLDaoImp implements RJJLDao {
 		return null;
 	}
 
+	public double getMoney(int saler_id, String longin, String exit, String sa_type) {
+        String sql = "select sum(t.sa_real_price) from sale t where t.sa_saler_id=? and t.sa_date between ? and ? and t.sa_type=? and t.s_del=1 and t.sa_flag=0";
+        ArrayList<Object[]> list = SqlHelper.executeQuery(sql, saler_id, longin, exit, sa_type);
+        if (list.size() == 1) {
+            if (list.get(0)[0] != null) {
+                double sum = (double) (list.get(0)[0]);
+                return Double.valueOf(Utils.formatNumber(sum));
+            }
+        }
+        return 0;
+    }
+	
 
 }
