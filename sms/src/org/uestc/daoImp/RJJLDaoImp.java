@@ -71,17 +71,17 @@ public class RJJLDaoImp implements RJJLDao {
 		return null;
 	}
 
-	public double getMoney(int saler_id, String longin, String exit, String sa_type) {
-        String sql = "select sum(t.sa_real_price) from sale t where t.sa_saler_id=? and t.sa_date between ? and ? and t.sa_type=? and t.s_del=1 and t.sa_flag=0";
-        ArrayList<Object[]> list = SqlHelper.executeQuery(sql, saler_id, longin, exit, sa_type);
-        if (list.size() == 1) {
-            if (list.get(0)[0] != null) {
-                double sum = (double) (list.get(0)[0]);
-                return Double.valueOf(Utils.formatNumber(sum));
-            }
-        }
-        return 0;
-    }
+//	public double getMoney(int saler_id, String longin, String exit, String sa_type) {
+//        String sql = "select sum(t.sa_real_price) from sale t where t.sa_saler_id=? and t.sa_date between ? and ? and t.sa_type=? and t.s_del=1 and t.sa_flag=0";
+//        ArrayList<Object[]> list = SqlHelper.executeQuery(sql, saler_id, longin, exit, sa_type);
+//        if (list.size() == 1) {
+//            if (list.get(0)[0] != null) {
+//                double sum = (double) (list.get(0)[0]);
+//                return Double.valueOf(Utils.formatNumber(sum));
+//            }
+//        }
+//        return 0;
+//    }
 	
 
 }

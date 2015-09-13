@@ -19,8 +19,8 @@ import com.uestc.bean.Users;
 		urlPatterns = { 
 				"/LoginFilter", 
 				"/index.jsp", 
-				"/welcome.jsp", 
-				"/regist.jsp"
+				"/welcome.jsp"
+//				"/regist.jsp"
 		}, 
 		servletNames = { 
 				"analyzeGoodsServlet", 
