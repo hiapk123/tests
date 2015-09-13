@@ -167,6 +167,9 @@
 		$('#qsfx').click(function(){
 			$('#if_content').attr('src','<%=basePath %>QSFXServlet?method=initLoad');
 		});
+		$('#rjjl').click(function(){
+			$('#if_content').attr('src','<%=basePath %>RJJLServlet?method=initLoad');
+		});
 	});
 	
 </script>

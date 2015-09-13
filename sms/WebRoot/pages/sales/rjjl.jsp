@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>商品销售统计</title>
+<title>日结记录</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/pager.css'/>" />
 <!-- 日期控件css资源 -->
@@ -37,13 +37,9 @@
 	<div class="panel panel-default">
 		<div class="panel-footer">
 			<form
-				action="<c:url value='/SPXSServlet?method=findByCombination' />"
+				action="<c:url value='/QSFXServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<!-- <div class="col-md-2">
-						<h4>商品销售统计</h4>
-					</div> -->
-
 					<div class="col-md-2">
 						<select class="form-control" name="hp_store">
 							<option>全部门店</option>
@@ -77,13 +73,9 @@
 					</div>
 					<input type="hidden" id="dtp_input1" value="" />
 
-					<div class="col-md-2">
-						<input type="text" class="form-control" placeholder="商品条码/名称"
-							name="gBarcodeOrGName" id="gBarcodeOrGName" value="${condition }">
-					</div>
 
 					<div class="col-md-2">
-						<button type="submit" class="btn btn-primary">查询</button>
+						<button type="submit" class="btn btn-primary">统计分析</button>
 					</div>
 				</div>
 			</form>
@@ -98,44 +90,31 @@
 		</div> -->
 
 		<!-- Table -->
-		<table id="hp_spxs" class="table table-bordered table-hover">
+		<table id="hp_rjjl" class="table table-bordered table-hover">
 			<thead>
 				<!--  style="font-weight: 900" -->
 				<tr>
-					<th>序号</th>
-					<th>商品名称</th>
-					<th>商品条码</th>
-					<th>商品分类</th>
-					<th>现有库存</th>
-					<th>销售数量</th>
-					<th>商品总价</th>
-					<th>实收金额</th>
-					<th>利润</th>
+					<th>操作</th>
+					<th>开始时间</th>
+					<th>结束时间</th>
+					<th>收银员</th>
+					<th>收银总额</th>
+					<th>现金</th>
+					<th>银联卡</th>
+					<th>在线</th>
 				</tr>
 			</thead>
 			<tbody>
-				<!-- <tr>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-				</tr> -->
-				<c:forEach items="${pb.beanList }" var="spxs" varStatus="status">
+				<c:forEach items="${pb.beanList }" var="sale" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
-						<td>${spxs.gName }</td>
-						<td>${spxs.gBarcode }</td>
-						<td>${spxs.cName }</td>
-						<td>${spxs.gStockNum }</td>
-						<td>${spxs.saleQuantity }</td>
-						<td>${spxs.gTotalPrice }</td>
-						<td>${spxs.saRealAmount }</td>
-						<td>${spxs.saProfit }</td>
+						<td>${sale.saDate }</td>
+						<td>${sale.saGoodsNum }</td>
+						<td>${sale.saRealPrice }</td>
+						<td>${sale.saProfit }</td>
+						<td>${sale.saProfit }</td>
+						<td>${sale.saProfit }</td>
+						<td>${sale.saProfit }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -145,10 +124,10 @@
 	<div style="float: left; width: 100%; text-align: center;">
 		<c:choose>
 			<c:when test="${pb.tp eq 0}">
-			未找到符合条件的记录！
+			查询范围内没有日结记录！
 		</c:when>
 			<c:otherwise>
-				<%@include file="/pager_spxs.jsp"%>
+				<%@include file="/pager_zbtj.jsp"%> <!-- 和占比统计的分页页面共用，因为参数名完全一样 -->
 			</c:otherwise>
 		</c:choose>
 	</div>
