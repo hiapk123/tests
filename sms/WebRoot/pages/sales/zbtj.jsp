@@ -53,7 +53,22 @@
 						</select>
 					</div>
 					<!-- data-date-format="yyyy-mm-dd HH:mm:ss" -->
-					<div class="input-group date form_datetime col-md-3" data-date=""
+					<div class="input-group date form_datetime col-md-3" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input1" value="" /><br/>
+					<%-- <div class="input-group date form_datetime col-md-3" data-date="" data-date-format="yyyy-mm-dd HH:mm" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd HH:mm">
+                    <input name="beginTime" class="form-control" size="16" type="text" value="${beginTime }" readonly>
+                    <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-th"></span></span>
+                </div>
+					<input type="hidden" id="dtp_input1" value="" /> --%>
+<%-- 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
 						<input name="beginTime" class="form-control" size="16" type="text"
@@ -63,7 +78,7 @@
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-th"></span></span>
 					</div>
-					<input type="hidden" id="dtp_input1" value="" />
+					<input type="hidden" id="dtp_input1" value="" /> --%>
 
 					<div class="input-group date form_datetime col-md-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
