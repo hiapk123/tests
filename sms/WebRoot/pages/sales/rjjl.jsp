@@ -109,12 +109,15 @@
 					<tr>
 						<td>${status.index + 1 }</td>
 						<td>${sale.saDate }</td>
-						<td>${sale.saGoodsNum }</td>
+						<td>${sale.saSerialNum }</td>
+						<td>${sale.employee.empName }</td>
 						<td>${sale.saRealPrice }</td>
+						<td>${sale.saGoodsPrice }</td>
 						<td>${sale.saProfit }</td>
+						<td>${sale.saGoodsNum }</td>
+						<%-- <td>${sale.saProfit }</td>
 						<td>${sale.saProfit }</td>
-						<td>${sale.saProfit }</td>
-						<td>${sale.saProfit }</td>
+						<td>${sale.saProfit }</td> --%>
 					</tr>
 				</c:forEach>
 			</tbody>

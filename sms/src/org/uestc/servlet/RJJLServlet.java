@@ -38,7 +38,7 @@ public class RJJLServlet extends BaseServlet {
 		String url = getUrl(request);
 		
 		PageBean<Sale> pb = rjjlService.findAllSalesByUid(user.getUId(), pc);
-//		pb.setUrl(url);
+		pb.setUrl(url);
 		request.setAttribute("pb", pb);
 		
 		return "f:/pages/sales/rjjl.jsp";
