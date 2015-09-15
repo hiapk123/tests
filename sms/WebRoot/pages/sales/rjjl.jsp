@@ -37,7 +37,7 @@
 	<div class="panel panel-default">
 		<div class="panel-footer">
 			<form
-				action="<c:url value='/QSFXServlet?method=findByCombination' />"
+				action="<c:url value='/RJJLServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
 					<div class="col-md-2">
@@ -75,7 +75,7 @@
 
 
 					<div class="col-md-2">
-						<button type="submit" class="btn btn-primary">统计分析</button>
+						<button type="submit" class="btn btn-primary">查询</button>
 					</div>
 				</div>
 			</form>

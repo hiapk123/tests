@@ -29,6 +29,31 @@ public class RJJLServlet extends BaseServlet {
 	private InventoryWarningService inventoryWarningService = new InventoryWarningServiceImp();
 	private RJJLService rjjlService = new RJJLServiceImp();
 
+	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Users user = (Users) request.getSession().getAttribute("sessionUser");
+		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		request.setAttribute("storeList", storeList);
+		
+		String storeName = request.getParameter("hp_store");
+		String beginTime = request.getParameter("beginTime");
+		String endTime = request.getParameter("endTime");
+		
+		request.setAttribute("storeName", storeName);
+		request.setAttribute("beginTime", beginTime);
+		request.setAttribute("endTime", endTime);
+		
+		int pc = getPc(request);
+		String url = getUrl(request);
+		
+		PageBean<Sale> pb = null;
+		pb = rjjlService.findByCombination(storeName, beginTime, endTime, user.getUId() ,pc);
+		
+		pb.setUrl(url);
+		request.setAttribute("pb", pb);
+		
+		return "f:/pages/sales/rjjl.jsp";
+	}
+	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
