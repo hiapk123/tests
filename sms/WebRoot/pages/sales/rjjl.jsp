@@ -89,7 +89,7 @@
 			<thead>
 				<!--  style="font-weight: 900" -->
 				<tr>
-					<th>操作</th>
+					<th>序号</th>
 					<th>开始时间</th>
 					<th>结束时间</th>
 					<th>收银员</th>

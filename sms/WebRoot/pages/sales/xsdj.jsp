@@ -107,7 +107,7 @@
 			<thead>
 				<!--  style="font-weight: 900" -->
 				<tr>
-					<th>操作</th>
+					<th>序号</th>
 					<th>流水号</th>
 					<th>日期</th>
 					<th>类型</th>
