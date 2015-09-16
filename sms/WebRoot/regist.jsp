@@ -89,7 +89,7 @@
 		<div class="row">
 
 			<div class="row">
-				<div class="col-md-12 center login-header">
+				<div class="col-xs-12 center login-header">
 					<h2>欢迎注册收银系统</h2>
 				</div>
 				<!--/span-->
@@ -97,7 +97,7 @@
 			<!--/row-->
 
 			<div class="row">
-				<div class="well col-md-5 center login-box">
+				<div class="well col-xs-5 center login-box">
 					<div class="alert alert-info">请您填写下列注册信息。</div>
 					<form class="form-horizontal"
 						action="<c:url value='/UserServlet'/>" method="post"
@@ -161,16 +161,16 @@
 							</div> -->
 							<div class="clearfix"></div>
 
-							<!-- <p class="center col-md-5">
+							<!-- <p class="center col-xs-5">
 								<button type="submit" class="btn btn-primary">立即注册</button>
 							</p> -->
 
-							<div class="col-md-12">
-								<!-- class="center col-md-10" 也比较好看，两个按钮缩小-->
-								<div class="col-md-6">
+							<div class="col-xs-12">
+								<!-- class="center col-xs-10" 也比较好看，两个按钮缩小-->
+								<div class="col-xs-6">
 									<button type="submit" class="btn btn-primary">立即注册</button>
 								</div>
-								<div class="col-md-6">
+								<div class="col-xs-6">
 									<a type="button" class="btn btn-primary"
 										href="<c:url value='/login.jsp'/>">立即登录</a>
 								</div>

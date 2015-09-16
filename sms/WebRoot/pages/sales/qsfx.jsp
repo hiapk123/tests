@@ -40,7 +40,7 @@
 				action="<c:url value='/QSFXServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<select class="form-control" name="hp_store">
 							<option>全部门店</option>
 							<c:forEach items="${storeList }" var="store">
@@ -49,14 +49,14 @@
 						</select>
 					</div>
 					<!-- data-date-format="yyyy-mm-dd HH:mm:ss" -->
-					<div class="input-group date form_datetime col-md-3" data-date="" data-link-field="dtp_input1">
+					<div class="input-group date form_datetime col-xs-3" data-date="" data-link-field="dtp_input1">
                     <input name="beginTime" class="form-control" size="16" type="text" value="${beginTime }" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
 				<input type="hidden" id="dtp_input1" value="" />
 
-					<div class="input-group date form_datetime col-md-3" data-date=""
+					<div class="input-group date form_datetime col-xs-3" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
 						<input name="endTime" class="form-control" size="16" type="text"
@@ -68,7 +68,7 @@
 					</div>
 					<input type="hidden" id="dtp_input1" value="" />
 
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<select class="form-control" name="hp_condition">
 							<option <c:if test="${condition eq '按小时'}">selected</c:if>>按小时</option>
 							<option <c:if test="${condition eq '按天'}">selected</c:if>>按天</option>
@@ -76,7 +76,7 @@
 						</select>
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<button type="submit" class="btn btn-primary">统计分析</button>
 					</div>
 				</div>

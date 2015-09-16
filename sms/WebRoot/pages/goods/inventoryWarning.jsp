@@ -137,10 +137,10 @@
 				action="<c:url value='/InventoryWarningServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<!-- <div class="col-md-2">
+					<!-- <div class="col-xs-2">
 						<h4>库存预警</h4>
 					</div> -->
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<select class="form-control" name="hp_store">
 							<option>全部门店</option>
 <!-- 							<option value="-1">全部门店</option> -->
@@ -149,7 +149,7 @@
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<select class="form-control" name="hp_category">
 							<option>全部分类</option>
 <!-- 							<option value="-1">全部分类</option> -->
@@ -159,7 +159,7 @@
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<select class="form-control" name="hp_supplier">
 							<option>全部供货商</option>
 <!-- 							<option value="-1">全部供货商</option> -->
@@ -169,18 +169,18 @@
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<select class="form-control" name="hp_inventoryStatus">
 							<option <c:if test="${inventoryStatus eq '库存不足'}">selected</c:if>>库存不足</option>
 							<option <c:if test="${inventoryStatus eq '库存过剩'}">selected</c:if>>库存过剩</option>
 							<option <c:if test="${inventoryStatus eq '过期预警'}">selected</c:if>>过期预警</option>
 						</select>
 					</div>
-					<div class="col-md-2">
+					<div class="col-xs-2">
 						<button type="submit" class="btn btn-primary">查询</button>
 						<!-- <input type="submit" class="btn btn-primary">查询</input> -->
 					</div>
-					<!-- <div class="col-md-1">
+					<!-- <div class="col-xs-1">
 						<button type="button" class="btn btn-primary" id="hp_exportBtn">导出</button>
 						导出货单
 					</div> -->
