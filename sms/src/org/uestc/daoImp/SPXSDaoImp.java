@@ -60,7 +60,6 @@ public class SPXSDaoImp implements SPXSDao {
 		}
 		if (!endTime.equals("")) {
 			endTime = StrToDate(endTime);
-			System.out.println("endTime:\t" + endTime);
 		}
 
 		int ps = PageConstants.SALE_PAGE_SIZE;
@@ -315,7 +314,7 @@ public class SPXSDaoImp implements SPXSDao {
 	}
 
 	private String StrToDate(String str) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date date = null;
 		try {
 			date = format.parse(str);

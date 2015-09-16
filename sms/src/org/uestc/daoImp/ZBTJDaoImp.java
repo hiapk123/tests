@@ -474,7 +474,6 @@ public class ZBTJDaoImp implements ZBTJDao {
 		}
 		if (!endTime.equals("")) {
 			endTime = StrToDate(endTime);
-			System.out.println(endTime);
 		}
 
 		int ps = PageConstants.SALE_PAGE_SIZE;
@@ -614,19 +613,15 @@ public class ZBTJDaoImp implements ZBTJDao {
 	public PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, String condition,
 			Long uId, int pc) throws SQLException, ParseException {
 		if (condition.equals("按门店")) {
-			System.out.println("按门店");
 			return findByStoreName(storeName, beginTime, endTime, uId, pc);
 		}
 		if (condition.equals("按收银员")) {
-			System.out.println("按收银员");
 			return findByCashier(storeName, beginTime, endTime, uId, pc);
 		}
 		if (condition.equals("按支付方式")) {
-			System.out.println("按支付方式");
 			return findByPayType(storeName, beginTime, endTime, uId, pc);
 		}
 		if (condition.equals("是否会员")) {
-			System.out.println("是否会员");
 			return findByIsVip(storeName, beginTime, endTime, uId, pc);
 		}
 		return null;
@@ -719,7 +714,8 @@ public class ZBTJDaoImp implements ZBTJDao {
 	}
 
 	private String StrToDate(String str) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
 		try {
 			date = format.parse(str);

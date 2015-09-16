@@ -521,7 +521,7 @@ public class XSDJDaoImp implements XSDJDao {
 	 * yyyy-MM-dd HH:mm:ss格式的字符串转换为毫秒数的时间字符串
 	 */
 	private String StrToDate(String str) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date date = null;
 		try {
 			date = format.parse(str);
