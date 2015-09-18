@@ -170,6 +170,9 @@
 		$('#rjjl').click(function(){
 			$('#if_content').attr('src','<%=basePath %>RJJLServlet?method=initLoad');
 		});
+		$('#yygk').click(function(){
+			$('#if_content').attr('src','<%=basePath %>YYGKServlet?method=initLoad');
+		});
 	});
 	
 </script>
