@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <base href="<%=basePath%>">
 
-<title>导入</title>
+<title>导入货单</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -38,6 +38,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/bootstrap.file-input.js"></script>
 
 <body>
-<p> ${message},请关闭该页面！</p>
+<script type="text/javascript">
+
+
+</script>
+ 
+
+
+	<span>
+		
+		<form action="<%=basePath%>huoliu?m=shangchuan"
+			enctype="multipart/form-data" method="post">
+			上传文件：<input type="file" name="file1"><br /> <input
+				type="submit"  value="提交">
+		</form>
+	</span>
+</div>
+</div>
 </body>
 </html>

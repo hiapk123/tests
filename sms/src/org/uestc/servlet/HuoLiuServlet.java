@@ -1,9 +1,11 @@
 package org.uestc.servlet;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +27,9 @@ import org.uestc.serviceImp.HuoliuServiceImp;
 @WebServlet(urlPatterns = { "/huoliu" })
 public class HuoLiuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private HuoliuServiceImp huoliu = new HuoliuServiceImp();  
+	private HuoliuServiceImp huoliu = new HuoliuServiceImp();
+	private String realSavePath;
+	 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,14 +66,304 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("toExcel")) {
 				this.toExcel(req,resp);
 				req.getRequestDispatcher("/pages/huoliu/toExcel.jsp").forward(req, resp);
-	    }
+	    }else if (m.equals("hlgl")) {
+			this.hlgl(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+        }else if (m.equals("jinhuo")) {
+			this.jinhuo(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/jinhuo.jsp").forward(req, resp);
+        }else if (m.equals("jinhuo1")) {
+			this.jinhuo1(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/goodtable.jsp").forward(req, resp);
+        }else if (m.equals("diaohuo1")) {
+			this.diaohuo1(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/goodtable.jsp").forward(req, resp);
+        }else if (m.equals("add")) {
+			this.add(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
+        }else if (m.equals("xzmd")) {
+			this.xzmd(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/xzmd.jsp").forward(req, resp);
+        }else if (m.equals("xzmd1")) {
+			this.xzmd1(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/xzmd1.jsp").forward(req, resp);
+        }else if (m.equals("dr")) {
+			this.dr(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/dr.jsp").forward(req, resp);
+        }else if (m.equals("shangchuan")) {
+			this.shangchuan(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/success.jsp").forward(req, resp);
+        }else if (m.equals("DR")) {
+			this.DR(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
+        }else if (m.equals("Inforuku")) {
+			this.Inforuku(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+        }else if (m.equals("ruku")) {
+			this.ruku(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+        }else if (m.equals("zhijieruku1")) {
+			this.zhijieruku1(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+        }else if (m.equals("findhl")) {
+			this.findhl(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/findhl.jsp").forward(req, resp);
+        }else if (m.equals("detail")) {
+			this.detail(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/orderdetail.jsp").forward(req, resp);
+        }else if (m.equals("diaohuo")) {
+			this.diaohuo(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/diaohuo.jsp").forward(req, resp);
+        }
+		
+		
+		
 	}
+	private void ruku(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String list=req.getParameter("list");
+		String s_id_in=req.getParameter("s_id");
+	
+		String l_info=req.getParameter("l_info");
+	
+		
+	     list=list.trim();
+		huoliu.ruku(list,s_id_in,l_info);
+		hlgl(req, resp);
+	}
+
+	/***
+	 * 调货完成入库
+	 * @param req
+	 * @param resp
+	 */
+	private void zhijieruku1(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id_out=req.getParameter("s_id_out");
+		String s_id_in=req.getParameter("s_id_in");
+		String list=req.getParameter("list");
+		String l_info=req.getParameter("l_info");
+	
+	     list=list.trim();
+		huoliu.zhijieruku1(list,s_id_out,s_id_in,l_info);
+		hlgl(req, resp);
+	}
+
+	/***
+	 * 调货
+	 * @param req
+	 * @param resp
+	 */
+	private void diaohuo1(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id_out=req.getParameter("s_id_out");
+		String s_id_in=req.getParameter("s_id_in");
+		String s_name=req.getParameter("s_name");
+		String shuru=req.getParameter("shuru");
+	    List<Object[]> list = huoliu.search(s_id_out,shuru);
+	    if(list.size()==0){
+	    	req.setAttribute("status", "找不到相关商品,请关闭窗口重新输入");
+	    }
+	    req.setAttribute("s_id_out", s_id_out);
+		req.setAttribute("s_id_in", s_id_in);
+	    req.setAttribute("s_name", s_name);
+	   
+	    req.setAttribute("goodsList", list);
+	}
+
+	/***
+	 * 选择调货收货门店
+	 * @param req
+	 * @param resp
+	 */
+	private void xzmd1(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id_out=req.getParameter("s_id_out");
+		String s_id_in=req.getParameter("s_id_in");
+		req.setAttribute("s_id_out", s_id_out);
+		req.setAttribute("s_id_in", s_id_in);
+	}
+
+	/***
+	 * 调货
+	 * @param req
+	 * @param resp
+	 */
+	private void diaohuo(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		HttpSession session=req.getSession();
+		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+	    req.setAttribute("storeList", storeList);
+	}
+
+	/**
+	 * 订单页面
+	 * @param req
+	 * @param resp
+	 */
+private void detail(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String list=req.getParameter("list");
+		/*System.out.println(list);
+		String order[]=list.split(" ");*/
+		req.setAttribute("order", list);
+	}
+
+/***
+ * 货单查询
+ * @param req
+ * @param resp
+ */
+	
+private void findhl(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id=req.getParameter("s_id");
+		String type=req.getParameter("type");
+		 List<Object[]> list=huoliu.findhl(s_id,type);
+		req.setAttribute("list", list);
+	}
+
+private void Inforuku(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String list=req.getParameter("list");
+		String s_id_in=req.getParameter("s_id");
+		String l_pre_price=req.getParameter("l_pre_price");
+		String l_info=req.getParameter("l_info");
+		
+		System.out.println("list:   "+list);
+	     list=list.trim();
+		huoliu.Inforuku(list,s_id_in,l_pre_price,l_info);
+		hlgl(req, resp);
+	}
+
+
+/***
+ * 进入add.jsp页面
+ * @param req
+ * @param resp
+ */
+private void DR(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+	
+		 try{
+			 //System.out.println(realSavePath);
+			 if(realSavePath==null){
+				 req.getRequestDispatcher("/pages/huoliu/tishi.jsp").forward(req, resp);
+			 }else if(realSavePath!=""){
+				 String s_id=req.getParameter("s_id");
+				 huoliu.dr(req,resp,realSavePath,Integer.valueOf(s_id));
+				 
+			 }
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+	}
+	
+
+/***
+ * 进入导入货单页面
+ * @param req
+ * @param resp
+ */
+	private void dr(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id=req.getParameter("s_id");
+	
+		req.setAttribute("s_id", s_id);
+	}
+
+	private void xzmd(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id=req.getParameter("s_id");
+		String mm=req.getParameter("mm");
+		req.setAttribute("s_id", s_id);
+	}
+	 
+	private void add(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		
+		String s_id=req.getParameter("s_id");
+		String g_name=req.getParameter("g_name");
+		String g_barcode=req.getParameter("g_barcode");
+		String g_stock_num=req.getParameter("g_stock_num");
+		String su_name=req.getParameter("su_name");
+		String g_pur_price=req.getParameter("g_pur_price");
+		String g_id=req.getParameter("g_id");
+		String arr[]=new String[]{g_name,g_barcode,g_stock_num,su_name,"1",g_pur_price,g_id};
+		ArrayList list = new ArrayList();
+	 
+	    list.add(arr);
+	   
+	  
+	    req.setAttribute("s_id", s_id);
+	    req.setAttribute("List", list);
+	  
+	  
+	}
+
+	private void jinhuo1(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+
+		String s_id=req.getParameter("s_id");
+		String s_name=req.getParameter("s_name");
+		String shuru=req.getParameter("shuru");
+	    List<Object[]> list = huoliu.search(s_id,shuru);
+	    if(list.size()==0){
+	    	req.setAttribute("status", "找不到相关商品,请关闭窗口重新输入");
+	    }
+	    req.setAttribute("s_id", s_id);
+	    req.setAttribute("s_name", s_name);
+	   
+	    req.setAttribute("goodsList", list);
+	    
+	}
+
+	/***
+	 * 进入进货页面
+	 * @param req
+	 * @param resp
+	 */
+	private void jinhuo(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		
+		String s_id=req.getParameter("s_id");
+		String s_name=req.getParameter("s_name");
+		HttpSession session=req.getSession();
+		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+	    req.setAttribute("storeList", storeList);
+	    req.setAttribute("s_id", s_id);
+	    req.setAttribute("s_name", s_name);
+	  
+	    
+	}
+
+	/***
+	 * 进入货流管理页面
+	 * @param req
+	 * @param resp
+	 */
+	private void hlgl(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		HttpSession session=req.getSession();
+		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+	    req.setAttribute("storeList", storeList);
+	}
+/***
+ * 进入导出页面
+ * @param req
+ * @param resp
+ */
 	private void daochu(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
         String s_id = req.getParameter("s_id");
 		req.setAttribute("s_id", s_id);
 	}
-
+/***
+ * 将供货商资料导入表格并下载
+ * @param req
+ * @param resp
+ */
 	private void toExcel(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
         String s_id = req.getParameter("s_id");
@@ -86,6 +380,7 @@ public class HuoLiuServlet extends HttpServlet {
 	 */
 	private void shangchuan(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		 String savePath = this.getServletContext().getRealPath("/WEB-INF/upload");
          //上传时生成的临时文件保存目录
          String tempPath = this.getServletContext().getRealPath("/WEB-INF/temp");
@@ -156,9 +451,10 @@ public class HuoLiuServlet extends HttpServlet {
                      System.out.println("上传的文件的扩展名是："+fileExtName);
                      //获取item中的上传文件的输入流
                      InputStream in = item.getInputStream();
-                   
+                     realSavePath = makePath(filename, savePath);
+                     
                      //创建一个文件输出流
-                     FileOutputStream out = new FileOutputStream(savePath + "\\" + filename);
+                     FileOutputStream out = new FileOutputStream(realSavePath + "\\" + filename);
                      //创建一个缓冲区
                      byte buffer[] = new byte[1024];
                      //判断输入流中的数据是否已经读完的标识
@@ -194,13 +490,48 @@ public class HuoLiuServlet extends HttpServlet {
          }
         // req.setAttribute("message",message);
          //req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
-         try {
-			huoliu.importExcel(req,resp);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+         String m=req.getParameter("m");
+         if (m.equals("Shangchuanwenjian")) {
+        	 try {
+     			huoliu.importExcel(req,resp);
+     			
+     		} catch (Exception e) {
+     			// TODO Auto-generated catch block
+     			e.printStackTrace();
+     		}
+		}else if(m.equals("shangchuan")){
+			req.setAttribute("message","上传成功");
 		}
+         
+        
 }
+	
+	/**
+     * 为防止一个目录下面出现太多文件，要使用hash算法打散存储
+    * @Method: makePath
+    * @Description: 
+    * @Anthor:孤傲苍狼
+    *
+    * @param filename 文件名，要根据文件名生成存储目录
+    * @param savePath 文件存储路径
+    * @return 新的存储目录
+    */ 
+    private String makePath(String filename,String savePath){
+        //得到文件名的hashCode的值，得到的就是filename这个字符串对象在内存中的地址
+        int hashcode = filename.hashCode();
+        int dir1 = hashcode&0xf;  //0--15
+        int dir2 = (hashcode&0xf0)>>4;  //0-15
+        //构造新的保存目录
+        String dir = savePath + "\\" + dir1 + "\\" + dir2;  //upload\2\3  upload\3\5
+        //File既可以代表文件也可以代表目录
+        File file = new File(dir);
+        //如果目录不存在
+        if(!file.exists()){
+            //创建目录
+            file.mkdirs();
+        }
+        return dir;
+    }
 
 	/***
 	 * 进入导入页面

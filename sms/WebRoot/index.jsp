@@ -114,11 +114,14 @@
 			$('#if_content').attr('src','<%=basePath %>goods?m=goodsInfo');
 			
 		});  
-		$('#ghszl').click(function(){
+		$('#ghs').click(function(){
 			$('#if_content').attr('src','<%=basePath %>huoliu?m=supplierInfo&s_id=1');
 			
 		});  
-		
+		$('#hlgl').click(function(){
+			$('#if_content').attr('src','<%=basePath %>huoliu?m=hlgl');
+			
+		});  
 		
 		$('#spfl').click(function(){
 			
@@ -326,14 +329,11 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="货流" id="ghszl">供货商资料</a></li>
+											<li><a href="#" data-options="货流" id="ghs">供货商</a></li>
+											<li><a href="#" data-options="货流" id="mddh">门店订货</a></li>
+											<li><a href="#" data-options="货流" id="hlgl">货流管理</a></li>
 											<li><a href="#" data-options="货流" id="ghsjs">供货商结算</a></li>
-											<li><a href="#" data-options="货流" id="ghsjsjl">供货结算记录</a></li>
-											<li><a href="#" data-options="货流" id="mddhqq">门店订货请求</a></li>
-											<li><a href="#" data-options="货流" id="mdjh">门店进货</a></li>
-											<li><a href="#" data-options="货流" id="mddhsj">门店间调货</a></li>
-											<li><a href="#" data-options="货流" id="thggys">退货给供应商</a></li>
-											<li><a href="#" data-options="货流" id="wljl">货流记录</a></li>
+											<li><a href="#" data-options="货流" id="hkhz">货款汇总</a></li>
 										</ul>
 									</div>
 								</div>

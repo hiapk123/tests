@@ -1,75 +1,39 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
-	contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<style type="text/css">
+
+     
+ #close{ display: block;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: white;  z-index:1001;  -moz-opacity: 0.7;  opacity:1;  filter: alpha(opacity=100);} 
+</style>
 <base href="<%=basePath%>">
-
 <title></title>
-
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content=",keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<%-- <SCRIPT LANGUAGE="javascript">
-<!--
-function ShowNewProductDiv()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=addGoods&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
-function DaoRu()
-{
-window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT> --%>
+
+
 <SCRIPT LANGUAGE="javascript">
 <!--
 
-function DaoRu()
+function tuihuo()
 {
 	var id=$("#store").val();
 	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ("<%=basePath%>huoliu?m=tuihuo&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
-<SCRIPT LANGUAGE="javascript">
-<!--
 
-function daochu()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT>
-<SCRIPT LANGUAGE="javascript">
-<!--
-
-function fuzhishangpin()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT>
 
 
 <!-- The styles -->
@@ -159,92 +123,84 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
 <script type="text/javascript">
-	$(function(){
+function guanbi1(){
 	
+	$("#detail").empty();
+	
+}
+ function getdetail(node){
+	
+	
+	var list=$(node).val();
+		//alert(list);
+	$.post("<%=basePath%>huoliu", {
+			"m" : "detail",
+			"list":list,
+		}, function(data) {
+			$("#detail").append(data);
+		}, "html");
+	
+} 
+$(function(){
+	
+		$("#jinhuo").click(function(){
+			$("#hlgldiv").empty();
+			$.post("<%=basePath%>huoliu", {
+				"m" : "jinhuo",
+			}, function(data) {
+				$("#hlgldiv").append(data);
+			}, "html");
+			
+		});
+		$("#diaohuo").click(function(){
+			$("#hlgldiv").empty();
+			$.post("<%=basePath%>huoliu", {
+				"m" : "diaohuo",
+			}, function(data) {
+				$("#hlgldiv").append(data);
+			}, "html");
+			
+		});
 		$("#search").click(function(){
-			var store=$("#store").val();
-			var number=$("#category").val();
-			var currentPage=null;
+			var s_id=$("#store").val();
+			var type=$("#category").val();
+			
 			if(store==null){
 				alert("请重新选择店铺！");
 				return;
 			}
-			$("#goodsinfodiv").empty();
-			$.post("<%=basePath%>goods", {
-				"m" : "findGoodByPage",
-				"store" : store,
-				"catagory" :number  ,
-				"currentPage":currentPage,
+			$("#findhl").empty();
+			$.post("<%=basePath%>huoliu", {
+				"m" : "findhl",
+				"s_id" : s_id,
+				"type" :type,
+				
 			}, function(data) {
-				$("#goodsinfodiv").append(data);
+				$("#findhl").append(data);
 			}, "html");
 			
 		});
 		
-		//新增商品
-		$("#xinzengshangpin").click(function(){
-			var message="";
-			var s_id=$("#store").val();
-			var s_name=$("#store :selected").text();
-			if(store==null){
-				alert("请重新选择店铺！");
-				return;
-			}
-			$("#goodsinfodiv").empty();
-			$.post("<%=basePath%>goods",{
-				"m" : "addGoods",
-				"s_id" :s_id,
-				"s_name" :s_name  ,
-				"message" :message,
-			}, function(data) {
-				$("#goodsinfodiv").append(data);
-			}, "html");
-			
-		});
-		$("#kuaisu").click(function(){
-			var store=$("#store").val();
-			var s_name=$("#store :selected").text();
-			if(store==null){
-				alert("请重新选择店铺！");
-				return;
-			}
-			$("#hehe").empty();
-			$.post("<%=basePath%>goods", {
-				"m" : "kuaisu",
-				"store" : store,
-				"s_name":s_name,
-				"s_id":store,
-				
-			}, function(data) {
-				$("#hehe").append(data);
-			}, "html");
-			
-		});
+		
 		
 	});
 </script>
 </head>
 
 <body>
-<div id="hehe">
-	<span class="label label-default" style="padding: 10px">商品资料</span>
-	&nbsp;&nbsp;
-	<button type="button" id="xinzengshangpin" class="btn btn-success"
-		name="submit" >新增商品</button>
+<div id="hlgldiv">
+
+	<button type="button" class="btn btn-success" name="submit"
+		id="jinhuo">进货</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
-		onclick="DaoRu()">导入</button>
+		id="diaohuo">调货</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
-		onclick="daochu()">导出</button>
-	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
-		onclick="fuzhishangpin()">复制商品</button>
-	&nbsp;&nbsp;
-   <button type="button" id="kuaisu" class="btn btn-success"
-		name="submit" >快速录入</button>
+		onclick="tuihuo()">退货给供货商</button>
+	<div style="float: right;">
 	<select id="store" class="singleSelector">
-		<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
+		<option value="-1" selected="selected" disabled="disabled">全部店铺</option>
 
 		<%
 			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
@@ -260,62 +216,57 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 	</select>
 
 	<select id="category">
-		<option value="0" selected="selected">有效单据</option>
-		<option value="1">作废单据</option>
+	    <option value="-1" selected="selected" disabled="disabled">全部货单</option>
+		<option value="进货单" >门店进货单</option>
+		<option value="1">门店调货</option>
+		<option value="2">门店退货</option>
 	</select>
 
-	<div style="float: right;">
+	
 		<input class="input-medium search-query" type="text" float:right /> <input
 			type="button" value="查询" id="search" class="submitBtn" />
-		<button type="button" class="btn btn-success" float:right>按分类</button>
+		
 	</div>
 	
 	<div data-spy="scroll"
-		style="height: 100%; overflow: auto; position: relative;"
+		style="width: 100%; overflow: auto; position: relative;"
 		data-offset="10">
-     
-
-		<div id="goodsinfodiv">
-		<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+ 
+<div id="findhl">
+		
+		<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
 			<tr>
+			    <th><input id="checkAll" type="checkbox"/></th>
+				<th>序号</th>
 				<th>操作</th>
-				<th>商品名称</th>
-				<th>所属门店</th>
-				<th>商品条码</th>
-				<th>销售价</th>
-				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
-				<th>会员价</th>  
-				<th>分类</th>
-				<th>批发价</th>
-				<th>会员折扣</th>
-				<th>库存上限</th>
-				<th>库存下限</th>
-				<th>生产日期</th>
-				<th>保质期 ↑ ↓</th>
-				<th>拼音码</th>
-				<th>供货商</th>
-				<th>自定义1</th>
-				<th>自定义2</th>
-				<th>自定义3</th>
-				<th>自定义4</th>
-				<th>最小起订量</th>
-				<th>最低陈列量</th>
-				<th>畅销量</th>
-				<th>正常销售量</th>
-				<th>库存合理值</th>
-				<th>是否锁定</th>
+				<th>货流单号</th>
+				<th>下单时间</th>
+				<th>货单类型</th>
+				<th>出货门店</th>
+				<th>进货门店</th>
+				<th>状态</th>
+				<th>货流量</th>
+				<th>总价</th>
+				<th>预付款</th>
+				<th>备注</th>
 			</tr>
 		</thead>
+		<tbody>
 		
+		
+	</tbody>
 
 	</table>
 		</div>
-
-	</div>
+		
 </div>
+  <div id="detail">
+ 
+ </div>
+	</div>
 
+  
 </body>
 
 </html>

@@ -6,7 +6,7 @@
 <div id="ghszl" class="myclass">
 
 <jsp:include page="huoliu/supplierinfo.jsp"></jsp:include>
-
+<jsp:include page="huoliu/huoliuguanli.jsp"></jsp:include>
 </div>
 
 

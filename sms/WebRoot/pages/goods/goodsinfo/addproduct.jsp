@@ -49,7 +49,7 @@ $(document).ready(function () {
 		
 			</br>
 			<label   >商品条码:</label> <input type="text" id="g_barcode"
-				placeholder="请输入商品条码">
+			value="11"	placeholder="请输入商品条码">
 				</br>
 					</br>
 					<input id="status" type="hidden" name="message" value="${message}">
