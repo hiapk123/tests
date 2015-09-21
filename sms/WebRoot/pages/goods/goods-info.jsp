@@ -172,7 +172,7 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 			$("#goodsinfodiv").empty();
 			$.post("<%=basePath%>goods", {
 				"m" : "findGoodByPage",
-				"store" : store,
+				"s_id" : store,
 				"catagory" :number  ,
 				"currentPage":currentPage,
 			}, function(data) {

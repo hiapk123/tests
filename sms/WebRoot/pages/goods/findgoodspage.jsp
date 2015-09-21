@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"
 	import="java.util.*,org.uestc.util.DateFormatUtils"%>
+	<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -8,18 +9,21 @@
 %>
 <%
 String currentPage=request.getAttribute("currentPage").toString();
+System.out.println(currentPage);
 String method=application.getAttribute("method").toString();
-if(method!="findByPage"){
+if(!method.equals("findByPage")){
 String sorted=application.getAttribute("sorted").toString();
 }
 
 %>
 <script>
 	$(function() {
-		$("#up-g_stock_num").click(function(){
+		$("li a").click(function() {
+			
+			var m=$("#method").val();
+			var sorted=$("#sorted").val();
 			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			var sorted=$("#up-g_stock_num").val();
+			var s_id=$("#s_id").val();
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -28,109 +32,25 @@ String sorted=application.getAttribute("sorted").toString();
 				which="next";
 			} else if (which === "尾页") {
 				which="last";
-			} else if(which=="↑") {
-				which="first";
 			} 
 			$("#tableContent").empty();
-			var pageNo=$("#page").val()
+			var currentPage=<%=currentPage%>;
+		
 			$.post("<%=basePath%>goods", {
-				"m" : "upsort",
 				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo
+				"s_id" : s_id,
+				"m" : m,
+				"sorted":sorted,
+				"currentPage" : currentPage,
 			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
-         $("#down-g_stock_num").click(function(){
-        	var sorted=$("#down-g_stock_num").val();
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			}  else if(which=="↓") {
-				which="first";
-			}
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "downsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo
-			}, function(data) {
-				$("#tableContent").append(data);
+				$("#tableContent").html(data);
 			}, "html");
 		});
 	});
+        
 </script>
-<script>
-	$(function() {
-		$("#up").click(function(){
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			var sorted=$("#up").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			} else if(which=="↑") {
-				which="first";
-			} 
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "upsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo
-			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
-         $("#down").click(function(){
-        	var sorted=$("#down").val();
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			}  else if(which=="↓") {
-				which="first";
-			}
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "downsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo
-			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
-	});
-</script>
-<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+
+<table style="width:3100px; height:30px;  table-layout:fixed;" border="1" ;>
 	<thead>
 		<tr>
 			<th>操作</th>
@@ -138,8 +58,8 @@ String sorted=application.getAttribute("sorted").toString();
 			<th>所属门店</th>
 			<th>商品条码</th>
 			<th>销售价</th>
-			<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-			<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
+			<th>库存量<button onclick="UP(this)" class=" btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button onclick="DOWN(this)" class=" btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
+			<th>进货价<button onclick="up(this)" class=" btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button onclick="down(this)" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
 			<th>会员价</th>
 			<th>分类</th>
 			<th>条码</th>
@@ -166,7 +86,7 @@ String sorted=application.getAttribute("sorted").toString();
 		<%
 			List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
 
-			String storeID = request.getParameter("store").toString();
+			String s_id = request.getParameter("s_id").toString();
 			
 			if (goods != null && goods.size() > 0) {
 				for (int i = 0; i < goods.size(); i++) {
@@ -175,7 +95,7 @@ String sorted=application.getAttribute("sorted").toString();
 			<td><a
 				href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[6]%>">
 					删除 </a> <a
-				href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=storeID%>">编辑</a>
+				href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=s_id%>">编辑</a>
 				<a href="#"> 图片 </a></td>
 			<%
 				for (int j = 0; j <= 5; j++) {
@@ -191,5 +111,11 @@ String sorted=application.getAttribute("sorted").toString();
 		%>
 	</tbody>
 </table>
-<input type="hidden" id="method" value="${method }" />
-<input type="hidden" id="sorted" value="${sorted }" />
+
+<input type="hidden" id="method" value="${method}" />
+<input type="hidden" id="sorted" value="${sorted}" />
+<ul class="pagination" id="page">
+	<page:htmlPage  pageNo="${currentPage}"
+		url=""
+		totalSum="${totalSize }" showPage="10" pageSize="10" />
+</ul>

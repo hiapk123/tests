@@ -10,21 +10,18 @@
 			+ path + "/";
 %>
 <%
-  // String currentPage=request.getAttribute("currentPage").toString();
-   // System.out.println(currentPage);
+	String currentPage=request.getAttribute("currentPage").toString();
+	System.out.println(currentPage);
     String method=application.getAttribute("method").toString();
 %>
 <script>
 	$(function() {
-		$('.pagination').click(function() {
-			//alert(method);
-		});
 		$("li a").click(function() {
-			var currentPage=$("#page").val();
+			
 			var m=$("#method").val();
 			var sorted=$("#sorted").val();
 			var which = $(this).text();
-			var storeID=$("#storeID").val();
+			var s_id=$("#s_id").val();
 			if (which === "首页") {
 				which="first";
 			} else if (which == "上一页") {
@@ -33,13 +30,13 @@
 				which="next";
 			} else if (which === "尾页") {
 				which="last";
-			} else {
-			}
+			} 
 			$("#tableContent").empty();
-			//var pageNo=$("#page1").val()
+			var currentPage=<%=currentPage%>;
+		
 			$.post("<%=basePath%>goods", {
 				"which" : which,
-				"store" : storeID,
+				"s_id" : s_id,
 				"m" : m,
 				"sorted":sorted,
 				"currentPage" : currentPage,
@@ -47,121 +44,77 @@
 				$("#tableContent").html(data);
 			}, "html");
 		});
-		$("#up-g_stock_num").click(function(){
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			var sorted=$("#up-g_stock_num").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			} else if(which=="↑") {
-				which="first";
-			} 
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "upsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo
-			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
-         $("#down-g_stock_num").click(function(){
-        	var sorted=$("#down-g_stock_num").val();
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			}  else if(which=="↓") {
-				which="first";
-			}
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "downsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo,
-			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
 	});
+        
 </script>
 <script>
-	$(function() {
-		
-		$("#up").click(function(){
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			var sorted=$("#up").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			} else if(which=="↑") {
-				which="first";
-			} 
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "upsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo
-			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
-         $("#down").click(function(){
-        	var sorted=$("#down").val();
-			var which = $(this).text();
-			var storeID=$("#storeID").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			}  else if(which=="↓") {
-				which="first";
-			}
-			$("#tableContent").empty();
-			var pageNo=$("#page").val()
-			$.post("<%=basePath%>goods", {
-				"m" : "downsort",
-				"which" : which,
-				"store" : storeID,
-				"sorted" : sorted,
-				"currentPage" : pageNo,
-			}, function(data) {
-				$("#tableContent").append(data);
-			}, "html");
-		});
-	});
+function UP(node){
+	 var s_id=$("#s_id").val();
+	var sorted=$(node).val();
+	$("#tableContent").empty();
+	var currentPage=<%=currentPage%>;
+	$.post("<%=basePath%>goods", {
+		"m" : "upsort",
+		"which" : "first",
+		"s_id" : s_id,
+		"sorted" : sorted,
+		"currentPage" : currentPage,
+	}, function(data) {
+		$("#tableContent").append(data);
+	}, "html");
+}
+function DOWN(node){
+	var sorted=$(node).val();
+	var s_id=$("#s_id").val();
+	$("#tableContent").empty();
+	var currentPage=<%=currentPage%>;
+	$.post("<%=basePath%>goods", {
+		"m" : "downsort",
+		"which" : "first",
+		"s_id" : s_id,
+		"sorted" : sorted,
+		"currentPage" : currentPage,
+	}, function(data) {
+		$("#tableContent").append(data);
+	}, "html");
+}
 </script>
+<script>
+function up(node){
+	var s_id=$("#s_id").val();
+	var sorted=$(node).val();
+	$("#tableContent").empty();
+	var currentPage=<%=currentPage%>;
+	
+	$.post("<%=basePath%>goods", {
+		"m" : "upsort",
+		"which" : "first",
+		"s_id" : s_id,
+		"sorted" : sorted,
+		"currentPage" : currentPage,
+	}, function(data) {
+		$("#tableContent").append(data);
+	}, "html");
+}
+function down(node){
+	var sorted=$(node).val();
+	var s_id=$("#s_id").val();
+	$("#tableContent").empty();
+	var currentPage=<%=currentPage%>;
+	$.post("<%=basePath%>goods", {
+		"m" : "downsort",
+		"which" : "first",
+		"s_id" : s_id,
+		"sorted" : sorted,
+		"currentPage" : currentPage,
+	}, function(data) {
+		$("#tableContent").append(data);
+	}, "html");
+}
+</script>
+
+
+
 <div id="tableContent">
 	<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
@@ -171,8 +124,8 @@
 				<th>所属门店</th>
 				<th>商品条码</th>
 				<th>销售价</th>
-				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
+				<th>库存量<button onclick="UP(this)" class=" btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button onclick="DOWN(this)" class=" btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
+				<th>进货价<button onclick="up(this)" class=" btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button onclick="down(this)" class=" btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
 				<th>会员价</th>  
 				<th>分类</th>
 				<th>批发价</th>
@@ -199,7 +152,7 @@
 			<%
 			List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
 
-				String storeID = request.getParameter("store").toString();
+				String s_id = request.getParameter("s_id").toString();
 				
 				if (goods != null && goods.size() > 0) {
 					for (int i = 0; i < goods.size(); i++) {%>
@@ -207,7 +160,7 @@
 				<td><a
 					href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[6]%>">
 						删除 </a><br> <a
-					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=storeID%>">编辑</a>
+					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=s_id%>">编辑</a>
 					<br><a href="#"> 图片 </a></td>
 				<%
 					for (int j = 0; j <= 5; j++) {
@@ -223,14 +176,18 @@
 			%>
 		</tbody>
 	</table>
+	
 	<input type="hidden" id="method" value="${method }" />
-</div>
-<input type="hidden" id="storeID" value="<%=storeID%>" />
-<input type="hidden" id="sorted" value="${sorted }" />
+	<input type="hidden" id="sorted" value="${sorted }" />
 <ul class="pagination" id="page">
-	<page:htmlPage pageNo="${currentPage }"
+	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />
 </ul>
+</div>
+<input type="hidden" id="s_id" value="<%=s_id%>" />
+
+
+
 
 
