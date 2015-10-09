@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.uestc.service.UserService;
 import org.uestc.serviceImp.UserServiceImp;
 
@@ -108,6 +109,8 @@ public class UserServlet extends BaseServlet {
 		String email = request.getParameter("email");
 		Users formUser = new Users();
 		formUser.setUName(loginname);
+//		String md5Digest = DigestUtils.md5Hex(loginpass);
+//		formUser.setUPassword(md5Digest);
 		formUser.setUPassword(loginpass);
 		formUser.setReloginpass(reloginpass);
 		formUser.setUEmail(email);

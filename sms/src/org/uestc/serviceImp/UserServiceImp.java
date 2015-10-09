@@ -31,12 +31,12 @@ public class UserServiceImp implements UserService {
 		/*
 		 * 补齐数据
 		 */
-		user.setUType(1);
-		user.setUPhone("xxxxxx");
-		user.setUSex("男");
-		user.setUAge("23");
-		user.setUInfo("xxx");
-		user.setSDel((short) 1);
+//		user.setUType(1);
+//		user.setUPhone("xxxxxx");
+//		user.setUSex("男");
+//		user.setUAge("23");
+//		user.setUInfo("xxx");
+//		user.setSDel((short) 1);
 
 		try {
 			userDao.add(user);
