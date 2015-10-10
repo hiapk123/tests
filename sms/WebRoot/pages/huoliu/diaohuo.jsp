@@ -232,6 +232,7 @@ $("#daoru").click(function(){
 			}
 			}
 		%>
+		
 		</select> <br>
 	<label>请选择进货门店</label>	<select id="s_id_in"
 			class="singleSelector btn btn-block btn-success">

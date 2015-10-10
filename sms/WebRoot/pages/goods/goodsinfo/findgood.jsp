@@ -10,6 +10,7 @@
 			+ path + "/";
 %>
 <%
+
 	String currentPage=request.getAttribute("currentPage").toString();
 	System.out.println(currentPage);
     String method=application.getAttribute("method").toString();

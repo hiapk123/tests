@@ -12,6 +12,7 @@ int n=0;
 <%
 //String s_id=request.getParameter("s_id");
 
+
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

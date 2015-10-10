@@ -12,6 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
+
 <body>
 <form action="<%=basePath%>huoliu?m=editSupplier2" method="post">
 		<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>

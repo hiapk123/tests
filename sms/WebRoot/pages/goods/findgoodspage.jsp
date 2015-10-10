@@ -15,6 +15,7 @@ if(!method.equals("findByPage")){
 String sorted=application.getAttribute("sorted").toString();
 }
 %>
+
 <script>
 	$(function() {
 		$("li a").click(function() {

@@ -145,6 +145,7 @@ $("#daoru").click(function(){
 	var s_id=$("#store").val();
 	
 	
+	
 	//$("#goodtable").empty();
 	
 	$.post("<%=basePath%>huoliu", {

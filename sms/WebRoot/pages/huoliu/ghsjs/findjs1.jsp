@@ -57,6 +57,7 @@ WORD-WRAP: break-word
 <table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
 			<tr>
+			
 			    <th><input class="checkAll" type="checkbox"/></th>
 				<th>序号</th>
 				<th>操作</th>

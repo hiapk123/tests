@@ -12,6 +12,7 @@ String s_id=request.getAttribute("s_id").toString();
 String type=request.getAttribute("type").toString();
 %>
  <script>
+ 
 	$(function() {
 		$("li a").click(function() {
 			var which = $(this).text();

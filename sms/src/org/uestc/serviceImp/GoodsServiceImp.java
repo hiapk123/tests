@@ -183,6 +183,7 @@ public class GoodsServiceImp implements GoodsService {
 							Number num = (Number) list.get(k)[1];  
 							gid= num.intValue();
 
+							
 							String mm=null;
 							break;
 						}

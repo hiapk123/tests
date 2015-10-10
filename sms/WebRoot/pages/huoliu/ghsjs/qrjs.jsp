@@ -24,6 +24,7 @@ DecimalFormat    df   = new DecimalFormat("######0.00");
 <div id="mm">
 <div  style=" margin: 80px auto; width: 350px;  height: 300px; border: 5px solid #EE2C2C;">
 <center>
+
                 <label id="danshu" value="<%=danshu%>">单数：<%=danshu%></label>
                <label id="numOfGoods"  style=" margin: auto 80px;" value="<%=numOfGoods%>">商品数量：<%=numOfGoods%></label><br>
                 <label id="price" value="<%=price%>">总价：<%=price%></label>
