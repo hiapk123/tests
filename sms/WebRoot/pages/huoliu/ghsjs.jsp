@@ -8,16 +8,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<style type="text/css">
-table thead tr th{
-background: #D5E9ED;
-}
- </style>
-<style type="text/css">
 
-     
- #close{ display: block;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: white;  z-index:1001;  -moz-opacity: 0.7;  opacity:1;  filter: alpha(opacity=100);} 
-</style>
 <base href="<%=basePath%>">
 <title></title>
 <meta http-equiv="pragma" content="no-cache">
@@ -25,12 +16,6 @@ background: #D5E9ED;
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content=",keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-
-
-
-
-
-
 <!-- The styles -->
 <link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
 	rel="stylesheet">
@@ -117,66 +102,109 @@ background: #D5E9ED;
 <script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
+<style type="text/css">
+table thead tr th{
+background: #D5E9ED;
+}
+ </style>
+</head>
 <script type="text/javascript">
-
-function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
-function ruku(node){
-	var l_detail=$(node).parent().parent().find(".l_detail").val();
-	var l_id=$(node).parent().parent().find(".l_id").val();
-	var s_id_out=$(node).parent().parent().find(".s_id_out").val();
-	var s_id_in=$(node).parent().parent().find(".s_id_in").val();
-	var l_serial_num=$(node).parent().parent().find(".l_serial_num").val();
-	var l_date=$(node).parent().parent().find(".l_date").val();
-	var tr=$(node).parent().parent();
-
+function querenjiesuan1(){
+	var danshu=$("#danshu").val();
+	var numOfGoods=$("#numOfGoods").val();
+	var price=$("#price").val();
+	var ss_pre_price=$("#ss_pre_price").val();
+	var su_gd_return=$("#su_gd_return").val();
+	var su_ps_return=$("#su_ps_return").val();
+	
+	$.post("<%=basePath%>huoliu", {
+		"m" : "qrjs1",
+		"danshu":danshu,
+		"numOfGoods":numOfGoods,
+		"price":price,
+		"supplier":supplier,
+	}, function(data) {
+		$("#qrjs").append(data);
+	}, "html");
+	
+	
+}
+function querenjiesuan()
+{
+	var danshu=$("#findjs").find("input:checkbox[class='subBox']:checked").length ;
+	var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
 	var td = tr.find("td");
-   var zhuangtai=td.eq(8).text();
-    zhuangtai=trimStr(zhuangtai);
-   
-    if(zhuangtai=="已完成进货"){
-		alert("该货单已完成进货!");
-	} 
-	if(zhuangtai=="待审核"){
-		alert("该货单还未被审核!");
-	} 
-	if(zhuangtai=="待同意"){
-		alert("该货单还未被同意退货!");
-	} 
-	if((zhuangtai=="已审核")||(zhuangtai=="已同意")){
-		alert("hahah");
-	   
-	        $("#hlgldiv").empty();
-		$.post("<%=basePath%>huoliu", {
-			"m" : "ruku",
-			"s_id_in":s_id_in,
-			"s_id_out":s_id_out,
-			"l_id":l_id,
-			"l_detail":l_detail,
-			"l_serial_num":l_serial_num,
-			"l_date":l_date,
-		}, function(data) {
-			$("#hlgldiv").append(data);
-		}, "html");
-		
-		
-		
+	
+	var supplier=$("#supplier").val();
+	for(var i=0,numOfGoods=0;i<td.length/12;i++){
+		numOfGoods=numOfGoods+parseInt(td.eq(8+12*i).text());
 	}
-		
-	
-	
+	for(var i=0,price=0;i<td.length/12;i++){
+		price=price+parseInt(td.eq(9+12*i).text());
+	}
+	$("#qrjs").empty();
+	$.post("<%=basePath%>huoliu", {
+		"m" : "qrjs",
+		"danshu":danshu,
+		"numOfGoods":numOfGoods,
+		"price":price,
+		"supplier":supplier,
+	}, function(data) {
+		$("#qrjs").append(data);
+	}, "html");
+}
+function querenduizhang1()
+{   var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
+	var list_ss_id=tr.find(".ss_id");
+	var list="";
+	for(var i=0;i<list_ss_id.length;i++){
+		list=list+list_ss_id.eq(i).val()+" ";
+	}
+	alert(list);
+	$("#qrdz").empty();
+	$("#ghsjs").empty();
+	$.post("<%=basePath%>huoliu", {
+		"m" : "qrdz1",
+		"list":list,
+	}, function(data) {
+		$("#ghsjs").append(data);
+	}, "html");
+}
+function querenduizhang()
+{    
+	var danshu=$("#findjs").find("input:checkbox[class='subBox']:checked").length ;
+	var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
+	var td = tr.find("td");
+	alert(danshu);
+	for(var i=0,numOfGoods=0;i<td.length/12;i++){
+		numOfGoods=numOfGoods+parseInt(td.eq(8+12*i).text());
+	}
+	for(var i=0,price=0;i<td.length/12;i++){
+		price=price+parseInt(td.eq(9+12*i).text());
+	}
+	$("#qrdz").empty();
+	$.post("<%=basePath%>huoliu", {
+		"m" : "QRDZ",
+		"danshu":danshu,
+		"numOfGoods":numOfGoods,
+		"price":price,
+	}, function(data) {
+		$("#qrdz").append(data);
+	}, "html");
 }
 function guanbi1(){
 	
 	$("#detail").empty();
 	
 }
- function getdetail(node){
+
+function getdetail(node){
 	
 	
 	var list=$(node).val();
 		//alert(list);
 	$.post("<%=basePath%>huoliu", {
-			"m" : "detail",
+			"m" : "ghsdetail",
 			"list":list,
 		}, function(data) {
 			$("#detail").append(data);
@@ -184,74 +212,41 @@ function guanbi1(){
 	
 } 
 $(function(){
+
+$("#search").click(function(){
+	var s_id=$("#store").val();
+	var status=$("#category").val();
+	var supplier=$("#supplier").val();
+	var currentPage=null;
+	if(store==null){
+		alert("请重新选择店铺！");
+		return;
+	}
+	$("#findjs").empty();
+	$.post("<%=basePath%>huoliu", {
+		"m" : "findjs",
+		"s_id" : s_id,
+		"status" :status,
+		"supplier" :supplier,
+		"currentPage":currentPage,
+	}, function(data) {
+		$("#findjs").append(data);
+	}, "html");
 	
-		$("#jinhuo").click(function(){
-			$("#hlgldiv").empty();
-			$.post("<%=basePath%>huoliu", {
-				"m" : "jinhuo",
-			}, function(data) {
-				$("#hlgldiv").append(data);
-			}, "html");
-			
-		});
-		$("#diaohuo").click(function(){
-			$("#hlgldiv").empty();
-			$.post("<%=basePath%>huoliu", {
-				"m" : "diaohuo",
-			}, function(data) {
-				$("#hlgldiv").append(data);
-			}, "html");
-			
-		});
-		$("#tuihuo").click(function(){
-			$("#hlgldiv").empty();
-			$.post("<%=basePath%>huoliu", {
-				"m" : "tuihuo",
-			}, function(data) {
-				$("#hlgldiv").append(data);
-			}, "html");
-			
-		});
-		$("#search").click(function(){
-			var s_id=$("#store").val();
-			var type=$("#category").val();
-			var currentPage=null;
-			if(store==null){
-				alert("请重新选择店铺！");
-				return;
-			}
-			$("#findhl").empty();
-			$.post("<%=basePath%>huoliu", {
-				"m" : "findhl",
-				"s_id" : s_id,
-				"type" :type,
-				"currentPage":currentPage,
-			}, function(data) {
-				$("#findhl").append(data);
-			}, "html");
-			
-		});
-		
-		
-		
-	});
+});
+});
+
 </script>
-</head>
-
 <body>
-<div id="hlgldiv">
+<div id="ghsjsdiv">
 
 	<button type="button" class="btn btn-success" name="submit"
-		id="jinhuo">进货</button>
+		id="jsjl">结算记录</button>
 	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
-		id="diaohuo">调货</button>
-	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
-		id="tuihuo">退货给供货商</button>
+	
 	<div style="float: right;">
 	<select id="store" class="singleSelector">
-		<option value="" selected="selected" >全部店铺</option>
+		<option value="" selected="selected" >全部门店</option>
 
 		<%
 			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
@@ -265,18 +260,32 @@ $(function(){
 		%>
 
 	</select>
+<select id="supplier" class="singleSelector">
+		<option value="" selected="selected" >全部供货商</option>
 
+		<%
+			List<Object[]> supplierList = (List<Object[]>) request.getAttribute("supplierList");
+			if (supplierList != null && supplierList.size() != 0) {
+				for (Object[] obj : supplierList) {
+		%>
+		<option value='<%=obj[0]%>'><%=obj[1]%></option>
+		<%
+			}
+			}
+		%>
+
+	</select>
 	<select id="category">
-	    <option value="全部货单" selected="selected" >全部货单</option>
-		<option value="进货单" >门店进货单</option>
-		<option value="调拨出货单">调拨出货单</option>
-		<option value="调拨进货单">调拨进货单</option>
-		<option value="退货单">门店退货单</option>
+	    <option value="全部状态" selected="selected" >全部状态</option>
+		<option value="未成功货单" >未成功货单</option>
+		<option value="待对账货单">待对账货单</option>
+		<option value="待结算货单">待结算货单</option>
+		<option value="已结算货单">已结算货单</option>
 	</select>
 
 	
 		<input class="input-medium search-query" type="text" float:right /> <input
-			type="button" value="查询" id="search" class="submitBtn" />
+			type="button"  class="btn btn-warning" value="  查     询     " id="search" class="submitBtn" />
 		
 	</div>
 	
@@ -284,7 +293,7 @@ $(function(){
 		style="width: 100%; overflow: auto; position: relative;"
 		data-offset="10">
  
-<div id="findhl">
+<div id="findjs">
 		
 		<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
@@ -292,15 +301,16 @@ $(function(){
 			    <th><input id="checkAll" type="checkbox"/></th>
 				<th>序号</th>
 				<th>操作</th>
-				<th>货流单号</th>
+				<th>供货商</th>
+				<th>门店</th>
+				<th>货单号</th>
 				<th>下单时间</th>
 				<th>货单类型</th>
-				<th>出货门店</th>
-				<th>进货门店</th>
-				<th>状态</th>
+				
 				<th>货流量</th>
 				<th>总价</th>
 				<th>预付款</th>
+				<th>状态</th>
 				<th>备注</th>
 			</tr>
 		</thead>
@@ -316,9 +326,25 @@ $(function(){
   <div id="detail">
  
  </div>
-	</div>
+	
 
+  <div id="ly" style="position: absolute; bottom: 1400px;">
+	
+	<button type="button" class="btn btn-primary btn-lg" name="submit"
+			onclick="querenduizhang()" style="margin: 0 0 0 950px" >确认对账</button>
+	<button type="button" class="btn btn-success btn-lg" name="submit"
+			onclick="querenjiesuan()" style="margin: 0 0 0 50px" >确认结算</button>	
+	</div>
+ <div id="detail">
  
+ </div>
+<div id="qrdz"  >
+	
+</div>
+<div id="qrjs"  >
+	
+</div>
+</div>
 </body>
 
 </html>

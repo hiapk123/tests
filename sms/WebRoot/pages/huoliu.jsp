@@ -6,11 +6,17 @@
 <div id="ghszl" class="myclass">
 
 <jsp:include page="huoliu/supplierinfo.jsp"></jsp:include>
+<%-- <jsp:include page="huoliu/huoliuguanli.jsp"></jsp:include> --%>
+</div>
+<div id="hlgl" class="myclass">
 <jsp:include page="huoliu/huoliuguanli.jsp"></jsp:include>
+
 </div>
 
+<div id="ghsjs" class="myclass">
+<jsp:include page="huoliu/ghsjs.jsp"></jsp:include>
 
-<div id="ghsjs" class="myclass">供货商结算</div>
+</div>
 <div id="ghsjsjl" class="myclass">供货结算记录</div>
 <div id="mddhqq" class="myclass">门店订货请求</div>
 <div id="mdjh" class="myclass">门店进货</div>

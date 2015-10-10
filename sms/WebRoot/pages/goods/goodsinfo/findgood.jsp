@@ -116,6 +116,7 @@ function down(node){
 
 
 <div id="tableContent">
+
 	<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
 		<thead>
 			<tr>
@@ -176,9 +177,9 @@ function down(node){
 			%>
 		</tbody>
 	</table>
+<input type="hidden" id="method" value="${method }" />
+<input type="hidden" id="sorted" value="${sorted }" />
 	
-	<input type="hidden" id="method" value="${method }" />
-	<input type="hidden" id="sorted" value="${sorted }" />
 <ul class="pagination" id="page">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""

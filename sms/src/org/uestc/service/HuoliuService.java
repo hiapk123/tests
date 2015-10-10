@@ -10,7 +10,8 @@ public interface HuoliuService{
 			String su_empower,String su_id);
     public List<Object[]> toExcel(int s_id);	
 	
-	
+    public int getTotalSize(int store);
+	List<Object[]> findSuppliers();
 	
 	
 	

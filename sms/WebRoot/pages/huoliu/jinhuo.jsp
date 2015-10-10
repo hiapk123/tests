@@ -41,41 +41,7 @@ background: #FFF none repeat scroll 0% 0%;
 </style>
 
 <script type="text/javascript">
-function ruku(node){
-	
-	var tr=$(node).parent().parent();
-	var td = tr.find("td");
-   var zhuangtai=td.eq(8).text();
-	
-	if(zhuangtai="待审核"){
-		alert("该货单还未被审核！");
-	}else if(zhuangtai="已审核"){
-		var s_id=$("#store").val();
-	     var l_info=$("#txt_remarks").val();
-		var list="";
-		var listlength=$("#11").find(".jieguo").length;
-		
-	        for(var i=0;i<listlength;i++)   {
-	        	var  list=list+$("#11").find(".jieguo").eq(i).val()+" ";
-	        }
-	        list=list.substring(0,list.length);
-	        $("#hlgldiv").empty();
-		$.post("<%=basePath%>huoliu", {
-			"m" : "ruku",
-			"list":list,
-			"s_id":s_id,
-			"l_info":l_info,
-		}, function(data) {
-			$("#hlgldiv").append(data);
-		}, "html");
-		
-		
-		
-	}
-		
-	
-	
-}
+
 
 function Inforuku()
 {    var s_id=$("#store").val();
@@ -83,14 +49,14 @@ function Inforuku()
      var l_info=$("#txt_remarks").val();
 	var list="";
 	var listlength=$("#11").find(".jieguo").length;
-	alert(listlength);
+	//alert(listlength);
         for(var i=0;i<listlength;i++)   {
         	var  list=list+$("#11").find(".jieguo").eq(i).val()+" ";
         }
         list=list.substring(0,list.length);
       //  list=list+$("#paidMoney").val()+" ";
        // list=list+$("#txt_remarks").val();
-        alert(list);
+       // alert(list);
         
         $("#hlgldiv").empty();
 	$.post("<%=basePath%>huoliu", {

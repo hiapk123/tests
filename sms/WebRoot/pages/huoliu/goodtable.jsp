@@ -99,7 +99,6 @@ background:#FFB5C5;
 				<tbody>
 					<%
 						List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
-						
 					
 
 						if (goods != null && goods.size() > 0) {

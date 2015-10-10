@@ -122,7 +122,10 @@
 			$('#if_content').attr('src','<%=basePath %>huoliu?m=hlgl');
 			
 		});  
-		
+		$('#ghsjs').click(function(){
+			$('#if_content').attr('src','<%=basePath %>huoliu?m=ghsjs');
+			
+		}); 
 		$('#spfl').click(function(){
 			
 			$('#if_content').attr('src','<%=basePath %>CategoryGoods?type=initPage');

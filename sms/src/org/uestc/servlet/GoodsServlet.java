@@ -52,6 +52,7 @@ public class GoodsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		this.doPost(req, resp);
+		
 	}
 
 	@Override

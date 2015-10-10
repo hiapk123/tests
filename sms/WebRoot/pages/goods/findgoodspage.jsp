@@ -14,12 +14,10 @@ String method=application.getAttribute("method").toString();
 if(!method.equals("findByPage")){
 String sorted=application.getAttribute("sorted").toString();
 }
-
 %>
 <script>
 	$(function() {
 		$("li a").click(function() {
-			
 			var m=$("#method").val();
 			var sorted=$("#sorted").val();
 			var which = $(this).text();
@@ -47,9 +45,7 @@ String sorted=application.getAttribute("sorted").toString();
 			}, "html");
 		});
 	});
-        
 </script>
-
 <table style="width:3100px; height:30px;  table-layout:fixed;" border="1" ;>
 	<thead>
 		<tr>
@@ -111,7 +107,6 @@ String sorted=application.getAttribute("sorted").toString();
 		%>
 	</tbody>
 </table>
-
 <input type="hidden" id="method" value="${method}" />
 <input type="hidden" id="sorted" value="${sorted}" />
 <ul class="pagination" id="page">
