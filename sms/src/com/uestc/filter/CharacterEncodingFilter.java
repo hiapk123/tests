@@ -8,31 +8,25 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
+@WebFilter(filterName = "characterEncodingFilter", urlPatterns = "/*")
 public class CharacterEncodingFilter implements Filter {
-	protected FilterConfig filterConfig = null;
-	protected String encoding = "";
+	//protected FilterConfig filterConfig = null;
+	protected String encoding = "utf-8";
 
-	public void doFilter(ServletRequest servletRequest,
-			ServletResponse servletResponse, FilterChain filterChain)
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		if (encoding != null)
-			servletRequest.setCharacterEncoding(encoding);
+		servletRequest.setCharacterEncoding(encoding);
 		filterChain.doFilter(servletRequest, servletResponse);
 	}
 
 	public void destroy() {
-		filterConfig = null;
+		//filterConfig = null;
 		encoding = null;
-		
-		
-		
-		
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-		this.filterConfig = filterConfig;
-		this.encoding = filterConfig.getInitParameter("encoding");
-
+		System.out.println("字符过滤器初始化......");
 	}
 }

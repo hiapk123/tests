@@ -2,8 +2,7 @@
 	contentType="text/html; charset=utf-8"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
 <!DOCTYPE html>
@@ -105,38 +104,106 @@
 <script src="js/bootstrap-datetimepicker.min.js"></script>
 <script src="js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
 <script type="text/javascript">
+$(function() {
+	$("li a")
+			.click(
+					function() {
+						var parent = $(this).attr("data-options");
+						var child = $(this).text();
+						var title = $(".breadcrumb");
+						title.empty();
+						title
+								.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
+										+ parent
+										+ "</a></li><li><a href=\"#\">"
+										+ child + "</a></li>");
+
+						//显示类容
+						var div_id = $(this).attr("id");
+						$("div#content").children().css("display", "none");
+						$("#" + div_id).css("display", "block");
+						if(div_id==""){
+						}
+
+					});
+
+	$(".accordion-toggle")
+			.click(
+					function() {
+
+						var text = $(this).text();
+						var title = $(".breadcrumb");
+						title.empty();
+						title
+								.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
+										+ text + "</a></li>");
+
+					});					
+			
+});
+</script>
+<script type="text/javascript">
 	$(function(){
 		$('#yyqk').click(function(){
-			$('#if_content').attr('src','<%=basePath %>sales?m=salesinfo');
+			$('#if_content').attr('src','<%=basePath%>sales?m=salesinfo');
 		});
 		
 		$('#spzl').click(function(){
-			$('#if_content').attr('src','<%=basePath %>goods?m=goodsInfo');
+			$('#if_content').attr('src','<%=basePath%>goods?m=goodsInfo');
 			
 		});  
 		$('#ghs').click(function(){
-			$('#if_content').attr('src','<%=basePath %>huoliu?m=supplierInfo&s_id=1');
+			$('#if_content').attr('src','<%=basePath%>huoliu?m=supplierInfo&s_id=1');
 			
 		});  
 		$('#hlgl').click(function(){
-			$('#if_content').attr('src','<%=basePath %>huoliu?m=hlgl');
+			$('#if_content').attr('src','<%=basePath%>huoliu?m=hlgl');
 			
 		});  
 		$('#ghsjs').click(function(){
-			$('#if_content').attr('src','<%=basePath %>huoliu?m=ghsjs');
+			$('#if_content').attr('src','<%=basePath%>huoliu?m=ghsjs');
 			
 		}); 
 		$('#spfl').click(function(){
 			
-			$('#if_content').attr('src','<%=basePath %>CategoryGoods?type=initPage');
+			$('#if_content').attr('src','<%=basePath%>CategoryGoods?type=initPage');
 		});
 		//销售单据
 		$('#xsdj').click(function(){
-			$('#if_content').attr('src','<%=basePath %>sales?m=saledetails');
+			$('#if_content').attr('src','<%=basePath%>sales?m=saledetails');
 		});
 		
 	});
 	
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('#spxxfx').click(function(){
+			$('#if_content').attr('src','<%=basePath%>AnalyzeGoods?m=analyzeGoods');
+		});
+		$('#kcyd').click(function(){
+			$('#if_content').attr('src','<%=basePath%>InventoryWarningServlet?method=findByUid');
+		});
+		$('#zbtj').click(function(){
+			$('#if_content').attr('src','<%=basePath%>ZBTJServlet?method=initLoad');
+		});
+		$('#spxs').click(function(){
+			$('#if_content').attr('src','<%=basePath%>SPXSServlet?method=initLoad');
+		});
+		$('#xsdj').click(function(){
+			$('#if_content').attr('src','<%=basePath%>XSDJServlet?method=initLoad');
+		});
+		$('#qsfx').click(function(){
+			$('#if_content').attr('src','<%=basePath%>QSFXServlet?method=initLoad');
+		});
+		$('#rjjl').click(function(){
+			$('#if_content').attr('src','<%=basePath%>RJJLServlet?method=initLoad');
+		});
+		$('#yygk').click(function(){
+			$('#if_content').attr('src','<%=basePath%>
+	YYGKServlet?method=initLoad');
+				});
+	});
 </script>
 <style type="text/css">
 .myclass {
@@ -182,16 +249,16 @@
 						class="hidden-sm hidden-xs"> 更换主题 / 皮肤</span> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" id="themes">
-					
+
 					<li><a data-value="cerulean" href="#"><i
 							class="whitespace"></i> Cerulean</a></li>
-					
+
 					<li><a data-value="slate" href="#"><i class="whitespace"></i>
 							Slate</a></li>
-					
+
 				</ul>
 			</div>
-			
+
 
 		</div>
 	</div>
@@ -202,7 +269,7 @@
 			<!-- left menu starts -->
 			<div class="col-sm-2 col-lg-2">
 				<div class="sidebar-nav">
-					
+
 					<div class="nav-canvas">
 						<div class="panel-group" id="accordion2">
 							<div class="panel-heading">
@@ -389,8 +456,9 @@
 
 
 			<div id="content" class="col-lg-10 col-sm-10">
-				<iframe src="" id="if_content" style="border: 0;margin: 0;width: 100%;height: 2000px;"></iframe>
-			
+				<iframe src="" id="if_content"
+					style="border: 0; margin: 0; width: 100%; height: 2000px;"></iframe>
+
 				<%-- <!--要添加的地方  -->
 				<!--销售  -->
 				<jsp:include page="pages/xiaoshu.jsp" flush="true"></jsp:include>
@@ -407,9 +475,7 @@
 				<jsp:include page="pages/sys.jsp" flush="true"></jsp:include>
 
 				<jsp:include page="pages/yingxiao.jsp" flush="true"></jsp:include> --%>
-				<div>
-				
-			</div>
+				<div></div>
 
 
 				<hr>
@@ -436,6 +502,9 @@
 				</div>
 
 			</div>
-			<!--/.fluid-container--></div></div>
+			<!--/.fluid-container-->
+		</div>
+	</div>
 </body>
 </html>
+>>>>>>> refs/remotes/origin/master
