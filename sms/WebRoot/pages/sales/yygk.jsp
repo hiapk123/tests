@@ -37,12 +37,9 @@
 	<div class="panel panel-default">
 		<div class="panel-footer">
 			<form
-				action="<c:url value='/XSDJServlet?method=findByCombination' />"
+				action="<c:url value='/YYGKServlet?method=findByCombination' />"
 				method="post">
 				<div class="row">
-					<!-- <div class="col-xs-2">
-						<h4>销售单据</h4>
-					</div> -->
 
 					<div class="col-xs-2">
 						<select class="form-control" name="hp_store">
@@ -102,7 +99,7 @@
 		<!-- Table -->
 		<table id="hp_xsdj" class="table table-bordered table-hover">
 			<thead>
-				<!--  style="font-weight: 900" -->
+			<c:if test="${empty condition}">
 				<tr>
 					<th></th>
 					<th>概况</th>
@@ -110,43 +107,104 @@
 					<th>银联卡支付</th>
 					<th>在线支付</th>
 				</tr>
+			</c:if>
+			<c:if test="${condition eq '销售汇总分析'}">
+				<tr>
+					<th></th>
+					<th>概况</th>
+					<th>现金支付</th>
+					<th>银联卡支付</th>
+					<th>在线支付</th>
+				</tr>
+			</c:if>
+			<c:if test="${condition eq '交接班记录'}">
+				<tr>
+					<th>开始时间</th>
+					<th>结束时间</th>
+					<th>收银员</th>
+					<th>收银总额</th>
+					<th>现金</th>
+					<th>银联卡</th>
+					<th>在线</th>
+				</tr>
+			</c:if>
+			<c:if test="${condition eq '现金收支明细'}">
+				<tr>
+					<th>时间</th>
+					<th>收银员</th>
+					<th>金额</th>
+					<th>类型</th>
+					<th>备注</th>
+				</tr>
+			</c:if>
 			</thead>
 			<tbody>
+			<c:if test="${empty condition}">
 				<tr>
 					<td>商品销售</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>销售额：${ssb.salesTotalAmount }，利润：${ssb.salesTotalProfit }，单数：${ssb.salesCounts }</td>
+					<td>${ssb.salesCash }</td>
+					<td>${ssb.salesBank }</td>
+					<td>${ssb.salesOnline }</td>
 				</tr>
 				<tr>
 					<td>会员卡充值</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>在线</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>现金收支</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>充值：${ssb.vipCharge }，赠送：${ssb.vipDonate }，单数：${ssb.vipCounts }</td>
+					<td>${ssb.vipCash }</td>
+					<td>${ssb.vipBank }</td>
+					<td>${ssb.vipOnline }</td>
 				</tr>
 				<tr>
 					<td><strong>总计</strong></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>${ssb.summaryTotal }</td>
+					<td>${ssb.cashTotal }</td>
+					<td>${ssb.bankTotal }</td>
+					<td>${ssb.onlineTotal }</td>
 				</tr>
+			</c:if>
+			<c:if test="${condition eq '销售汇总分析'}">
+				<tr>
+					<td>商品销售</td>
+					<td>销售额：${ssb.salesTotalAmount }，利润：${ssb.salesTotalProfit }，单数：${ssb.salesCounts }</td>
+					<td>${ssb.salesCash }</td>
+					<td>${ssb.salesBank }</td>
+					<td>${ssb.salesOnline }</td>
+				</tr>
+				<tr>
+					<td>会员卡充值</td>
+					<td>充值：${ssb.vipCharge }，赠送：${ssb.vipDonate }，单数：${ssb.vipCounts }</td>
+					<td>${ssb.vipCash }</td>
+					<td>${ssb.vipBank }</td>
+					<td>${ssb.vipOnline }</td>
+				</tr>
+				<tr>
+					<td><strong>总计</strong></td>
+					<td>${ssb.summaryTotal }</td>
+					<td>${ssb.cashTotal }</td>
+					<td>${ssb.bankTotal }</td>
+					<td>${ssb.onlineTotal }</td>
+				</tr>
+			</c:if>
+			<c:if test="${condition eq '交接班记录'}">
+				<tr>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+				</tr>
+			</c:if>
+			<c:if test="${condition eq '现金收支明细'}">
+				<tr>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+				</tr>
+			</c:if>
 			</tbody>
 		</table>
 	</div>
@@ -157,7 +215,9 @@
 			未找到符合条件的记录！
 		</c:when>
 			<c:otherwise>
+			<c:if test="${condition eq '交接班记录' or condition eq '现金收支明细'}">
 				<%@include file="/pager_zbtj.jsp"%>
+			</c:if>
 			</c:otherwise>
 		</c:choose>
 	</div>
