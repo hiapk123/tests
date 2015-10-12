@@ -104,6 +104,45 @@
 <script src="js/bootstrap-datetimepicker.min.js"></script>
 <script src="js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
 <script type="text/javascript">
+$(function() {
+	$("li a")
+			.click(
+					function() {
+						var parent = $(this).attr("data-options");
+						var child = $(this).text();
+						var title = $(".breadcrumb");
+						title.empty();
+						title
+								.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
+										+ parent
+										+ "</a></li><li><a href=\"#\">"
+										+ child + "</a></li>");
+
+						//显示类容
+						var div_id = $(this).attr("id");
+						$("div#content").children().css("display", "none");
+						$("#" + div_id).css("display", "block");
+						if(div_id==""){
+						}
+
+					});
+
+	$(".accordion-toggle")
+			.click(
+					function() {
+
+						var text = $(this).text();
+						var title = $(".breadcrumb");
+						title.empty();
+						title
+								.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
+										+ text + "</a></li>");
+
+					});					
+			
+});
+</script>
+<script type="text/javascript">
 	$(function(){
 		$('#yyqk').click(function(){
 			$('#if_content').attr('src','<%=basePath%>sales?m=salesinfo');
@@ -161,7 +200,8 @@
 			$('#if_content').attr('src','<%=basePath%>RJJLServlet?method=initLoad');
 		});
 		$('#yygk').click(function(){
-			$('#if_content').attr('src','<%=basePath%>YYGKServlet?method=initLoad');
+			$('#if_content').attr('src','<%=basePath%>
+	YYGKServlet?method=initLoad');
 				});
 	});
 </script>

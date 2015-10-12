@@ -1,4 +1,4 @@
-package org.uestc.servlet;
+package com.uestc.filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -15,7 +15,7 @@ import com.uestc.bean.Users;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = "/*", filterName = "loginFilter")
+
 public class LoginFilter implements Filter {
 
 	/**
