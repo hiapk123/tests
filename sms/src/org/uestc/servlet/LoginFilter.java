@@ -15,32 +15,15 @@ import com.uestc.bean.Users;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(
-		urlPatterns = { 
-				"/LoginFilter", 
-				"/index.jsp", 
-				"/welcome.jsp"
-//				"/regist.jsp"
-		}, 
-		servletNames = { 
-				"analyzeGoodsServlet", 
-				"InventoryWarningServlet", 
-				"loginServlet", 
-				"QSFXServlet", 
-				"RJJLServlet", 
-				"SPXSServlet", 
-				"SystemServlet", 
-				"XSDJServlet", 
-				"ZBTJServlet"
-		})
+@WebFilter(urlPatterns = "/*", filterName = "loginFilter")
 public class LoginFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public LoginFilter() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public LoginFilter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -52,7 +35,8 @@ public class LoginFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		Users user = (Users) req.getSession().getAttribute("sessionUser");
 
