@@ -1,9 +1,6 @@
 package org.uestc.daoImp;
 
-import static org.junit.Assert.*;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
