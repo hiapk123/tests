@@ -110,16 +110,35 @@ $(document).ready(function () {
         $('ul.main-menu li.active').removeClass('active');
         $clink.parent('li').addClass('active');
     });
-
+//增加单击双击区别 mbt
+    var isdb;
+    
     $('.accordion > a').click(function (e) {
         e.preventDefault();
-        var $ul = $(this).siblings('ul');
-        var $li = $(this).parent();
-        if ($ul.is(':visible')) $li.removeClass('active');
-        else                    $li.addClass('active');
-        $ul.slideToggle();
+        isdb=false;
+        	var cur = $(this)
+        function sigle(){
+             if(isdb!=false)	return;
+             var $ul = cur.siblings('ul');
+             var $li = cur.parent();
+             if ($ul.is(':visible')) $li.removeClass('active');
+             else                    $li.addClass('active');
+             $ul.slideToggle();
+       	  }
+	     setTimeout(sigle,400);             
     });
-
+    	
+       	//弹出层使用：设置a 标签 link-rel 为待弹出div ID 
+    $('.accordion  a').dblclick(function (e) {
+    	 isdb=true;
+    	 
+    	 var cl = $(this).attr("link-rel");
+    	 $("#"+cl).modal('show');
+    });
+  //修改结束
+    
+    
+    
     $('.accordion li.active:first').parents('ul').slideDown();
 
 
