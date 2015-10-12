@@ -13,6 +13,7 @@ import org.uestc.dao.YYGKDao;
 import com.uestc.bean.SalesSummaryBean;
 import com.uestc.bean.Store;
 
+
 public class YYGKDaoImp implements YYGKDao {
 
 	@Override
