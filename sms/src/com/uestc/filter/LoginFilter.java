@@ -15,7 +15,7 @@ import com.uestc.bean.Users;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = "/*", filterName = "loginFilter")
+
 public class LoginFilter implements Filter {
 
 	/**

@@ -8,20 +8,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!--
-        ===
-        This comment should NOT be removed.
-
-        Charisma v2.0.0
-
-        Copyright 2012-2014 Muhammad Usman
-        Licensed under the Apache License v2.0
-        http://www.apache.org/licenses/LICENSE-2.0
-
-        http://usman.it
-        http://twitter.com/halalit_usman
-        ===
-    -->
 <meta charset="utf-8">
 <title>收银系统主页</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,186 +16,169 @@
 <meta name="author" content="Muhammad Usman">
 
 <!-- The styles -->
-<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+<link id="bs-css" href="<%=basePath %>css/bootstrap-cerulean.min.css" rel="stylesheet">
 
-<link href="css/charisma-app.css" rel="stylesheet">
-<link href='bower_components/fullcalendar/dist/fullcalendar.css'
+<link href="<%=basePath %>css/charisma-app.css" rel="stylesheet">
+<link href='<%=basePath %>bower_components/fullcalendar/dist/fullcalendar.css'
 	rel='stylesheet'>
-<link href='bower_components/fullcalendar/dist/fullcalendar.print.css'
+<link href='<%=basePath %>bower_components/fullcalendar/dist/fullcalendar.print.css'
 	rel='stylesheet' media='print'>
-<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-<link href='bower_components/colorbox/example3/colorbox.css'
+<link href='<%=basePath %>bower_components/chosen/chosen.min.css' rel='stylesheet'>
+<link href='<%=basePath %>bower_components/colorbox/example3/colorbox.css'
 	rel='stylesheet'>
-<link href='bower_components/responsive-tables/responsive-tables.css'
+<link href='<%=basePath %>bower_components/responsive-tables/responsive-tables.css'
 	rel='stylesheet'>
 <link
 	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
 	rel='stylesheet'>
-<link href='css/jquery.noty.css' rel='stylesheet'>
-<link href='css/noty_theme_default.css' rel='stylesheet'>
-<link href='css/elfinder.min.css' rel='stylesheet'>
-<link href='css/elfinder.theme.css' rel='stylesheet'>
-<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
-<link href='css/uploadify.css' rel='stylesheet'>
-<link href='css/animate.min.css' rel='stylesheet'>
-<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
-<link href="css/jquery.dataTables.min.css" rel="stylesheet">
+<link href='<%=basePath %>css/jquery.noty.css' rel='stylesheet'>
+<link href='<%=basePath %>css/noty_theme_default.css' rel='stylesheet'>
+<link href='<%=basePath %>css/elfinder.min.css' rel='stylesheet'>
+<link href='<%=basePath %>css/elfinder.theme.css' rel='stylesheet'>
+<link href='<%=basePath %>css/jquery.iphone.toggle.css' rel='stylesheet'>
+<link href='<%=basePath %>css/uploadify.css' rel='stylesheet'>
+<link href='<%=basePath %>css/animate.min.css' rel='stylesheet'>
+<link href="<%=basePath %>css/bootstrap-datetimepicker.css" rel="stylesheet">
+<link href="<%=basePath %>css/jquery.dataTables.min.css" rel="stylesheet">
 
 <!-- jQuery -->
-<script src="bower_components/jquery/jquery.min.js"></script>
+<script src="<%=basePath %>bower_components/jquery/jquery.min.js"></script>
 
 <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="<%=basePath %>http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
 <!-- The fav icon -->
-<link rel="shortcut icon" href="img/favicon.ico">
+<link rel="shortcut icon" href="<%=basePath %>img/favicon.ico">
 
 <!-- external javascript -->
-
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<%=basePath %>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <!-- library for cookie management -->
-<script src="js/jquery.cookie.js"></script>
+<script src="<%=basePath %>js/jquery.cookie.js"></script>
 <!-- calender plugin -->
-<script src='bower_components/moment/min/moment.min.js'></script>
-<script src='bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+<script src='<%=basePath %>bower_components/moment/min/moment.min.js'></script>
+<script src='<%=basePath %>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
 <!-- data table plugin -->
-<script src='js/jquery.dataTables.min.js'></script>
+<script src='<%=basePath %>js/jquery.dataTables.min.js'></script>
 
 <!-- select or dropdown enhancer -->
-<script src="bower_components/chosen/chosen.jquery.min.js"></script>
+<script src="<%=basePath %>bower_components/chosen/chosen.jquery.min.js"></script>
 <!-- plugin for gallery image view -->
-<script src="bower_components/colorbox/jquery.colorbox-min.js"></script>
+<script src="<%=basePath %>bower_components/colorbox/jquery.colorbox-min.js"></script>
 <!-- notification plugin -->
-<script src="js/jquery.noty.js"></script>
+<script src="<%=basePath %>js/jquery.noty.js"></script>
 <!-- library for making tables responsive -->
-<script src="bower_components/responsive-tables/responsive-tables.js"></script>
+<script src="<%=basePath %>bower_components/responsive-tables/responsive-tables.js"></script>
 <!-- tour plugin -->
 <script
-	src="bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
+	src="<%=basePath %>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
 <!-- star rating plugin -->
-<script src="js/jquery.raty.min.js"></script>
+<script src="<%=basePath %>js/jquery.raty.min.js"></script>
 <!-- for iOS style toggle switch -->
-<script src="js/jquery.iphone.toggle.js"></script>
+<script src="<%=basePath %>js/jquery.iphone.toggle.js"></script>
 <!-- autogrowing textarea plugin -->
-<script src="js/jquery.autogrow-textarea.js"></script>
+<script src="<%=basePath %>js/jquery.autogrow-textarea.js"></script>
 <!-- multiple file upload plugin -->
-<script src="js/jquery.uploadify-3.1.min.js"></script>
+<script src="<%=basePath %>js/jquery.uploadify-3.1.min.js"></script>
 <!-- history.js for cross-browser state change on ajax -->
-<script src="js/jquery.history.js"></script>
+<script src="<%=basePath %>js/jquery.history.js"></script>
 <!-- application script for Charisma demo -->
-<script src="js/charisma.js"></script>
-<script src="js/bootstrap-datetimepicker.min.js"></script>
-<script src="js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
+<script src="<%=basePath %>js/charisma.js"></script>
+<script src="<%=basePath %>js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=basePath %>js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
 <script type="text/javascript">
-$(function() {
-	$("li a")
-			.click(
-					function() {
-						var parent = $(this).attr("data-options");
-						var child = $(this).text();
-						var title = $(".breadcrumb");
-						title.empty();
-						title
-								.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
-										+ parent
-										+ "</a></li><li><a href=\"#\">"
-										+ child + "</a></li>");
 
-						//显示类容
-						var div_id = $(this).attr("id");
-						$("div#content").children().css("display", "none");
-						$("#" + div_id).css("display", "block");
-						if(div_id==""){
-						}
-
-					});
-
-	$(".accordion-toggle")
-			.click(
-					function() {
-
-						var text = $(this).text();
-						var title = $(".breadcrumb");
-						title.empty();
-						title
-								.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
-										+ text + "</a></li>");
-
-					});					
-			
-});
-</script>
-<script type="text/javascript">
 	$(function(){
 		$('#yyqk').click(function(){
-			$('#if_content').attr('src','<%=basePath%>sales?m=salesinfo');
+			
+			document.getElementsByTagName("iframe").src='welcome.jsp';
 		});
 		
 		$('#spzl').click(function(){
-			$('#if_content').attr('src','<%=basePath%>goods?m=goodsInfo');
+			$('iframe').attr('src','<%=basePath%>goods?m=goodsInfo');
 			
 		});  
 		$('#ghs').click(function(){
-			$('#if_content').attr('src','<%=basePath%>huoliu?m=supplierInfo&s_id=1');
+			$('iframe').attr('src','<%=basePath%>huoliu?m=supplierInfo&s_id=1');
 			
 		});  
 		$('#hlgl').click(function(){
-			$('#if_content').attr('src','<%=basePath%>huoliu?m=hlgl');
+			$('iframe').attr('src','<%=basePath%>huoliu?m=hlgl');
 			
 		});  
 		$('#ghsjs').click(function(){
-			$('#if_content').attr('src','<%=basePath%>huoliu?m=ghsjs');
+			$('iframe').attr('src','<%=basePath%>huoliu?m=ghsjs');
 			
 		}); 
 		$('#spfl').click(function(){
 			
-			$('#if_content').attr('src','<%=basePath%>CategoryGoods?type=initPage');
+			$('iframe').attr('src','<%=basePath%>CategoryGoods?type=initPage');
 		});
 		//销售单据
 		$('#xsdj').click(function(){
-			$('#if_content').attr('src','<%=basePath%>sales?m=saledetails');
+			$('iframe').attr('src','<%=basePath%>sales?m=saledetails');
 		});
 		
+		$('#spxxfx').click(function(){
+			$('iframe').attr('src','<%=basePath%>AnalyzeGoods?m=analyzeGoods');
+		});
+		$('#kcyd').click(function(){
+			$('iframe').attr('src','<%=basePath%>InventoryWarningServlet?method=findByUid');
+		});
+		$('#zbtj').click(function(){
+			$('iframe').attr('src','<%=basePath%>ZBTJServlet?method=initLoad');
+		});
+		$('#spxs').click(function(){
+			$('iframe').attr('src','<%=basePath%>SPXSServlet?method=initLoad');
+		});
+		$('#xsdj').click(function(){
+			$('iframe').attr('src','<%=basePath%>XSDJServlet?method=initLoad');
+		});
+		$('#qsfx').click(function(){
+			$('iframe').attr('src','<%=basePath%>QSFXServlet?method=initLoad');
+		});
+		$('#rjjl').click(function(){
+			$('iframe').attr('src','<%=basePath%>RJJLServlet?method=initLoad');
+		});
+		$('#yygk').click(function(){
+			$('iframe').attr('src','<%=basePath%>YYGKServlet?method=initLoad');
+		}); 
+		$("li a").click(
+		function() {
+			var parent = $(this).attr("data-options");
+			var child = $(this).text();
+			var title = $(".breadcrumb");
+			title.empty();
+			title.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
+							+ parent
+							+ "</a></li><li><a href=\"#\">"
+							+ child + "</a></li>");
+
+			//显示类容
+			var div_id = $(this).attr("id");
+			/* $("div#content").children().css("display", "none");
+			$("#" + div_id).css("display", "block"); */
+			if(div_id=="yyqk"){
+				<%-- $('iframe').attr('src','<%=basePath%>sales?m=salesinfo'); --%>
+			}
+			
+		});
+
+	 	$(".accordion-toggle").click(
+		function() {
+
+			var text = $(this).text();
+			var title = $(".breadcrumb");
+			title.empty();
+			title.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
+							+ text + "</a></li>");
+
+		}); 		 
 	});
 	
 </script>
-<script type="text/javascript">
-	$(function(){
-		$('#spxxfx').click(function(){
-			$('#if_content').attr('src','<%=basePath%>AnalyzeGoods?m=analyzeGoods');
-		});
-		$('#kcyd').click(function(){
-			$('#if_content').attr('src','<%=basePath%>InventoryWarningServlet?method=findByUid');
-		});
-		$('#zbtj').click(function(){
-			$('#if_content').attr('src','<%=basePath%>ZBTJServlet?method=initLoad');
-		});
-		$('#spxs').click(function(){
-			$('#if_content').attr('src','<%=basePath%>SPXSServlet?method=initLoad');
-		});
-		$('#xsdj').click(function(){
-			$('#if_content').attr('src','<%=basePath%>XSDJServlet?method=initLoad');
-		});
-		$('#qsfx').click(function(){
-			$('#if_content').attr('src','<%=basePath%>QSFXServlet?method=initLoad');
-		});
-		$('#rjjl').click(function(){
-			$('#if_content').attr('src','<%=basePath%>RJJLServlet?method=initLoad');
-		});
-		$('#yygk').click(function(){
-			$('#if_content').attr('src','<%=basePath%>
-	YYGKServlet?method=initLoad');
-				});
-	});
-</script>
-<style type="text/css">
-.myclass {
-	display: none;
-}
-</style>
 </head>
 
 <body>
@@ -223,7 +192,7 @@ $(function() {
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.html"> <img
+			<a class="navbar-brand" href="index.jsp"> <img
 				alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" /> <span>收银系统</span></a>
 
 			<!-- user dropdown starts -->
@@ -265,7 +234,6 @@ $(function() {
 	<!-- topbar ends -->
 	<div class="ch-container">
 		<div class="row">
-
 			<!-- left menu starts -->
 			<div class="col-sm-2 col-lg-2">
 				<div class="sidebar-nav">
@@ -309,7 +277,7 @@ $(function() {
 											<li><a href="#" data-options="商品" id="spfl">商品分类</a></li>
 											<li><a href="#" data-options="商品" id="plsz">批量设置</a></li>
 											<li><a href="#" data-options="商品" id="kcyd">库存预警</a></li>
-											<li><a href="#" data-options="商品" id="spxxfx">商品信息分析</a></li>
+											<!-- <li><a href="#" data-options="商品" id="spxxfx">商品信息分析</a></li>
 											<li><a href="#" data-options="商品" id="kcpdjl">库存盘点记录</a></li>
 											<li><a href="#" data-options="商品" id="kcbdjl">库存变动记录</a></li>
 											<li><a href="#" data-options="商品" id="zzcf">组装拆分</a></li>
@@ -317,7 +285,7 @@ $(function() {
 											<li><a href="#" data-options="商品" id="yxjggl">优先价格管理</a></li>
 											<li><a href="#" data-options="商品" id="spbs">商品报损</a></li>
 											<li><a href="#" data-options="商品" id="bsjl">报损记录</a></li>
-											<li><a href="#" data-options="商品" id="bstj">报损统计</a></li>
+											<li><a href="#" data-options="商品" id="bstj">报损统计</a></li> -->
 										</ul>
 									</div>
 								</div>
@@ -456,55 +424,12 @@ $(function() {
 
 
 			<div id="content" class="col-lg-10 col-sm-10">
-				<iframe src="" id="if_content"
-					style="border: 0; margin: 0; width: 100%; height: 2000px;"></iframe>
-
-				<%-- <!--要添加的地方  -->
-				<!--销售  -->
-				<jsp:include page="pages/xiaoshu.jsp" flush="true"></jsp:include>
-
-				<!--商品  -->
-				<jsp:include page="pages/goods.jsp" flush="true"></jsp:include>
-				<!--会员  -->
-				<jsp:include page="pages/vip.jsp" flush="true"></jsp:include>
-				<!--等等  -->
-				<jsp:include page="pages/emp.jsp" flush="true"></jsp:include>
-
-				<jsp:include page="pages/huoliu.jsp" flush="true"></jsp:include>
-
-				<jsp:include page="pages/sys.jsp" flush="true"></jsp:include>
-
-				<jsp:include page="pages/yingxiao.jsp" flush="true"></jsp:include> --%>
-				<div></div>
-
-
-				<hr>
-
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">×</button>
-								<h3>Settings</h3>
-							</div>
-							<div class="modal-body">
-								<p>Here settings can be configured...</p>
-							</div>
-							<div class="modal-footer">
-								<a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
-								<a href="#" class="btn btn-primary" data-dismiss="modal">Save
-									changes</a>
-							</div>
-						</div>
-					</div>
+				<div>
+					<iframe src="<%=basePath %>welcome.jsp" width="100%" height="1500px" style="border: 5px;margin: 0;padding: 0;"></iframe>
 				</div>
-
 			</div>
 			<!--/.fluid-container-->
 		</div>
 	</div>
 </body>
 </html>
->>>>>>> refs/remotes/origin/master

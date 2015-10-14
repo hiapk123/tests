@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
-@WebFilter(filterName="forceNoCacheFilter",urlPatterns="/*")
+
 public class ForceNoCacheFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response,
