@@ -381,17 +381,17 @@
 							<div class="panel panel-default">
 								<div class="panel-heading" data-toggle="collapse"
 									data-parent="#accordion2" href="#collapseEight">
-									<a class="accordion-toggle">设置</a>
+									<a class="accordion-toggle">管理员</a>
 								</div>
 								<div id="collapseEight" class="panel-collapse collapse"
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="设置" id="zhgl">账户管理</a></li>
-											<li><a href="#" data-options="设置" id="xtsz">系统设置</a></li>
-											<li><a href="#" data-options="设置" id="xxmm">修改密码</a></li>
-											<li><a href="#" data-options="设置" id="qksj">清空数据</a></li>
-											<li><a href="#" data-options="设置" id="zffs">支付方式</a></li>
+											<li><a href="#" data-options="管理员">供货请求</a></li>
+											<li><a href="#" data-options="管理员">XXXX</a></li>
+											<li><a href="#" data-options="管理员">XXXX</a></li>
+											<li><a href="#" data-options="管理员">XXXX</a></li>
+											<li><a href="#" data-options="管理员">XXXX</a></li>
 										</ul>
 									</div>
 								</div>
@@ -405,7 +405,7 @@
 			<!--/span-->
 			<!-- left menu ends -->
 
-			<noscript>
+			<!-- <noscript>
 				<div class="alert alert-block col-md-12">
 					<h4 class="alert-heading">Warning!</h4>
 
@@ -414,7 +414,7 @@
 							target="_blank">JavaScript</a> enabled to use this site.
 					</p>
 				</div>
-			</noscript>
+			</noscript> -->
 
 			<!--要修改的地方  -->
 			<ul class="breadcrumb">
@@ -425,7 +425,7 @@
 
 			<div id="content" class="col-lg-10 col-sm-10">
 				<div>
-					<iframe src="<%=basePath %>welcome.jsp" width="100%" height="1500px" style="border: 5px;margin: 0;padding: 0;"></iframe>
+					<iframe src="<%=basePath %>welcome.html" width="100%" height="1500px" style="border: 5px;margin: 0;padding: 0;"></iframe>
 				</div>
 			</div>
 			<!--/.fluid-container-->
