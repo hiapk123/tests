@@ -12,7 +12,7 @@
 <%
 
 	String currentPage=request.getAttribute("currentPage").toString();
-	System.out.println(currentPage);
+	
     String method=application.getAttribute("method").toString();
 %>
 <script>
@@ -165,7 +165,7 @@ function down(node){
 					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[2]%>&g_id=<%=goods.get(i)[6]%>&s_name=<%=goods.get(i)[1]%>&g_name=<%=goods.get(i)[0]%>&s_id=<%=s_id%>">编辑</a>
 					<br><a href="#"> 图片 </a></td>
 				<%
-					for (int j = 0; j <= 5; j++) {
+					for (int j = 0; j <= 25; j++) {
 				%>
 				<td><%=goods.get(i)[j]%> </td>
 				<%

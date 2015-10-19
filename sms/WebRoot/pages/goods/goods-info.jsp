@@ -271,10 +271,12 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 		<button type="button" class="btn btn-success" float:right>按分类</button>
 	</div>
 	
-	<div data-spy="scroll"
-		style="height: 100%; overflow: auto; position: relative;"
+	<!-- <div data-spy="scroll"
+		style="height: 100%; width:100%; overflow: auto; position: relative;"
+		data-offset="10"> -->
+     <div data-spy="scroll"
+		style="width: 100%; height:600px; overflow: auto; position: relative;"
 		data-offset="10">
-     
 
 		<div id="goodsinfodiv">
 		<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
