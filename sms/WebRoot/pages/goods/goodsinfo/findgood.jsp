@@ -165,7 +165,7 @@ function down(node){
 					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[11]%>&g_id=<%=goods.get(i)[0]%>&s_name=<%=goods.get(i)[3]%>&g_name=<%=goods.get(i)[1]%>&s_id=<%=s_id%>">编辑</a>
 					<br><a href="#"> 图片 </a></td>
 				<%
-					for (int j = 1; j <= 25; j++) {
+					for (int j = 1; j <= 26; j++) {
 				%>
 				<td><%=goods.get(i)[j]%> </td>
 				<%
