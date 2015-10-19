@@ -387,9 +387,9 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="管理员">供货请求</a></li>
-											<li><a href="#" data-options="管理员">XXXX</a></li>
-											<li><a href="#" data-options="管理员">XXXX</a></li>
+											<li><a href="#" data-options="管理员">订货单审核</a></li>
+											<li><a href="#" data-options="管理员">调货单审核</a></li>
+											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
 										</ul>
