@@ -23,23 +23,39 @@ public class SPXSDaoImp implements SPXSDao {
 	public PageBean<SPXSBean> findAllByUid(Long uId, int pc) throws SQLException {
 		int ps = PageConstants.SALE_PAGE_SIZE;
 
-		String sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+		String sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 		Number number = qr.query(sql, new ScalarHandler(), uId);
 		int tr = number.intValue();
 
-		sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+		sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
 		List<SPXSBean> spxsBeanList = new ArrayList<SPXSBean>();
 		for (Object[] obj : list) {
 			SPXSBean spxsBean = new SPXSBean();
-			spxsBean.setgName(obj[0].toString());
-			spxsBean.setgBarcode(obj[1].toString());
-			spxsBean.setcName(obj[2].toString());
-			spxsBean.setgStockNum(obj[3].toString());
-			spxsBean.setSaleQuantity(obj[4].toString());
-			spxsBean.setgTotalPrice(obj[5].toString());
-			spxsBean.setSaRealAmount(obj[6].toString());
-			spxsBean.setSaProfit(obj[7].toString());
+			if (obj[0] != null) {
+				spxsBean.setgName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				spxsBean.setgBarcode(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				spxsBean.setcName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				spxsBean.setgStockNum(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				spxsBean.setSaleQuantity(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				spxsBean.setgTotalPrice(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				spxsBean.setSaRealAmount(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				spxsBean.setSaProfit(obj[7].toString());
+			}
 			spxsBeanList.add(spxsBean);
 		}
 
@@ -73,24 +89,24 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 1 1 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), uId);
 						tr = number.intValue();
 					} else {
 						// 1 1 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), condition, condition, uId);
 						tr = number.intValue();
 					}
 				} else {
 					if (condition.equals("")) {
 						// 1 1 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), endTime, uId);
 						tr = number.intValue();
 					} else {
 						// 1 1 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), endTime, condition, condition, uId);
 						tr = number.intValue();
 					}
@@ -99,24 +115,24 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 1 0 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, uId);
 						tr = number.intValue();
 					} else {
 						// 1 0 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, condition, condition, uId);
 						tr = number.intValue();
 					}
 				} else {
 					if (condition.equals("")) {
 						// 1 0 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, endTime, uId);
 						tr = number.intValue();
 					} else {
 						// 1 0 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, endTime, condition, condition, uId);
 						tr = number.intValue();
 					}
@@ -127,12 +143,12 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 0 1 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), uId);
 						tr = number.intValue();
 					} else {
 						// 0 1 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), condition,
 								condition, uId);
 						tr = number.intValue();
@@ -140,12 +156,12 @@ public class SPXSDaoImp implements SPXSDao {
 				} else {
 					if (condition.equals("")) {
 						// 0 1 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), endTime, uId);
 						tr = number.intValue();
 					} else {
 						// 0 1 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), endTime,
 								condition, condition, uId);
 						tr = number.intValue();
@@ -155,12 +171,12 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 0 0 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime, uId);
 						tr = number.intValue();
 					} else {
 						// 0 0 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								condition, condition, uId);
 						tr = number.intValue();
@@ -168,13 +184,13 @@ public class SPXSDaoImp implements SPXSDao {
 				} else {
 					if (condition.equals("")) {
 						// 0 0 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, uId);
 						tr = number.intValue();
 					} else {
 						// 0 0 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, condition, condition, uId);
 						tr = number.intValue();
@@ -190,21 +206,21 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 1 1 1 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
 					} else {
 						// 1 1 1 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), condition, condition, uId, (pc - 1) * ps, ps);
 					}
 				} else {
 					if (condition.equals("")) {
 						// 1 1 0 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), endTime, uId, (pc - 1) * ps, ps);
 					} else {
 						// 1 1 0 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), endTime, condition, condition, uId, (pc - 1) * ps,
 								ps);
 					}
@@ -213,22 +229,22 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 1 0 1 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, uId, (pc - 1) * ps, ps);
 					} else {
 						// 1 0 1 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, condition, condition, uId,
 								(pc - 1) * ps, ps);
 					}
 				} else {
 					if (condition.equals("")) {
 						// 1 0 0 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, uId, (pc - 1) * ps, ps);
 					} else {
 						// 1 0 0 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, condition, condition, uId,
 								(pc - 1) * ps, ps);
 					}
@@ -239,24 +255,24 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 0 1 1 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), uId,
 								(pc - 1) * ps, ps);
 					} else {
 						// 0 1 1 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), condition,
 								condition, uId, (pc - 1) * ps, ps);
 					}
 				} else {
 					if (condition.equals("")) {
 						// 0 1 0 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), endTime, uId,
 								(pc - 1) * ps, ps);
 					} else {
 						// 0 1 0 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), endTime,
 								condition, condition, uId, (pc - 1) * ps, ps);
 					}
@@ -265,24 +281,24 @@ public class SPXSDaoImp implements SPXSDao {
 				if (endTime.equals("")) {
 					if (condition.equals("")) {
 						// 0 0 1 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime, uId,
 								(pc - 1) * ps, ps);
 					} else {
 						// 0 0 1 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								condition, condition, uId, (pc - 1) * ps, ps);
 					}
 				} else {
 					if (condition.equals("")) {
 						// 0 0 0 1
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, uId, (pc - 1) * ps, ps);
 					} else {
 						// 0 0 0 0
-						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_id=sa.g_id AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT g.g_name,g.g_barcode,g.c_name,g.g_stock_num,sa.sa_goods_num,sa.sa_goods_price,sa.sa_real_price,sa.sa_profit FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND (g.g_name=? OR g.g_barcode=?) AND g.g_barcode=sa.g_barcode AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, condition, condition, uId, (pc - 1) * ps, ps);
 					}
@@ -293,14 +309,30 @@ public class SPXSDaoImp implements SPXSDao {
 		List<SPXSBean> spxsBeanList = new ArrayList<SPXSBean>();
 		for (Object[] obj : list) {
 			SPXSBean spxsBean = new SPXSBean();
-			spxsBean.setgName(obj[0].toString());
-			spxsBean.setgBarcode(obj[1].toString());
-			spxsBean.setcName(obj[2].toString());
-			spxsBean.setgStockNum(obj[3].toString());
-			spxsBean.setSaleQuantity(obj[4].toString());
-			spxsBean.setgTotalPrice(obj[5].toString());
-			spxsBean.setSaRealAmount(obj[6].toString());
-			spxsBean.setSaProfit(obj[7].toString());
+			if (obj[0] != null) {
+				spxsBean.setgName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				spxsBean.setgBarcode(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				spxsBean.setcName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				spxsBean.setgStockNum(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				spxsBean.setSaleQuantity(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				spxsBean.setgTotalPrice(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				spxsBean.setSaRealAmount(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				spxsBean.setSaProfit(obj[7].toString());
+			}
 			spxsBeanList.add(spxsBean);
 		}
 

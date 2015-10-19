@@ -99,7 +99,6 @@ public class UserServlet extends BaseServlet {
 
 	public String regist(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("UserServlet.regist()");
 		/*
 		 * 1.获取参数，设置给user对象
 		 */
@@ -109,10 +108,11 @@ public class UserServlet extends BaseServlet {
 		String email = request.getParameter("email");
 		Users formUser = new Users();
 		formUser.setUName(loginname);
-//		String md5Digest = DigestUtils.md5Hex(loginpass);
-//		formUser.setUPassword(md5Digest);
-		formUser.setUPassword(loginpass);
-		formUser.setReloginpass(reloginpass);
+		String md5Digest = DigestUtils.md5Hex(loginpass);
+		formUser.setUPassword(md5Digest);
+//		formUser.setUPassword(loginpass);
+		String md5DigestRepass = DigestUtils.md5Hex(reloginpass);
+		formUser.setReloginpass(md5DigestRepass);
 		formUser.setUEmail(email);
 
 		/*
@@ -154,17 +154,21 @@ public class UserServlet extends BaseServlet {
 		String loginpass = formUser.getUPassword();
 		if (loginpass == null || loginpass.trim().isEmpty()) {
 			errors.put("loginpass", "密码不能为空");
-		} else if (loginpass.length() < 3 || loginpass.length() > 20) {
+		} /*else if (loginpass.length() < 3 || loginpass.length() > 20) {
 			errors.put("loginpass", "密码长度必须在3~20之间");
-		}
+			System.out.println("密码的长度: " + loginpass.length());
+		}*/
 		/*
 		 * 确认密码校验
 		 */
+//		String reloginpass = DigestUtils.md5Hex(formUser.getReloginpass());
 		String reloginpass = formUser.getReloginpass();
 		if (reloginpass == null || reloginpass.trim().isEmpty()) {
 			errors.put("reloginpass", "确认密码不能为空");
 		} else if (!reloginpass.equals(loginpass)) {
 			errors.put("reloginpass", "两次输入不一致");
+			System.out.println("原密码： " + loginpass);
+			System.out.println("确认密码： " + reloginpass);
 		}
 		/*
 		 * Email校验

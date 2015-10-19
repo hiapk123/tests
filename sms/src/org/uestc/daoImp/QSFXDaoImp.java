@@ -31,10 +31,18 @@ public class QSFXDaoImp implements QSFXDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setSaDate(obj[0].toString());
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -191,10 +199,18 @@ public class QSFXDaoImp implements QSFXDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setSaDate(obj[0].toString());
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -336,10 +352,18 @@ public class QSFXDaoImp implements QSFXDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setSaDate(obj[0].toString());
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 		
@@ -481,10 +505,18 @@ public class QSFXDaoImp implements QSFXDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setSaDate(obj[0].toString());
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 		

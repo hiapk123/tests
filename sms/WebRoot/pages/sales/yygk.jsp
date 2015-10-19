@@ -32,8 +32,20 @@
 <script type="text/javascript"
 	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js'/>"
 	charset="UTF-8"></script>
+	
+<!-- 打印控件资源（前面日期控件引入了jquery.min.js，此处不用引入jquery-1.4.4.min.js，一样可以使用，可能只有1.9.1版本的jquery不能用） -->
+<%-- <script type="text/javascript"
+	src="<c:url value='/js/jquery-1.4.4.min.js'/>"></script> --%>
+<script type="text/javascript"
+	src="<c:url value='/js/jquery.jqprint-0.3.js'/>"></script>
+<script type="text/javascript">
+	function a() {
+		$("#ddd").jqprint();
+	}
+</script>
 </head>
 <body>
+<input type="button" onclick=" a()" value="打印" />
 	<div class="panel panel-default">
 		<div class="panel-footer">
 			<form
@@ -89,7 +101,7 @@
 		</div>
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel panel-default" id="ddd">
 		<!-- Default panel contents -->
 		<!-- <div class="panel-heading">Panel heading</div> -->
 		<!-- <div class="panel-body">
@@ -132,9 +144,10 @@
 				<tr>
 					<th>时间</th>
 					<th>收银员</th>
-					<th>金额</th>
+					<th>支付</th>
+					<th>找现</th>
+					<th>应付</th>
 					<th>类型</th>
-					<th>备注</th>
 				</tr>
 			</c:if>
 			</thead>
@@ -186,24 +199,29 @@
 				</tr>
 			</c:if>
 			<c:if test="${condition eq '交接班记录'}">
+			<c:forEach items="${pb.beanList }" var="jjb" varStatus="status">
 				<tr>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
+					<td>${jjb.startTime }</td>
+					<td>${jjb.endTime }</td>
+					<td>${jjb.employee.empName }</td>
+					<td>${jjb.totalAll }</td>
+					<td>${jjb.cashPay }</td>
+					<td>${jjb.bankPay }</td>
+					<td>${jjb.onlinePay }</td>
 				</tr>
+			</c:forEach>
 			</c:if>
 			<c:if test="${condition eq '现金收支明细'}">
+				<c:forEach items="${pb.beanList }" var="xjsz" varStatus="status">
 				<tr>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
+					<td>${xjsz.saDate }</td>
+					<td>${xjsz.employee.empName }</td>
+					<td>${xjsz.fCash }</td>
+					<td>${xjsz.fZhaoXian }</td>
+					<td>${xjsz.fYingFu }</td>
+					<td>现金</td>
 				</tr>
+			</c:forEach>
 			</c:if>
 			</tbody>
 		</table>

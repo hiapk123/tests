@@ -3,20 +3,355 @@ package org.uestc.daoImp;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.uestc.dao.YYGKDao;
+import org.uestc.util.PageBean;
+import org.uestc.util.PageConstants;
 
+import com.uestc.bean.Employee;
+import com.uestc.bean.JiaoJieBan_HP;
+import com.uestc.bean.SPXSBean;
+import com.uestc.bean.Sale;
 import com.uestc.bean.SalesSummaryBean;
 import com.uestc.bean.Store;
-
-
+import com.uestc.bean.XJSZBean;
 
 public class YYGKDaoImp implements YYGKDao {
 
+	@Override
+	public PageBean<XJSZBean> findCashDetailsByCombination(String storeName, String beginTime, String endTime, Long uId,
+			int pc) throws SQLException {
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+			System.out.println(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+			System.out.println(endTime);
+		}
+		
+		int ps = PageConstants.SALE_PAGE_SIZE;
+		
+		String sql = "";
+		Number number = null;
+		int tr = 0;
+		Long storeId = findStoreIdByStoreName(storeName);
+		
+		if (storeName.equals("全部门店")) {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 1 1 1
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), uId);
+					tr = number.intValue();
+				} else {
+					// 1 1 0
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), endTime, uId);
+					tr = number.intValue();
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 1 0 1
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.sa_date>=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), beginTime, uId);
+					tr = number.intValue();
+				} else {
+					// 1 0 0
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), beginTime, endTime, uId);
+					tr = number.intValue();
+				}
+			}
+		} else {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 0 1 1
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), storeId, uId);
+					tr = number.intValue();
+				} else {
+					// 0 1 0
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), storeId, endTime, uId);
+					tr = number.intValue();
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 0 0 1
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), storeId, beginTime, uId);
+					tr = number.intValue();
+				} else {
+					// 0 0 0
+					sql = "SELECT COUNT(*) FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), storeId, beginTime, endTime, uId);
+					tr = number.intValue();
+					System.out.println("0 0 0 : " + tr);
+				}
+			}
+		}
+
+		List<Object[]> list = null;
+
+		if (storeName.equals("全部门店")) {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 1 1 1
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
+				} else {
+					// 1 1 0
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), endTime, uId, (pc - 1) * ps, ps);
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 1 0 1
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.sa_date>=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), beginTime, uId, (pc - 1) * ps, ps);
+				} else {
+					// 1 0 0
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, uId, (pc - 1) * ps, ps);
+				}
+			}
+		} else {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 0 1 1
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), storeId, uId, (pc - 1) * ps, ps);
+				} else {
+					// 0 1 0
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), storeId, endTime, uId, (pc - 1) * ps, ps);
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 0 0 1
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), storeId, beginTime, uId, (pc - 1) * ps, ps);
+				} else {
+					// 0 0 0
+					sql = "SELECT sa.sa_date, sa.sa_saler_id, f.cash, f.zhaoxian, f.yingfu FROM sale sa, flow f WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num = f.flows AND sa.store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+					System.out.println("0 0 0 查询");
+					list = qr.query(sql, new ArrayListHandler(), storeId, beginTime, endTime, uId, (pc - 1) * ps, ps);
+				}
+			}
+		}
+		
+		List<XJSZBean> xjszList = new ArrayList<XJSZBean>();
+		for (Object[] obj : list) {
+			XJSZBean xjsz = new XJSZBean();
+			Employee employee = new Employee();
+			if (obj[0] != null) {
+				xjsz.setSaDate(msecToDateTimeStr(obj[0].toString()));
+			}
+			if (obj[1] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[1].toString())));
+				xjsz.setEmployee(employee);
+			}
+			if (obj[2] != null) {
+				xjsz.setfCash(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				xjsz.setfZhaoXian(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				xjsz.setfYingFu(obj[4].toString());
+			}
+			xjszList.add(xjsz);
+		}
+		
+		PageBean<XJSZBean> pb = new PageBean<XJSZBean>();
+		pb.setBeanList(xjszList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+		
+	}
+	
+	@Override
+	public PageBean<JiaoJieBan_HP> findShiftingDutyRecordByCombination(String storeName, String beginTime,
+			String endTime, Long uId, int pc) throws SQLException {
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+		
+		int ps = PageConstants.SALE_PAGE_SIZE;
+		
+		String sql = "";
+		Number number = null;
+		int tr = 0;
+		Long storeId = findStoreIdByStoreName(storeName);
+		
+		if (storeName.equals("全部门店")) {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 1 1 1
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), uId);
+					tr = number.intValue();
+				} else {
+					// 1 1 0
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), endTime,
+							uId);
+					tr = number.intValue();
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 1 0 1
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE start_time>=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), beginTime,
+							uId);
+					tr = number.intValue();
+				} else {
+					// 1 0 0
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE start_time>=? and end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), beginTime, endTime,
+							uId);
+					tr = number.intValue();
+				}
+			}
+		} else {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 0 1 1
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), uId, storeId,
+							uId);
+					tr = number.intValue();
+				} else {
+					// 0 1 0
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), uId, storeId, endTime,
+							uId);
+					tr = number.intValue();
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 0 0 1
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and start_time>=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), uId, storeId, beginTime,
+							uId);
+					tr = number.intValue();
+				} else {
+					// 0 0 0
+					sql = "SELECT COUNT(DISTINCT(id)) FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and start_time>=? and end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?)";
+					number = qr.query(sql, new ScalarHandler(), uId, storeId, beginTime, endTime,
+							uId);
+					tr = number.intValue();
+				}
+			}
+		}
+
+		List<Object[]> list = null;
+
+		if (storeName.equals("全部门店")) {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 1 1 1
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), 
+							uId, (pc - 1) * ps, ps);
+				} else {
+					// 1 1 0
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), endTime,
+							uId, (pc - 1) * ps, ps);
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 1 0 1
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE start_time>=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), beginTime,
+							uId, (pc - 1) * ps, ps);
+				} else {
+					// 1 0 0
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE start_time>=? and end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), beginTime, endTime,
+							uId, (pc - 1) * ps, ps);
+				}
+			}
+		} else {
+			if (beginTime.equals("")) {
+				if (endTime.equals("")) {
+					// 0 1 1
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), uId, storeId,
+							uId, (pc - 1) * ps, ps);
+				} else {
+					// 0 1 0
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), uId, storeId, endTime,
+							uId, (pc - 1) * ps, ps);
+				}
+			} else {
+				if (endTime.equals("")) {
+					// 0 0 1
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and start_time>=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), uId, storeId, beginTime,
+							uId, (pc - 1) * ps, ps);
+				} else {
+					// 0 0 0
+					sql = "SELECT start_time, end_time, saler_id, total_all, cash_pay, bank_pay, online_pay FROM jiaojieban WHERE (SELECT store_id FROM employee WHERE emp_id=(SELECT emp_id FROM users WHERE u_id=?))=? and start_time>=? and end_time<=? and saler_id IN (SELECT emp_id FROM users WHERE u_id=?) limit ?,?";
+					list = qr.query(sql, new ArrayListHandler(), uId, storeId, beginTime, endTime,
+							uId, (pc - 1) * ps, ps);
+				}
+			}
+		}
+		
+		List<JiaoJieBan_HP> jjbList = new ArrayList<JiaoJieBan_HP>();
+		for (Object[] obj : list) {
+			JiaoJieBan_HP jjb = new JiaoJieBan_HP();
+			Employee employee = new Employee();
+			if (obj[0] != null) {
+				jjb.setStartTime(msecToDateTimeStr(obj[0].toString()));
+			}
+			if (obj[1] != null) {
+				jjb.setEndTime(msecToDateTimeStr(obj[1].toString()));
+			}
+			if (obj[2] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
+				jjb.setEmployee(employee);
+			}
+			if (obj[3] != null) {
+				jjb.setTotalAll(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				jjb.setCashPay(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				jjb.setBankPay(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				jjb.setOnlinePay(obj[6].toString());
+			}
+			jjbList.add(jjb);
+		}
+		
+		PageBean<JiaoJieBan_HP> pb = new PageBean<JiaoJieBan_HP>();
+		pb.setBeanList(jjbList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+	}
+	
 	@Override
 	public SalesSummaryBean getSalesSummary(Long uId) throws SQLException {
 		
@@ -677,15 +1012,21 @@ public class YYGKDaoImp implements YYGKDao {
 		return ssb;
 	}
 
-	private String StrToDate(String str) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date date = null;
-		try {
-			date = format.parse(str);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return "" + date.getTime();
+	/**
+	* 字符串转换成日期毫秒数
+	* @param str
+	* @return String
+	*/
+	public static String StrToDate(String str) {
+	  
+	   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	   Date date = null;
+	   try {
+	    date = format.parse(str);
+	   } catch (ParseException e) {
+	    e.printStackTrace();
+	   }
+	   return ""+date.getTime();
 	}
 	
 	private Long findStoreIdByStoreName(String storeName) throws SQLException {
@@ -698,4 +1039,24 @@ public class YYGKDaoImp implements YYGKDao {
 		}
 		return null;
 	}
+	private String findEmpNameByEmpId(Long empId) throws SQLException {
+		String sql = "select emp_name from employee where emp_id=?";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), empId);
+		if (list.size() > 0) {
+			Object[] obj = list.get(0);
+			return obj[0].toString();
+		}
+		return null;
+	}
+
+	private String msecToDateTimeStr(String msecStr) {
+		Long msecLong = Long.valueOf(msecStr);
+		Date dat = new Date(msecLong);
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTime(dat);
+		SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String str = format.format(gc.getTime());
+		return str;
+	}
+	
 }
