@@ -52,7 +52,12 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public List<Object[]> goodssearch(int sid, int currentPage) {
 		//String sql = "SELECT g_name,s_name,g_barcode,s_id,g_stock_num,g_pur_price,g_id from goods where s_id=?  limit ?,10";
-		String sql = "SELECT * from goods where s_id=?  limit ?,10";
+		String sql = "SELECT g_id, g_name,s_name,g_barcode,g_stock_num,"
+				+ "g_pur_price,g_sale_price,g_trade_price,c_name,"
+				+ "g_stock_min,g_stock_max,g_prod_date,g_giq,g_pm,"
+				+ "su_name,g_flag,vip_id,g_vip_price,zdy1,zdy2,"
+				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor"
+				+ " from goods where s_id=?  limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql, sid, currentPage);
 		return list;
 	}
