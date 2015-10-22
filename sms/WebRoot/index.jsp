@@ -133,6 +133,30 @@
 		});
 		/*end  */
 		/**********************************************************************/
+		//ly
+		/* start */
+		$('#spzl').click(function(){
+			$('iframe').attr('src','<%=basePath %>goods?m=goodsInfo');
+			
+		});  
+		$('#ghs').click(function(){
+			$('iframe').attr('src','<%=basePath %>huoliu?m=supplierInfo&s_id=1');
+			
+		});  
+		$('#hlgl').click(function(){
+			$('iframe').attr('src','<%=basePath %>huoliu?m=hlgl');
+			
+		});  
+		$('#ghsjs').click(function(){
+			$('iframe').attr('src','<%=basePath %>huoliu?m=ghsjs');
+			
+		}); 
+		$('#spfl').click(function(){
+			
+			$('iframe').attr('src','<%=basePath %>CategoryGoods?type=initPage');
+		});
+		/* end */
+		/***************************************************************************/
 		$("li a").click(
 		function() {
 			var parent = $(this).attr("data-options");

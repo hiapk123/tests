@@ -61,7 +61,7 @@ public class UserServlet extends BaseServlet {
 			return "f:/login.jsp";
 		} else {
 			request.getSession().setAttribute("sessionUser", user); // 保存用户到session
-
+			request.getSession().setAttribute("uid", user.getUId());
 			// 获取用户名保存到cookie中
 			// String loginname = user.getUName();
 			loginname = URLEncoder.encode(loginname, "utf-8");
