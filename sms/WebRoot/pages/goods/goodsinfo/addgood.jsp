@@ -3,6 +3,7 @@
 	import="java.util.*,org.uestc.util.*"%>
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -124,3 +125,4 @@ window.open ("<%=basePath%>goods?m=addGoods&s_id="+storeid+"&s_name="+storename,
 </ul>
 
 <a href="<%=basePath%>goods?m=goodsInfo">返回商品资料页面</a>
+

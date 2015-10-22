@@ -6,6 +6,7 @@
 			+ path + "/";
 %>
 
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -234,3 +235,4 @@
 	<a href="<%=basePath %>goods?m=goodsInfo">跳转商品资料页面</a>
 </body>
 </html>
+

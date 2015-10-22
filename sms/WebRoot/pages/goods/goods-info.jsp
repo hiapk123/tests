@@ -8,6 +8,7 @@
 %>
 
 
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -44,7 +45,7 @@ function DaoRu()
 {
 	var id=$("#store").val();
 	var name=$("#store :selected").text();
-	window.open ("<%=basePath%>goods?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ("<%=basePath%>goods?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -212,113 +213,113 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 			$.post("<%=basePath%>goods", {
 				"m" : "kuaisu",
 				"store" : store,
-				"s_name" : s_name,
-				"s_id" : store,
-
+				"s_name":s_name,
+				"s_id":store,
+				
 			}, function(data) {
 				$("#hehe").append(data);
 			}, "html");
-
+			
 		});
-
+		
 	});
 </script>
 </head>
 
 <body>
-	<div id="hehe">
-		<span class="label label-default" style="padding: 10px">商品资料</span>
-		&nbsp;&nbsp;
-		<button type="button" id="xinzengshangpin" class="btn btn-success"
-			name="submit">新增商品</button>
-		&nbsp;&nbsp;
-		<button type="button" class="btn btn-success" name="submit"
-			onclick="DaoRu()">导入</button>
-		&nbsp;&nbsp;
-		<button type="button" class="btn btn-success" name="submit"
-			onclick="daochu()">导出</button>
-		&nbsp;&nbsp;
-		<button type="button" class="btn btn-success" name="submit"
-			onclick="fuzhishangpin()">复制商品</button>
-		&nbsp;&nbsp;
-		<button type="button" id="kuaisu" class="btn btn-success"
-			name="submit">快速录入</button>
-		<select id="store" class="singleSelector">
-			<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
+<div id="hehe">
+	<span class="label label-default" style="padding: 10px">商品资料</span>
+	&nbsp;&nbsp;
+	<button type="button" id="xinzengshangpin" class="btn btn-success"
+		name="submit" >新增商品</button>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="DaoRu()">导入</button>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="daochu()">导出</button>
+	&nbsp;&nbsp;
+	<button type="button" class="btn btn-success" name="submit"
+		onclick="fuzhishangpin()">复制商品</button>
+	&nbsp;&nbsp;
+   <button type="button" id="kuaisu" class="btn btn-success"
+		name="submit" >快速录入</button>
+	<select id="store" class="singleSelector">
+		<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
 
-			<%
-				List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
-				if (list != null && list.size() != 0) {
-					for (Object[] obj : list) {
-			%>
-			<option value='<%=obj[0]%>'><%=obj[1]%></option>
-			<%
-				}
-				}
-			%>
+		<%
+			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
+			if (list != null && list.size() != 0) {
+				for (Object[] obj : list) {
+		%>
+		<option value='<%=obj[0]%>'><%=obj[1]%></option>
+		<%
+			}
+			}
+		%>
 
-		</select> <select id="category">
-			<option value="0" selected="selected">有效单据</option>
-			<option value="1">作废单据</option>
-		</select>
+	</select>
 
-		<div style="float: right;">
-			<input class="input-medium search-query" type="text" float:right />
-			<input type="button" value="查询" id="search" class="submitBtn" />
-			<button type="button" class="btn btn-success" float:right>按分类</button>
-		</div>
+	<select id="category">
+		<option value="0" selected="selected">有效单据</option>
+		<option value="1">作废单据</option>
+	</select>
 
-		<div data-spy="scroll"
-			style="height: 100%; overflow: auto; position: relative;"
-			data-offset="10">
-			<div id="goodsinfodiv">
-				<table style="width: 3000px; height: 30px; table-layout: fixed;"
-					border="1";>
-					<thead>
-						<tr>
-							<th>操作</th>
-							<th>商品名称</th>
-							<th>所属门店</th>
-							<th>商品条码</th>
-							<th>销售价</th>
-							<th>库存量
-								<button id="up-g_stock_num" class="btn btn-success btn-xs"
-									value="g_stock_num">&uarr;</button>
-								<button id="down-g_stock_num" class="btn btn-success btn-xs"
-									value="g_stock_num">&darr;</button>
-							</th>
-							<th>进货价
-								<button id="up" class="btn btn-success btn-xs"
-									value="g_pur_price">&uarr;</button>
-								<button id="down" class="btn btn-success btn-xs"
-									value="g_pur_price">&darr;</button>
-							</th>
-							<th>会员价</th>
-							<th>分类</th>
-							<th>批发价</th>
-							<th>会员折扣</th>
-							<th>库存上限</th>
-							<th>库存下限</th>
-							<th>生产日期</th>
-							<th>保质期 ↑ ↓</th>
-							<th>拼音码</th>
-							<th>供货商</th>
-							<th>自定义1</th>
-							<th>自定义2</th>
-							<th>自定义3</th>
-							<th>自定义4</th>
-							<th>最小起订量</th>
-							<th>最低陈列量</th>
-							<th>畅销量</th>
-							<th>正常销售量</th>
-							<th>库存合理值</th>
-							<th>是否锁定</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
+	<div style="float: right;">
+		<input class="input-medium search-query" type="text" float:right /> <input
+			type="button" value="查询" id="search" class="submitBtn" />
+		<button type="button" class="btn btn-success" float:right>按分类</button>
 	</div>
+	
+	<!-- <div data-spy="scroll"
+		style="height: 100%; width:100%; overflow: auto; position: relative;"
+		data-offset="10"> -->
+     <div data-spy="scroll"
+		style="width: 100%; height:600px; overflow: auto; position: relative;"
+		data-offset="10">
+
+		<div id="goodsinfodiv">
+		<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+		<thead>
+			<tr>
+				<th>操作</th>
+				<th>商品名称</th>
+				<th>所属门店</th>
+				<th>商品条码</th>
+				<th>销售价</th>
+				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
+				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
+				<th>会员价</th>  
+				<th>分类</th>
+				<th>批发价</th>
+				<th>会员折扣</th>
+				<th>库存上限</th>
+				<th>库存下限</th>
+				<th>生产日期</th>
+				<th>保质期 ↑ ↓</th>
+				<th>拼音码</th>
+				<th>供货商</th>
+				<th>自定义1</th>
+				<th>自定义2</th>
+				<th>自定义3</th>
+				<th>自定义4</th>
+				<th>最小起订量</th>
+				<th>最低陈列量</th>
+				<th>畅销量</th>
+				<th>正常销售量</th>
+				<th>库存合理值</th>
+				<th>是否锁定</th>
+			</tr>
+		</thead>
+		
+
+	</table>
+		</div>
+
+	</div>
+</div>
+
 </body>
 
 </html>
+

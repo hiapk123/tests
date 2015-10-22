@@ -182,6 +182,7 @@ function querenduizhang()
 	for(var i=0,price=0;i<td.length/12;i++){
 		price=price+parseInt(td.eq(9+12*i).text());
 	}
+	
 	$("#qrdz").empty();
 	$.post("<%=basePath%>huoliu", {
 		"m" : "QRDZ",
@@ -290,7 +291,7 @@ $("#search").click(function(){
 	</div>
 	
 	<div data-spy="scroll"
-		style="width: 100%; overflow: auto; position: relative;"
+		style="width: 100%; height:450px; overflow: auto; position: relative;"
 		data-offset="10">
  
 <div id="findjs">
@@ -328,13 +329,13 @@ $("#search").click(function(){
  </div>
 	
 
-  <div id="ly" style="position: absolute; bottom: 1400px;">
+   <div id="ly" style="position: fixed; top: 500px;">
 	
 	<button type="button" class="btn btn-primary btn-lg" name="submit"
 			onclick="querenduizhang()" style="margin: 0 0 0 950px" >确认对账</button>
 	<button type="button" class="btn btn-success btn-lg" name="submit"
 			onclick="querenjiesuan()" style="margin: 0 0 0 50px" >确认结算</button>	
-	</div>
+	</div> 
  <div id="detail">
  
  </div>
@@ -348,3 +349,4 @@ $("#search").click(function(){
 </body>
 
 </html>
+

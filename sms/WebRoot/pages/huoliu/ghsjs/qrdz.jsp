@@ -14,6 +14,7 @@ String price=request.getAttribute("price").toString();
 
 System.out.println(danshu);
 %>
+
 <div id="mm">
 <div  style=" margin: 80px auto; width: 350px;  height: 220px; border: 5px solid #EE2C2C;">
 <center>
@@ -28,4 +29,5 @@ System.out.println(danshu);
 			
 </center>	
  </div>	
+
  </div>

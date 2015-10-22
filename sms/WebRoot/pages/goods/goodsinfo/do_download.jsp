@@ -3,6 +3,7 @@
 <% 
   //新建一个SmartUpload对象
   SmartUpload su=new SmartUpload();
+
   //初始化
   su.initialize(pageContext);
   //设定contentDisposition为null以禁止浏览器自动打开文件,

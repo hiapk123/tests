@@ -13,6 +13,7 @@ String fileName = as;
 
 fileName = new String(as.getBytes("utf8"), "ISO_8859_1");
 
+
 response.setHeader("Content-disposition", "attachment; filename="+fileName);
 %>
 <!DOCTYPE html>

@@ -44,6 +44,7 @@ public class GoodsServlet extends HttpServlet {
 	 * 
 	 */
 	
+	
 	private static final long serialVersionUID = 6005017459312388968L;
 	private int s_id = 0;
 	private GoodsService good = new GoodsServiceImp();
@@ -618,8 +619,23 @@ public class GoodsServlet extends HttpServlet {
 
 		String s_id = req.getParameter("s_id");
 		String s_name = req.getParameter("s_name");
+		s_name=s_name.trim();
 		req.setAttribute("s_id", s_id);
 		req.setAttribute("s_name", s_name);
+		req.setAttribute("message", "");
+		
+		
+		List<Object[]> storeList = null;
+		HttpSession session = req.getSession();
+
+		try {
+			storeList = good.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+
+			req.setAttribute("storeList", storeList);
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/***
@@ -630,29 +646,86 @@ public class GoodsServlet extends HttpServlet {
 	 */
 	private void addGood(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		
+		//必填资料
 		String s_id = req.getParameter("s_id");
 		String s_name = req.getParameter("s_name");
 		String g_name = req.getParameter("g_name");
-		String g_flag = req.getParameter("g_flag");
+		String g_del = req.getParameter("g_del");
 		String g_stock_num = req.getParameter("kucun");
 		String g_sale_price = req.getParameter("xiaoshoujia");
 		String g_pur_price = req.getParameter("jinhuojia");
 		String c_name = req.getParameter("fenlei");
 		String g_barcode = req.getParameter("g_barcode");
+		//扩展资料
+		String g_pm = req.getParameter("g_pm");
+		String su_name = req.getParameter("su_name");
+		String g_stock_max = req.getParameter("g_stock_max");
+		String g_stock_min = req.getParameter("g_stock_min");
+		String g_trade_price = req.getParameter("g_trade_price");
+		String vip_id = req.getParameter("vip_id");
+		String g_vip_price = req.getParameter("g_vip_price");
+		String g_prod_date = req.getParameter("g_prod_date");
+		String g_giq = req.getParameter("g_giq");
+		String zdy1 = req.getParameter("zdy1");
+		String zdy2 = req.getParameter("zdy2");
+		String zdy3 = req.getParameter("zdy3");
+		String zdy4 = req.getParameter("zdy4");
+		//报表参数
+		String g_qd_min = req.getParameter("g_qd_min");
+		String g_cl_min = req.getParameter("g_cl_min");
+		String g_stock_nor = req.getParameter("g_stock_nor");
+		String g_flag = req.getParameter("g_flag");
+		String g_best = req.getParameter("g_best");
+		String g_sale_nor = req.getParameter("g_sale_nor");
+		//商品描述
+		String g_info=req.getParameter("g_info");
+		//图片路径
+		String g_img_path=req.getParameter("g_img_path");
 		try {
-			good.addgood(Integer.valueOf(s_id), s_name, g_name, Integer.valueOf(g_flag), g_stock_num, g_sale_price, g_pur_price, c_name,
-					g_barcode);
+			good.addgood(s_id, s_name, g_name, g_del,
+					g_stock_num, g_sale_price, g_pur_price, c_name,g_barcode,
+					g_pm,g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,
+					s_name,g_stock_min,vip_id,g_vip_price,g_giq,zdy2,zdy4,
+					g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,g_sale_nor,
+					g_info,g_img_path);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//
 		req.setAttribute("s_id", s_id);
-		
-		
-		//req.setAttribute("g_id", g_id);
 		req.setAttribute("g_barcode", g_barcode);
 		req.setAttribute("g_name", g_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		//
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("g_name", g_name);
+		//
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("g_barcode", g_barcode);
+		req.setAttribute("g_name", g_name);
+		req.setAttribute("g_name", g_name);
+		//
+		req.setAttribute("g_info", g_info);
+		req.setAttribute("g_img_path", g_img_path);
 	}
 
 	/***
@@ -754,3 +827,4 @@ public class GoodsServlet extends HttpServlet {
 	}
 
 }
+

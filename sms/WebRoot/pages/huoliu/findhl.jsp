@@ -39,6 +39,7 @@ String type=request.getAttribute("type").toString();
 				$("#fenye").html(data);
 			}, "html");
 		});
+		
 	});
         
 </script>

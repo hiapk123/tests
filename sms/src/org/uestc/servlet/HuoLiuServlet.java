@@ -177,6 +177,7 @@ public class HuoLiuServlet extends HttpServlet {
 		req.setAttribute("price", price);
 		req.setAttribute("su_gd_return", String.valueOf(num1));
 		req.setAttribute("su_ps_return", String.valueOf(num2));
+		
 	}
 	
 	private void qrdz1(HttpServletRequest req, HttpServletResponse resp) {
@@ -1041,4 +1042,5 @@ public class HuoLiuServlet extends HttpServlet {
 
 
 }
+
 

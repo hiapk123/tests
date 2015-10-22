@@ -819,7 +819,9 @@ public class HuoliuServiceImp implements HuoliuService{
 	List<Object[]> list=	SqlHelper.find(sql, supplier);
 		return list;
 		
+		
 	}
+
 
 
 
