@@ -26,7 +26,9 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		for (Object[] obj : list) {
 			// System.out.println("obj: " + obj[0]);
 			Store store = new Store();
-			store.setSName(obj[0].toString());
+			if (obj[0] != null) {
+				store.setSName(obj[0].toString());
+			}
 			// System.out.println("obj.toString(): " + obj.toString());
 			storeList.add(store);
 		}
@@ -46,8 +48,10 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		List<Supplier> supplierList = new ArrayList<Supplier>();
 		for (Object[] obj : list) {
 			Supplier supplier = new Supplier();
-			supplier.setSuName(obj[0].toString());
-			supplierList.add(supplier);
+			if (obj[0] != null) {
+				supplier.setSuName(obj[0].toString());
+				supplierList.add(supplier);
+			}
 		}
 		return supplierList;
 	}
@@ -59,7 +63,9 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		List<Category> categoryList = new ArrayList<Category>();
 		for (Object[] obj : list) {
 			Category category = new Category();
-			category.setCName(obj[0].toString());
+			if (obj[0] != null) {
+				category.setCName(obj[0].toString());
+			}
 			categoryList.add(category);
 		}
 		return categoryList;
@@ -303,16 +309,37 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();
-			goods.setGName(obj[0].toString());
-			goods.setSName(obj[1].toString());
-			goods.setCName(obj[2].toString());
-			goods.setSuName(obj[3].toString());
-			goods.setGBarcode(obj[4].toString());
-			goods.setGStockNum(obj[5].toString());
-			goods.setGStockMax(obj[6].toString());
-			goods.setGStockMin(obj[7].toString());
-			goods.setGProdDate(obj[8].toString());
-			goods.setGGiq(obj[9].toString());
+
+			if (obj[0] != null) {
+				goods.setGName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				goods.setSName(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				goods.setCName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				goods.setSuName(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				goods.setGBarcode(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				goods.setGStockNum(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				goods.setGStockMax(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				goods.setGStockMin(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				goods.setGProdDate(obj[8].toString());
+			}
+			if (obj[9] != null) {
+				goods.setGGiq(obj[9].toString());
+			}
 			goodsList.add(goods);
 		}
 		
@@ -334,7 +361,9 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		for (Object[] obj : list) {
 			// System.out.println("obj: " + obj[0]);
 			Store store = new Store();
-			store.setSName(obj[0].toString());
+			if (obj[0] != null) {
+				store.setSName(obj[0].toString());
+			}
 			// System.out.println("obj.toString(): " + obj.toString());
 			storeList.add(store);
 		}
@@ -351,16 +380,36 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();
-			goods.setGName(obj[0].toString());
-			goods.setSName(obj[1].toString());
-			goods.setCName(obj[2].toString());
-			goods.setSuName(obj[3].toString());
-			goods.setGBarcode(obj[4].toString());
-			goods.setGStockNum(obj[5].toString());
-			goods.setGStockMax(obj[6].toString());
-			goods.setGStockMin(obj[7].toString());
-			goods.setGProdDate(obj[8].toString());
-			goods.setGGiq(obj[9].toString());
+			if (obj[0] != null) {
+				goods.setGName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				goods.setSName(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				goods.setCName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				goods.setSuName(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				goods.setGBarcode(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				goods.setGStockNum(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				goods.setGStockMax(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				goods.setGStockMin(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				goods.setGProdDate(obj[8].toString());
+			}
+			if (obj[9] != null) {
+				goods.setGGiq(obj[9].toString());
+			}
 			goodsList.add(goods);
 		}
 
@@ -404,16 +453,36 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();
-			goods.setGName(obj[0].toString());
-			goods.setSName(obj[1].toString());
-			goods.setCName(obj[2].toString());
-			goods.setSuName(obj[3].toString());
-			goods.setGBarcode(obj[4].toString());
-			goods.setGStockNum(obj[5].toString());
-			goods.setGStockMax(obj[6].toString());
-			goods.setGStockMin(obj[7].toString());
-			goods.setGProdDate(obj[8].toString());
-			goods.setGGiq(obj[9].toString());
+			if (obj[0] != null) {
+				goods.setGName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				goods.setSName(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				goods.setCName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				goods.setSuName(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				goods.setGBarcode(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				goods.setGStockNum(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				goods.setGStockMax(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				goods.setGStockMin(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				goods.setGProdDate(obj[8].toString());
+			}
+			if (obj[9] != null) {
+				goods.setGGiq(obj[9].toString());
+			}
 			goodsList.add(goods);
 		}
 		
@@ -453,16 +522,36 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		List<Goods> goodsList = new ArrayList<Goods>();
 		for (Object[] obj : list) {
 			Goods goods = new Goods();
-			goods.setGName(obj[0].toString());
-			goods.setSName(obj[1].toString());
-			goods.setCName(obj[2].toString());
-			goods.setSuName(obj[3].toString());
-			goods.setGBarcode(obj[4].toString());
-			goods.setGStockNum(obj[5].toString());
-			goods.setGStockMax(obj[6].toString());
-			goods.setGStockMin(obj[7].toString());
-			goods.setGProdDate(obj[8].toString());
-			goods.setGGiq(obj[9].toString());
+			if (obj[0] != null) {
+				goods.setGName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				goods.setSName(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				goods.setCName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				goods.setSuName(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				goods.setGBarcode(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				goods.setGStockNum(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				goods.setGStockMax(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				goods.setGStockMin(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				goods.setGProdDate(obj[8].toString());
+			}
+			if (obj[9] != null) {
+				goods.setGGiq(obj[9].toString());
+			}
 			goodsList.add(goods);
 		}
 		
@@ -479,3 +568,4 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 	
 	
 }
+

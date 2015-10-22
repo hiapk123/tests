@@ -24,27 +24,45 @@ public class XSDJDaoImp implements XSDJDao {
 	public PageBean<XSDJBean> findAllByUid(Long uId, int pc) throws SQLException {
 		int ps = PageConstants.SALE_PAGE_SIZE;
 
-		String sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+		String sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 		Number number = qr.query(sql, new ScalarHandler(), uId);
 		int tr = number.intValue();
 
-		sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+		sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
 		List<XSDJBean> xsdjBeanList = new ArrayList<XSDJBean>();
 		for (Object[] obj : list) {
 			XSDJBean xsdjBean = new XSDJBean();
 
-			xsdjBean.setSaSeriNum(obj[0].toString());
-			xsdjBean.setSaDate(msecToDateTimeStr(obj[1].toString()));
-			xsdjBean.setSaType(numericToChinese(obj[2].toString()));
-			xsdjBean.setSaCashier(findEmpNameByEmpId(Long.valueOf(obj[3].toString())));
-			xsdjBean.setSaVipName(findVipNameByVipId(Long.valueOf(obj[4].toString())));
-
-			xsdjBean.setSaGoodsQuantity(obj[5].toString());
-			xsdjBean.setgPurPrice(obj[6].toString());
-			xsdjBean.setSaRealPrice(obj[7].toString());
-			xsdjBean.setSaProfit(obj[8].toString());
+			if (obj[0] != null) {
+				xsdjBean.setSaSeriNum(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				xsdjBean.setSaDate(msecToDateTimeStr(obj[1].toString()));
+			}
+			if (obj[2] != null) {
+				xsdjBean.setSaType(numericToChinese(obj[2].toString()));
+			}
+			if (obj[3] != null) {
+				xsdjBean.setSaCashier(findEmpNameByEmpId(Long.valueOf(obj[3].toString())));
+			}
+			if (obj[4] != null) {
+				xsdjBean.setSaVipName(findVipNameByVipId(Long.valueOf(obj[4].toString())));
+			}
+			if (obj[5] != null) {
+				xsdjBean.setSaGoodsQuantity(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				xsdjBean.setgPurPrice(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				xsdjBean.setSaRealPrice(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				xsdjBean.setSaProfit(obj[8].toString());
+			}
 			xsdjBeanList.add(xsdjBean);
+			
 		}
 
 		PageBean<XSDJBean> pb = new PageBean<XSDJBean>();
@@ -85,19 +103,19 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 1 1 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 1 1 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), seriNum, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), seriNum, uId);
 						}
 						tr = number.intValue();
@@ -105,19 +123,19 @@ public class XSDJDaoImp implements XSDJDao {
 				} else {
 					if (seriNum.equals("")) {
 						// 1 1 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), endTime, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), endTime, uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 1 1 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), endTime, seriNum, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), endTime, seriNum, uId);
 						}
 						tr = number.intValue();
@@ -127,19 +145,19 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 1 0 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), beginTime, uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 1 0 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, seriNum, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), beginTime, seriNum, uId);
 						}
 						tr = number.intValue();
@@ -147,19 +165,19 @@ public class XSDJDaoImp implements XSDJDao {
 				} else {
 					if (seriNum.equals("")) {
 						// 1 0 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, endTime, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), beginTime, endTime, uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 1 0 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), beginTime, endTime, seriNum, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), beginTime, endTime, seriNum, uId);
 						}
 						tr = number.intValue();
@@ -171,21 +189,21 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 0 1 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), receiptType,
 								uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 0 1 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), seriNum,
 								receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), seriNum,
 									uId);
 						}
@@ -194,22 +212,22 @@ public class XSDJDaoImp implements XSDJDao {
 				} else {
 					if (seriNum.equals("")) {
 						// 0 1 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), endTime,
 								receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), endTime,
 									uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 0 1 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), endTime, seriNum,
 								receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), endTime,
 									seriNum, uId);
 						}
@@ -220,22 +238,22 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 0 0 1 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 									uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 0 0 1 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								seriNum, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 									seriNum, uId);
 						}
@@ -244,22 +262,22 @@ public class XSDJDaoImp implements XSDJDao {
 				} else {
 					if (seriNum.equals("")) {
 						// 0 0 0 1
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 									endTime, uId);
 						}
 						tr = number.intValue();
 					} else {
 						// 0 0 0 0
-						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_id=sa.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+						sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 						number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, seriNum, receiptType, uId);
 						if (receiptType.equals("2")) {
-							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_id=sa.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
+							sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?)";
 							number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime,
 									endTime, seriNum, uId);
 						}
@@ -276,37 +294,37 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 1 1 1 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 1 1 1 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), seriNum, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), seriNum, uId, (pc - 1) * ps, ps);
 						}
 					}
 				} else {
 					if (seriNum.equals("")) {
 						// 1 1 0 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), endTime, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), endTime, uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 1 1 0 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), endTime, seriNum, receiptType, uId, (pc - 1) * ps,
 								ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), endTime, seriNum, uId, (pc - 1) * ps, ps);
 						}
 					}
@@ -315,39 +333,39 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 1 0 1 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), beginTime, uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 1 0 1 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, seriNum, receiptType, uId,
 								(pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), beginTime, seriNum, uId, (pc - 1) * ps, ps);
 						}
 					}
 				} else {
 					if (seriNum.equals("")) {
 						// 1 0 0 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, receiptType, uId,
 								(pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 1 0 0 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, seriNum, receiptType, uId,
 								(pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), beginTime, endTime, seriNum, uId,
 									(pc - 1) * ps, ps);
 						}
@@ -359,21 +377,21 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 0 1 1 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), receiptType,
 								uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), uId,
 									(pc - 1) * ps, ps);
 						}
 					} else {
 						// 0 1 1 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), seriNum,
 								receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), seriNum,
 									uId, (pc - 1) * ps, ps);
 						}
@@ -381,21 +399,21 @@ public class XSDJDaoImp implements XSDJDao {
 				} else {
 					if (seriNum.equals("")) {
 						// 0 1 0 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), endTime,
 								receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), endTime,
 									uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 0 1 0 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), endTime,
 								seriNum, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), endTime,
 									seriNum, uId, (pc - 1) * ps, ps);
 						}
@@ -405,21 +423,21 @@ public class XSDJDaoImp implements XSDJDao {
 				if (endTime.equals("")) {
 					if (seriNum.equals("")) {
 						// 0 0 1 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 									uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 0 0 1 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								seriNum, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 									seriNum, uId, (pc - 1) * ps, ps);
 						}
@@ -427,21 +445,21 @@ public class XSDJDaoImp implements XSDJDao {
 				} else {
 					if (seriNum.equals("")) {
 						// 0 0 0 1
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 									endTime, uId, (pc - 1) * ps, ps);
 						}
 					} else {
 						// 0 0 0 0
-						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND sa.g_id=g.g_id AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+						sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.s_del=? AND g.g_barcode=sa.g_barcode AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 						list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 								endTime, seriNum, receiptType, uId, (pc - 1) * ps, ps);
 						if (receiptType.equals("2")) {
-							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND sa.g_id=g.g_id AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
+							sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE sa.store_id=? AND sa.sa_date>=? AND sa.sa_date<=? AND sa.sa_serial_num=? AND g.g_barcode=sa.g_barcode AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000) AND store_id in(SELECT s_id FROM store WHERE u_id=?) limit ?,?";
 							list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime,
 									endTime, seriNum, uId, (pc - 1) * ps, ps);
 						}
@@ -454,16 +472,35 @@ public class XSDJDaoImp implements XSDJDao {
 		for (Object[] obj : list) {
 			XSDJBean xsdjBean = new XSDJBean();
 
-			xsdjBean.setSaSeriNum(obj[0].toString());
-			xsdjBean.setSaDate(msecToDateTimeStr(obj[1].toString()));
-			xsdjBean.setSaType(numericToChinese(obj[2].toString()));
-			xsdjBean.setSaCashier(findEmpNameByEmpId(Long.valueOf(obj[3].toString())));
-			xsdjBean.setSaVipName(findVipNameByVipId(Long.valueOf(obj[4].toString())));
 
-			xsdjBean.setSaGoodsQuantity(obj[5].toString());
-			xsdjBean.setgPurPrice(obj[6].toString());
-			xsdjBean.setSaRealPrice(obj[7].toString());
-			xsdjBean.setSaProfit(obj[8].toString());
+			if (obj[0] != null) {
+				xsdjBean.setSaSeriNum(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				xsdjBean.setSaDate(msecToDateTimeStr(obj[1].toString()));
+			}
+			if (obj[2] != null) {
+				xsdjBean.setSaType(numericToChinese(obj[2].toString()));
+			}
+			if (obj[3] != null) {
+				xsdjBean.setSaCashier(findEmpNameByEmpId(Long.valueOf(obj[3].toString())));
+			}
+			if (obj[4] != null) {
+				xsdjBean.setSaVipName(findVipNameByVipId(Long.valueOf(obj[4].toString())));
+			}
+			if (obj[5] != null) {
+				xsdjBean.setSaGoodsQuantity(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				xsdjBean.setgPurPrice(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				xsdjBean.setSaRealPrice(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				xsdjBean.setSaProfit(obj[8].toString());
+			}
+			
 			xsdjBeanList.add(xsdjBean);
 		}
 
@@ -543,3 +580,4 @@ public class XSDJDaoImp implements XSDJDao {
 	}
 
 }
+

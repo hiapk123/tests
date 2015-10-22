@@ -152,11 +152,19 @@ public class ZBTJDaoImp implements ZBTJDao {
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
 			Vip vip = new Vip();
-			vip.setVId(Integer.valueOf(obj[0].toString()));
-			sale.setVip(vip);
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				vip.setVId(Integer.valueOf(obj[0].toString()));
+				sale.setVip(vip);
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -300,11 +308,19 @@ public class ZBTJDaoImp implements ZBTJDao {
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
 			Employee employee = new Employee();
-			employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[0].toString())));
-			sale.setEmployee(employee);
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[0].toString())));
+				sale.setEmployee(employee);
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -447,10 +463,18 @@ public class ZBTJDaoImp implements ZBTJDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setSaType(numericToChinese(obj[0].toString()));
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setSaType(numericToChinese(obj[0].toString()));
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -592,10 +616,18 @@ public class ZBTJDaoImp implements ZBTJDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setStore(findStoreByStoreId(Long.valueOf(obj[0].toString())));
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setStore(findStoreByStoreId(Long.valueOf(obj[0].toString())));
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -645,10 +677,18 @@ public class ZBTJDaoImp implements ZBTJDao {
 		List<Sale> saleList = new ArrayList<Sale>();
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
-			sale.setStore(findStoreByStoreId(Long.valueOf(obj[0].toString())));
-			sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
-			sale.setSaRealPrice(obj[2].toString());
-			sale.setSaProfit(obj[3].toString());
+			if (obj[0] != null) {
+				sale.setStore(findStoreByStoreId(Long.valueOf(obj[0].toString())));
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
 			saleList.add(sale);
 		}
 
@@ -688,7 +728,9 @@ public class ZBTJDaoImp implements ZBTJDao {
 		if (list.size() > 0) {
 			Store store = new Store();
 			Object[] obj = list.get(0);
-			store.setSName(obj[0].toString());
+			if (obj[0] != null) {
+				store.setSName(obj[0].toString());
+			}
 			return store;
 		}
 		return null;
@@ -726,3 +768,4 @@ public class ZBTJDaoImp implements ZBTJDao {
 	}
 
 }
+

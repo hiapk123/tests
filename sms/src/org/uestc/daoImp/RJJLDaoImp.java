@@ -43,15 +43,25 @@ public class RJJLDaoImp implements RJJLDao {
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
 			Employee employee = new Employee();
-			sale.setSaDate(obj[0].toString());
-			sale.setSaSerialNum(obj[1].toString()); //将其看作“结束时间”
-			employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
-			sale.setEmployee(employee); // 收银员
-			sale.setSaRealPrice(obj[3].toString()); // 将其看作“收银总额”
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaSerialNum(obj[1].toString()); //将其看作“结束时间”
+			}
+			if (obj[2] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
+				sale.setEmployee(employee); // 收银员
+			}
+			if (obj[3] != null) {
+				sale.setSaRealPrice(obj[3].toString()); // 将其看作“收银总额”
+			}
 			
-			sale.setSaGoodsPrice(Double.toString(getCashMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“现金”
-			sale.setSaProfit(Double.toString(getCupCardMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“银联卡”
-			sale.setSaGoodsNum(Double.toString(getOnlineMoney(Long.valueOf(obj[2].toString()), uId))); // 在线  将其看作“在线”
+			if (obj[2] != null) {
+				sale.setSaGoodsPrice(Double.toString(getCashMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“现金”
+				sale.setSaProfit(Double.toString(getCupCardMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“银联卡”
+				sale.setSaGoodsNum(Double.toString(getOnlineMoney(Long.valueOf(obj[2].toString()), uId))); // 在线  将其看作“在线”
+			}
 			
 			saleList.add(sale);
 		}
@@ -193,20 +203,32 @@ public class RJJLDaoImp implements RJJLDao {
 		for (Object[] obj : list) {
 			Sale sale = new Sale();
 			Employee employee = new Employee();
-			sale.setSaDate(obj[0].toString());
-			sale.setSaSerialNum(obj[1].toString()); //将其看作“结束时间”
-			employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
-			sale.setEmployee(employee); // 收银员
-			sale.setSaRealPrice(obj[3].toString()); // 将其看作“收银总额”
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaSerialNum(obj[1].toString()); //将其看作“结束时间”
+			}
+			if (obj[2] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
+				sale.setEmployee(employee); // 收银员
+			}
+			if (obj[3] != null) {
+				sale.setSaRealPrice(obj[3].toString()); // 将其看作“收银总额”
+			}
 			
 			if (storeName.equals("全部门店")) {
-				sale.setSaGoodsPrice(Double.toString(getCashMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“现金”
-				sale.setSaProfit(Double.toString(getCupCardMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“银联卡”
-				sale.setSaGoodsNum(Double.toString(getOnlineMoney(Long.valueOf(obj[2].toString()), uId))); // 在线  将其看作“在线”
+				if (obj[2] != null) {
+					sale.setSaGoodsPrice(Double.toString(getCashMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“现金”
+					sale.setSaProfit(Double.toString(getCupCardMoney(Long.valueOf(obj[2].toString()), uId))); // 将其看作“银联卡”
+					sale.setSaGoodsNum(Double.toString(getOnlineMoney(Long.valueOf(obj[2].toString()), uId))); // 在线  将其看作“在线”
+				}
 			} else {
-				sale.setSaGoodsPrice(Double.toString(getCashMoney1(Long.valueOf(obj[2].toString()), uId, findStoreIdByStoreName(storeName)))); // 将其看作“现金”
-				sale.setSaProfit(Double.toString(getCupCardMoney1(Long.valueOf(obj[2].toString()), uId, findStoreIdByStoreName(storeName)))); // 将其看作“银联卡”
-				sale.setSaGoodsNum(Double.toString(getOnlineMoney1(Long.valueOf(obj[2].toString()), uId, findStoreIdByStoreName(storeName)))); // 在线  将其看作“在线”
+				if (obj[2] != null) {
+					sale.setSaGoodsPrice(Double.toString(getCashMoney1(Long.valueOf(obj[2].toString()), uId, findStoreIdByStoreName(storeName)))); // 将其看作“现金”
+					sale.setSaProfit(Double.toString(getCupCardMoney1(Long.valueOf(obj[2].toString()), uId, findStoreIdByStoreName(storeName)))); // 将其看作“银联卡”
+					sale.setSaGoodsNum(Double.toString(getOnlineMoney1(Long.valueOf(obj[2].toString()), uId, findStoreIdByStoreName(storeName)))); // 在线  将其看作“在线”
+				}
 			}
 			saleList.add(sale);
 		}
@@ -302,3 +324,4 @@ public class RJJLDaoImp implements RJJLDao {
 		return null;
 	}
 }
+

@@ -105,7 +105,7 @@
 <script src="js/bootstrap-datetimepicker.min.js"></script>
 <script src="js/bootstrap-datetimepicker.zh-CN.js" charset="utf-8"></script>
 <script type="text/javascript">
-	/* $(function() {
+	$(function() {
 		$("li a")
 				.click(
 						function() {
@@ -144,15 +144,65 @@
 						
 							
 				
-	}); */
+	}); 
 </script>
 <script type="text/javascript">
-	$(function(){
-		$('#spxxfx').click(function(){
-			$('#if_content').attr('src','<%=basePath %>AnalyzeGoods?m=analyzeGoods');
+		$('#yyqk').click(function(){
+			$('#if_content').attr('src','<%=basePath%>sales?m=salesinfo');
 		});
-	});
-	
+		
+		$('#spzl').click(function(){
+			$('#if_content').attr('src','<%=basePath%>login.jsp');
+			
+		});  
+		$('#ghs').click(function(){
+			$('#if_content').attr('src','<%=basePath%>huoliu?m=supplierInfo&s_id=1');
+			
+		});  
+		$('#hlgl').click(function(){
+			$('#if_content').attr('src','<%=basePath%>huoliu?m=hlgl');
+			
+		});  
+		$('#ghsjs').click(function(){
+			$('#if_content').attr('src','<%=basePath%>huoliu?m=ghsjs');
+			
+		}); 
+		$('#spfl').click(function(){
+			
+			$('#if_content').attr('src','<%=basePath%>CategoryGoods?type=initPage');
+		});
+		//销售单据
+		$('#xsdj').click(function(){
+			$('#if_content').attr('src','<%=basePath%>sales?m=saledetails');
+		});
+		
+		$('#spxxfx').click(function(){
+			$('#if_content').attr('src','<%=basePath%>AnalyzeGoods?m=analyzeGoods');
+		});
+		$('#kcyd').click(function(){
+			$('#if_content').attr('src','<%=basePath%>InventoryWarningServlet?method=findByUid');
+		});
+		$('#zbtj').click(function(){
+			$('#if_content').attr('src','<%=basePath%>ZBTJServlet?method=initLoad');
+		});
+		$('#spxs').click(function(){
+			$('#if_content').attr('src','<%=basePath%>SPXSServlet?method=initLoad');
+		});
+		$('#xsdj').click(function(){
+			$('#if_content').attr('src','<%=basePath%>XSDJServlet?method=initLoad');
+		});
+		$('#qsfx').click(function(){
+			$('#if_content').attr('src','<%=basePath%>QSFXServlet?method=initLoad');
+		});
+		$('#rjjl').click(function(){
+			$('#if_content').attr('src','<%=basePath%>RJJLServlet?method=initLoad');
+		});
+		$('#yygk').click(function(){
+			$('#if_content').attr('src','<%=basePath%>YYGKServlet?method=initLoad');
+		});
+		
+		});
+			
 </script>
 <style type="text/css">
 .myclass {
