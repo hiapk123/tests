@@ -160,8 +160,8 @@
 		//营销
 	 	$('.mbt_indexcfg').click(function(){
 			var type=$(this).attr('id');
-			$('#iframe').empty();
-			$('#iframe').attr('src','<%=basePath %>marketing?type='+type);
+			$('iframe').empty();
+			$('iframe').attr('src','<%=basePath %>marketing?type='+type);
 		});
 		/*end*
 		/***************************************************************************/
