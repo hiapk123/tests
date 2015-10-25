@@ -61,6 +61,7 @@ public class UserServlet extends BaseServlet {
 			return "f:/login.jsp";
 		} else {
 			request.getSession().setAttribute("sessionUser", user); // 保存用户到session
+			request.getSession().setMaxInactiveInterval(60 * 60 * 24); // 设置Session会话过期时间为一天
 			request.getSession().setAttribute("uid", user.getUId());
 			// 获取用户名保存到cookie中
 			// String loginname = user.getUName();

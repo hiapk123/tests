@@ -111,7 +111,7 @@
 			$('iframe').attr('src','<%=basePath%>AnalyzeGoods?m=analyzeGoods');
 		});
 		$('#kcyd').click(function(){
-			$('iframe').attr('src','<%=basePath%>InventoryWarningServlet?method=findByUid');
+			$('iframe').attr('src','<%=basePath %>InventoryWarningServlet?method=findByUid');
 		});
 		$('#zbtj').click(function(){
 			$('iframe').attr('src','<%=basePath%>ZBTJServlet?method=initLoad');
@@ -264,13 +264,14 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="销售" id="yygk">营业情况</a></li>
+											<li><a href="#" data-options="销售" id="yygk">营业概况</a></li>
 											<li><a href="#" data-options="销售" id="xsdj">销售单据</a></li>
+											<li><a href="#" data-options="销售" id="rjjl">日结记录</a></li>
 											<li><a href="#" data-options="销售" id="qsfx">趋势分析</a></li>
 											<li><a href="#" data-options="销售" id="zbtj">占比统计</a></li>
-											<li><a href="#" data-options="销售" id="spxs">商品销售查询</a></li>
-											<li><a href="#" data-options="销售" id="fjz">反结账单据</a></li>
-											<li><a href="#" data-options="销售" id="wdgh">我的供货</a></li>
+											<li><a href="#" data-options="销售" id="spxs">商品销售统计</a></li>
+											<!-- <li><a href="#" data-options="销售" id="djpl">单据评论</a></li> -->
+											<li><a href="#" data-options="销售" id="zktj">折扣统计</a></li>
 										</ul>
 									</div>
 								</div>

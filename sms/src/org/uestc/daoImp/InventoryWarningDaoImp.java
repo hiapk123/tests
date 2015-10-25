@@ -163,6 +163,8 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 					}
 					number = (Number) qr.query(sql, new ScalarHandler(), sName, uid);
 					tr = number.intValue();
+					System.out.println("tr: " + tr);
+					System.out.println(sql);
 				} else {
 					// 0 1 0
 					if (inventoryStatus.equals("库存不足")) {
@@ -270,6 +272,7 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 						sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods where s_name=? and s_name in (select s_name from store where u_id=?) limit ?,?";
 					}
 					list = qr.query(sql, new ArrayListHandler(), sName, uid, (pc-1)*ps, ps);
+					System.out.println(sql);
 				} else {
 					// 0 1 0
 					if (inventoryStatus.equals("库存不足")) {
