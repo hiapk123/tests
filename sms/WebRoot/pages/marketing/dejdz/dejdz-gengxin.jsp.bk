@@ -1,0 +1,239 @@
+ <%@ page language="java" import="java.util.*,org.uestc.util.PageObject"
+	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<base href="<%=basePath%>">
+
+<title>打折与特价</title>
+The styles
+<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
+	rel="stylesheet">
+
+<link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
+<link
+	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
+	rel='stylesheet' media='print'>
+<link href='<%=basePath%>bower_components/chosen/chosen.min.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+<link href='<%=basePath%>css/jquery.noty.css' rel='stylesheet'>
+<link href='<%=basePath%>css/noty_theme_default.css' rel='stylesheet'>
+<link href='<%=basePath%>css/elfinder.min.css' rel='stylesheet'>
+<link href='<%=basePath%>css/elfinder.theme.css' rel='stylesheet'>
+<link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
+<link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
+<link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
+
+<link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
+
+<script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
+
+
+ <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+<link rel="shortcut icon" href="<%=basePath%>img/favicon.ico">
+
+external javascript
+
+<script
+	src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+library for cookie management
+<script src="<%=basePath%>js/jquery.cookie.js"></script>
+calender plugin
+<script src='<%=basePath%>bower_components/moment/min/moment.min.js'></script>
+<script
+	src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+data table plugin
+<script src='<%=basePath%>js/jquery.dataTables.min.js'></script>
+
+select or dropdown enhancer
+<script src="<%=basePath%>bower_components/chosen/chosen.jquery.min.js"></script>
+plugin for gallery image view
+<script
+	src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
+notification plugin
+<script src="<%=basePath%>js/jquery.noty.js"></script>
+library for making tables responsive
+<script
+	src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
+tour plugin
+<script
+	src="<%=basePath%>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
+star rating plugin
+<script src="<%=basePath%>js/jquery.raty.min.js"></script>
+for iOS style toggle switch
+<script src="<%=basePath%>js/jquery.iphone.toggle.js"></script>
+autogrowing textarea plugin
+<script src="<%=basePath%>js/jquery.autogrow-textarea.js"></script>
+multiple file upload plugin
+<script src="<%=basePath%>js/jquery.uploadify-3.1.min.js"></script>
+history.js for cross-browser state change on ajax
+<script src="<%=basePath%>js/jquery.history.js"></script>
+application script for Charisma demo
+<script src="<%=basePath%>js/charisma.js"></script>
+
+
+<script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"charset="utf-8"></script>
+<link href="<%=basePath%>css/bootstrap-datetimepicker.css"rel="stylesheet">	
+
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="营销,活动">
+<meta http-equiv="description" content="打折与特价">
+
+
+
+</head>
+<script>
+var dtable;//定义datatable的全局变量  
+
+
+    //其中 fnInitComplete和sSrollY属性控制datatable刷新时不整个页面刷的效果；  
+    function doSearch() {  
+        if(dtable!=null){  
+            dtable.fnClearTable(0);  
+            dtable.fnDraw(); //重新加载数据  
+        }else{  
+        dtable = $("#datatable").dataTable({  
+            "oLanguage" : { // 汉化  
+            	"sLengthMenu": "每页显示 _MENU_ 条记录",   
+                "sZeroRecords": "没有检索到数据",   
+                "sInfo": "当前数据为从第 _START_ 到第 _END_ 条数据；总共有 _TOTAL_ 条记录",   
+                "sInfoEmtpy": "没有数据",   
+                "sProcessing": "正在加载数据...",   
+                "oPaginate": {   
+                    "sFirst": "首页",   
+                    "sPrevious": "前页",   
+                    "sNext": "后页",   
+                    "sLast": "尾页"  
+               	 }  
+                },  
+                "bStateSave" : true,  
+                "bJQueryUI" : true,  
+                "bPaginate" : true,// 分页按钮  
+                "bFilter" : false,// 搜索栏  
+                "bLengthChange" : true,// 每行显示记录数  
+                "iDisplayLength" : 10,// 每页显示行数  
+                "bSort" : false,// 排序  
+                "bInfo" : true,// Showing 1 to 10 of 23 entries 总记录数没也显示多少等信息  
+                "bWidth" : true,  
+                "bScrollCollapse" : true,  
+                "sPaginationType" : "full_numbers", // 分页，一共两种样式 另一种为two_button // 是datatables默认  
+                "bProcessing" : true,  
+                "bServerSide" : true,  
+                "bDestroy" : true,  
+                "bSortCellsTop" : true,  
+                "sAjaxSource" : "<%=basePath%>/jsp/stat.do?action=statRevampList",  
+                "sScrollY": "100%",  
+                "fnInitComplete": function() {  
+                    this.fnAdjustColumnSizing(true);  
+                 },  
+                "fnServerParams" : function(aoData) {  
+                    aoData.push({  
+                        "name" : "statId",  
+                        "value" : encodeURI($("#s_statId").val())  
+                    });  
+                },  
+                "aoColumns" : [   
+                                {"mData" : "statCleanRevampId"},   
+                                {"mData" : "statCleanId"},   
+                                {"mData" : "statId"},   
+                                {"mData" : "statName"},   
+                                {"mData" : "problemDes"},   
+                                {"mData" : "revampStatus"} ],  
+                "aoColumnDefs":[  
+                                {  
+                                    "sClass":"center",  
+                                    "aTargets":[6],  
+                                    "mData":"statCleanRevampId",  
+                                    "mRender":function(a,b,c,d){//a表示statCleanRevampId对应的值，c表示当前记录行对象  
+                                        return '<a href=\"javascript:void(0);\" onclick=\"del('+a+')\">删除</a>'  
+                                    + '<a href=\"javascript:void(0);\" onclick=\"editForm('+c.statCleanRevampId+','+c.statCleanId+','  
+                                    +c.revampOrgan+',\''+c.statName+'\',\''+c.problemDes+'\')\">编辑</a>'  
+                                        + ' <a href=\"javascript:void(0);\" onclick=\"check('+a+',1)\">审核通过</a>'  
+                                        + ' <a href=\"javascript:void(0);\" onclick=\"check('+a+',2)\">审核不通过</a>';  
+                                    }  
+                                },//隐藏列Index=0，1，2的三列  
+                                {  
+                                    "aTargets":[0],  
+                                    "visible":false  
+                                },  
+                                {  
+                                    "aTargets":[1],  
+                                    "visible":false  
+                                },  
+                                {  
+                                    "aTargets":[2],  
+                                    "visible":false  
+                                }  
+                                ],  
+                "fnRowCallback" : function(nRow, aData, iDisplayIndex) {//相当于对字段格式化  
+                    if (aData["revampStatus"] == 0) {  
+                        $('td:eq(5)', nRow).html("结束");  
+                    } else if (aData["revampStatus"] == 1) {  
+                        $('td:eq(5)', nRow).html("进行中");  
+                    } else if (aData["revampStatus"] == 2) {  
+                        $('td:eq(5)', nRow).html("完成");  
+                    } else if (aData["revampStatus"] == 3) {  
+                        $('td:eq(5)', nRow).html("驳回");  
+                    }  
+                },  
+                "fnServerData" : function(sSource, aoData, fnCallback) {  
+                    $.ajax({  
+                        "type" : 'get',  
+                        "url" : sSource,  
+                        "dataType" : "json",  
+                        "data" : {  
+                            aoData : JSON.stringify(aoData)  
+                        },  
+                        "success" : function(resp) {  
+                            fnCallback(resp);  
+                        }  
+                    });  
+                }  
+            });  
+        }}  
+</script>
+<body>
+
+		       <table id="datatable">  
+               <thead>  
+                    <tr>  
+                        <th>ID</th>  
+                        <th>巡查单ID</th>  
+                        <th>站点ID</th>  
+                        <th>站点名称</th>  
+                        <th>问题描述</th>  
+    										<span style="white-space:pre"></span><th>状态</th>  
+                        <th>操作</th>  
+                    </tr>  
+                </thead>  
+                <tbody></tbody>  
+            </table>  
+</body>
+</html>
+ 

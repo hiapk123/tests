@@ -1,0 +1,705 @@
+<%@ page language="java" import="java.util.*,org.uestc.util.PageObject"
+	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<base href="<%=basePath%>">
+
+<title>打折与特价</title>
+<!-- The styles -->
+<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
+	rel="stylesheet">
+
+<link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
+<link
+	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
+	rel='stylesheet' media='print'>
+<link href='<%=basePath%>bower_components/chosen/chosen.min.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
+	rel='stylesheet'>
+<link
+	href='<%=basePath%>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+<link href='<%=basePath%>css/jquery.noty.css' rel='stylesheet'>
+<link href='<%=basePath%>css/noty_theme_default.css' rel='stylesheet'>
+<link href='<%=basePath%>css/elfinder.min.css' rel='stylesheet'>
+<link href='<%=basePath%>css/elfinder.theme.css' rel='stylesheet'>
+<link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
+<link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
+<link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
+
+<link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
+
+<!-- jQuery -->
+<script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
+
+<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- The fav icon -->
+<link rel="shortcut icon" href="<%=basePath%>img/favicon.ico">
+
+<!-- external javascript -->
+
+<script src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- library for cookie management -->
+<script src="<%=basePath%>js/jquery.cookie.js"></script>
+<!-- calender plugin -->
+<script src='<%=basePath%>bower_components/moment/min/moment.min.js'></script>
+<script
+	src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
+<!-- data table plugin -->
+<script src='<%=basePath%>js/jquery.dataTables.min.js'></script>
+
+<!-- select or dropdown enhancer -->
+<script src="<%=basePath%>bower_components/chosen/chosen.jquery.min.js"></script>
+<!-- plugin for gallery image view -->
+<script
+	src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
+<!-- notification plugin -->
+<script src="<%=basePath%>js/jquery.noty.js"></script>
+<!-- library for making tables responsive -->
+<script
+	src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
+<!-- tour plugin -->
+<script
+	src="<%=basePath%>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
+<!-- star rating plugin -->
+<script src="<%=basePath%>js/jquery.raty.min.js"></script>
+<!-- for iOS style toggle switch -->
+<script src="<%=basePath%>js/jquery.iphone.toggle.js"></script>
+<!-- autogrowing textarea plugin -->
+<script src="<%=basePath%>js/jquery.autogrow-textarea.js"></script>
+<!-- multiple file upload plugin -->
+<script src="<%=basePath%>js/jquery.uploadify-3.1.min.js"></script>
+<!-- history.js for cross-browser state change on ajax -->
+<script src="<%=basePath%>js/jquery.history.js"></script>
+<!-- application script for Charisma demo -->
+<script src="<%=basePath%>js/charisma.js"></script>
+
+
+<script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"charset="utf-8"></script>
+<link href="<%=basePath%>css/bootstrap-datetimepicker.css"rel="stylesheet">	
+
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="营销,活动">
+<meta http-equiv="description" content="打折与特价">
+
+<script type="text/javascript" >
+
+ <%-- $(function(){
+	 	$.post('<%=basePath%>CategoryGoods',{"type":"initStore"},function(data){
+			var list=$('#mbt_dropdown-menu');
+			list.empty();
+			
+			for(var i=0;i<data.length;i++){
+				list.append("<li><a  onclick=\"getCate("+ data[i].sid+",'"+data[i].sname+"');\" class= \"mbt_a\" data-value="+ data[i].sid +" ><i class=\"whitespace\"></i>"+ data[i].sname+"</a></li>");
+			}
+	
+		},"json"); 
+	});  --%>
+	var goods_id_list = new Array();
+	var dis_list= new Array();
+	
+	Array.prototype.remove=function(dx)
+	{
+	    if(isNaN(dx)||dx>this.length){return false;}
+	    for(var i=0,n=0;i<this.length;i++)
+	    {
+	        if(this[i]!=this[dx])
+	        {
+	            this[n++]=this[i]
+	        }
+	    }
+	    this.length-=1
+	} 
+	
+	function CurentTime()
+    { 
+        var now = new Date();
+       
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+       
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+       
+        var clock = year + "-";
+       
+        if(month < 10)
+            clock += "0";
+       
+        clock += month + "-";
+       
+        if(day < 10)
+            clock += "0";
+           
+        clock += day + " ";
+       
+        if(hh < 10)
+            clock += "0";
+           
+        clock += hh + ":";
+        if (mm < 10) clock += '0'; 
+        clock += mm; 
+        return(clock); 
+    } 
+	var mainPanel ;
+	$(function(){
+		
+		backToList();
+		
+	}); 
+
+	function backToList(){
+		 mainPanel = $('#mbt_dzytj_panel');
+			mainPanel.empty();
+			mainPanel.append('<%=request.getAttribute("init_html") %>');
+			$("#mbt_zjytj_content_head").empty();
+			$("#mbt_dzytj_head").empty();
+			$("#mbt_dzytj_head").html("<a style=\"float: right;\" href=\"javascript:void(0)\" onclick=\"addactive('add',0);\" class=\"btn btn-primary\">添加</a>");
+			$("#").empty();
+	}
+	//表格l
+	function addactive(add_update_search,id){		
+		var d_name;
+		var d_start_date;
+		
+		goods_id_list.length=0;
+		dis_list.length=0;
+		$("#hidden_d_start_time").val("");
+		$("#hidden_name").val("");
+		//mainPanel.empty();
+		
+		if(add_update_search=='add'){
+			d_name = "";
+			d_start_date="";
+			//goods_id_list.length=0;
+			//dis_list.length=0;
+			
+		}else{
+		
+			d_start_date = $("#dzytj_xiangxi"+id).attr("d_start_date");
+			d_name =$("#dzytj_xiangxi"+id).attr('d_name');
+		
+		}
+		
+	 	$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"init_add_active","add_update_search":add_update_search,"d_name":d_name,"d_start_date":d_start_date},
+	 			function(str){
+			//表格内容
+	 		mainPanel.html(str);
+	 		$("#mbt_dzytj_head").empty();
+			$("#mbt_dzytj_head").html("<a style=\"float: right;\" href=\"javascript:void(0)\" onclick='backToList();' class=\"btn btn-primary\">返回列表</a>");
+			if(add_update_search=='add'){
+				$("#mbt_dzytj_panel").append("<div class=\"span7 text-center\"><a  style=\"float:center;\" href=\"javascript:void(0)\" onclick='saveGoodsToActive(1);' class=\"text-center	 btn btn-info btn-sm\">保存返回列表</a></div>");	
+			}
+			if(add_update_search=='2'){
+				$("#mbt_dzytj_panel").append("<div class=\"span7 text-center\"><a  style=\"float:center;\" href=\"javascript:void(0)\" onclick='saveGoodsToActive(2);' class=\"text-center	 btn btn-info btn-sm\">保存返回列表</a></div>");	
+	 		}
+			if(add_update_search=='2'){
+				var  s = $("#mbt_dzytj_panel").children('table').children('tbody').children('tr');
+				s.each(function(index,ob){
+				var dis= $(ob).children('td').eq(3).children().val();
+				var id= $(ob).attr('value');
+					goods_id_list.push(id);
+			   	dis_list.push(dis);
+			   	//alert(goods_id_list.join(','));
+				});
+	
+			}
+			getAddHead(add_update_search,id);
+	 	} );
+	 	
+		}
+	
+	function getAddHead(add_update_search,id){
+//		var htm_str;
+		if(add_update_search=='add'){
+			//显示添加初始化界面
+			$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"getHead","active":"add","id":id},function(str1){
+				$("#mbt_zjytj_content_head").empty();
+//				htm_str = str1;
+				$("#mbt_zjytj_content_head").append(str1);
+				timeinput();
+			//  alert("add:"+htm_str);
+			});
+ 		}else if(add_update_search=='1'){
+			//详细初始化
+			$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"getHead","active":"xiangxi","id":id},function(str1){
+				$("#mbt_zjytj_content_head").empty();
+				$("#mbt_zjytj_content_head").append(str1);
+			
+			//	alert("xiangxi:"+htm_str);
+			});
+		}else if(add_update_search=='2'){
+			//更新初始化
+			$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"getHead","active":"gengxin","id":id},function(str1){
+				$("#mbt_zjytj_content_head").empty();
+				$("#mbt_zjytj_content_head").append(str1);
+				timeinput();
+	   		$("#hidden_name").val($("#mbt_dzytj_active_name").val());
+	   		$("#hidden_d_start_time").val($("#date_start").val());
+	   
+				
+			//	alert("gengxin:"+htm_str);
+			});
+		}
+//	    alert(htm_str);
+		
+	}
+	//弹出层使用：设置a 标签 link-rel 为待弹出div ID 
+    function dbClick() {
+    
+    	 var cl = $(this).attr("link-rel");
+    	 
+    	 $("#"+cl).modal('show');
+    	};	
+	function addgoods(type){
+		$(".ajax-link").bind('dblclick',dbClick);
+		$("#mbt_a_addgoods").trigger("dblclick");
+		$("#dzytj_all_checkbox").prop("checked",false);
+		//$("#dzytj_search_input").val("商品名/条形码");
+		$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"tanchuceng","tc_type":"getSelect"},function(str){
+				$("#dzytj_search_select").empty();
+				$("#dzytj_search_select").append(str);
+				$("#dzytj_tb_list").empty();
+				
+		});
+		
+	}
+	 function addCouponsToDiscount(id){
+		//优惠券添加界面
+	 }
+	 //删除活动
+	 function delactive(id){
+		 var d_name = $("#dzytj_delactive_"+id).parent().parent('tr').children('td').eq(0).html();
+	 	 var d_start_time = $("#dzytj_delactive_"+id).parent().parent('tr').children('td').eq(1).html();
+	 	   <%-- $(window.parent.document).find("#if_content").attr('src','');
+			$(window.parent.document).find("#if_content").attr('src','<%=basePath %>marketing?type=dzytj'); --%>
+	
+
+		  $.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"tanchuceng","tc_type":"delactive",
+	 		"d_name":d_name,"d_start_time":d_start_time},function(str){
+	 			//alert(str);
+			if(str=="success"){
+				//alert("保存成功");
+				$(window.parent.document).find("#if_content").attr('src','');
+	 			
+				$(window.parent.document).find("#if_content").attr('src','<%=basePath %>marketing?type=dzytj');
+				
+			}
+	  });   
+	 }
+	 //删除活动的商品
+	 function delGood(id){
+		 	 var s = $("#mbtdel"+id).parent('td').parent('tr').children('td').eq(3).children().val();
+		 	$("#mbtdel"+id).parent('td').parent('tr').addClass("content_head");
+		 	
+		 	 //alert(s);
+	 }
+	 function searchGoods(){
+		 var c_id = $("#dzytj_search_select").val();
+		 var keywords= $("#dzytj_search_input").val();
+		 //alert(c_id+"+"+keywords);
+		 var str =  goods_id_list.join(','); 
+		 $.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"tanchuceng","tc_type":"getSearchGoods","c_id":c_id,"keywords":keywords,"alreadygid":str},function(str){
+				$("#dzytj_tb_list").empty();
+				
+				$("#dzytj_tb_list").append(str);
+		  }); 
+	 }
+	 function checkboxClick(){
+		 
+		 var s = $("#dzytj_all_checkbox").is(':checked');
+		 if(s){
+			 $(".dzytj_single_checkbox").prop("checked","checked");
+			
+		 }else{
+			  
+			 $(".dzytj_single_checkbox").prop("checked",false)
+			 
+		 }
+		 
+	 }
+	 var sgtt = false;
+	 function saveGoodsToTable(type){
+		  if(sgtt){
+			  return;
+		  }
+		  sgtt = true;
+	  	 var arrChk=$("input[class='dzytj_single_checkbox']:checked");
+		 var s = ""; 
+		 var tb_k="";
+		 var discount = $("#dzytj_discount").val();
+	  	 arrChk.each(function(index,ob){
+	  		 var tr_k =$("#dzytj_tr_"+ob.value);
+	  		 var flag = tr_k.children('td').eq(0).attr('isSelect');
+	  		 if(flag!="yes"){
+	  		 	tb_k +="<tr id=\"list_"+ob.value+"\">"; 	
+	  			tb_k += "<td>"+tr_k.children('td').eq(1).html()+"</td>";	  		 
+	  	    	tb_k += "<td>"+tr_k.children('td').eq(2).html()+"</td>";
+	  		 	tb_k += "<td>"+tr_k.children('td').eq(3).html()+"</td>";
+	  		 	if($("#hidden_d_start_time").val()==""){
+	  				tb_k += "<td>"+$("#dzytj_discount").val()+"</td>";
+	  			} else{
+	  				tb_k += "<td><input class=\"disinput\" type=\"text\" value = \""+$("#dzytj_discount").val()+"\"</td>";
+	  			}
+	  		 	tb_k += "<td><a onclick=\"delGoodsInList("+ob.value+");\" href='javascript:void(0)'>删除</a></td>" ;
+	  		 	tb_k +="</tr>"; 
+	  		 } 
+	  		 goods_id_list.push(ob.value);
+	  		 dis_list.push(discount);
+	  		
+	  	 });
+	  	//alert(goods_id_list.join(','));
+  		 var str =  goods_id_list.join(',');
+	  	// alert(str);
+  		 $("#dzytj_daitianjiashangpinxianshi").append(tb_k);
+	  	 	 sgtt=false;
+	 }
+	 function delGoodsInList(id){
+		 //$("#list_"+id).addClass('content_head');
+		 //alert(goods_id_list.join(','));
+		 $("#list_"+id).empty();
+		 $("#list_"+id).attr('id','');
+		 var idt= id+'';
+		 var x =  goods_id_list.indexOf(idt);
+		 if(typeof(x)=="undefined"){
+			 alert("此游览器版本不支持！");
+		 }
+		 if(x!=-1){
+			 goods_id_list.remove(x);
+			 dis_list.remove(x);
+		 }else{
+			 alert("查无此项！");
+		 }
+		// alert(goods_id_list.join(','));
+		 //alert(goods_id_list.join(','));
+		 
+	 }
+	 function saveGoodsToActive(savetype){
+	
+		var s = goods_id_list.join(',');
+		var discount = dis_list.join(',');
+	//	alert(discount);
+		var type = 0;
+		var name = "";
+		var start_time = "";
+		var stop_time = "";	
+		name = $("#mbt_dzytj_active_name").val();
+		start_time = $("#date_start").val();
+		stop_time = $("#date_stop").val();
+	   var hname = "";
+	   var hstart_time="";
+		if(savetype=='2'){
+			hname = $("#hidden_name").val();
+			hstart_time = $("#hidden_d_start_time").val();
+			
+		}
+		
+		//alert(name+start_time+stop_time);
+		if(name==""){
+			alert("活动名称不能为空！");
+			return false;
+		}
+		if($("#optionsRadios1").is(':checked')){
+			type = type +  1;
+			
+		}
+		if($("#optionsRadios2").is(':checked')){
+			type = type +  2;
+			//type +=2；
+			
+		}
+		if($("#optionsRadios3").is(':checked')){
+			type = type +  4;
+			//type +=4；
+		
+		}
+		if(type == 0){
+			alert('请选择适用类型！');
+			return false;
+		}
+		if(goods_id_list.length==0){
+			alert('未添加任何商品!');
+			return false;
+		}
+		if(dis_list.length!=goods_id_list.length){
+			alert('参数错误，请返回并重新添加!');
+			return false;
+		}
+		
+		$.post('<%=basePath%>DzytjServlet',{"type":"dzytj","subType":"tanchuceng","tc_type":"saveGoods","g_ids":s,
+			  "name":name,"start_time":start_time,"stop_time":stop_time,"type":type,"discount":discount,"hname":hname,"hstart_time":hstart_time},function(str){
+				if(str=="success"){
+					//alert('保存成功！');	 	
+					//parent.location.reload();
+					$(window.parent.document).find("#if_content").attr('src','');	
+					$(window.parent.document).find("#if_content").attr('src','<%=basePath %>marketing?type=dzytj');
+				}
+		  });  
+	 }
+	 
+		function disinput(id){
+			var discount= $("#list_"+id).children('td').eq(3).children().val();
+			//alert($(this).parent().html());
+		 	var idt = id+""
+			var x =  goods_id_list.indexOf(idt);
+			 if(typeof(x)=="undefined"){
+				 alert("此游览器版本不支持！");
+			 }
+			 if(x!=-1){
+				 
+				 dis_list[x]=discount;
+			 }else{
+				 alert("查无此项！");
+			 } 
+		}
+	
+	
+</script>
+
+<style>
+	.trBack{
+			background-color:silver;
+			
+	}
+	.trBack th{
+		text-align: center;
+	}
+	.tbd tr td{
+		text-align: center;
+	}
+	.content_head{
+		display: none;
+	}
+	.mytable {
+		max-height: 200px;
+		overflow: auto;
+	}
+	.dzytj_left{
+		float: left;
+		
+	}
+	
+		
+</style>
+</head>
+
+<body>
+
+<input type="hidden" id="added_goods" value="" />
+<input type="hidden" id="hidden_name" value="" />
+<input type="hidden" id="hidden_d_start_time" value="" />
+<a id="mbt_a_addgoods" style="display: none" link-rel="myModal" data-value="-1" isfinal="1"  name="根目录" class="ajax-link">添加根目录</a>
+	<%	String pageType=(String)request.getAttribute("pageType");%>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div style="float: left; width: 15%;">
+				<h4>打折与特价</h4>
+			</div>
+			<div id="mbt_dzytj_head" style="float: right; width: 85%;">			
+				
+			</div>
+		</div>
+	</div>
+	<!-- div start -->
+ <div class="panel panel-default">
+ 			<div id="mbt_zjytj_content_head" class="panel-heading">
+ 						
+			</div> 
+			<div class="panel-body">
+				<div id="mbt_dzytj_panel" class="col-sm-12 col-lg-12">
+				
+			   </div>
+			   <div id="add_btn"></div>
+			</div> 
+			
+</div>
+								<!-- 弹出层 start -->
+								<div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">	
+									<div class="modal-dialog" >
+								   
+										<div class="modal-content">
+											<div class="modal-header" >
+												<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+												<h3 style="text-align: center;padding-top: 0;padding-bottom: 10px">搜索商品并添加</h3>
+												搜索关键字：<input id="dzytj_search_input" type="text" value="商品名/条形码" />
+												<select id="dzytj_search_select" ><option>全部分类</option></select>
+												<button class="button" style="margin-left: 20px" type="button" onclick="searchGoods();" value="搜索" >搜索</button>
+											</div>
+										  
+											<div class="panel-body ">
+													<div class="col-sm-12 col-lg-12" style="display: block">
+														<table class="col-sm-12 col-lg-12 table "   >
+															<thead style="background-color: silver;" class="trBack">
+																<tr>
+																	<th  width="10%"><input id="dzytj_all_checkbox"  onclick="checkboxClick();" type="checkbox" /></th>
+																	<th width="30%">商品名称</th>
+																	<th width="20%">分类</th>
+									   							<th width="20%">原价</th>
+																	<th width="20%">进货价</th>
+																</tr>
+															</thead>
+														</table>
+													</div>
+													<div class="col-sm-12 col-lg-12" style="max-height: 200px;overflow: scroll;" >
+														<table class="col-sm-12 col-lg-12 table tbd" id="dzytj_tb_list"  >
+														
+														</table>
+													
+													</div>
+											</div>
+											<div class="modal-footer">
+											
+										    	<span class="dzytj_left">折扣：</span><input class="dzytj_left" id="dzytj_discount" style=" width: 10%;" value="100" type="text" /><span style="padding-right: 20px;" class="dzytj_left">%</span>
+												<span class="dzytj_left">特价：</span><input class="dzytj_left" id="dzytj_spice_price" style=" width: 10%"  value=""/>
+												
+												<a   href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
+												
+												<a href="#" class="btn btn-primary" onclick="saveGoodsToTable()"  data-dismiss="modal">添加到列表</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- 弹出层  end-->
+								
+						
+
+
+<script type="text/javascript">
+$.fn.datetimepicker.dates['zh'] = {  
+        days:       ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六","星期日"],  
+        daysShort:  ["日", "一", "二", "三", "四", "五", "六","日"],  
+        daysMin:    ["日", "一", "二", "三", "四", "五", "六","日"],  
+        months:     ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月","十二月"],  
+        monthsShort:  ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],  
+        meridiem:    ["上午", "下午"],  
+        //suffix:      ["st", "nd", "rd", "th"],  
+        today:       "今天"  
+};
+function timeinput(){
+//var time = CurentTime();
+//alert(time);
+//$('.form_datetime').attr("value",time);
+    $('.form_datetime').datetimepicker({
+        language:  'zh',
+         weekStart: 1,
+        // startDate: time,
+        todayBtn:  1,
+	   	autoclose: 1,
+		  todayHighlight: 1,
+		  startView: 2,
+		  forceParse: 0,
+        showMeridian: 1
+    });
+	}
+
+	
+</script>
+		
+</body>
+</html>
+
+ <%-- 	<input type="hidden" id="page" value="20"/>
+							<ul class="pagination">
+								<page:htmlPage pageNo="20" url="index.jsp" totalSum="980" showPage="10" pageSize="10"/>
+							</ul> --%>
+ 
+ 
+ 		<!-- <table class="col-sm-12 col-lg-12 table">
+						<thead >
+							<tr class="trBack">
+								<th>活动名称</th>
+								<th>开始时间</th>
+								<th>结束时间</th>
+								<th>适用于</th>
+								<th>捆绑优惠券</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody class="tbd"> 
+						<tr>
+						<td>开业大放送</td>
+						<td>2015.07.11</td>
+						<td>2015.07.21</td>
+						<td>实体店 网店</td>
+						<td><a href="javascript:void(0)">立即捆绑</a></td>
+						<td><a href="javascript:void(0)">详细</a> | <a href="javascript:void(0)">修改</a> | <a href="javascript:void(0)">删除</a></td>
+						</tr>
+						
+							
+						</tbody>
+					</table>
+						 -->
+						 
+			<!--  
+			
+ 			
+ 			 活动名称：<input id="mbt_dzytj_active_name" type="text" />开始时间:<input type="text" value="开始时间"/>
+ 			 结束时间：<input type="text" value="结束时间"  /> 可用于： 
+ 			 <label class="checkbox-inline">
+      		<input type="radio" name="optionsRadiosinline" id="optionsRadios1" 
+         	value="shitidian" checked> 实体店
+   		</label>
+  			 <label class="checkbox-inline">
+      			<input type="radio" name="optionsRadiosinline" id="optionsRadios2" 
+         		value="wangdian"> 网店
+   		</label>
+   		 <label class="checkbox-inline">
+      			<input type="radio" name="optionsRadiosinline" id="optionsRadios3" 
+         		value="huiyuanzhuanxiang"> 会员专享
+   		</label>
+										   
+	
+			<table class="col-sm-12 col-lg-12 table">
+						<thead >
+							<tr class="trBack">
+								<th>商品名</th>
+								<th>分类</th>
+								<th>原价</th>
+								<th>折扣</th>
+								<th>删除</th>
+								
+							</tr>
+						</thead>
+						<tbody class="tbd"> 
+					 	<tr>
+							<td>伊犁牛奶</td>
+							<td>定价</td>
+							<td>5.5</td>
+							<td><input type="text" value=100 /></td>
+							<td><a href="javascript:void(0)">删除</a></td>
+						</tr> 
+						<tr ><td style="text-align: left;"><a href="javascript:void(0)">点此打开商品搜索</a></td></tr>
+						
+							
+						</tbody>
+					</table> -->
+					
+					
+	
