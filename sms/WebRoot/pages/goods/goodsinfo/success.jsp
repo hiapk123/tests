@@ -42,4 +42,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <p> ${message}</p>
 </body>
 </html>
-

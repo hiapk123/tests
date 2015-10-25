@@ -99,6 +99,10 @@ function deliver(){
 		alert("请重新选择店铺！");
 		return;
 	}
+	if(g_barcode==""){
+		alert("请输入条码！");
+		return;
+	}
 	$("#addproduct").empty();
 		
 	$.post("<%=basePath%>goods", {
@@ -114,4 +118,3 @@ function deliver(){
 </script>
 </body>
 </html>
-

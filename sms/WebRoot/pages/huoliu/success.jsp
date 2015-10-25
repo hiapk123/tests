@@ -42,4 +42,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <p> ${message},请关闭该页面！</p>
 </body>
 </html>
-

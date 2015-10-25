@@ -190,7 +190,7 @@ window.open ("<%=basePath%>huoliu?m=daochu&s_id="+id+"&s_name="+name,'newwindow'
 <div id="supplierdiv">
 	
 	<button type="button" id="addsupplier" class="btn btn-success"
-		name="submit" >新增商品</button>
+		name="submit" >新增供货商</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
 		onclick="DaoRu()">导入</button>

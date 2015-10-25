@@ -56,9 +56,9 @@ String s_name=request.getParameter("s_name");
 	<button type="button" class="btn btn-success" name="submit" onclick="help()">使用帮助</button>
 	<label>录入门店<%=s_name %></label>
 	<form action="<%=basePath%>goods?m=kuaisu1"  method="post">
-	<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>
+	<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
-			<tr>
+			<tr class="danger">
 				<th>行号</th>
 				<th>商品条码</th>
 				<th>商品名称</th>
@@ -68,7 +68,8 @@ String s_name=request.getParameter("s_name");
 				<th>库存量</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody >
+		<tr class="info">
 				<td>1</td>
 				<td><input type="text" name="g_barcode" style="width:100px"></td>
 				<td><input type="text" name="g_name" style="width:100px"></td>
@@ -76,7 +77,7 @@ String s_name=request.getParameter("s_name");
 				<td><input type="text" name="g_pur_price" style="width:100px"></td>
 				<td><input type="text" name="g_sale_price" style="width:100px"></td>
 				<td><input type="text" name="g_stock_num" style="width:100px"></td>
-				
+			</tr>	
 		</tbody>
 	</table>
 	<input type="hidden" name="s_id" value="<%=s_id%>">
@@ -86,4 +87,3 @@ String s_name=request.getParameter("s_name");
 	
 </body>
 </html>
-

@@ -56,10 +56,10 @@ WORD-WRAP: break-word;
 
 
 </head>
-<div id="fenye">
-<table style="width:2000px; height:10px;  table-layout:fixed;" border="1" ;>
+<div id="fenye" style="width:1400px;height:auto">
+<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
-			<tr>
+			<tr >
 			    <th><input id="checkAll" type="checkbox"/></th>
 				<th>序号</th>
 				<th>操作</th>
@@ -77,9 +77,10 @@ WORD-WRAP: break-word;
 			</tr>
 			<%
         List <Object[]> list=(List<Object[]>) request.getAttribute("list");
+        String yanse[]={"success","danger","active","warning","info"};
         if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {%>
-         	<tr class="ziti">
+         	<tr class="<%= yanse[i%5]%>">
 				<td><input  type="checkbox"/></td>
 				<td>序号</td>
 				<td><button class="btn btn-primary"  onclick="getdetail(this)"  value="<%=list.get(i)[0]%>">详细</button></td>

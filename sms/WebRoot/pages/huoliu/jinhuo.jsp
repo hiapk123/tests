@@ -208,7 +208,7 @@ $("#daoru").click(function(){
 </div>
 <div id="dr">
 </div>	
-	<div id="ly" style="position: absolute; bottom: 1400px;">
+	<div id="ly" style="position: fixed; top: 500px;">
 		<button type="button" id="daoru" class="btn btn-danger btn-lg" name="submit"
 			 style="position: relative; bottom: 0px;">导入</button>
 		<input style="height: 50px; width: 200px" type="text"  id="shuru" placeholder="请输入拼音码/名称/">
@@ -240,4 +240,3 @@ $("#daoru").click(function(){
 	
 </body>
 </html>
-

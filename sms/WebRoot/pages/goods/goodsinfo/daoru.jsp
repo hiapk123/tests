@@ -114,9 +114,9 @@ function setTab(m,n){
 			<form
 				action="<%=basePath%>goods?m=Shangchuanwenjian"
 				enctype="multipart/form-data" method="post">
-				 上传文件：<input
+				 上传文件：<input 
 					type="file" name="file1" ><br /> 
-					 <input type="submit" value="提交">
+					 <input type="submit" class="btn btn-success" value="提交">
 			</form>
 
 			<%-- <form action="<%=basePath%>goods?m=excToMqsql" method="post">
@@ -154,4 +154,3 @@ function setTab(m,n){
 	</div>
 </body>
 </html>
-

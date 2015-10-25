@@ -19,7 +19,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	
+	<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+
+
+<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+
+<link
+	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+
+<link href='css/elfinder.min.css' rel='stylesheet'>
+
+<link href='css/animate.min.css' rel='stylesheet'>
+
+<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/jquery/jquery.min.js"></script>
 	
   </head>
   <%
@@ -29,27 +44,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			request.setAttribute("s_name", s_name);
 		%>
   <body>
-   <form role="form">
+  
+  
+  
+	
+<form class="form-horizontal" role="form">
    <div class="form-group">
-     <input type="hidden" value="<%=s_id%>" >
-		<label   >店铺名：<%=s_name%></label>
-		<input type="hidden" value="<%=s_name%>" >
-       <label for="name">商品分类</label>
-      <select class="form-control">
+       <label for="firstname" class="col-sm-2 control-label">店铺名:</label>
+        <input type="hidden" value="<%=s_id%>" >
+      <div class="col-sm-3">
+        <input type="text" readonly= "true " value="<%=s_name%>"	 class="form-control">  
+      </div>
+   </div>
+   <div class="form-group">
+      <label for="firstname" class="col-sm-2 control-label">商品分类:</label>
+      <div class="col-sm-3">
+         <select class="form-control">
          <option>散装</option>
          <option>水果</option>
          <option>无</option>
         
       </select>
+      </div>
    </div>
-  
-  
+  <div class="form-group">
+     <div class="col-sm-2 "></div>
+      <div class="col-sm-3">
+      <form action="<%=basePath%>goods?m=toExcel&s_id=<%=s_id%>" method="post">
    
+   <input type="submit"  value="导出数据到Excel" class="btn btn-success">
 </form>
-<form action="<%=basePath%>goods?m=toExcel&s_id=<%=s_id%>" method="post">
-   
-   <input type=submit value=导出数据到Excel>
-</form>
+      </div>
+   </div>
+</form>		
+		
+		
+		
+      
+ 
+
+
   </body>
 </html>
-

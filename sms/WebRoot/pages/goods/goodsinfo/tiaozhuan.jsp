@@ -42,4 +42,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <a href="<%=basePath %>goods?m=goodsInfo">跳转商品资料页面</a>
 </body>
 </html>
-

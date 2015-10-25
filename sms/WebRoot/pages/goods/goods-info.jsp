@@ -56,7 +56,7 @@ function daochu()
 {
 	var id=$("#store").val();
 	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=300,width=500,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
 }
 -->
 </SCRIPT>
@@ -275,45 +275,11 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 		style="height: 100%; width:100%; overflow: auto; position: relative;"
 		data-offset="10"> -->
      <div data-spy="scroll"
-		style="width: 100%; height:600px; overflow: auto; position: relative;"
+		style="width:1200px;height:auto; overflow: auto; position: relative;"
 		data-offset="10">
 
-		<div id="goodsinfodiv">
-		<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
-		<thead>
-			<tr>
-				<th>操作</th>
-				<th>商品名称</th>
-				<th>所属门店</th>
-				<th>商品条码</th>
-				<th>销售价</th>
-				<th>库存量<button id="up-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&uarr;</button><button id="down-g_stock_num" class="btn btn-success btn-xs" value="g_stock_num">&darr;</button></th>
-				<th>进货价<button id="up" class="btn btn-success btn-xs" value="g_pur_price">&uarr;</button><button id="down" class="btn btn-success btn-xs" value="g_pur_price">&darr;</button></th>
-				<th>会员价</th>  
-				<th>分类</th>
-				<th>批发价</th>
-				<th>会员折扣</th>
-				<th>库存上限</th>
-				<th>库存下限</th>
-				<th>生产日期</th>
-				<th>保质期 ↑ ↓</th>
-				<th>拼音码</th>
-				<th>供货商</th>
-				<th>自定义1</th>
-				<th>自定义2</th>
-				<th>自定义3</th>
-				<th>自定义4</th>
-				<th>最小起订量</th>
-				<th>最低陈列量</th>
-				<th>畅销量</th>
-				<th>正常销售量</th>
-				<th>库存合理值</th>
-				<th>是否锁定</th>
-			</tr>
-		</thead>
+		<div id="goodsinfodiv" >
 		
-
-	</table>
 		</div>
 
 	</div>
@@ -322,4 +288,3 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 </body>
 
 </html>
-

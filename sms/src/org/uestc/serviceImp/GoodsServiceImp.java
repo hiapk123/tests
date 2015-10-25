@@ -52,11 +52,11 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public List<Object[]> goodssearch(int sid, int currentPage) {
 		//String sql = "SELECT g_name,s_name,g_barcode,s_id,g_stock_num,g_pur_price,g_id from goods where s_id=?  limit ?,10";
-		String sql = "SELECT g_id, g_name,s_name,g_barcode,g_stock_num,"
-				+ "g_pur_price,g_sale_price,g_trade_price,c_name,"
-				+ "g_stock_min,g_stock_max,g_prod_date,g_giq,g_pm,"
-				+ "su_name,g_flag,vip_id,g_vip_price,zdy1,zdy2,"
-				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor"
+		String sql = "SELECT g_id, g_name,s_name,g_barcode,g_stock_num,"  //5
+				+ "g_pur_price,g_sale_price,g_trade_price,c_name,"      //4
+				+ "g_stock_min,g_stock_max,g_prod_date,g_giq,g_pm,"     //5
+				+ "su_name,g_flag,vip_id,g_vip_price,zdy1,zdy2,"      //6
+				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor,g_del,g_info,g_img_path"
 				+ " from goods where s_id=?  limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql, sid, currentPage);
 		return list;
@@ -72,16 +72,7 @@ public class GoodsServiceImp implements GoodsService {
 				g_pur_price, c_name, g_barcode });
 
 	}
-	/*@Override
-	public void addgood(int s_id, String s_name, String g_name, int g_flag, String g_stock_num, String g_sale_price,
-			String g_pur_price, String c_name, String g_barcode) {
-		// TODO Auto-generated method stub
-		String sql = "insert into goods(s_id,s_name,g_name,g_flag,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_del) value(?,?,?,?,?,?,?,?,?,1)";
-
-		SqlHelper.executeUpdate(sql, new String[] { s_id + "", s_name, g_name, String.valueOf(g_flag), g_stock_num, g_sale_price,
-				g_pur_price, c_name, g_barcode });
-
-	}*/
+	
 @Override
 public void addgood(String s_id, String s_name, String g_name, String g_del, String g_stock_num, String g_sale_price,
 	String g_pur_price, String c_name, String g_barcode, String g_pm, String g_stock_max, String g_trade_price,
@@ -103,18 +94,33 @@ public void addgood(String s_id, String s_name, String g_name, String g_del, Str
 			g_giq,zdy2,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,
 			g_sale_nor,g_info,g_img_path});
 	}
-	@Override
-	public void editgood(int s_id, String s_name, String g_name, String g_stock_num, String g_sale_price,
-			String g_pur_price, String c_name, String g_barcode, int g_id) {
-		// TODO Auto-generated method stub
-		String sql = "update goods set s_id=?,s_name=?, g_name=?,g_stock_num=?,g_sale_price=?, g_pur_price=?,c_name=? ,g_barcode=? where g_id=?";
 
-		SqlHelper.executeUpdate(sql, new String[] { s_id + "", s_name, g_name, g_stock_num, g_sale_price, g_pur_price,
-				c_name, g_barcode, g_id + "" });
-	}
 
 
 	
+
+	@Override
+public void editgood(String s_name, String g_name, String g_del, String g_stock_num, String g_sale_price,
+		String g_pur_price, String c_name, String g_barcode, String g_pm, String g_stock_max, String g_trade_price,
+		String g_prod_date, String zdy1, String zdy3, String su_name, String g_stock_min, String vip_id,
+		String g_vip_price, String g_giq, String zdy2, String zdy4, String g_qd_min, String g_cl_min,
+		String g_stock_nor, String g_flag, String g_best, String g_sale_nor, String g_info, String g_img_path,
+		int g_id) {
+	// TODO Auto-generated method stub
+		String sql="update goods set s_name=?,g_name=?,g_del=?,g_stock_num=?,g_sale_price=?,"
+				+ "g_pur_price=?,c_name=?,g_barcode=?,g_pm=?,g_stock_max=?,g_trade_price=?,"
+				+ "g_prod_date=?, zdy1=?,zdy3=?,su_name=?,g_stock_min=?,vip_id=?,"
+				+ "g_vip_price=?,g_giq=?,zdy2=?,zdy4=?,g_qd_min=?,g_cl_min=?,"
+				+ "  g_stock_nor=?,g_flag=?,g_best=?,g_sale_nor=?,g_info=?, g_img_path=? where g_id=? ";
+
+		SqlHelper.executeUpdate(sql, new String[] {s_name, g_name, g_del,
+				g_stock_num, g_sale_price, g_pur_price, c_name,g_barcode,
+				g_pm,g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,
+				su_name,g_stock_min,vip_id,g_vip_price,g_giq,zdy2,zdy4,
+				g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,g_sale_nor,
+				g_info,g_img_path, String.valueOf(g_id)});
+	
+}
 
 	@Override
 	public void deletegood(int g_id) {
@@ -323,4 +329,3 @@ public void addgood(String s_id, String s_name, String g_name, String g_del, Str
 
 
 }
-

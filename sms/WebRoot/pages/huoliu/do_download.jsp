@@ -15,5 +15,4 @@
   response.getOutputStream().close();
   out.clear();
   out = pageContext.pushBody();
-
 %>
