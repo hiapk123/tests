@@ -112,6 +112,7 @@ WORD-WRAP: break-word;
 		
 	</tbody>
 
+
 	</table>
 <ul class="pagination" id="page">
 	<page:htmlPage  pageNo="${currentPage}"

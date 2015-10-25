@@ -48,6 +48,7 @@ function edit(){
 
 <link href='css/elfinder.min.css' rel='stylesheet'>
 
+
 <link href='css/animate.min.css' rel='stylesheet'>
 
 <script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>

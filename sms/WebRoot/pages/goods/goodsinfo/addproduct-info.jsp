@@ -109,6 +109,7 @@ function haha(){
 	$("#g_vip_price").attr('disabled',true);
 	$("#g_vip_price").val("");
 	
+	
 }
 function HAHA(){
 	$("#g_vip_price").attr('disabled',false);

@@ -218,6 +218,7 @@ $("#daoru").click(function(){
 			onclick="querenjinhuo()" style="margin: 0 0 0 700px">确认进货</button>	
 	</div>
 <div id="Layer1" >
+
      <div  style="margin:200px auto;">
 		<label>请选择进货门店</label> <select id="store"
 			class="singleSelector btn btn-block btn-success">

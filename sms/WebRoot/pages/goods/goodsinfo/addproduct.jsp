@@ -76,6 +76,7 @@ $(document).ready(function () {
    </div>
 </form> 
   
+  
 		<input type="hidden" value="<%=s_id%>" >
 					<input id="status" type="hidden" name="message" value="${message}">
 					<center>

@@ -211,6 +211,7 @@ function del(){
 				<a   href="javascript:edit()">编辑</a>
 					<a href="#"> 图片 </a></td>
 				<%
+				
 					for (int j = 1; j <= 26; j++) {
 				%>
 				<td><%=goods.get(i)[j]%> </td>

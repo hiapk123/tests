@@ -217,6 +217,7 @@ $("#daoru").click(function(){
 	<button type="button" class="btn btn-success btn-lg" name="submit"
 			onclick="querenjinhuo()" style="margin: 0 0 0 700px">确认出货</button>	
 	</div>
+	
 <div id="Layer1" >
      <div  style="margin:200px auto;">
 		<label>请选择调货门店</label> <select id="s_id_out"

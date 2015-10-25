@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
 
 
+
 <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
 
 <link

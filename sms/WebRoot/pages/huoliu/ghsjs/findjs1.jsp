@@ -54,6 +54,7 @@ WORD-WRAP: break-word
 
 </head>
 
+
 <div style="width:1200px;height:auto">
 <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>

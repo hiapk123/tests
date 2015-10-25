@@ -820,6 +820,7 @@ public class GoodsServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
+		
 
 	}
 

@@ -203,6 +203,7 @@ $(function(){
 			}, "html");
 			
 		});
+		
 		$("#tuihuo").click(function(){
 			$("#hlgldiv").empty();
 			$.post("<%=basePath%>huoliu", {

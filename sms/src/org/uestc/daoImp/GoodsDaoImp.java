@@ -16,6 +16,7 @@ import org.uestc.util.JdbcUtils;
         System.out.println(count);
     }
      
+     
     //KeyedHandler(name)：将结果集中的每一行数据都封装到一个Map里(List<Map>)，再把这些map再存到一个map里，其key为指定的列。
     @Test
     public void tes8() throws SQLException{

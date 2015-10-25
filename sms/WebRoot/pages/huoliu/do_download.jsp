@@ -11,6 +11,7 @@
   su.setContentDisposition(null);
   //下载文件
   
+  
   su.downloadFile("/upload/货单模板.xls");  
   response.getOutputStream().close();
   out.clear();

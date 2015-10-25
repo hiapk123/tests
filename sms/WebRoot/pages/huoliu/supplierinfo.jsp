@@ -35,6 +35,7 @@ window.open ("<%=basePath%>huoliu?m=daoru&s_id="+id+"&s_name="+name,'newwindow',
 <SCRIPT LANGUAGE="javascript">
 <!--
 
+
 function daochu()
 {
 	var id=$("#store").val();

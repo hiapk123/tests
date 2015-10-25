@@ -171,6 +171,7 @@ public class HuoLiuServlet extends HttpServlet {
 		String supplier=req.getParameter("supplier");
 		List<Object[]>list=huoliu.qrjs(supplier);
 		Number num1 = (Number) list.get(0)[0]; 
+		
 		Number num2 = (Number) list.get(0)[1];  
 		req.setAttribute("danshu", danshu);
 		req.setAttribute("numOfGoods", numOfGoods);

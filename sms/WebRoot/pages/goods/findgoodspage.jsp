@@ -73,6 +73,7 @@ String sorted=application.getAttribute("sorted").toString();
 				<th>自定义1</th>
 				<th>自定义2</th>
 				<th>自定义3</th>
+				
 				<th>自定义4</th>
 				<th>最小起订量</th>
 				<th>最低陈列量</th>

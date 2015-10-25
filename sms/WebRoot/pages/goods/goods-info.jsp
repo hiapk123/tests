@@ -280,6 +280,7 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 
 		<div id="goodsinfodiv" >
 		
+		
 		</div>
 
 	</div>

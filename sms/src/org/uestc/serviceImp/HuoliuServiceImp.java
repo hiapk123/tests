@@ -837,6 +837,7 @@ public class HuoliuServiceImp implements HuoliuService{
 				List<Object[]> list=SqlHelper.find(sql,  currentPage);
 				return list;
 			}
+		
 	}
 	public List<Object[]> findjs3(String s_id, String type, int currentPage) {
 		// TODO Auto-generated method stub

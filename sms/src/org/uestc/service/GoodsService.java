@@ -20,6 +20,7 @@ public interface GoodsService {
 	public List<Object[]> findStoreByUserID(int uid);
 
 	
+	
 	public List<Object[]> goodssearch(int sid, int currentPage);
    public List<Object[]> toExcel(int s_id);
    public void addgood(String s_id,String s_name, String g_name, String g_del, String g_stock_num, String g_sale_price,

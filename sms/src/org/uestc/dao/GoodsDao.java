@@ -1,6 +1,7 @@
 package org.uestc.dao;
-//É¾³ıÂÒÂë
+//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public interface GoodsDao {
 	public void save(String sql);
+	
 	
 }

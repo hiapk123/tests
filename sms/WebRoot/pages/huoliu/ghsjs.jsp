@@ -162,6 +162,7 @@ function querenjiesuan(node)
 		for(var i=0,price=0;i<td.length/12;i++){
 			price=price+parseInt(td.eq(9+12*i).text());
 		}
+		
 		$("#qrjs").empty();
 		$.post("<%=basePath%>huoliu", {
 			"m" : "qrjs",

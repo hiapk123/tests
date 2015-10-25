@@ -102,6 +102,7 @@ $("#haha").click(function(){
 
 	</select>
 	<br>
+	
    <input type="submit" value="保存" id="haha" class="btn btn-success" />
 
 			<button type="submit" class="btn btn-info">取消</button>

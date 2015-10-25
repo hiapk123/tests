@@ -42,6 +42,7 @@ public class GoodsServiceImp implements GoodsService {
 		queryRunner = new QueryRunner(JdbcUtils.getInstance().getDataSource());
 	}
 
+	
 	@Override
 	public List<Object[]> findStoreByUserID(int uid) {
 		String sql = "select s_id,s_name from store where u_id=?";
