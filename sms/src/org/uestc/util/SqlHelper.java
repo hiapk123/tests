@@ -108,7 +108,27 @@ public final class SqlHelper {
 		}
 		return results;
 	}
-
+	public static void  executeBatch(String sql){
+		try{
+			conn = jdbcUtils.getConnection();
+			conn.setAutoCommit(false);
+			PreparedStatement ps = conn.prepareStatement(sql);
+			for(int i = 0 ; i < 10000;i++){
+				ps.addBatch();		
+			}
+			ps.executeBatch();
+			conn.commit();
+			ps.clearBatch();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			// 关闭资源
+			jdbcUtils.free(conn, ps, rs);
+		}
+		
+	}
 	// 该方法执行一个update/delete/insert语句
 	// sql语句是带问号的格式，如：update table_name set column_name = ? where ...
 	// parameters = {"...", "..."...}；
@@ -134,7 +154,7 @@ public final class SqlHelper {
 			jdbcUtils.free(conn, ps, rs);
 		}
 	}
-
+	
 	// 可以执行多个update、delete、insert语句（考虑事务）
 	public static void executeUpdate(String[] sqls, String[][] parameters) {
 		try {
@@ -186,7 +206,31 @@ public final class SqlHelper {
 	}
 
 	public static void main(String[] args) {
-		// test
+	 long begin = System.currentTimeMillis();
+	 String sql ="";
+	 /*for(int i = 0 ; i< 1000;i++){*/
+		 sql ="insert into discount (d_start_date,d_name,d_end_date,d_type,active_type,g_id)values('1','1','1','1','1','1')";
+		/* try {
+				conn = jdbcUtils.getConnection();
+				ps = conn.prepareStatement(sql);
+	
+				for(int i = 0 ;i<10000;i++)
+		
+				ps.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage());
+			} finally {
+				// 关闭资源
+				jdbcUtils.free(conn, ps, rs);
+			}*/
+		 /*	 SqlHelper.executeUpdate(sql, null);
+	 	}*/
+		 SqlHelper.executeBatch(sql);
+	 long end = System.currentTimeMillis();
+	 System.out.println("time:"+(end-begin)+"ms");
+
 
 	}
 }

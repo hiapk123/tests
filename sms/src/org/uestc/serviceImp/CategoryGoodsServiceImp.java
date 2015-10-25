@@ -11,7 +11,7 @@ import org.uestc.util.SqlHelper;
 public class CategoryGoodsServiceImp implements CategoryGoodsService {
 
 	CategoryGoodsDao dao = new CategoryGoodsDaoImp(); 
-
+	SqlHelper sqlhelp = new SqlHelper();
 	@Override
 	public List<Object[]> findStoreByUserId(int uid) {
 		
@@ -155,3 +155,4 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 	
 
 }
+

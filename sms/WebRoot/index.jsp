@@ -156,6 +156,14 @@
 			$('iframe').attr('src','<%=basePath %>CategoryGoods?type=initPage');
 		});
 		/* end */
+		/*start*/
+		//营销
+	 	$('.mbt_indexcfg').click(function(){
+			var type=$(this).attr('id');
+			$('#iframe').empty();
+			$('#iframe').attr('src','<%=basePath %>marketing?type='+type);
+		});
+		/*end*
 		/***************************************************************************/
 		$("li a").click(
 		function() {
@@ -326,17 +334,15 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="营销" id="dzytj">打折与特价</a></li>
-											<li><a href="#" data-options="营销" id="dzcx">搭赠促销</a></li>
-											<li><a href="#" data-options="营销" id="hgcx">换购促销</a></li>
-											<li><a href="#" data-options="营销" id="dejdz">第二件打折</a></li>
-											<li><a href="#" data-options="营销" id="tccx">套餐促销</a></li>
-											<li><a href="#" data-options="营销" id="mefx">满额返现</a></li>
-											<li><a href="#" data-options="营销" id="yhj">优惠券</a></li>
-											<li><a href="#" data-options="营销" id="cxspb">促销商品表</a></li>
-											<li><a href="#" data-options="营销" id="lscxb">历史促销表</a></li>
-											<li><a href="#" data-options="营销" id="cxhdfkb">促销活动反馈表</a></li>
-											<li><a href="#" data-options="营销" id="sjlm">商家联盟</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="dzytj">打折与特价</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="dzcx">搭赠促销</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="hgcx">换购促销</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="dejdz">第二件打折</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="tccx">套餐促销</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="mefx">优惠券</a></li>
+											
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="cxspb">促销商品表</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="lscxb">历史促销表</a></li>
 										</ul>
 									</div>
 								</div>
