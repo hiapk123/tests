@@ -353,20 +353,23 @@ function XGactive(active_type,name,start_time){
 	 var s = ""; 
 	 var tb_k="";
 	 var discount = $("#dejdz_discount").val();
+	 var disprice = $("#dejdz_spice_price").val();
   	 arrChk.each(function(index,ob){
   		 var tr_k =$("#dejdz_tr_"+ob.value);
   		 var flag = tr_k.children('td').eq(0).attr('isSelect');
   		 if(flag!="yes"){
+  			 var salprice = tr_k.children('td').eq(3).html();
   		 	tb_k +="<tr id=\"list_"+ob.value+"\">"; 	
   			tb_k += "<td>"+tr_k.children('td').eq(1).html()+"</td>";	  		 
   	    	tb_k += "<td>"+tr_k.children('td').eq(2).html()+"</td>";
-  		 	tb_k += "<td>"+tr_k.children('td').eq(3).html()+"</td>";
-  		 //	if($("#hidden_d_start_time").val()==""){
-  		//		tb_k += "<td>"+$("#dejdz_discount").val()+"</td>";
-  				//alert("1111");
-  		//	} else{
-  				tb_k += "<td><input class=\"disinput\"  onblur=\"disinput("+ob.value+");\" type=\"text\" value = \""+$("#dejdz_discount").val()+"\"/></td>";
-  		//	}
+  		 	tb_k += "<td>"+tr_k.children('td').eq(3).html()+"</td>"; 
+  		 	
+  		 	if(disprice!=""){
+  		 		//alert(salprice +":"+disprice)
+  		 		discount = disprice/salprice*100;
+  		 	}
+  		 	
+  			tb_k += "<td><input class=\"disinput\"  onblur=\"disinput("+ob.value+");\" type=\"text\" value = \""+discount+"\"/></td>";
   		 	tb_k += "<td><a onclick=\"delGoodsInList("+ob.value+");\" href='javascript:void(0)'>删除</a></td>" ;
   		 	tb_k +="</tr>"; 
   		 } 
@@ -560,6 +563,17 @@ function XGactive(active_type,name,start_time){
 
 	 			});
 	}
+	function discprice(){
+		var disprice = $("#dejdz_spice_price");
+		var discount = $("#dejdz_discount");
+		if(disprice.val()==""){
+			discount.attr("disabled",false);
+			discount.val("100");
+		}else{
+			discount.attr("disabled","disabled");
+			discount.val("");
+		}
+	}
 </script>
 
 </head>
@@ -665,7 +679,7 @@ function XGactive(active_type,name,start_time){
 											<div class="modal-footer">
 											
 										    	<span class="dejdz_left">折扣：</span><input class="dejdz_left" id="dejdz_discount" style=" width: 10%;" value="100" type="text" /><span style="padding-right: 20px;" class="dejdz_left">%</span>
-												<span class="dejdz_left">特价：</span><input class="dejdz_left" id="dejdz_spice_price" style=" width: 10%"  value=""/>
+												<span class="dejdz_left">特价：</span><input class="dejdz_left" onkeyup="discprice()" id="dejdz_spice_price" style=" width: 10%"  value=""/>
 												
 												<a   href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
 												
