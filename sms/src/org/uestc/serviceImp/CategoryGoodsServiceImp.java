@@ -31,7 +31,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		
 		String sql = "select t1.c_id,t1.c_name,t1.is_final from category t1 where t1.c_parent_id= -1 and t1.s_del = 1 and t1.s_id = "+storeID;
 		String[] parameters={};
-		List<Object[]> list = sqlhelp.executeQuery(sql, parameters);
+		List<Object[]> list = SqlHelper.executeQuery(sql, parameters);
 		
 		for (int i = 0; i < list.size(); i++) {
 		
@@ -61,7 +61,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		String sql = "select t1.c_id,t1.c_name,t1.is_final from category t1 where t1.c_parent_id= "+parentID+" and t1.s_del = 1 and t1.s_id = " +storeID;
 		String parameters[]= {};
 		
-		List<Object[]> list = sqlhelp.executeQuery(sql, parameters);;
+		List<Object[]> list = SqlHelper.executeQuery(sql, parameters);;
 		
 		for(int i = 0 ; i<list.size();i++)
 		{
@@ -87,12 +87,12 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		System.out.println(sql);
 		
 		String parameters[] ={name};
-		sqlhelp.executeUpdate(sql, parameters);
+		SqlHelper.executeUpdate(sql, parameters);
 		
 		
 		String sql1 = "update category set is_final = 0 where c_id = "+pid;
 		String parameters1[] ={};
-		sqlhelp.executeUpdate(sql1, parameters1);
+		SqlHelper.executeUpdate(sql1, parameters1);
 		
 		
 		
@@ -105,23 +105,23 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		//获得该分类
 		String getCate = "select c_parent_id,is_final from category where c_id =  "+id;
 		String parameters[] ={}; 
-		List<Object[]> ca = sqlhelp.executeQuery(getCate, parameters);
+		List<Object[]> ca = SqlHelper.executeQuery(getCate, parameters);
 		if(id!=-1&&ca.size()!=0&& (int)ca.get(0)[1]==1)
 		{
 			int parentID = (int) ca.get(0) [0];
 			String sql = "delete from category where c_id = "+ id;
-			sqlhelp.executeUpdate(sql, parameters);
+			SqlHelper.executeUpdate(sql, parameters);
 			
 			//子分类是否为0
 			String sqlIsFianl = "select * from category where s_id = "+storeID+" and c_parent_id = "+parentID +" and s_del = 1 ";
-			List<Object[]> fianlList= sqlhelp.executeQuery(sqlIsFianl, parameters);
+			List<Object[]> fianlList= SqlHelper.executeQuery(sqlIsFianl, parameters);
 			if(fianlList.size()==0){
 				String updaSql = "update category set is_final = 1 where c_id = "+parentID;
-				sqlhelp.executeUpdate(updaSql, parameters);
+				SqlHelper.executeUpdate(updaSql, parameters);
 			}
 		}else if (id==-1){			
 			String sql = "delete from category where c_id = "+ id;
-			sqlhelp.executeUpdate(sql, parameters);
+			SqlHelper.executeUpdate(sql, parameters);
 		}
 		else{
 			flag = false;
@@ -136,7 +136,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		// TODO Auto-generated method stub
 		String sql = "update category set c_name = ? where c_id = "+id;
 		String [] para = {name};
-		sqlhelp.executeUpdate(sql, para);
+		SqlHelper.executeUpdate(sql, para);
 		
 	}
 	@Override
@@ -146,7 +146,7 @@ public class CategoryGoodsServiceImp implements CategoryGoodsService {
 		String sql1 = "select s_name from store  where s_id = "+storeID;
 		String parameters1[] ={};
 		String sname = "未取到门店名称";
-		ArrayList<Object[]> al= sqlhelp.executeQuery(sql1, parameters1);
+		ArrayList<Object[]> al= SqlHelper.executeQuery(sql1, parameters1);
 		if(al.size()!=0)
 		sname = (String) al.get(0)[0];
 		return sname;

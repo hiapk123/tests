@@ -13,7 +13,7 @@ import org.uestc.service.MarketingDzytjService;
 import org.uestc.serviceImp.MarketingDzytjServiceImp;
 
 /**
- * Servlet implementation class DzytjServlet
+ * Servlet implementation class DEJTJServlet
  */
 @WebServlet("/DzytjServlet")
 public class DzytjServlet extends HttpServlet {
@@ -32,45 +32,53 @@ public class DzytjServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html");
+		response.setCharacterEncoding("utf8");
+		
 		String subType =  request.getParameter("subType");
 		System.out.println("DzytjServlet : doget()");
 		System.out.println("subType = "+subType);
-		 MarketingDzytjService mDzytjService = new MarketingDzytjServiceImp();
-		if(subType==null){
-			request.setAttribute("pageType", "添加");
-			request.setAttribute("pageFunction", "addactive");
-			request.setAttribute("init_html",mDzytjService.getPageInit() );
-			request.getRequestDispatcher("/pages/marketing/dzytj.jsp").forward(request, response);
-		}else if(subType.equals("init_add_active")){
-			response.setContentType("text/html");
-			response.setCharacterEncoding("utf8");
-			request.setAttribute("pageType", "返回列表");
-			request.setAttribute("pageFunction", "backToList");
+		MarketingDzytjService mDzytjService = new MarketingDzytjServiceImp();
+		if(subType==null||subType.equals("page_init")){
+			mDzytjService.getPageInit(request, response);
+			if(request.getParameter("copy")!=null&&request.getParameter("copy").equals("yes")){
+				request.setAttribute("copy", "yes");
+			}
+			request.setAttribute("page", "first");
+			request.getRequestDispatcher("/pages/marketing/dzytj/dzytj.jsp").forward(request, response);
+		}else if(subType.equals("XGactive")){
+			String type =mDzytjService.operateProgress(request, response);
+			if(!type.equals("shanchu"))
+			request.getRequestDispatcher("/pages/marketing/dzytj/dzytj-xiangxi.jsp").forward(request, response);
+			else {PrintWriter out = response.getWriter();
+				   out.write("shanchu");
+					out.flush();
+					out.close();
+			}
+		}else if(subType.equals("addactive")){
+			String ifsave = request.getParameter("ifsave");
+			if(ifsave.equals("no")){
+				request.getRequestDispatcher("/pages/marketing/dzytj/dzytj-tianjia.jsp").forward(request, response);
+			}	
+		}else if(subType.equals("tanchuceng")){
+			String tc_type = request.getParameter("tc_type");
 			PrintWriter out = response.getWriter();
-			String str = mDzytjService.getAddPage();
-			out.write(str);
+			String str = mDzytjService.progressTCType(tc_type,request);
+		   out.write(str);
+			out.flush();
+			out.close();
+		}else if("table".equals(subType)){
+			String s = mDzytjService.fysearch(request);
+			PrintWriter out = response.getWriter();
+			out.write(s);
 			out.flush();
 			out.close();
 		}
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	/**
-	 * 初始化添加活动界面
-	 * @throws IOException 
-	 * @throws ServletException 
-	 */
-	protected void init_add_active(HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException{
-		System.out.println("void  init_add_active()");
-		//req.getRequestDispatcher("/pages/marketing/dzyt-add-active.jsp").forward(req, res);
-		res.sendRedirect("pages/marketing/dzyt-add-active.jsp");
-	}
+
+
 
 }

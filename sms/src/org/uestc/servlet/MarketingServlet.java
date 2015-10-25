@@ -49,8 +49,29 @@ public class MarketingServlet extends HttpServlet {
 			dzytj(request,response);
 			
 			break;
-
+		case "dejdz":
+			dejdz(request, response);
+			break;
+		case "dzcx":
+			dzcx(request, response);
+			break;
+		case "hgcx":
+			hgcx(request,response);
+			break;
+		case "tccx":
+			tccx(request,response);
+			break;
+		case "mefx":
+			mefx(request,response);
+			break;
+		case "cxspb":
+			cxspb(request,response);
+			break;
+		case "lscxb":
+			lscxb(request,response);
+			break;
 		default:
+			
 			break;
 		}
 	}
@@ -71,9 +92,25 @@ public class MarketingServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void dzytj(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		request.getRequestDispatcher("/DzytjServlet").forward(request, response);
-	
 	}
-
+	protected void dejdz(HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
+		req.getRequestDispatcher("/DejdzServlet").forward(req, res);
+	}
+	protected void dzcx(HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
+		req.getRequestDispatcher("/DzcxServlet").forward(req, res);
+	}
+	protected void hgcx(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException{
+		req.getRequestDispatcher("/HgcxServlet").forward(req, resp);
+	}
+	protected void tccx(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException{
+		req.getRequestDispatcher("/TccxServlet").forward(req, resp);
+	}protected void mefx(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException{
+		req.getRequestDispatcher("/MefxServlet").forward(req, resp);
+	}
+	protected void cxspb(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException{
+		req.getRequestDispatcher("/CxspbServlet").forward(req, resp);
+	}protected void lscxb(HttpServletRequest req , HttpServletResponse resp) throws ServletException,IOException{
+		req.getRequestDispatcher("/LscxbServlet").forward(req, resp);
+	}
 }

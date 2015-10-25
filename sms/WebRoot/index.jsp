@@ -124,11 +124,12 @@
 		});
 		
 		//营销
-		$('.mbt_indexcfg').click(function(){
+	 	$('.mbt_indexcfg').click(function(){
 			var type=$(this).attr('id');
+			$('#if_content').empty();
 			$('#if_content').attr('src','<%=basePath %>marketing?type='+type);
 		});
-	
+		
 	});
 	
 </script>
@@ -286,12 +287,11 @@
 											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="hgcx">换购促销</a></li>
 											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="dejdz">第二件打折</a></li>
 											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="tccx">套餐促销</a></li>
-											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="mefx">满额返现</a></li>
-											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="yhj">优惠券</a></li>
+											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="mefx">优惠券</a></li>
+											
 											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="cxspb">促销商品表</a></li>
 											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="lscxb">历史促销表</a></li>
-											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="cxhdfkb">促销活动反馈表</a></li>
-											<li><a href="#"  class="mbt_indexcfg" data-options="营销" id="sjlm">商家联盟</a></li>
+											
 										</ul>
 									</div>
 								</div>
