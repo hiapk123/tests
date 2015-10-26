@@ -263,7 +263,7 @@
 											<li><a href="#" data-options="销售" id="zbtj">占比统计</a></li>
 											<li><a href="#" data-options="销售" id="spxs">商品销售统计</a></li>
 											<!-- <li><a href="#" data-options="销售" id="djpl">单据评论</a></li> -->
-											<li><a href="#" data-options="销售" id="zktj">折扣统计</a></li>
+											<!-- <li><a href="#" data-options="销售" id="zktj">折扣统计</a></li> -->
 										</ul>
 									</div>
 								</div>
