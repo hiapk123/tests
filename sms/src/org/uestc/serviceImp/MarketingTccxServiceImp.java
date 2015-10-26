@@ -76,7 +76,7 @@ public class MarketingTccxServiceImp implements MarketingTccxService {
 	private void progressXG(HttpServletRequest req,HttpServletResponse resp,String type){
 		String d_name  = (String)req.getParameter("p_name");
 		String d_start_time  = (String)req.getParameter("p_start_date");
-		String sql = "select * from package  where p_name = \'"+d_name +"\' and p_start_date = \'"+d_start_time+"\' and s_del =1 ";//and s_id ="+s_id;
+		String sql = "select * from package  where p_name = \'"+d_name +"\' and p_start_date = \'"+d_start_time+"\' and s_del =1 ";
 		System.out.println("详细或修改活动查询："+sql);
 		ArrayList<MarketingTccxBean> mlist  =  mdao.getXGBeanList(sql);
 		req.setAttribute("activelist", mlist);
@@ -91,7 +91,7 @@ public class MarketingTccxServiceImp implements MarketingTccxService {
 	private void progressShanchu(HttpServletRequest req ,HttpServletResponse resp){
 		String d_name  = (String)req.getParameter("p_name");
 		String d_start_time  = (String)req.getParameter("p_start_date");
-		String sql = "delete from package where p_name = \'"+d_name+"\' and p_start_date = \'"+d_start_time+"\' and s_del = 1 " ;//"and s_id ="+s_id;
+		String sql = "delete from package where p_name = \'"+d_name+"\' and p_start_date = \'"+d_start_time+"\' and s_del = 1 " ;
 		System.out.println("删除:"+sql);
 		String p[]={};
 		SqlHelper.executeUpdate(sql,p);
@@ -121,7 +121,7 @@ public class MarketingTccxServiceImp implements MarketingTccxService {
 	private StringBuffer getSelectOption(String s_id){
 		JSONArray array = new JSONArray();
 		StringBuffer sb = new StringBuffer();
-		String sql = "select *,count( distinct c_name) from category where s_id = "+s_id+" group by c_name";
+		String sql = "select *,count( distinct c_name) from category  group by c_name";
 		ArrayList<Map> sList = SqlHelper.findAll(sql);
 		//sb.append("<option value=\"0\">--全部分类--</option>");
 		for(Iterator<Map> m = sList.iterator();m.hasNext();){
@@ -154,7 +154,7 @@ public class MarketingTccxServiceImp implements MarketingTccxService {
 			if(clist!=null&&clist.size()!=0){
 				cid = ""+clist.get(0).get("coupons_id");
 			}
-			String sql  = "delete from package where s_id= "+s_id+" and p_name = \'"+hname+"\' and p_start_date = \'"+hstart_time+"\'";
+			String sql  = "delete from package where  p_name = \'"+hname+"\' and p_start_date = \'"+hstart_time+"\'";
 			String p[] = {};
 			SqlHelper.executeUpdate(sql, p);
 			md.deleteActive(active_type, hname, hstart_time);
