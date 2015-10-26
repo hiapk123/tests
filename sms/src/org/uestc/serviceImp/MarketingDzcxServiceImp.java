@@ -122,7 +122,7 @@ public class MarketingDzcxServiceImp implements MarketingDzcxService {
 		List  gbarcode  = Arrays.asList(g_barcode.split(","));
 		
 		StringBuffer sb = new StringBuffer();
-		String sql = "select * from goods where   s_id = "+s_id;
+		String sql = "select * from goods where   g_id > 0 ";
 		if(!c_id.equals("0")){
 			sql +="and  c_id = "+c_id ; 
 		}
@@ -162,7 +162,7 @@ public class MarketingDzcxServiceImp implements MarketingDzcxService {
 	private StringBuffer getSelectOption(String s_id){
 		JSONArray array = new JSONArray();
 		StringBuffer sb = new StringBuffer();
-		String sql = "select *,count( distinct c_name) from category where s_id = "+s_id+" group by c_name";
+		String sql = "select *,count( distinct c_name) from category  group by c_name";
 		ArrayList<Map> sList = SqlHelper.findAll(sql);
 		//sb.append("<option value=\"0\">--全部分类--</option>");
 		for(Iterator<Map> m = sList.iterator();m.hasNext();){

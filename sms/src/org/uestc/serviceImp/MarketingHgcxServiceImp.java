@@ -158,7 +158,7 @@ public class MarketingHgcxServiceImp implements MarketingHgcxService {
 	private StringBuffer getSelectOption(String s_id){
 		JSONArray array = new JSONArray();
 		StringBuffer sb = new StringBuffer();
-		String sql = "select *,count( distinct c_name) from category where s_id = "+s_id+" group by c_name";
+		String sql = "select *,count( distinct c_name) from category  group by c_name";
 		ArrayList<Map> sList = SqlHelper.findAll(sql);
 		//sb.append("<option value=\"0\">--全部分类--</option>");
 		for(Iterator<Map> m = sList.iterator();m.hasNext();){
