@@ -187,7 +187,16 @@
 			title.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
 							+ text + "</a></li>");
 
-		}); 		 
+		}); 	
+	 	
+	 	
+	 	//商品模块的批量设置
+	 	//批量设置
+		$('#plsz').click(function(){
+			$('iframe').attr('src','<%=basePath %>BatchGoods?type=init');
+		});
+	 	
+	 	
 	});
 	
 </script>
