@@ -35,36 +35,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="bower_components/jquery/jquery.min.js"></script>
 	
   </head>
-  <%
-			String s_id = request.getParameter("s_id");
-			String s_name = request.getParameter("s_name");
-			request.setAttribute("s_id", s_id);
-			request.setAttribute("s_name", s_name);
-		%>
+ 
+		
   <body>
-  <form class="form-horizontal" role="form">
-   <div class="form-group">
-      <label for="firstname" class="col-sm-2 control-label">店铺名</label>
-      <input type="hidden" value="<%=s_id%>" >
-      <div class="col-sm-3">
-      <input type="text" readonly="readonly" value="<%=s_name%>"	 class="form-control">  
-      </div>
-   </div>
-</form> 
-   <form class="form-horizontal" role="form">
-   <div class="form-group">
-     <div class="col-sm-2">
-       
-       
-      </div>
-      <div class="col-sm-3">
-     <form action="<%=basePath%>huoliu?m=toExcel&s_id=<%=s_id%>" method="post">
+ 
    
-   <input type="submit" value="导出数据到Excel" class="btn btn-success">
-</form>
+
+  <form action="<%=basePath%>huoliu?m=toExcel&s_id=1" method="post">
+    <div class="form-horizontal" role="form">
+   <div class="form-group">
+      <label for="firstname" class="col-sm-2 control-label ">店铺名</label>
+     
+      <div class="col-sm-3">
+      <select name="s_id" class="singleSelector form-control">
+		
+
+		<%
+			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
+			if (list != null && list.size() != 0) {
+				for (Object[] obj : list) {
+		%>
+		<option value='<%=obj[0]%>'><%=obj[1]%></option>
+		<%
+			}
+			}
+		%>
+
+	</select>  
       </div>
    </div>
-</form> 
+</div> 
+
+
+
+<div class="form-horizontal" role="form">
+   <div class="form-group">
+     
+     
+      <div class="col-sm-5">
+     <input type=submit class="btn btn-primary form-control" value=导出数据到Excel>
+      </div>
+   </div>
+</div> 
+
+   
+ 
+</form>
+
 
   </body>
 </html>
+

@@ -21,45 +21,9 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content=",keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<%-- <SCRIPT LANGUAGE="javascript">
-<!--
-function ShowNewProductDiv()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=addGoods&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
-function DaoRu()
-{
-window.open ('pages/goods/goodsinfo/daoru.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT> --%>
-<SCRIPT LANGUAGE="javascript">
-<!--
 
-function DaoRu()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daoru&s_id="+id+"&s_name="+name,'newwindow','height=600,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT>
-<SCRIPT LANGUAGE="javascript">
-<!--
 
-function daochu()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=daochu&s_id="+id+"&s_name="+name,'newwindow','height=300,width=500,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT>
+
 <SCRIPT LANGUAGE="javascript">
 <!--
 
@@ -224,6 +188,21 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 		
 	});
 </script>
+<script>
+function DaoRu(){
+	
+	$("#motai1").empty();
+	$.post("<%=basePath%>goods", {
+		"m" : "daoru",
+	}, function(data) {
+		$("#motai1").append(data);
+	}, "html");
+	
+	
+}
+
+
+</script>
 </head>
 
 <body>
@@ -233,8 +212,8 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 	<button type="button" id="xinzengshangpin" class="btn btn-success"
 		name="submit" >新增商品</button>
 	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
-		onclick="DaoRu()">导入</button>
+	<button type="button" class="btn btn-success" data-toggle="modal" 
+   data-target="#myModal1" onclick="DaoRu()">导入</button>
 	&nbsp;&nbsp;
 	<button type="button" class="btn btn-success" name="submit"
 		onclick="daochu()">导出</button>
@@ -289,3 +268,26 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 </body>
 
 </html>
+<!-- 模态框  导入（Modal） -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai1">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+          
+           
+             <button type="button"   class="btn btn-success" 
+               data-dismiss="modal">退出
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>

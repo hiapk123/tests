@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +19,7 @@ import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONObject;
 import org.uestc.serviceImp.HuoliuServiceImp;
 import org.uestc.util.SqlHelper;
 
@@ -49,18 +50,21 @@ public class HuoLiuServlet extends HttpServlet {
 		if (m.equals("supplierInfo")) {
 			this.supplierInfo(req, resp);
 			req.getRequestDispatcher("/pages/huoliu/supplierinfo.jsp").forward(req, resp);
+		}else if (m.equals("supplierInfo1")) {
+			this.supplierInfo(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/supplierinfo1.jsp").forward(req,resp);
 		}else if (m.equals("editSupplier")) {
 			this.editSupplier(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/editSupplier.jsp").forward(req,resp);
 		}else if (m.equals("editSupplier2")) {
 			this.editSupplier2(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/supplierinfo.jsp").forward(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/supplierinfo1.jsp").forward(req,resp);
 		}else if (m.equals("daoru")) {
 			this.daoru(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/daoru.jsp").forward(req,resp);
 		}else if (m.equals("Shangchuanwenjian")) {
 			this.shangchuan(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/success.jsp").forward(req,resp);
+			//req.getRequestDispatcher("/pages/huoliu/success.jsp").forward(req,resp);
 		}else if (m.equals("daochu")) {
 			this.daochu(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/daochu.jsp").forward(req, resp);
@@ -145,11 +149,81 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("qrjs")) {
 			this.qrjs(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/ghsjs/qrjs.jsp").forward(req, resp);
+		}else if (m.equals("addsupplier")) {
+			this.addsupplier(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/addsupplier.jsp").forward(req, resp);
+		}else if (m.equals("addsupplier2")) {
+			this.addsupplier2(req,resp);
+			//req.getRequestDispatcher("/pages/huoliu/addsupplier2.jsp").forward(req, resp);
 		}
 
 
 
 	}
+	
+
+	
+
+	private void addsupplier2(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	String s_id=req.getParameter("s_id");
+	String s_name=req.getParameter("s_name");
+	String su_name=req.getParameter("su_name");
+	String su_phone=req.getParameter("su_phone");
+	String su_email=req.getParameter("su_email");
+	String su_contacter=req.getParameter("su_contacter");
+	String s_del=req.getParameter("s_del");
+	String su_ps_return=req.getParameter("su_ps_return");
+	String su_gd_return=req.getParameter("su_gd_return");
+	String su_number=req.getParameter("su_number");
+	String su_empower=req.getParameter("su_empower");
+	String su_address=req.getParameter("su_address");
+	String su_info=req.getParameter("su_info");
+	
+	req.setAttribute("s_id", s_id);
+	req.setAttribute("s_name", s_name);
+	req.setAttribute("su_name", su_name);
+	req.setAttribute("su_phone", su_phone);
+	req.setAttribute("su_email", su_email);
+	req.setAttribute("su_contacter", su_contacter);
+	req.setAttribute("s_del", s_del);
+	req.setAttribute("su_ps_return", su_ps_return);
+	req.setAttribute("su_gd_return", su_gd_return);
+	req.setAttribute("su_number", su_number);
+	req.setAttribute("su_empower", su_empower);
+	req.setAttribute("su_address", su_address);
+	req.setAttribute("su_info", su_info);
+	
+	
+	String sql="select su_number from supplier where s_id=? ";
+	List<Object[]> list = SqlHelper.find(sql, s_id);
+	String flag="hege";
+	req.setAttribute("flag", flag);
+	for (int k = 0; k < list.size(); k++) {
+		String hehe=(String) list.get(k)[0];
+		if ((hehe).equals(su_number)){
+			flag="buhege";
+			req.setAttribute("flag", flag);
+			PrintWriter out=resp.getWriter();
+			out.print(flag);
+			return;
+		}
+	}
+	huoliu.addsupplier(s_id, s_name, su_name, su_phone, su_email, su_contacter, s_del, su_ps_return, su_gd_return, su_number, su_empower, su_address, su_info);
+	req.getRequestDispatcher("/pages/huoliu/supplierinfo2.jsp").forward(req, resp);
+	
+	
+	}
+
+	private void addsupplier(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String s_id=req.getParameter("s_id");
+		String s_name=req.getParameter("s_name");
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("s_name", s_name);
+		
+	}
+
 	private void QRDZ(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		String danshu=req.getParameter("danshu");
@@ -844,8 +918,9 @@ public class HuoLiuServlet extends HttpServlet {
 	 */
 	private void daochu(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		String s_id = req.getParameter("s_id");
-		req.setAttribute("s_id", s_id);
+		HttpSession session=req.getSession();
+		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+	    req.setAttribute("storeList", storeList);
 	}
 	/***
 	 * 将供货商资料导入表格并下载
@@ -868,7 +943,9 @@ public class HuoLiuServlet extends HttpServlet {
 	 */
 	private void shangchuan(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		String s_id=req.getParameter("s_id");
+		String s_name=req.getParameter("s_name");
+     String TruePath="";
 		String savePath = this.getServletContext().getRealPath("/WEB-INF/upload");
 		//上传时生成的临时文件保存目录
 		String tempPath = this.getServletContext().getRealPath("/WEB-INF/temp");
@@ -940,7 +1017,8 @@ public class HuoLiuServlet extends HttpServlet {
 					//获取item中的上传文件的输入流
 					InputStream in = item.getInputStream();
 					realSavePath = makePath(filename, savePath);
-
+					TruePath=realSavePath + "\\" + filename;
+System.out.println("真是路径"+TruePath);
 					//创建一个文件输出流
 					FileOutputStream out = new FileOutputStream(realSavePath + "\\" + filename);
 					//创建一个缓冲区
@@ -964,25 +1042,41 @@ public class HuoLiuServlet extends HttpServlet {
 		}catch (FileUploadBase.FileSizeLimitExceededException e) {
 			e.printStackTrace();
 			req.setAttribute("message", "单个文件超出最大值！！！");
-			req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
+			PrintWriter out=resp.getWriter();
+			out.print(message);
+			//req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
 			return;
 		}catch (FileUploadBase.SizeLimitExceededException e) {
 			e.printStackTrace();
 			req.setAttribute("message", "上传文件的总的大小超出限制的最大值！！！");
-			req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
+			PrintWriter out=resp.getWriter();
+			out.print(message);
 			return;
 		}catch (Exception e) {
 			message= "文件上传失败！";
-
+			PrintWriter out=resp.getWriter();
+			out.print(message);
+			
 			e.printStackTrace();
 		}
-		// req.setAttribute("message",message);
-		//req.getRequestDispatcher("/pages/goods/goodsinfo/success.jsp").forward(req, resp);
+		
 		String m=req.getParameter("m");
 		if (m.equals("Shangchuanwenjian")) {
 			try {
-				huoliu.importExcel(req,resp);
-
+		           List<String> list=huoliu.isRegular(TruePath);
+				    if (list.size()==0) {
+					   huoliu.importExcel(req,resp,TruePath,s_id,s_name);
+				    }else {
+				    	resp.setCharacterEncoding("UTF-8"); 
+				    	PrintWriter out=resp.getWriter();
+				    	JSONObject json=new JSONObject();
+				    	String result="";
+				    	for (int i = 0; i < list.size(); i++) {
+				    		result+=String.valueOf(list.get(i))+";";
+						}
+				    	json.put("message", result);
+						out.print(json);
+					}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -994,6 +1088,10 @@ public class HuoLiuServlet extends HttpServlet {
 
 	}
 
+	
+	
+	
+	
 	/**
 	 * 为防止一个目录下面出现太多文件，要使用hash算法打散存储
 	 * @Method: makePath
@@ -1041,15 +1139,26 @@ public class HuoLiuServlet extends HttpServlet {
 	 */
 	private void editSupplier2(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		HttpSession session=req.getSession();
+
+		
+		
+		String s_id=req.getParameter("s_id");
+		String s_name=req.getParameter("s_name");
 		String su_id=req.getParameter("su_id");
-		String su_number=req.getParameter("su_number");
+	
 		String su_name=req.getParameter("su_name");
-		String su_contacter=req.getParameter("su_contacter");
 		String su_phone=req.getParameter("su_phone");
 		String su_email=req.getParameter("su_email");
+		String su_contacter=req.getParameter("su_contacter");
+		String s_del=req.getParameter("s_del");
+		String su_ps_return=req.getParameter("su_ps_return");
+		String su_gd_return=req.getParameter("su_gd_return");
+		String su_number=req.getParameter("su_number");
 		String su_empower=req.getParameter("su_empower");
-		huoliu.editSupplier(su_number, su_name, su_contacter, su_phone, su_email, su_empower,su_id);
+		String su_address=req.getParameter("su_address");
+		String su_info=req.getParameter("su_info");
+		huoliu.editSupplier(su_id, su_name, su_phone, su_email, su_contacter, s_del,
+				su_ps_return,su_gd_return,su_empower,su_address,su_info);
 		supplierInfo(req,resp);
 	}
 
@@ -1061,22 +1170,11 @@ public class HuoLiuServlet extends HttpServlet {
 	private void editSupplier(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		String su_id=req.getParameter("su_id");
-		String su_number=req.getParameter("su_number");
-		String su_name=req.getParameter("su_name");
-		String su_contacter=req.getParameter("su_contacter");
-		String su_phone=req.getParameter("su_phone");
-		String su_email=req.getParameter("su_email");
-		String su_empower=req.getParameter("su_empower");
-		//huoliu.editSupplier(su_number, su_name, su_contacter, su_phone, su_email, su_empower,su_id);
-		req.setAttribute("su_id", su_id);
-		req.setAttribute("su_number",su_number );
-		req.setAttribute("su_name",su_name );
-		req.setAttribute("su_contacter",su_contacter);
-		req.setAttribute("su_phone",su_phone );
-		req.setAttribute("su_email",su_email );
-		req.setAttribute("su_empower", su_empower);
-
-
+		String sql="select s_name,su_name,su_phone,su_email,su_contacter,s_del,"
+				+ "su_ps_return,su_gd_return,su_number,su_empower,su_address,su_info,su_id,s_id "
+				+ "from supplier where su_id=?";
+    List<Object[]> list= SqlHelper.find(sql, su_id);
+req.setAttribute("list", list);
 	}
 
 	/***
@@ -1088,13 +1186,19 @@ public class HuoLiuServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session=req.getSession();
 		String s_id=req.getParameter("s_id");
+		String s_del=req.getParameter("s_del");
 		String s_name=req.getParameter("s_name");
-		List <Object[]> list=huoliu.supplierInfo(Integer.valueOf(s_id));
+		String key=req.getParameter("key");
+		if (key.equals(null)) {
+			key="";
+		}
+		List <Object[]> list=huoliu.supplierInfo(Integer.valueOf(s_id),s_del,key);
 		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
 		req.setAttribute("s_id", s_id);
 		req.setAttribute("s_name", s_name);
 		req.setAttribute("list", list);
 		req.setAttribute("storeList", storeList);
+		
 	}
 
 

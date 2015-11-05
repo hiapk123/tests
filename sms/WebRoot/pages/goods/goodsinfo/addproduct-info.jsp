@@ -579,7 +579,7 @@ $("#save").click(function(){
 			<button type="submit" class="btn btn-success center-block"
 				name="submit" id="save">保存</button>
 
-			<button type="button" class="btn btn-default center-block">取消</button>
+			
 		</ul>
 	</div>
 	</div>

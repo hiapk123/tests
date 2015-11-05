@@ -17,8 +17,9 @@ String sorted=application.getAttribute("sorted").toString();
 %>
 
 <script>
-	$(function() {
+
 		$("li a").click(function() {
+			
 			var m=$("#method").val();
 			var sorted=$("#sorted").val();
 			var which = $(this).text();
@@ -45,9 +46,10 @@ String sorted=application.getAttribute("sorted").toString();
 				$("#tableContent").html(data);
 			}, "html");
 		});
-	});
+
+		
 </script>
-<div id="tableContent" style="width:3000px;height:800px">
+<div  style="width:3000px;height:auto">
 
 	<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
@@ -92,13 +94,19 @@ String sorted=application.getAttribute("sorted").toString();
 				String yanse[]={"success","danger","active","warning","info"};
 				if (goods != null && goods.size() > 0) {
 					for (int i = 0; i < goods.size(); i++) {
-						String list="";
+						String list="";   //如果此次用逗号会引起按钮不能触发的BUG
 			               
-	                	for (int j = 0; j <= 29; j++) {
-	                		list=list+goods.get(i)[j]+" ";
-	                	
+	                	for (int j = 0; j <30; j++) {
+	                		if(String.valueOf(goods.get(i)[j]).equals(""))
+	                		{list=list+" ,";
+	                		
+	                		}else{
+	                		list=list+String.valueOf(goods.get(i)[j])+",";
+	                		}
 	                }
 					%>
+					<input type="hidden" id="list" value="<%=list%>">
+					<input type="hidden" id="g_id" value="<%=goods.get(i)[0]%>">
 			<tr class="<%=yanse[i%5]%>">
 				<td>
 					<a   href="javascript:del()">删除</a>		

@@ -35,7 +35,7 @@ public interface GoodsService {
 
 List<Object[]> upsort(int sid,int currentPage, String sorted);
 List<Object[]> downsort(int sid,int currentPage, String sorted);
-public void importExcel(HttpServletRequest req,HttpServletResponse resp) throws FileNotFoundException, ServletException, IOException;
+
 
 
 public void editgood(String s_name, String g_name, String g_del, String g_stock_num, String g_sale_price,
@@ -44,6 +44,10 @@ public void editgood(String s_name, String g_name, String g_del, String g_stock_
 		String g_vip_price, String g_giq, String zdy2, String zdy4, String g_qd_min, String g_cl_min,
 		String g_stock_nor, String g_flag, String g_best, String g_sale_nor, String g_info, String g_img_path,
 		int g_id);
+
+
+
+
 
 
 
