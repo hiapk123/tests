@@ -1,15 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"
-	import="java.util.*"%>
+    pageEncoding="utf-8"%>
     <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-%>
-<%
-
-List <Object[]> x=(List <Object[]>)request.getAttribute("list");
-
 %>
 <!DOCTYPE html>
 <html>
@@ -21,27 +15,27 @@ function music(randomno)
 
 $("#su_number").val(randomno);
 }
-$("#s_del option[value='<%=x.get(0)[5]%>']").attr("selected","selected");
-$("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
 </script>
 
     
 </head>
 <body>
-
+<%
+String s_id=request.getAttribute("s_id").toString();
+String s_name=request.getAttribute("s_name").toString();
+%>
 <form class="form-horizontal" role="form">
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">门店:</label>
       <div class="col-md-3">
-      <input type="text" id="s_name" value="<%=x.get(0)[0]%>"	disabled=true  class="form-control">  
-      <input id="s_id" type="hidden" value="<%=x.get(0)[13]%>">
+      <input type="text" id="s_name" value="<%=s_name %>"	disabled=true  class="form-control">  
       </div>
        <div class="col-md-1">
      
       </div>
        <label for="secondname" class="col-md-2 control-label">供货商名称:</label>
       <div class="col-md-3">
-      <input type="text" id="su_name" value="<%=x.get(0)[1]%>"	 class="form-control">  
+      <input type="text" id="su_name" value=""	 class="form-control">  
       </div>
    </div>
   
@@ -50,14 +44,14 @@ $("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">电话:</label>
       <div class="col-md-3">
-      <input type="text" id="su_phone" value="<%=x.get(0)[2]%>"	 class="form-control">  
+      <input type="text" id="su_phone" value=""	 class="form-control">  
       </div>
        <div class="col-md-1">
      
       </div>
        <label for="secondname" class="col-md-2 control-label">邮箱:</label>
       <div class="col-md-3">
-      <input type="text" id="su_email" value="<%=x.get(0)[3]%>"	 class="form-control">  
+      <input type="text" id="su_email" value=""	 class="form-control">  
       </div>
    </div>
   
@@ -66,7 +60,7 @@ $("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">联系人:</label>
       <div class="col-md-3">
-      <input type="text" id="su_contacter" value="<%=x.get(0)[4]%>"	 class="form-control">  
+      <input type="text" id="su_contacter" value=""	 class="form-control">  
       </div>
        <div class="col-md-1">
      
@@ -86,14 +80,14 @@ $("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">配送费返点:</label>
       <div class="col-md-3">
-      <input type="text" id="su_ps_return" value="<%=x.get(0)[6]%>"	 class="form-control">  
+      <input type="text" id="su_ps_return" value=""	 class="form-control">  
       </div>
        <div class="col-md-1">
      
       </div>
        <label for="secondname" class="col-md-2 control-label">固定返利点:</label>
       <div class="col-md-3">
-      <input type="text" id="su_gd_return" value="<%=x.get(0)[7]%>"	 class="form-control">  
+      <input type="text" id="su_gd_return" value=""	 class="form-control">  
       </div>
    </div>
   
@@ -103,7 +97,7 @@ $("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">供货商编号:</label>
       <div class="col-md-3">
-      <input type="text" id="su_number" disabled=true value="<%=x.get(0)[8]%>"	  class="form-control">  
+      <input type="text" id="su_number" value=""	  class="form-control">  
        
       </div>
        <div class="col-md-1">
@@ -127,7 +121,7 @@ $("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">地址:</label>
       <div class="col-md-9">
-      <input type="text" id="su_address" value="<%=x.get(0)[10]%>"	 class="form-control">  
+      <input type="text" id="su_address" value=""	 class="form-control">  
       </div>
    </div>
 </form> 
@@ -135,8 +129,7 @@ $("#su_empower option[value='<%=x.get(0)[9]%>']").attr("selected","selected");
    <div class="form-group">
       <label for="firstname" class="col-md-2 control-label">备注:</label>
       <div class="col-md-9">
-      <input id="su_info" class="form-control" value="<%=x.get(0)[11]%>">
-      <input id="su_id" type="hidden" value="<%=x.get(0)[12]%>">
+      <textarea id="su_info" class="form-control"></textarea>
       </div>
    </div>
 </form> 

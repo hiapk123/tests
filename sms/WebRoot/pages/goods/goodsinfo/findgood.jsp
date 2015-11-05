@@ -17,39 +17,8 @@
 %>
 <script>
 
-	
-		$("li a").click(function() {
-			
-			var m=$("#method").val();
-			var sorted=$("#sorted").val();
-			var which = $(this).text();
-			var s_id=$("#s_id").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			} 
-			$("#tableContent").empty();
-			var currentPage=<%=currentPage%>;
-		
-			$.post("<%=basePath%>goods", {
-				"which" : which,
-				"s_id" : s_id,
-				"m" : m,
-				"sorted":sorted,
-				"currentPage" : currentPage,
-			}, function(data) {
-				$("#tableContent").html(data);
-			}, "html");
-		});
-	
 
-</script>
-<script>
+
 function UP(node){
 	 var s_id=$("#s_id").val();
 	var sorted=$(node).val();
@@ -114,32 +83,61 @@ function down(node){
 	}, "html");
 }
 function edit(){
-	    
-        var list=$("#list").val();
-      // $("#tableContent").empty();
-        $("#goodsinfodiv").empty();
-		$.post("<%=basePath%>goods", {
-			"m" : "editGood",
-			"list" : list,
-			
-		}, function(data) {
-			$("#goodsinfodiv").append(data);
-		}, "html");
-}
-function del(){
-	var s_id=$("#s_id").val();
-    var g_id=$("#g_id").val();
-    $("#goodsinfodiv").empty();
     
+    var list=$("#list").val();
+  // $("#tableContent").empty();
+    $("#goodsinfodiv").empty();
 	$.post("<%=basePath%>goods", {
-		"m" : "deleteGood",
-		"g_id" : g_id,
-		"s_id" :s_id,
-		"currentPage":"1",
+		"m" : "editGood",
+		"list" : list,
+		
 	}, function(data) {
 		$("#goodsinfodiv").append(data);
 	}, "html");
 }
+function del(){
+var s_id=$("#s_id").val();
+var g_id=$("#g_id").val();
+$("#goodsinfodiv").empty();
+
+$.post("<%=basePath%>goods", {
+	"m" : "deleteGood",
+	"g_id" : g_id,
+	"s_id" :s_id,
+	"currentPage":"1",
+}, function(data) {
+	$("#goodsinfodiv").append(data);
+}, "html");
+}
+$("li a").click(function() {
+	alert("ss");
+	var m=$("#method").val();
+	var sorted=$("#sorted").val();
+	var which = $(this).text();
+	var s_id=$("#s_id").val();
+	if (which === "首页") {
+		which="first";
+	} else if (which == "上一页") {
+		which="prev";
+	} else if (which === "下一页") {
+		which="next";
+	} else if (which === "尾页") {
+		which="last";
+	} 
+	$("#tableContent").empty();
+	var currentPage=<%=currentPage%>;
+
+	$.post("<%=basePath%>goods", {
+		"which" : which,
+		"s_id" : s_id,
+		"m" : m,
+		"sorted":sorted,
+		"currentPage" : currentPage,
+	}, function(data) {
+		$("#tableContent").html(data);
+	}, "html");
+});
+
 </script>
 
 <div id="11">

@@ -8,7 +8,7 @@
 			+ path + "/";
 %>
 <%
-String as = "我明白了.xls";
+String as = "供货商资料导出表.xls";
 String fileName = as;
 
 
@@ -30,7 +30,6 @@ response.setHeader("Content-disposition", "attachment; filename="+fileName);
 			<tr>
 				<th>供货商编号</th>
 				<th>供货商名称</th>
-				<th>拼音码</th>
 				<th>联系人</th>
 				<th>联系电话</th>
 				<th>邮箱</th>
@@ -54,7 +53,7 @@ response.setHeader("Content-disposition", "attachment; filename="+fileName);
 			<tr>
 				
 				<%
-					for (int j = 0; j <= 2; j++) {
+					for (int j = 0; j <10; j++) {
 				%>
 				<td><%=suppliers.get(i)[j]%> </td>
 				<%

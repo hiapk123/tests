@@ -1,8 +1,10 @@
 package org.uestc.serviceImp;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.SQLPermission;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.uestc.service.HuoliuService;
 import org.uestc.util.JdbcUtils;
 import org.uestc.util.SqlHelper;
 
 import com.sun.javafx.image.impl.IntArgb;
+import com.sun.rowset.internal.Row;
 import com.uestc.bean.Suppliers;
 import com.uestc.bean.logistics;
 
@@ -47,34 +52,39 @@ public class HuoliuServiceImp implements HuoliuService{
 		return list;
 	}
 	@Override
-	public List<Object[]> supplierInfo(int s_id) {
-		String sql = "select su_number,su_name,su_contacter,su_phone,su_email,su_empower,su_id,su_sid"
-				+ " from supplier where su_sid=?";
-		List<Object[]> list = SqlHelper.find(sql, s_id);
+	public List<Object[]> supplierInfo(int s_id,String s_del,String key) {
+		String sql = "select su_number,su_name,su_contacter,su_phone,su_email,su_empower,su_id,s_id"
+				+ " from supplier where s_id=? and s_del=? and "
+				+ "(su_name like '%"+key+"%' or su_number  like '%"+key+"%' or su_phone  like '%"+key+"%')";
+		List<Object[]> list = SqlHelper.find(sql, s_id,s_del);
 		return list;
 	}
 
 	@Override
-	public void editSupplier(String su_number,String su_name,String su_contacter,String
-			su_phone,String su_email,String su_empower,String su_id) {
+	public void editSupplier(String su_id,String su_name,String su_phone,String su_email,
+			String su_contacter,String s_del,String su_ps_return, String su_gd_return,
+			String su_empower,  String su_address, String su_info) {
 		// TODO Auto-generated method stub
 
-		String sql="update supplier set su_number=?,su_name=?,su_contacter=?,su_phone=?,su_email=?,su_empower=? where su_id=? ";
+		String sql="update supplier set su_name=?,su_phone=?,su_email=?,su_contacter=?,"
+				+ "s_del=?,su_ps_return=?,su_gd_return=?,su_empower=?,su_address=?,su_info=?"
+				+ " where su_id=? ";
 
-		SqlHelper.executeUpdate(sql, new String[] {su_number,su_name,su_contacter,su_phone,su_email,su_empower,su_id});
+		SqlHelper.executeUpdate(sql, new String[] {su_name,su_phone,su_email,su_contacter,
+				s_del,su_ps_return,su_gd_return,su_empower,su_address,su_info,su_id});
 	}
 
-	public void importExcel(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public void importExcel(HttpServletRequest req, HttpServletResponse resp, String truePath, String s_id,String s_name) throws Exception {
 		// TODO Auto-generated method stub
-
-		String []supplierArrary={"供货商编号","供货商名称","拼音码","联系人","联系电话","邮箱","状态",
+		String []supplierArrary={"供货商编号(必填)","供货商名称(必填)","联系人","联系电话","邮箱","状态",
 				"配送费返点","固定返利点","地址","备注"};
 		int su_id = 0;
 		List liststu=new ArrayList();
 		// 找到导入的文件
 		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
-		String sFilePath = "F:/liuyan0/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
-		String message=null;
+		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
+		String sFilePath =truePath;
+		
 		InputStream is = new FileInputStream(sFilePath);  
 
 		//创建工作簿
@@ -85,11 +95,7 @@ public class HuoliuServiceImp implements HuoliuService{
 		String flag="add";
 		for (int m = 0; m < sheet.getColumns(); m++) {
 			content=sheet.getCell(m, 0).getContents();
-			if(!content.equals(supplierArrary[m])){
-				message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+supplierArrary[m];
-
-				throw new Exception();
-			}
+			
 		}
 		for(int i=1;i<sheet.getRows();i++)
 		{   
@@ -107,41 +113,55 @@ public class HuoliuServiceImp implements HuoliuService{
 					supplier.setSu_name(sheet.getCell(j, i).getContents());
 					continue;
 				}
-				if(supplier.getSu_pm()==null)
-				{
-					supplier.setSu_pm(sheet.getCell(j, i).getContents());
-					continue;
-				}
+				
 
 				if(supplier.getSu_contacter()==null)
 				{
 					supplier.setSu_contacter(sheet.getCell(j, i).getContents());
 					continue;
 				}
+				
 				if(supplier.getSu_phone()==null)
 				{
-					supplier.setSu_phone(sheet.getCell(j, i).getContents());
-					continue;
+						supplier.setSu_phone(sheet.getCell(j, i).getContents());
+						continue;
 				}
 				if(supplier.getSu_email()==null)
 				{
 					supplier.setSu_email(sheet.getCell(j, i).getContents());
 					continue;
 				}
-				if(supplier.getSu_empower()==null)
+				if(supplier.getS_del()==null)
 				{
-					supplier.setSu_empower(sheet.getCell(j, i).getContents());
-					continue;
+					if (sheet.getCell(j, i).getContents().trim().equals("禁用")) {
+						supplier.setS_del("0");
+						continue;
+						}else if(sheet.getCell(j, i).getContents().equals("")||
+								sheet.getCell(j, i).getContents().trim().equals("启用")){
+							supplier.setS_del("1");
+							continue;
+						}
 				}
-				if(supplier.getSu_ps_return()==0)
+				if(supplier.getSu_ps_return()==null)
 				{
-					supplier.setSu_ps_return(Integer.valueOf(sheet.getCell(j, i).getContents()));
-					continue;
+					if (sheet.getCell(j, i).getContents().equals("")) {
+						supplier.setSu_ps_return("0");
+						continue;
+					}else{
+						supplier.setSu_ps_return(sheet.getCell(j, i).getContents());
+						continue;
+					}
+					
 				}
-				if(supplier.getSu_gd_return()==0)
+				if(supplier.getSu_gd_return()==null)
 				{
-					supplier.setSu_gd_return(Integer.valueOf(sheet.getCell(j, i).getContents()));
+					if (sheet.getCell(j, i).getContents().equals("")) {
+						supplier.setSu_gd_return("0");
+						continue;
+					}else{
+					supplier.setSu_gd_return(sheet.getCell(j, i).getContents());
 					continue;
+					}
 				}
 
 				if(supplier.getSu_address()==null)
@@ -151,8 +171,8 @@ public class HuoliuServiceImp implements HuoliuService{
 				}
 
 
-				String sql="select su_number,su_id from supplier where su_sid=?";
-				List<Object[]> list = SqlHelper.find(sql, 4);
+				String sql="select su_number,su_id from supplier where s_id=?";
+				List<Object[]> list = SqlHelper.find(sql, s_id);
 				for (int k = 0; k < list.size(); k++) {
 					String sb=(String) list.get(k)[0];
 
@@ -166,49 +186,54 @@ public class HuoliuServiceImp implements HuoliuService{
 						break;
 					}
 				}
-				if(supplier.getSu_bz()==null)
+				if(supplier.getSu_info()==null)
 				{
-					supplier.setSu_bz(sheet.getCell(j, i).getContents());
+					supplier.setSu_info(sheet.getCell(j, i).getContents());
 					continue;
 				}
 			}
 			if(flag=="add")
 			{
-				daoruexcel(supplier);
+				daoruexcel(supplier,s_id,s_name);
 			}else if(flag=="update"){
 				daoruexcel1(supplier,su_id);
-
 			}
-			message= "成功！";
 		}
 
-
-
-		req.setAttribute("message",message);
-		req.getRequestDispatcher("/pages/huoliu/success.jsp").forward(req, resp);
+		String message="导入成功";
+    	resp.setCharacterEncoding("UTF-8"); 
+    	PrintWriter out=resp.getWriter();
+    	JSONObject json=new JSONObject();
+    	json.put("message", message);
+		out.print(json);
+	
+		
 	}
+	//修改
 	private void daoruexcel1(Suppliers supplier,int su_id) {
 		// TODO Auto-generated method stub
-		String sql="update supplier set su_name=?,su_pm=?,su_contacter=?,"
+		String sql="update supplier set su_name=?,su_contacter=?,"
 				+ "su_phone=?,su_email=?,su_empower=?,su_ps_return=?,"
-				+ "su_gd_return=?,su_address=?,su_bz=? where su_id=?";
+				+ "su_gd_return=?,su_address=?,su_info=? where su_id=?";
 
-		SqlHelper.executeUpdate(sql, new String[] { supplier.getSu_name(),supplier.getSu_pm(),
+		SqlHelper.executeUpdate(sql, new String[] { supplier.getSu_name(),
 				supplier.getSu_contacter(),supplier.getSu_phone(),supplier.getSu_email(),
-				supplier.getSu_empower(),String.valueOf(supplier.getSu_ps_return()),String.valueOf(supplier.getSu_gd_return()),
-				supplier.getSu_address(),supplier.getSu_bz(),
+				supplier.getS_del(),String.valueOf(supplier.getSu_ps_return()),String.valueOf(supplier.getSu_gd_return()),
+				supplier.getSu_address(),supplier.getSu_info(),
 				su_id+""});
 		String m=null;
 	}
-	public void daoruexcel(Suppliers supplier)
+	
+	//添加
+	public void daoruexcel(Suppliers supplier,String s_id,String s_name)
 	{   
 
-		String sql="insert into supplier(su_number,su_name,su_pm,su_contacter,su_phone,su_email,su_empower,su_ps_return,su_gd_return,su_address,su_bz,su_sid) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql="insert into supplier(su_number,su_name,su_contacter,su_phone,su_email,s_del,su_ps_return,su_gd_return,su_address,su_info,s_id,s_name,su_empower) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		SqlHelper.executeUpdate(sql, new String[]{ supplier.getSu_number(),supplier.getSu_name(),
-				supplier.getSu_pm(),supplier.getSu_contacter(),supplier.getSu_phone(),supplier.getSu_email(),
-				supplier.getSu_empower(),String.valueOf(supplier.getSu_ps_return()),
+				supplier.getSu_contacter(),supplier.getSu_phone(),supplier.getSu_email(),
+				supplier.getS_del(),String.valueOf(supplier.getSu_ps_return()),
 				String.valueOf(supplier.getSu_gd_return()),
-				supplier.getSu_address(),supplier.getSu_bz(),4+""
+				supplier.getSu_address(),supplier.getSu_info(),s_id,s_name,0+""
 		});
 	}
 
@@ -216,9 +241,9 @@ public class HuoliuServiceImp implements HuoliuService{
 	public List<Object[]> toExcel(int s_id) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		String sql = "SELECT su_number,su_name,su_pm,su_contacter,su_phone,su_email,"
+		String sql = "SELECT su_number,su_name,su_contacter,su_phone,su_email,"
 				+ "su_empower,su_ps_return,su_gd_return,su_address,"
-				+ "su_bz from supplier where su_sid=? ";
+				+ "su_info from supplier where s_id=? ";
 		List<Object[]> list = SqlHelper.find(sql, s_id);
 		return list;
 	}
@@ -228,7 +253,7 @@ public class HuoliuServiceImp implements HuoliuService{
 	public List<Object[]> search(String s_id, String shuru) {
 		// TODO Auto-generated method stub
 		String sql="select g_name,g_barcode,g_stock_num,su_name,g_pur_price,g_id from goods where s_id=? and"
-				+ " (g_name or g_barcode  like '%"+shuru+"%')";
+				+ " (g_name like '%"+shuru+"%' or g_barcode  like '%"+shuru+"%')";
 		List<Object[]> list=SqlHelper.find(sql, s_id);
 		return list;
 	}
@@ -867,6 +892,200 @@ public class HuoliuServiceImp implements HuoliuService{
 		
 		
 	}
+	public void addsupplier(String s_id, String s_name, String su_name, String su_phone, String su_email, String su_contacter,
+			String s_del, String su_ps_return, String su_gd_return, String su_number, String su_empower,
+			String su_address, String su_info) {
+		// TODO Auto-generated method stub
+		String sql="insert into supplier(s_id,s_name,su_name,su_phone,su_email,su_contacter,s_del,"
+			+"su_ps_return,su_gd_return,su_number,su_empower,su_address,su_info) values ("
+			+ "?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		SqlHelper.executeUpdate(sql, new String[]{s_id,s_name,su_name,su_phone,su_email,su_contacter,s_del,
+				su_ps_return,su_gd_return,su_number,su_empower,su_address,su_info});
+	}
+	public ArrayList isRegular(String truePath) throws BiffException, IOException {
+		// TODO Auto-generated method stub
+		ArrayList list = new ArrayList();
+		boolean kong = true;
+		
+		JSONObject json=new JSONObject();
+		String []supplierArrary=new String[]{"供货商编号(必填)","供货商名称(必填)","联系人","联系电话","邮箱","状态",
+				"配送费返点","固定返利点","地址","备注"};
+		int su_id = 0;
+		List liststu=new ArrayList();
+		// 找到导入的文件
+		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
+		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
+		String sFilePath =truePath;
+		
+		InputStream is = new FileInputStream(sFilePath);  
+
+		//创建工作簿
+		Workbook wb=Workbook.getWorkbook(is);
+		//创建工作表
+		jxl.Sheet sheet=wb.getSheet(0);
+		String content=null; 
+		String flag="add";
+		if (sheet.getColumns()>10) {
+			String	message="该表列数超过了模板的列数，请使用模板";
+			list.add(message);
+			return list;
+		}else{
+			for (int m = 0; m < sheet.getColumns(); m++) {
+				content=sheet.getCell(m, 0).getContents();
+				if(!content.equals(supplierArrary[m])){
+				String	message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+supplierArrary[m];
+					list.add(message);
+					return list;
+				}
+			}
+		}
+		
+		if (sheet.getRows()==2) {
+			for(int i=1;i<2;i++){
+				for(int j=0;j<sheet.getColumns();j++){
+					if(!sheet.getCell(j, 1).getContents().trim().equals("")){
+						kong=false;
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i=1;i<sheet.getRows();i++)
+		{   int a=0,b=0;
+			Suppliers supplier=new Suppliers();
+			for(int j=0;j<sheet.getColumns();j++)
+			{
+				content=sheet.getCell(0, i).getContents();
+				if(supplier.getSu_number()==null&&a==0)
+				{ 
+					a=a+1;
+					if (sheet.getCell(j, i).getContents().trim().equals("")){
+						if (kong) {
+							String	message="该表无数据！" ;
+							 list.add(message) ;
+						}else{
+							String	message="第"+(i+1)+"行"+"供货商编号不能为空!" ;
+							 list.add(message) ;
+						}
+						
+						 
+					}else {
+						supplier.setSu_number(sheet.getCell(j, i).getContents());
+						continue;
+					}
+					
+				}
+				if(supplier.getSu_name()==null&&b==0)
+				{
+					b=b+1;
+					if (sheet.getCell(j, i).getContents().trim().equals("")){
+						
+						if (kong) {
+							
+						}else{
+						String	message="第"+(i+1)+"行"+"供货商名字不能为空!" ;
+						 list.add(message) ;
+						}
+					}else {
+					supplier.setSu_name(sheet.getCell(j, i).getContents());
+					continue;
+					}
+				}
+				
+
+				if(supplier.getSu_contacter()==null)
+				{
+					supplier.setSu_contacter(sheet.getCell(j, i).getContents());
+					continue;
+				}
+				
+				if(supplier.getSu_phone()==null)
+				{
+						supplier.setSu_phone(sheet.getCell(j, i).getContents());
+						continue;
+				}
+				if(supplier.getSu_email()==null)
+				{
+					supplier.setSu_email(sheet.getCell(j, i).getContents());
+					continue;
+				}
+				if(supplier.getS_del()==null)
+				{
+					if (sheet.getCell(j, i).getContents().trim().equals("禁用")) {
+					supplier.setS_del("0");
+					continue;
+					}else if(sheet.getCell(j, i).getContents().equals("")||
+							sheet.getCell(j, i).getContents().trim().equals("启用")){
+						supplier.setS_del("1");
+						continue;
+					}else {
+						 String	message="第"+(i+1)+"行"+"状态数据格式错误，请输入启用或者禁止" ;
+						 list.add(message) ;
+					}
+				}
+				if(supplier.getSu_ps_return()==null)
+				{
+					if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
+						supplier.setSu_ps_return(sheet.getCell(j, i).getContents());
+						continue;
+					}else if(sheet.getCell(j, i).getContents().equals("")){
+						supplier.setSu_ps_return("0");
+						continue;
+					}else {
+						
+					   String	message="第"+(i+1)+"行"+"配送返费点数据格式错误！" ;
+					   list.add(message) ;
+					}
+					
+				}
+				if(supplier.getSu_gd_return()==null)
+				{
+					if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
+						supplier.setSu_gd_return(sheet.getCell(j, i).getContents());
+						continue;
+					}else if(sheet.getCell(j, i).getContents().equals("")){
+						supplier.setSu_gd_return("0");
+						continue;
+					}else {
+						String	message="第"+(i+1)+"行"+"固定返利点数据格式错误！" ;
+						 list.add(message) ;
+						
+					}
+						
+						
+						
+					
+					
+					
+				}
+
+				if(supplier.getSu_address()==null)
+				{
+					supplier.setSu_address(sheet.getCell(j, i).getContents());
+					continue;
+				}
+
+				if(supplier.getSu_info()==null)
+				{
+					supplier.setSu_info(sheet.getCell(j, i).getContents());
+					continue;
+				}
+			}
+			
+		
+		}
+		return list;
+		
+		
+	
+			
+		
+		
+		
+	
+	}
+	
 
 
 
