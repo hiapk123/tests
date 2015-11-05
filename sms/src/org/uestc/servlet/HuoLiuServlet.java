@@ -155,6 +155,8 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("addsupplier2")) {
 			this.addsupplier2(req,resp);
 			//req.getRequestDispatcher("/pages/huoliu/addsupplier2.jsp").forward(req, resp);
+		}else if("hkhz".equals(m)){
+			req.getRequestDispatcher("/pages/huoliu/huokuanhuizong.jsp").forward(req, resp);
 		}
 
 

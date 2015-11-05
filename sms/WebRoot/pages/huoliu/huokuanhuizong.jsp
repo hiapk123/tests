@@ -92,71 +92,69 @@
 <!-- application script for Charisma demo -->
 
 
+
+
 </head>
 
 <body>
 	<div class="row">
 		<div class="box col-md-12">
-			<div class="form-group has-success col-md-4">
-				<input type="text" class="form-control" id="inputSuccess1"
-					value="请输入要查找的订单号：">
-			</div>
-
+			
+			<font size="5.8"><span class="label-success label label-default">从</span></font>
 			<select data-rel="chosen" class="btn btn-default">
-				<option disabled>按时间查看</option>
-				<option>2015-11-04</option>
+				<option disabled>开始时间</option>
+				<option>2015-10-05<option>
+			</select> 
+			<font size="5.8"><span class="label-success label label-default">到</span></font>
+			<select data-rel="chosen" class="btn btn-default">
+				<option disabled>结束时间</option>
 				<option>2015-11-05</option>
-				<option>2015-11-06</option>
-				<option>2015-11-07</option>
-			</select> <select data-rel="chosen" class="btn btn-default">
-				<option disabled>按门店查看</option>
-				<option>阿里巴巴</option>
-				<option>腾讯</option>
-				<option>百度</option>
-				<option>华为</option>
-			</select> <select data-rel="chosen" class="btn btn-default">
-				<option disabled>按状态查看</option>
-				<option>待审核</option>
-				<option>审核中</option>
-				<option>已审核通过</option>
-				<option>审核未通过</option>
-				<option>待发货</option>
-				<option>已发货</option>
-				<option>已收货</option>
 			</select>
 
-			<button type="submit" class="btn btn-default">查找订单</button>
+			<button type="submit" class="btn btn-success">查询</button>
 		</div>
 		<div class="box-content">
 			<table
 				class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 				<thead>
 					<tr>
-						<th>订单编号</th>
-						<th>订货门店</th>
-						<th>日期</th>
-						<th>状态</th>
-						<th>留言</th>
+						<th>序号</th>
+						<th>商品条码</th>
+						<th>商品名称</th>
+						<th>商品进价</th>
+						<th>商品售价</th>
+						<th>累计出货</th>
+						<th>累计进货</th>
+						<th>利润</th>
+						<th>备注</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
+				<c:forEach begin="1" end="10" step="1" varStatus="status">
 					<tr>
-						<td>ORDER20151016953452421</td>
-						<td class="center">阿里巴巴小店</td>
-						<td class="center">2012/01/01</td>
-						<td class="center"><span
-							class="label-success label label-default">已审核通过</span></td>
-						<td class="center">保质期必须还有一年期限</td>
-						<td class="center"><a class="btn btn-success btn-setting"
-							data-toggle="modal" data-target="#myModal" href="#"> <i
-								class="glyphicon glyphicon-zoom-in icon-white"></i> 预览
-						</a> <a class="btn btn-info" href="#" data-toggle="modal"
-							data-target="#myModal2"> <i
-								class="glyphicon glyphicon-edit icon-white"></i> 编辑
-						</a> <a class="btn btn-danger" href="#"> <i
+						<td class="center">${status.index }</td>
+						<td class="center">626262612155121${status.index }</td>
+						<td class="center">矿泉水${status.index }</td>
+						<td class="center">${status.index*status.index }</td>
+						<td class="center">${status.index*status.index+10 }</td>
+						<td class="center">${status.index*10 }</td>
+						<td class="center">${status.index*15 }</td>
+						<td class="center">${status.index*status.index*status.index*10-5*status.index }</td>
+						<td class="center">有所为</td>
+						<td class="center">
+						<a class="btn btn-danger" href="#"> <i
 								class="glyphicon glyphicon-trash icon-white"></i> 删除
 						</a></td>
+					</tr>
+				</c:forEach>
+					<tr>
+						<td colspan="3"></td>
+						<td>汇总</td>
+						<td	colspan="3">10009209元</td>
+						
+					    <td>2000.9元</td>
+					    <td></td>
 					</tr>
 				</tbody>
 			</table>

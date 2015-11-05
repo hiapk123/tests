@@ -155,8 +155,8 @@
 			
 			$('iframe').attr('src','<%=basePath %>CategoryGoods?type=initPage');
 		});
-		$('#spck').click(function(){
-			$('iframe').attr('src','<%=basePath %>goods?m=goodsList');
+		$('#hkhz').click(function(){
+			$('iframe').attr('src','<%=basePath %>huoliu?m=hkhz');
 		});
 		/* end */
 		/*start*/
