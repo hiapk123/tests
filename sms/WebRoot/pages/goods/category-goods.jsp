@@ -355,6 +355,7 @@ function afterReload(){
 			<i class="glyphicon glyphicon-bell icon-white"></i> Center
 			</button>
 
+
 			<button id="mbt_btnsucc" style="display: none" data-noty-options="{&quot;text&quot;:&quot;操作已保存！&quot;,&quot;layout&quot;:&quot;center&quot;,&quot;type&quot;:&quot;alert&quot;,&quot;animateOpen&quot;: {&quot;opacity&quot;: &quot;show&quot;}}" class="btn btn-primary noty">
 			<i class="glyphicon glyphicon-bell icon-white"></i> Center (fade)
 			</button>

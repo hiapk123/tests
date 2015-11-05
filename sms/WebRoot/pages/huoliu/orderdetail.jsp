@@ -9,6 +9,7 @@
 	<style type="text/css">
    #sb1{display: block;  position: absolute;  top: 5%;  left: 22%;  width: 53%;  height: 20%;  padding: 8px;  border: 8px solid #E8E9F7;  background-color: white;  z-index:1002;  overflow: auto;}
 
+
  
 table.ziti {
 font-weight: bold;

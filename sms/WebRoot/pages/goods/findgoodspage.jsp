@@ -47,9 +47,11 @@ String sorted=application.getAttribute("sorted").toString();
 		});
 	});
 </script>
-<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+<div id="tableContent" style="width:3000px;height:800px">
+
+	<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
-			<tr>
+			<tr class="danger">
 				<th>操作</th>
 				<th>商品名称</th>
 				<th>所属门店</th>
@@ -71,6 +73,7 @@ String sorted=application.getAttribute("sorted").toString();
 				<th>自定义1</th>
 				<th>自定义2</th>
 				<th>自定义3</th>
+				
 				<th>自定义4</th>
 				<th>最小起订量</th>
 				<th>最低陈列量</th>
@@ -86,15 +89,21 @@ String sorted=application.getAttribute("sorted").toString();
 			List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
 
 				String s_id = request.getParameter("s_id").toString();
-				
+				String yanse[]={"success","danger","active","warning","info"};
 				if (goods != null && goods.size() > 0) {
-					for (int i = 0; i < goods.size(); i++) {%>
-			<tr>
-				<td><a
-					href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[0]%>">
-						删除 </a><br> <a
-					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[3]%>&g_id=<%=goods.get(i)[0]%>&s_name=<%=goods.get(i)[2]%>&g_name=<%=goods.get(i)[1]%>&s_id=<%=s_id%>">编辑</a>
-					<br><a href="#"> 图片 </a></td>
+					for (int i = 0; i < goods.size(); i++) {
+						String list="";
+			               
+	                	for (int j = 0; j <= 29; j++) {
+	                		list=list+goods.get(i)[j]+" ";
+	                	
+	                }
+					%>
+			<tr class="<%=yanse[i%5]%>">
+				<td>
+					<a   href="javascript:del()">删除</a>		
+				<a   href="javascript:edit()">编辑</a>
+					<a href="#"> 图片 </a></td>
 				<%
 					for (int j = 1; j <= 26; j++) {
 				%>
@@ -109,11 +118,11 @@ String sorted=application.getAttribute("sorted").toString();
 			%>
 		</tbody>
 	</table>
+	</div>
 <input type="hidden" id="method" value="${method}" />
 <input type="hidden" id="sorted" value="${sorted}" />
 <ul class="pagination" id="page">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />
-
 </ul>

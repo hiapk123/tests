@@ -109,7 +109,17 @@ background: #D5E9ED;
  </style>
 </head>
 <script type="text/javascript">
+function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
+var flag="";
+
 function querenjiesuan1(){
+    var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
+		var list_ss_id=tr.find(".ss_id");
+		var list="";
+		for(var i=0;i<list_ss_id.length;i++){
+			list=list+list_ss_id.eq(i).val()+" ";
+		}
+		alert(list);
 	var danshu=$("#danshu").val();
 	var numOfGoods=$("#numOfGoods").val();
 	var price=$("#price").val();
@@ -122,36 +132,52 @@ function querenjiesuan1(){
 		"danshu":danshu,
 		"numOfGoods":numOfGoods,
 		"price":price,
-		"supplier":supplier,
+		"list":list,
 	}, function(data) {
 		$("#qrjs").append(data);
 	}, "html");
 	
 	
 }
-function querenjiesuan()
+function querenjiesuan(node)
 {
-	var danshu=$("#findjs").find("input:checkbox[class='subBox']:checked").length ;
-	var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
+	var tr=$(node).parent().parent();
 	var td = tr.find("td");
+   var zhuangtai=td.eq(7).text();
+    zhuangtai=trimStr(zhuangtai);
+   
+  
+		var danshu=$("#findjs").find("input:checkbox[class='subBox']:checked").length ;
+		var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
+		var td = tr.find("td");
+		
+		/* var supplier1=$(".ss_detail").val();
+		var strs= new Array(); //定义一数组
+		strs=supplier1.split(" "); //字符分割 
+		var supplier=strs[2]; */
+		//alert(supplier);
+		for(var i=0,numOfGoods=0;i<td.length/12;i++){
+			numOfGoods=numOfGoods+parseInt(td.eq(8+12*i).text());
+		}
+		for(var i=0,price=0;i<td.length/12;i++){
+			price=price+parseInt(td.eq(9+12*i).text());
+		}
+		
+		$("#qrjs").empty();
+		$.post("<%=basePath%>huoliu", {
+			"m" : "qrjs",
+			"danshu":danshu,
+			"numOfGoods":numOfGoods,
+			"price":price,
+			
+		}, function(data) {
+			$("#qrjs").append(data);
+		}, "html");
 	
-	var supplier=$("#supplier").val();
-	for(var i=0,numOfGoods=0;i<td.length/12;i++){
-		numOfGoods=numOfGoods+parseInt(td.eq(8+12*i).text());
-	}
-	for(var i=0,price=0;i<td.length/12;i++){
-		price=price+parseInt(td.eq(9+12*i).text());
-	}
-	$("#qrjs").empty();
-	$.post("<%=basePath%>huoliu", {
-		"m" : "qrjs",
-		"danshu":danshu,
-		"numOfGoods":numOfGoods,
-		"price":price,
-		"supplier":supplier,
-	}, function(data) {
-		$("#qrjs").append(data);
-	}, "html");
+		
+	
+	
+	
 }
 function querenduizhang1()
 {   var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
@@ -160,7 +186,7 @@ function querenduizhang1()
 	for(var i=0;i<list_ss_id.length;i++){
 		list=list+list_ss_id.eq(i).val()+" ";
 	}
-	alert(list);
+	
 	$("#qrdz").empty();
 	$("#ghsjs").empty();
 	$.post("<%=basePath%>huoliu", {
@@ -170,12 +196,22 @@ function querenduizhang1()
 		$("#ghsjs").append(data);
 	}, "html");
 }
-function querenduizhang()
-{    
+function querenduizhang(node)
+{    var tr=$(node).parent().parent();
+var td = tr.find("td");
+var zhuangtai=td.eq(7).text();
+ zhuangtai=trimStr(zhuangtai);
+
+ 
 	var danshu=$("#findjs").find("input:checkbox[class='subBox']:checked").length ;
+	if(danshu==0) {
+		alert("您还没有选择待对账的货单");
+		return;
+	}
+	
 	var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
 	var td = tr.find("td");
-	alert(danshu);
+	
 	for(var i=0,numOfGoods=0;i<td.length/12;i++){
 		numOfGoods=numOfGoods+parseInt(td.eq(8+12*i).text());
 	}
@@ -218,6 +254,17 @@ $("#search").click(function(){
 	var s_id=$("#store").val();
 	var status=$("#category").val();
 	var supplier=$("#supplier").val();
+    flag=trimStr(status);
+    if(flag=="待对账货单"){
+    	$("#1").attr('disabled',false);
+    	$("#2").attr('disabled',true);
+    }else if(flag=="待结算货单"){
+    	$("#2").attr('disabled',false);
+    	$("#1").attr('disabled',true);
+    }else{
+    	$("#1").attr('disabled',true);
+    	$("#2").attr('disabled',true);
+    }
 	var currentPage=null;
 	if(store==null){
 		alert("请重新选择店铺！");
@@ -269,7 +316,7 @@ $("#search").click(function(){
 			if (supplierList != null && supplierList.size() != 0) {
 				for (Object[] obj : supplierList) {
 		%>
-		<option value='<%=obj[0]%>'><%=obj[1]%></option>
+		<option value='<%=obj[1]%>'><%=obj[1]%></option>
 		<%
 			}
 			}
@@ -277,7 +324,7 @@ $("#search").click(function(){
 
 	</select>
 	<select id="category">
-	    <option value="全部状态" selected="selected" >全部状态</option>
+	   <!--  <option value="全部状态" selected="selected" >全部状态</option> -->
 		<option value="未成功货单" >未成功货单</option>
 		<option value="待对账货单">待对账货单</option>
 		<option value="待结算货单">待结算货单</option>
@@ -332,9 +379,9 @@ $("#search").click(function(){
    <div id="ly" style="position: fixed; top: 500px;">
 	
 	<button type="button" class="btn btn-primary btn-lg" name="submit"
-			onclick="querenduizhang()" style="margin: 0 0 0 950px" >确认对账</button>
+	id="1"		onclick="querenduizhang(this)" style="margin: 0 0 0 950px" disabled="disabled" >确认对账</button>
 	<button type="button" class="btn btn-success btn-lg" name="submit"
-			onclick="querenjiesuan()" style="margin: 0 0 0 50px" >确认结算</button>	
+	id="2"		onclick="querenjiesuan(this)" style="margin: 0 0 0 50px" disabled="disabled">确认结算</button>	
 	</div> 
  <div id="detail">
  
@@ -349,4 +396,3 @@ $("#search").click(function(){
 </body>
 
 </html>
-

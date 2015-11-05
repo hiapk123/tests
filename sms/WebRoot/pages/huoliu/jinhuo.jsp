@@ -208,7 +208,7 @@ $("#daoru").click(function(){
 </div>
 <div id="dr">
 </div>	
-	<div id="ly" style="position: absolute; bottom: 1400px;">
+	<div id="ly" style="position: fixed; top: 500px;">
 		<button type="button" id="daoru" class="btn btn-danger btn-lg" name="submit"
 			 style="position: relative; bottom: 0px;">导入</button>
 		<input style="height: 50px; width: 200px" type="text"  id="shuru" placeholder="请输入拼音码/名称/">
@@ -218,6 +218,7 @@ $("#daoru").click(function(){
 			onclick="querenjinhuo()" style="margin: 0 0 0 700px">确认进货</button>	
 	</div>
 <div id="Layer1" >
+
      <div  style="margin:200px auto;">
 		<label>请选择进货门店</label> <select id="store"
 			class="singleSelector btn btn-block btn-success">
@@ -240,4 +241,3 @@ $("#daoru").click(function(){
 	
 </body>
 </html>
-

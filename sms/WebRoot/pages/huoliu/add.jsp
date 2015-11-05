@@ -10,6 +10,7 @@
 int n=0;
 %> 
 
+
     <table style="width: 1200px; height: 30px; table-layout: fixed;"border="1";>
 				<tbody >
 					<% 
@@ -57,4 +58,6 @@ int n=0;
 			</tbody>
 			
 			</table>
-		
+			
+ 
+	

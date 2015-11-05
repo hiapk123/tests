@@ -675,10 +675,10 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 		return 0;
 	}
-	public int unsuccess(int store) {
+	public int unsuccess(int store, String supplier) {
 		// TODO Auto-generated method stub
-		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=? and ss_status='已拒绝进货'";
-		List<Object[]> list = SqlHelper.find(sql, store);
+		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货') and ss_supplier=? ";
+		List<Object[]> list = SqlHelper.find(sql, store,supplier);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
@@ -707,19 +707,19 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 		return 0;
 	}
-	public int preCheck(int store) {
+	public int preCheck(int store, String supplier) {
 		// TODO Auto-generated method stub
-		String sql = "select count(ss_id) from s_settlement where  ss_sid_in=? and ss_status='待对账' ";
-		List<Object[]> list = SqlHelper.find(sql, store);
+		String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_sid_in=? and ss_status='待对账' ";
+		List<Object[]> list = SqlHelper.find(sql, supplier,store);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
 		return 0;
 	}
-	public int daijs(int store) {
+	public int daijs(int store, String supplier) {
 		// TODO Auto-generated method stub
-		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=? and ss_status='待结算' ";
-		List<Object[]> list = SqlHelper.find(sql, store);
+		String sql = "select count(ss_id) from s_settlement where ss_supplier=? and   ss_sid_in=? and ss_status='待结算' ";
+		List<Object[]> list = SqlHelper.find(sql, supplier,store);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
@@ -743,55 +743,101 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 		return 0;
 	}
-	public List<Object[]> findjs0(String s_id, String type, int currentPage) {
+	public List<Object[]> findjs0(String s_id, String supplier, int currentPage) {
 
 		// TODO Auto-generated method stub
-		if (!s_id.equals("")) {
+		if (!s_id.equals("")&&!supplier.equals("")) {
 		String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 				+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-				+ " from s_settlement where ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-		List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+				+ " from s_settlement where ss_sid_in=? and ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
+		List<Object[]> list=SqlHelper.find(sql, s_id,supplier, currentPage);
 		return list;
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+			return list;
+		}else if(!s_id.equals("")&&supplier.equals("")){
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+			return list;
 		}else {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
 					+ " from s_settlement where  (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+			List<Object[]> list=SqlHelper.find(sql, currentPage);
 			return list;
 		}
 	
+	
 	}
-	public List<Object[]> findjs1(String s_id, String type, int currentPage) {
+	public List<Object[]> findjs1(String s_id, String supplier, int currentPage) {
 		// TODO Auto-generated method stub
-		if (!s_id.equals("")) {
+		if (!s_id.equals("")&&!supplier.equals("")) {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=? and ss_status='待对账' limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待对账' limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,supplier, s_id, currentPage);
 			return list;
-			}else {
+			}else if(s_id.equals("")&&!supplier.equals("")){
+				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+						+ " from s_settlement where ss_supplier=? and ss_status='待对账'  limit ?,10";
+				List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+				return list;
+			}else if(!s_id.equals("")&&supplier.equals("")){
+
+				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+						+ " from s_settlement where ss_sid_in=? and ss_status='待对账'  limit ?,10";
+				List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+				return list;
+			
+			}else{
+
+
 				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
 						+ " from s_settlement where  ss_status='待对账'  limit ?,10";
 				List<Object[]> list=SqlHelper.find(sql,  currentPage);
 				return list;
+			
+			
 			}
 	}
-	public List<Object[]> findjs2(String s_id, String type, int currentPage) {
+	public List<Object[]> findjs2(String s_id, String supplier, int currentPage) {
 		// TODO Auto-generated method stub
-		if (!s_id.equals("")) {
+		if (!s_id.equals("")&&!supplier.equals("")) {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=? and ss_status='待结算' limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待结算' limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, currentPage);
 			return list;
-			}else {
+			}else if(s_id.equals("")&&!supplier.equals("")){
+				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+						+ " from s_settlement where ss_supplier=? and ss_status='待结算'  limit ?,10";
+				List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+				return list;
+			}else if(!s_id.equals("")&&supplier.equals("")){
+
+				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+						+ " from s_settlement where ss_sid_in=? and ss_status='待结算'  limit ?,10";
+				List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+				return list;
+			
+			}else{
 				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
 						+ " from s_settlement where  ss_status='待结算'  limit ?,10";
 				List<Object[]> list=SqlHelper.find(sql,  currentPage);
 				return list;
 			}
+		
 	}
 	public List<Object[]> findjs3(String s_id, String type, int currentPage) {
 		// TODO Auto-generated method stub
@@ -815,13 +861,12 @@ public class HuoliuServiceImp implements HuoliuService{
 	}
 	public List<Object[]> qrjs(String supplier) {
 		// TODO Auto-generated method stub
-		String sql="select su_gd_return,su_ps_return from supplier where su_id=?";
+		String sql="select su_gd_return,su_ps_return from supplier where su_name=?";
 	List<Object[]> list=	SqlHelper.find(sql, supplier);
 		return list;
 		
 		
 	}
-
 
 
 

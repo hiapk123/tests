@@ -171,6 +171,7 @@ public class HuoLiuServlet extends HttpServlet {
 		String supplier=req.getParameter("supplier");
 		List<Object[]>list=huoliu.qrjs(supplier);
 		Number num1 = (Number) list.get(0)[0]; 
+		
 		Number num2 = (Number) list.get(0)[1];  
 		req.setAttribute("danshu", danshu);
 		req.setAttribute("numOfGoods", numOfGoods);
@@ -208,12 +209,12 @@ public class HuoLiuServlet extends HttpServlet {
 		int totalSize=0;
 		if (status.equals("未成功货单")) {
 			
-			totalSize = unsuccess(s_id);
+			totalSize = unsuccess(s_id,supplier);
 		} else if(status.equals("待对账货单")) {
-			totalSize = preCheck(s_id);
+			totalSize = preCheck(s_id,supplier);
 		}else if(status.equals("待结算货单")) {
 			//totalSize = getTotalSize(s_id);
-			totalSize = daijs(s_id);
+			totalSize = daijs(s_id,supplier);
 		}else if (status.equals("已结算货单")) {
 			totalSize = yijs(s_id);
 		}else if (status.equals("全部状态")) {
@@ -252,11 +253,11 @@ public class HuoLiuServlet extends HttpServlet {
 			pageNo = Integer.valueOf(which.trim());
 		}
 		if (status.equals("未成功货单")) {
-			list=huoliu.findjs0(s_id,status,(pageNo-1) * 10);
+			list=huoliu.findjs0(s_id,supplier,(pageNo-1) * 10);
 		}else if(status.equals("待对账货单")){
-			list=huoliu.findjs1(s_id,status,(pageNo-1) * 10);
+			list=huoliu.findjs1(s_id,supplier,(pageNo-1) * 10);
 		}else if(status.equals("待结算货单")){
-			list=huoliu.findjs2(s_id,status,(pageNo-1) * 10);
+			list=huoliu.findjs2(s_id,supplier,(pageNo-1) * 10);
 		}else if(status.equals("已结算货单")){
 			list=huoliu.findjs3(s_id,status,(pageNo-1) * 10);
 		}else if(status.equals("全部状态")){
@@ -302,47 +303,103 @@ public class HuoLiuServlet extends HttpServlet {
 		return totalsize;
 	}
 
-	private int daijs(String s_id) {
+	private int daijs(String s_id, String supplier) {
 		// TODO Auto-generated method stub
 		int totalsize=0;
-		if (!s_id.equals("")) {
-			totalsize = huoliu.daijs(Integer.valueOf(s_id));
-		}else {
-			String sql = "select count(ss_id) from s_settlement where   ss_status='待结算' ";
+		if (!s_id.equals("")&&!supplier.equals("")) {
+			totalsize = huoliu.daijs(Integer.valueOf(s_id),supplier);
+		}else if(s_id.equals("")&&!supplier.equals("")) {
+			String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_status='待结算' ";
+			List<Object[]> list = SqlHelper.find(sql,supplier);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		}else if(!s_id.equals("")&&supplier.equals("")){
+
+			String sql = "select count(ss_id) from s_settlement where ss_sid_in=? and  ss_status='待结算' ";
+			List<Object[]> list = SqlHelper.find(sql,s_id);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		
+		}else{
+
+
+			String sql = "select count(ss_id) from s_settlement where ss_status='待结算' ";
 			List<Object[]> list = SqlHelper.find(sql);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
 			}
+		
+		
 		}
 		return totalsize;
 	}
 
-	private int preCheck(String s_id) {
+	private int preCheck(String s_id, String supplier) {
 		// TODO Auto-generated method stub
 		int totalsize=0;
-		if (!s_id.equals("")) {
-			totalsize = huoliu.preCheck(Integer.valueOf(s_id));
-		}else {
+		if (!s_id.equals("")&&!supplier.equals("")) {
+			totalsize = huoliu.preCheck(Integer.valueOf(s_id),supplier);
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_status='待对账' ";
+			List<Object[]> list = SqlHelper.find(sql,supplier);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		}else if(!s_id.equals("")&&supplier.equals("")){
+
+			String sql = "select count(ss_id) from s_settlement where ss_sid_in=? and  ss_status='待对账' ";
+			List<Object[]> list = SqlHelper.find(sql,s_id);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		
+		}else{
+
+
 			String sql = "select count(ss_id) from s_settlement where  ss_status='待对账' ";
 			List<Object[]> list = SqlHelper.find(sql);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
 			}
+		
+		
 		}
 		return totalsize;
 	}
 
-	private int unsuccess(String s_id) {
+	private int unsuccess(String s_id, String supplier) {
 		int totalsize=0;
-		if (!s_id.equals("")) {
-			totalsize = huoliu.unsuccess(Integer.valueOf(s_id));
-		}else {
-			String sql = "select count(ss_id) from s_settlement where   ss_status='已拒绝进货' or ss_status='待确认进货'";
+		if (!s_id.equals("")&&!supplier.equals("")) {
+			totalsize = huoliu.unsuccess(Integer.valueOf(s_id),supplier);
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql = "select count(ss_id) from s_settlement where  ss_supplier=? and  (ss_status='已拒绝进货' or ss_status='待确认进货')";
 
-			List<Object[]> list = SqlHelper.find(sql);
+			List<Object[]> list = SqlHelper.find(sql,supplier);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
 			}
+		}else if(!s_id.equals("")&&supplier.equals("")){
+
+			String sql = "select count(ss_id) from s_settlement where  ss_sid_in=? and  (ss_status='已拒绝进货' or ss_status='待确认进货')";
+
+			List<Object[]> list = SqlHelper.find(sql,s_id);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		
+		}else{
+
+
+			String sql = "select count(ss_id) from s_settlement where (ss_status='已拒绝进货' or ss_status='待确认进货')";
+
+			List<Object[]> list = SqlHelper.find(sql,s_id);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		
+		
 		}
 		return totalsize;
 	}
@@ -1042,5 +1099,4 @@ public class HuoLiuServlet extends HttpServlet {
 
 
 }
-
 

@@ -16,7 +16,8 @@
     String method=application.getAttribute("method").toString();
 %>
 <script>
-	$(function() {
+
+	
 		$("li a").click(function() {
 			
 			var m=$("#method").val();
@@ -45,8 +46,8 @@
 				$("#tableContent").html(data);
 			}, "html");
 		});
-	});
-        
+	
+
 </script>
 <script>
 function UP(node){
@@ -112,15 +113,44 @@ function down(node){
 		$("#tableContent").append(data);
 	}, "html");
 }
+function edit(){
+	    
+        var list=$("#list").val();
+      // $("#tableContent").empty();
+        $("#goodsinfodiv").empty();
+		$.post("<%=basePath%>goods", {
+			"m" : "editGood",
+			"list" : list,
+			
+		}, function(data) {
+			$("#goodsinfodiv").append(data);
+		}, "html");
+}
+function del(){
+	var s_id=$("#s_id").val();
+    var g_id=$("#g_id").val();
+    $("#goodsinfodiv").empty();
+    
+	$.post("<%=basePath%>goods", {
+		"m" : "deleteGood",
+		"g_id" : g_id,
+		"s_id" :s_id,
+		"currentPage":"1",
+	}, function(data) {
+		$("#goodsinfodiv").append(data);
+	}, "html");
+}
 </script>
 
+<div id="11">
 
+</div>
 
-<div id="tableContent">
+<div id="tableContent" style="width:3000px;height:auto">
 
-	<table style="width:3000px; height:30px;  table-layout:fixed;" border="1" ;>
+	<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
-			<tr>
+			<tr class="danger">
 				<th>操作</th>
 				<th>商品名称</th>
 				<th>所属门店</th>
@@ -155,18 +185,33 @@ function down(node){
 		<tbody>
 			<%
 			List<Object[]> goods = (List<Object[]>) request.getAttribute("goodsList");
-
+			
 				String s_id = request.getParameter("s_id").toString();
-				
+				String yanse[]={"success","danger","active","warning","info"};
 				if (goods != null && goods.size() > 0) {
-					for (int i = 0; i < goods.size(); i++) {%>
-			<tr>
-				<td><a
-					href="<%=basePath%>goods?m=deleteGood&g_id=<%=goods.get(i)[0]%>">
-						删除 </a><br> <a
-					href="<%=basePath%>goods?m=editGood&g_barcode=<%=goods.get(i)[3]%>&g_id=<%=goods.get(i)[0]%>&s_name=<%=goods.get(i)[2]%>&g_name=<%=goods.get(i)[1]%>&s_id=<%=s_id%>">编辑</a>
-					<br><a href="#"> 图片 </a></td>
+					for (int i = 0; i < goods.size(); i++) {
+					
+						String list="";   //如果此次用逗号会引起按钮不能触发的BUG
+		               
+		                	for (int j = 0; j <30; j++) {
+		                		if(String.valueOf(goods.get(i)[j]).equals(""))
+		                		{list=list+" ,";
+		                		
+		                		}else{
+		                		list=list+String.valueOf(goods.get(i)[j])+",";
+		                		}
+		                }
+					
+					%>
+					<input type="hidden" id="list" value="<%=list%>">
+					<input type="hidden" id="g_id" value="<%=goods.get(i)[0]%>">
+			<tr class="<%= yanse[i%5]%>">
+				<td>
+				<a   href="javascript:del()">删除</a>		
+				<a   href="javascript:edit()">编辑</a>
+					<a href="#"> 图片 </a></td>
 				<%
+				
 					for (int j = 1; j <= 26; j++) {
 				%>
 				<td><%=goods.get(i)[j]%> </td>
@@ -180,6 +225,7 @@ function down(node){
 			%>
 		</tbody>
 	</table>
+	
 <input type="hidden" id="method" value="${method }" />
 <input type="hidden" id="sorted" value="${sorted }" />
 	
@@ -190,3 +236,8 @@ function down(node){
 </ul>
 </div>
 <input type="hidden" id="s_id" value="<%=s_id%>" />
+
+
+
+
+

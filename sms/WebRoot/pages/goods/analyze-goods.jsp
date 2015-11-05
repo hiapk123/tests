@@ -1,5 +1,8 @@
 <%@ page language="java" import="java.util.*,org.uestc.util.PageObject"
 	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+
+
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -12,13 +15,13 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>商品信息分析</title>
+<title>ååä¿¡æ¯åæ</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="商品,信息,分析">
-<meta http-equiv="description" content="商品信息分析页面">
+<meta http-equiv="keywords" content="åå,ä¿¡æ¯,åæ">
+<meta http-equiv="description" content="ååä¿¡æ¯åæé¡µé¢">
 <!-- The styles -->
 <link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
 	rel="stylesheet">
@@ -135,14 +138,14 @@ $(function(){
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div style="float:left;width:15%;">
-				<h4>商品信息分析</h4>
+				<h4>ååä¿¡æ¯åæ</h4>
 			</div>
 			<div style="float:right;width:85%;">
 
 				<div class="btn-group">
 
 					<select id="zxt_store">
-						<option selected="selected" disabled="disabled">请选择</option>
+						<option selected="selected" disabled="disabled">è¯·éæ©</option>
 						<%
 							List<Object[]> store = (List<Object[]>) request.getAttribute("store");
 							if (store != null && store.size() != 0) {
@@ -156,17 +159,17 @@ $(function(){
 						%>
 					</select> 
 					<select id="zxt_category">
-							<option selected="selected" value="-1">全部分类</option>
+							<option selected="selected" value="-1">å¨é¨åç±»</option>
 					</select>
 				</div>
 
 
-				<input type="text" value="" id="datetimepicker_analyze_1">至<input
+				<input type="text" value="" id="datetimepicker_analyze_1">è³<input
 					type="text" value="" id="datetimepicker_analyze_2"> <input
-					type="text" value="条码/名称" id="zxt_num">
+					type="text" value="æ¡ç /åç§°" id="zxt_num">
 
 				<button type="button" class="btn btn-primary dropdown-toggle"
-					id="zxt_search">分析</button>
+					id="zxt_search">åæ</button>
 
 			</div>
 		</div>
@@ -176,23 +179,23 @@ $(function(){
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>品名</th>
-						<th>条形码</th>
-						<th>商品状态</th>
-						<!-- <th>累计进货</th>
-						<th>累计出货</th>
-						<th>累计退货</th>
-						<th>累计销售</th> -->
-						<th>库存数量</th>
-						<th>零售单价</th>
-						<th>成本单价</th>
-						<th>差价</th>
-						<!-- <th>毛利润</th> -->
-						<th>折让总额</th>
-						<th>零售总额</th>
-						<th>零售成本</th>
-						<th>库存总额</th>
-						<th>畅销系数</th>
+						<th>åå</th>
+						<th>æ¡å½¢ç </th>
+						<th>ååç¶æ</th>
+						<!-- <th>ç´¯è®¡è¿è´§</th>
+						<th>ç´¯è®¡åºè´§</th>
+						<th>ç´¯è®¡éè´§</th>
+						<th>ç´¯è®¡éå®</th> -->
+						<th>åºå­æ°é</th>
+						<th>é¶å®åä»·</th>
+						<th>ææ¬åä»·</th>
+						<th>å·®ä»·</th>
+						<!-- <th>æ¯å©æ¶¦</th> -->
+						<th>æè®©æ»é¢</th>
+						<th>é¶å®æ»é¢</th>
+						<th>é¶å®ææ¬</th>
+						<th>åºå­æ»é¢</th>
+						<th>çéç³»æ°</th>
 					</tr>
 				</thead>
 				<tbody id="zxt_table">
@@ -214,9 +217,9 @@ $(function(){
 					</tr>
 				</tbody>
 			</table>
-			<!--记录当前页数  -->
+			<!--è®°å½å½åé¡µæ°  -->
 			<input type="hidden" id="zxt_currentPage" value="1">
-			<!--总记录数 -->
+			<!--æ»è®°å½æ° -->
 			<input type="hidden" id="zxt_count" value="0">
 			<div>
 				<ul class="pagination pagination-lg" style="float: right;"
@@ -239,3 +242,4 @@ $(function(){
 	</div>
 </body>
 </html>
+

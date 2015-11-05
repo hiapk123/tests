@@ -12,4 +12,12 @@ public interface HuoliuService{
 	
     public int getTotalSize(int store);
 	List<Object[]> findSuppliers();
+	
+	
+	
+	
+	
+	
+	
+	
 }

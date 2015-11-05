@@ -109,10 +109,11 @@ function haha(){
 	$("#g_vip_price").attr('disabled',true);
 	$("#g_vip_price").val("");
 	
+	
 }
 function HAHA(){
 	$("#g_vip_price").attr('disabled',false);
-	$("#vip_id").attr('value',1);
+	$("#vip_id").val("0");
 }
 $(function() {
 $("#save").click(function(){
@@ -143,7 +144,7 @@ $("#save").click(function(){
 	if(isNaN(g_trade_price)){alert("批发价请输入数字"); return;}
 	var g_prod_date=$("#g_prod_date").val();
 	var g_giq=$("#g_giq").val();
-	if(parseInt(g_trade_price)){alert("保质期请输入整数"); return;}
+	if(isNaN(g_trade_price)){alert("保质期请输入数字"); return;}
 	var g_vip_price=$("#g_vip_price").val();
 	if(isNaN(g_vip_price)){alert("会员价请输入数字"); return;}
 	var vip_id=$("#vip_id").val();
@@ -213,6 +214,9 @@ $("#save").click(function(){
 </head>
 
 <body>
+<div data-spy="scroll"
+		style="width:1200px; overflow: auto; position: relative;"
+		data-offset="10">
 <div id="liuyan">
 	<nav class="navbar navbar-default" role="navigation">
 
@@ -439,7 +443,7 @@ $("#save").click(function(){
       <div class="col-md-9">
       <div class="radio">
 						<label> <input type="radio"  name="optionsRadios"
-							id="vip_id" onclick="haha()"  value="1111" checked> 会员折扣
+							id="vip_id" onclick="haha()"  value="1" checked> 会员折扣
 						</label> 
 						<label> <input type="radio" name="optionsRadios"
 							id="optionsRadios2" onclick="HAHA()" value="option2" > 会员价
@@ -523,7 +527,7 @@ $("#save").click(function(){
   <div class="col-md-5" >
    <div class="form-group">
    <label>畅销量</label>
-   <input type="text" id="g_best" class="form-control">
+   <input type="text" id="g_best"  value="       " class="form-control">
    </div>
    <div class="form-group">
     <label>正常销售量</label>
@@ -545,8 +549,8 @@ $("#save").click(function(){
 			<div class="container">
              <div class="row">
              <div class="col-md-12" >
-            <textarea type="text" id="g_info"  style=" width:600px; height:280px; margin-left:200px;"> 
-			</textarea>
+            <input type="text" id="g_info" value="" style=" width:600px; height:280px; margin-left:200px;"> 
+			
 			
 			</div>
              </div>
@@ -560,7 +564,8 @@ $("#save").click(function(){
 			<!-- 上传图片 -->
 			<li>
 			<div style="width:600px; height:280px; overflow-x:scroll; background-color:#ffffff; padding:20px; margin-left:200px;">
-                     <img  id="g_img_path" value="" src="img/psb.jpg" style="height:300px;width:300px"></img>
+                     <img   src="img/psb.jpg" style="height:300px;width:300px"></img>
+              <input type="hidden" id="g_img_path" value="" > 
              </div>
 			<input type="file" id="file">
 				<button type="button" class="btn btn-success" name="submit">上传</button>
@@ -578,6 +583,7 @@ $("#save").click(function(){
 		</ul>
 	</div>
 	</div>
+	</div>
 	
 </body>
-
+</html>

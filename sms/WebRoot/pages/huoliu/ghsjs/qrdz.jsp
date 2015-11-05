@@ -12,6 +12,7 @@ String danshu=request.getAttribute("danshu").toString();
 String numOfGoods=request.getAttribute("numOfGoods").toString();
 String price=request.getAttribute("price").toString();
 
+
 System.out.println(danshu);
 %>
 
@@ -29,5 +30,4 @@ System.out.println(danshu);
 			
 </center>	
  </div>	
-
  </div>

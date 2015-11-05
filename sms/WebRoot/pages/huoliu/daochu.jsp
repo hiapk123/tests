@@ -16,10 +16,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	
+	<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+
+
+<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+
+<link
+	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+
+<link href='css/elfinder.min.css' rel='stylesheet'>
+
+<link href='css/animate.min.css' rel='stylesheet'>
+
+<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/jquery/jquery.min.js"></script>
 	
   </head>
   <%
@@ -29,17 +42,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			request.setAttribute("s_name", s_name);
 		%>
   <body>
-  
+  <form class="form-horizontal" role="form">
    <div class="form-group">
-     <input type="hidden" value="<%=s_id%>" >
-		<label   >店铺名：<%=s_name%></label>
-		<input type="hidden" value="<%=s_name%>" >
-       
+      <label for="firstname" class="col-sm-2 control-label">店铺名</label>
+      <input type="hidden" value="<%=s_id%>" >
+      <div class="col-sm-3">
+      <input type="text" readonly="readonly" value="<%=s_name%>"	 class="form-control">  
+      </div>
    </div>
-<form action="<%=basePath%>huoliu?m=toExcel&s_id=<%=s_id%>" method="post">
+</form> 
+   <form class="form-horizontal" role="form">
+   <div class="form-group">
+     <div class="col-sm-2">
+       
+       
+      </div>
+      <div class="col-sm-3">
+     <form action="<%=basePath%>huoliu?m=toExcel&s_id=<%=s_id%>" method="post">
    
-   <input type=submit value=导出数据到Excel>
+   <input type="submit" value="导出数据到Excel" class="btn btn-success">
 </form>
+      </div>
+   </div>
+</form> 
+
   </body>
 </html>
-

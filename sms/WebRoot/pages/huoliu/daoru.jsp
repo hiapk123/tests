@@ -53,6 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
+
 	<div>
 		<label>1.还没创建过导入数据文件</label> <a
 			href="pages/goods/goodsinfo/do_download.jsp">下载</a></br> <label>2.已创建好导入数据文件，直接导入：</label>
@@ -62,10 +63,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<form action="<%=basePath%>huoliu?m=Shangchuanwenjian"
 			enctype="multipart/form-data" method="post">
 			上传文件：<input type="file" name="file1"><br /> <input
-				type="submit" value="提交">
+				type="submit" value="提交" class="btn btn-info">
 		</form>
 
 	</div>
+
+
+
+
+
+
+
 </body>
 </html>
-

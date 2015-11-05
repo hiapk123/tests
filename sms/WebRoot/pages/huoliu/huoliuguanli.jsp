@@ -34,7 +34,7 @@ background: #D5E9ED;
 <!-- The styles -->
 <link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
 	rel="stylesheet">
-
+<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
 <link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
 <link
 	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
@@ -203,6 +203,7 @@ $(function(){
 			}, "html");
 			
 		});
+		
 		$("#tuihuo").click(function(){
 			$("#hlgldiv").empty();
 			$.post("<%=basePath%>huoliu", {
@@ -323,4 +324,3 @@ $(function(){
 
 
 </html>
-

@@ -13,7 +13,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-<script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
+<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+
+
+<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+
+<link
+	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+
+<link href='css/elfinder.min.css' rel='stylesheet'>
+
+<link href='css/animate.min.css' rel='stylesheet'>
+
+<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/jquery/jquery.min.js"></script>
 
 
 <script>
@@ -86,12 +101,13 @@ $("#haha").click(function(){
 		%>
 
 	</select>
-   <input type="submit" value="保存" id="haha" class="submitBtn" />
+	<br>
+	
+   <input type="submit" value="保存" id="haha" class="btn btn-success" />
 
-			<button type="submit" class="btn btn-default">取消</button>
+			<button type="submit" class="btn btn-info">取消</button>
   
 </div>
 
   </body>
 </html>
-

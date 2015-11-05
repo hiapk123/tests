@@ -21,6 +21,7 @@ System.out.println(danshu);
 System.out.println(su_gd_return);
 DecimalFormat    df   = new DecimalFormat("######0.00");   
 %>
+
 <div id="mm">
 <div  style=" margin: 80px auto; width: 350px;  height: 300px; border: 5px solid #EE2C2C;">
 <center>
@@ -45,4 +46,12 @@ DecimalFormat    df   = new DecimalFormat("######0.00");
  </div>	
  </div>
 </body>
+
+
+
+
+
+
+
+
 </html>

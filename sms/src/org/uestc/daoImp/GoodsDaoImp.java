@@ -1,5 +1,5 @@
 package org.uestc.daoImp;
-
+//
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,6 +15,7 @@ import org.uestc.util.JdbcUtils;
         Long count = (Long)runner.query("select count(*) from account",new ScalarHandler());
         System.out.println(count);
     }
+     
      
     //KeyedHandler(name)：将结果集中的每一行数据都封装到一个Map里(List<Map>)，再把这些map再存到一个map里，其key为指定的列。
     @Test

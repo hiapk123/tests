@@ -76,6 +76,7 @@ $(document).ready(function () {
    </div>
 </form> 
   
+  
 		<input type="hidden" value="<%=s_id%>" >
 					<input id="status" type="hidden" name="message" value="${message}">
 					<center>
@@ -99,6 +100,10 @@ function deliver(){
 		alert("请重新选择店铺！");
 		return;
 	}
+	if(g_barcode==""){
+		alert("请输入条码！");
+		return;
+	}
 	$("#addproduct").empty();
 		
 	$.post("<%=basePath%>goods", {
@@ -114,4 +119,3 @@ function deliver(){
 </script>
 </body>
 </html>
-

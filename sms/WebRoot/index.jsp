@@ -413,7 +413,7 @@
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
 											<li><a href="#" data-options="货流" id="ghs">供货商</a></li>
-											<li><a href="#" data-options="货流" id="mddh">门店订货</a></li>
+											<!-- <li><a href="#" data-options="货流" id="mddh">门店订货</a></li> -->
 											<li><a href="#" data-options="货流" id="hlgl">货流管理</a></li>
 											<li><a href="#" data-options="货流" id="ghsjs">供货商结算</a></li>
 											<li><a href="#" data-options="货流" id="hkhz">货款汇总</a></li>
