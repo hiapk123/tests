@@ -11,7 +11,7 @@ int n=0;
 %> 
 
 
-    <table style="width: 1200px; height: 30px; table-layout: fixed;"border="1";>
+    <table style="width: 1200px; height: 30px; table-layout: fixed;"border="1"; class="table-bordered table-condensed table-hover table-striped">
 				<tbody >
 					<% 
 					ArrayList List = (ArrayList) request.getAttribute("List");
@@ -19,7 +19,7 @@ int n=0;
 					String a="";
 					if (List.size() > 0) {
 					   for (int i = 0; i < List.size(); i++,n++) {%>
-					   <tr style="width: 100px; height: 50px; "border="1";>
+					   <tr class="success">
 					   
 					   
 					  <td><%=n%></td>
