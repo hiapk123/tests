@@ -165,6 +165,40 @@
 		});
 		/*end*
 		/***************************************************************************/
+		/*start*/
+		//商品模块的批量设置
+	 	//批量设置
+		//批量设置
+		$('#plsz').click(function(){
+			$('iframe').attr('src','<%=basePath %>BatchGoods?type=init');
+		});
+
+		//会员资料
+		$('#hyzl').click(function(){
+			$('iframe').attr('src','<%=basePath %>MemberInform?type=init');
+		});
+		
+		//会员等级
+		$('#hydj').click(function(){
+			$('iframe').attr('src','<%=basePath %>membergrape?type=init');
+		});
+
+		//收银员业绩
+		$('#syyyj').click(function(){
+			$('iframe').attr('src','<%=basePath %>EmpleePeformance?type=init');
+		});
+
+		//员工资料（收银员资料）
+		$('#syyzl').click(function(){
+			$('iframe').attr('src','<%=basePath %>EmpleeDateInform?type=init');
+		});
+		
+		/****************************************************************************/
+		/*管理员审核*/
+		$('#auditOrder').click(function(){
+			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?m=auditOrder');
+		});
+		/****************************************************************************/
 		$("li a").click(
 		function() {
 			var parent = $(this).attr("data-options");
@@ -187,16 +221,7 @@
 			title.append(" <li><a href=\"#\">收银系统</a></li><li><a href=\"#\">"
 							+ text + "</a></li>");
 
-		}); 	
-	 	
-	 	
-	 	//商品模块的批量设置
-	 	//批量设置
-		$('#plsz').click(function(){
-			$('iframe').attr('src','<%=basePath %>BatchGoods?type=init');
-		});
-	 	
-	 	
+		}); 
 	});
 	
 </script>
@@ -407,7 +432,7 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="管理员">订货单审核</a></li>
+											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
 											<li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
