@@ -155,6 +155,9 @@
 			
 			$('iframe').attr('src','<%=basePath %>CategoryGoods?type=initPage');
 		});
+		$('#spck').click(function(){
+			$('iframe').attr('src','<%=basePath %>goods?m=goodsList');
+		});
 		/* end */
 		/*start*/
 		//营销
@@ -324,6 +327,7 @@
 											<li><a href="#" data-options="商品" id="spfl">商品分类</a></li>
 											<li><a href="#" data-options="商品" id="plsz">批量设置</a></li>
 											<li><a href="#" data-options="商品" id="kcyd">库存预警</a></li>
+											<li><a href="#" data-options="商品" id="spck">商品查看</a></li>
 											<!-- <li><a href="#" data-options="商品" id="spxxfx">商品信息分析</a></li>
 											<li><a href="#" data-options="商品" id="kcpdjl">库存盘点记录</a></li>
 											<li><a href="#" data-options="商品" id="kcbdjl">库存变动记录</a></li>

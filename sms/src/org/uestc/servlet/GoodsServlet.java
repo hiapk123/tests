@@ -117,6 +117,9 @@ public class GoodsServlet extends HttpServlet {
 		}else if (m.equals("kuaisu1")) {
 			this.kuaisu1(req,resp);
 			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);
+		}else if("goodsList".equals(m)){
+			//实现你的方法
+			req.getRequestDispatcher("/pages/goods/show-goods-list.jsp").forward(req, resp);
 		}
 
 	}
