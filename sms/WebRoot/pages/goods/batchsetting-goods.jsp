@@ -216,7 +216,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          dataType: "html",
 		          async:false,
 		          success:function(data){
-		        	  alert("删除数据成功");
+		        	  //alert("删除数据成功");
 		        	 
 		          }
 			  });
@@ -454,6 +454,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	else{
 		shqyjy=1;
 	}
+	  
 	  //alert("****************");
 	  //alert(tcgz);
 	  //alert(ydfl);
@@ -476,7 +477,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           dataType: "html",
           async:false,
           success:function(data){
-        	  alert("修改数据成功");
+        	  //alert("修改数据成功");
         	  //alert("hah ");
         	 
           }
@@ -1166,19 +1167,22 @@ $(function(){
      <tr>
      <td>商品分类：</td>
      <td>
-     <%
+  
+     <select id="shzxc1">
+     
+     <option value="-1" >-请选择商品的分类</option>
+        <%
  	if(shselect1!=null&&shselect1.size()!=0){
 		
 		for(batchgoods obj:shselect1){
      %>
-     <select id="shzxc1">
-     <option value="-1" >-请选择商品的分类</option>
      <option value="<%=obj.getC_name()%>"> <%=obj.getC_name() %></option>
-     </select>
-     <%
+  <%
 		}
  	}
-     %>
+     %>   
+     </select>
+   
      </td>
      </tr>
      

@@ -114,7 +114,7 @@ a {
 </head>
 <script type="text/javascript">
 function shmemsavepss(id){
-	alert("进行新的保存");
+	//alert("进行新的保存");
 	//alert(id);
 	var sskheid=id;
 	var sskgracelevel=$("#shmemdjmcss").val();
@@ -140,8 +140,8 @@ function shmemsavepss(id){
 		"sskheid":sskheid
 	},function(date){
 		
-		alert("更新成功，随后进行刷新");
-		alert("开始页面的刷新");
+		//alert("更新成功，随后进行刷新");
+		//alert("开始页面的刷新");
 		$("#membergrapethebody").empty();
 		$("#membergrapethebody").append(date);
 	},"html");
@@ -296,7 +296,7 @@ $.post("<%=basePath%>shmembergracebath",{},function(date){
 //新增会员等级
 function addgrace()
 {
-	alert("add");
+	//alert("add");
 	$("#shgraceclick").click();
 	
 }

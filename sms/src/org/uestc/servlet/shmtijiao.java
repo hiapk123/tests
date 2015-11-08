@@ -46,7 +46,7 @@ public class shmtijiao extends HttpServlet {
 		Matcher n=pattern.matcher(mshoptext); 
 		//拼接sql的字符串
 		String haosql="";
-		String newsql="select a.v_id,a.v_card_no,a.vip_name,a.vip_tel,a.v_level,a.v_balance,a.v_commodity_integral,b.s_name,a.vip_startdate,a.v_status FROM vip a LEFT JOIN store b ON a.s_id=b.s_id WHERE 1=1";
+		String newsql="select a.v_id,a.v_card_no,a.vip_name,a.vip_tel,a.v_level,a.v_balance,a.v_commodity_integral,b.s_name,a.vip_startdate,a.v_status FROM vip a LEFT JOIN store b ON a.s_id=b.s_id WHERE 1=1 ";
 		//定义的显示的�?
 		List<Object[]> shsun=null;
 		//汉字的情况进行查询

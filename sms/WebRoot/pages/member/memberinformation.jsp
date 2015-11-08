@@ -173,7 +173,7 @@ window.onload=function(){
 </script>
 <script type="text/javascript">
 function shimportdate(){
-	alert("进入导入数据页面")
+	//alert("进入导入数据页面")
 	window.open("pages/member/upload.jsp");
 }
 </script>
@@ -240,7 +240,7 @@ $(function(){
 //激发模态框的信息。
 function sqclick1()
 	{	
-	alert("点击事件");
+	//alert("点击事件");
 	$("#shxzhy").click();
 	}	
 	
@@ -306,10 +306,10 @@ function shmsub() {
 		var sklmum2=$("#shmemshouinformtable2").val();
 		var sklmum3=$("#shmemshouinformtable3").val();	
 		//alert("页面加载初始化");
-		alert("会员数");
-		alert(sklmum1);
-		alert(sklmum2);
-		alert(sklmum3);
+		//alert("会员数");
+		//alert(sklmum1);
+		//alert(sklmum2);
+		//lert(sklmum3);
 		//在这里绑定具体的列表
 		$("#sjmountd1").val(sklmum1);
 		$("#sjmountd2").val(sklmum2);
@@ -665,7 +665,7 @@ function shmsub() {
 <script type="text/javascript">
 //编辑的模态框的触发
 function shbianji(id){
-	alert("编辑");
+	//alert("编辑");
 	var shvid=id;
 	//alert(shvid);
 	//开始进行新的页面的查询并绑定列表框
@@ -691,7 +691,7 @@ $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii',autoclose: true,t
 //进行确定点击合法性的判断。
 function shaddmem()
 {
-	alert("新增会员的保存");
+	//alert("新增会员的保存");
 	//获取参数。
 	var sh_v_level;//会员卡启用状态
 	//var v_card_no;//会员卡号
@@ -769,8 +769,8 @@ function shaddmem()
 			"shyouxiang":shyouxiang,"shdizhi":shdizhi,"shbeizhu":shbeizhu},
 				function(data)
 				{
-			alert("页面添加成功");
-			alert(data)
+			//alert("页面添加成功");
+			//alert(data)
 			$("#shmemtable").empty();
 			$("#shmemtable").append(data);
 			//开始进行各种页面的更新操作
@@ -808,8 +808,8 @@ function shaddmem()
 </script>
 <script type="text/javascript">
 function updatememupdateinfo(id){
-	alert(id);
-	alert("修改操作")
+	//alert(id);
+	//alert("修改操作")
 	//参数操作
 	var sskkid=id;
 	var sh_zhuangtai;//1.启用状态
@@ -838,7 +838,7 @@ function updatememupdateinfo(id){
 	var sh_dizhi=$("#shdizhif").val();	
 	var sh_beizhu=$("#shbeizhuf").val();
 	//测试数据获取的对不对
-	alert(sh_xingming)
+	//alert(sh_xingming)
 	$.post("<%=basePath%>shhuiyuanbianjichuli",
 	{
 		
@@ -861,7 +861,7 @@ function updatememupdateinfo(id){
 		"sskkid":sskkid
 	},function(date){
 		
-		alert("会员修改成功")
+		//alert("会员修改成功")
 		
 		
 	},"html");
@@ -871,7 +871,7 @@ function updatememupdateinfo(id){
 	$.post("<%=basePath%>shnewmeminit",{},function(date){
 		
 		//*****
-		alert(date)
+		//alert(date)
 		$("#shmemtable").empty();
 		$("#shmemtable").append(date);
 		//

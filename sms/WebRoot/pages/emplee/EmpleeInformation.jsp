@@ -172,7 +172,7 @@ function shcheckbutton()
 			"statee":statee,
 			"shtext":shtext
 				},function(data){
-					alert("返回数据成功");
+					//alert("返回数据成功");
 					$("#shempleetable").empty();
 					$("#shempleetable").append(data);
 					
@@ -263,9 +263,9 @@ function addempleer(){
 		</div>
 	</div>
 
-	<div>
+	<div style="overflow-y: scoll;height:50px" >
 		<!-- //这里是所列的表格 -->
-		<table class="table table-bordered" name="numgettable">
+		<table class="table table-bordered" name="numgettable" style="height: 70px;overflow-y: scroll;">
 			<thred>
 			<tr>
 				<td>序号</td>
@@ -277,7 +277,7 @@ function addempleer(){
 				<td>状态</td>
 			</tr>
 			</thred>
-			<tbody id="shempleetable">
+			<tbody id="shempleetable" style="overflow: scroll;">
 			</tbody>
 		</table>
 	</div>
@@ -374,15 +374,15 @@ function shempeditd(){
 		shempeidtqiy=1;
 		
 	}
-	alert("选择状态是："+shempeidtqiy);
+	//alert("选择状态是："+shempeidtqiy);
 	var shkkis=$("#shhistroyclgfslbuttom").val();
 	var shsecondtable=$("#shsecondtable").val();
 	var shsecondbh=$("#shsecondbh").val();
 	var shsecondxm=$("#shsecondxm").val();
 	var shsecondtel=$("#shsecondtel").val();
 	//在这里出发的是修改的模态框
-	alert("判断信息");
-	alert(shkkis);
+	//alert("判断信息");
+	//alert(shkkis);
 	//alert(shsecondbh);
 	//alert(shsecondxm);
 	//alert(shsecondtel);
@@ -408,7 +408,7 @@ function shempeditd(){
 		
 	},function(data){
 		
-		alert("刷新成功");
+		//alert("刷新成功");
 		$("#shempleetable").empty();
 		$("#shempleetable").append(data);
 	},"html");
@@ -420,7 +420,7 @@ function shempeditd(){
 <script type="text/javascript">
 function shempsave()
 {
-	alert("save");
+	//alert("save");
 	var shempstore=$("#shempshore").val();
 	var shempbh=$("#shempbh").val();
 	var shempxm=$("#shempxm").val();

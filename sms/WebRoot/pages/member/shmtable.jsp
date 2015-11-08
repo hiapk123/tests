@@ -10,11 +10,11 @@
 <script>
 //额外加入分页的标签
 $(function(){
-	alert("页面加载成功")
+	//alert("页面加载成功")
 	$("#shaomempaging").children('li').children('a').click(function()
 	{
 		var which=$(this).text();
-	  	alert(which);//点击的上衣也下一页和尾页
+	  	//alert(which);//点击的上衣也下一页和尾页
 		if(which=="首页")
 	  	{
 	  	    which="first";	
