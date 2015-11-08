@@ -48,9 +48,9 @@ public class BatchGoodsDAOImp  implements BatchGoodsDAO{
 	public void shinsert(String sql,Object ... param)
 	{
 		QueryRunner runner=new QueryRunner(JdbcUtils.getInstance().getDataSource());
-		SqlHelper s = new SqlHelper(); 
+		//SqlHelper s = new SqlHelper(); 
 		//函数都将异常全部捕获�?.
-		s.executeUpdate(sql,null);
+		SqlHelper.executeUpdate(sql,null);
 	}	
 		
 	//删除操作
