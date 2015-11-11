@@ -12,6 +12,8 @@
 <head>
 <meta charset="utf-8">
 <title>订单审核</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value='/pager.css'/>" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description"
 	content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
@@ -91,41 +93,69 @@
 <script src="<%=basePath%>js/jquery.history.js"></script>
 <!-- application script for Charisma demo -->
 
-
+<script type="text/javascript">
+	$(function() {
+		/* 点击预览按钮触发ajax请求 */
+		$("#preview").click(function() {
+			//alert("click");
+			var bno = "${booking.BNo }";
+			$.ajax({
+				url: "/sms/AuditOrderServlet",
+				data: {method: "getBookingDetailByBNo", bno: bno},
+				type: "POST",
+				dataType: "json",
+				asyn: false,
+				cache: false,
+				success: function(result) {
+					alert("success");
+				}
+			});
+		});
+	});
+</script>
 </head>
 
 <body>
 	<div class="row">
 		<div class="box col-md-12">
+		<form action="<c:url value='/AuditOrderServlet?method=findByCombination' />" method="post">
 			<div class="form-group has-success col-md-4">
-				<input type="text" class="form-control" id="inputSuccess1"
-					value="请输入要查找的订单号：">
+				<input name="bookingNo" type="text" class="form-control" id="inputSuccess1"
+					 placeholder="请输入要查找的订单号：" value="${bookingNo }">
 			</div>
 
-			<select data-rel="chosen" class="btn btn-default">
+			<select name="date" data-rel="chosen" class="btn btn-default">
 				<option disabled>按时间查看</option>
-				<option>2015-11-04</option>
-				<option>2015-11-05</option>
-				<option>2015-11-06</option>
-				<option>2015-11-07</option>
-			</select> <select data-rel="chosen" class="btn btn-default">
+				<c:forEach items="${dateList }" var="d">
+					<option <c:if test="${date eq d}">selected</c:if>>${d }</option>
+				</c:forEach>
+			</select> <select name="storeName" data-rel="chosen" class="btn btn-default">
 				<option disabled>按门店查看</option>
-				<option>阿里巴巴</option>
-				<option>腾讯</option>
-				<option>百度</option>
-				<option>华为</option>
-			</select> <select data-rel="chosen" class="btn btn-default">
+				<c:forEach items="${storeList }" var="store">
+					<option <c:if test="${storeName eq store.SName}">selected</c:if>>${store.SName }</option>
+				</c:forEach>
+			</select> <select name="status" data-rel="chosen" class="btn btn-default">
 				<option disabled>按状态查看</option>
-				<option>待审核</option>
+				<!-- <option>待审核</option>
 				<option>审核中</option>
 				<option>已审核通过</option>
 				<option>审核未通过</option>
 				<option>待发货</option>
 				<option>已发货</option>
-				<option>已收货</option>
+				<option>已收货</option> -->
+				
+				<option <c:if test="${status eq '待审核'}">selected</c:if>>待审核</option>
+				<option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
+				<option <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
+				<option <c:if test="${status eq '审核未通过'}">selected</c:if>>审核未通过</option>
+				<option <c:if test="${status eq '待发货'}">selected</c:if>>待发货</option>
+				<option <c:if test="${status eq '已发货'}">selected</c:if>>已发货</option>
+				<option <c:if test="${status eq '已收货'}">selected</c:if>>已收货</option>
+				
 			</select>
 
-			<button type="submit" class="btn btn-default">查找订单</button>
+			<button type="submit" class="btn btn-primary">查找订单</button>
+		</form>
 		</div>
 		<div class="box-content">
 			<table
@@ -141,28 +171,34 @@
 					</tr>
 				</thead>
 				<tbody>
+				<c:forEach items="${pb.beanList }" var="booking" varStatus="status">
 					<tr>
-						<td>ORDER20151016953452421</td>
-						<td class="center">阿里巴巴小店</td>
-						<td class="center">2012/01/01</td>
+						<td>${booking.BNo }</td>
+						<td class="center">${booking.store.SName }</td>
+						<td class="center">${booking.BDate }</td>
 						<td class="center"><span
-							class="label-success label label-default">已审核通过</span></td>
-						<td class="center">保质期必须还有一年期限</td>
-						<td class="center"><a class="btn btn-success btn-setting"
-							data-toggle="modal" data-target="#myModal" href="#"> <i
-								class="glyphicon glyphicon-zoom-in icon-white"></i> 预览
-						</a> <a class="btn btn-info" href="#" data-toggle="modal"
-							data-target="#myModal2"> <i
-								class="glyphicon glyphicon-edit icon-white"></i> 编辑
-						</a> <a class="btn btn-danger" href="#"> <i
-								class="glyphicon glyphicon-trash icon-white"></i> 删除
-						</a></td>
+							class="label-success label label-default">${booking.BStatus }</span></td>
+						<td class="center">${booking.BInfo }</td>
+						<td class="center">
+							<a id="preview" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal"
+							href="#"> 
+<%-- 							href="<c:url value='/AuditOrderServlet?method=getBookingDetailByBNo&bno=${booking.BNo }'/>">  --%>
+								<i class="glyphicon glyphicon-zoom-in icon-white"></i> 预览
+							</a> 
+							<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal2"> 
+								<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
+							</a> 
+							<a class="btn btn-danger" href="#"> 
+								<i class="glyphicon glyphicon-trash icon-white"></i> 删除
+							</a>
+						</td>
 					</tr>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
 	</div>
-
+	<!-- 预览模态框 -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 
@@ -171,6 +207,9 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">×</button>
 					<h3>订单明细</h3>
+					<%-- <form action="<c:url value='/AuditOrderServlet?method=getBookingDetailByBNo&bno=${booking.BNo }'/>" method="post">
+						<input type="submit" value="查询订单明细">
+					</form> --%>
 				</div>
 				<div class="modal-body">
 					<table
@@ -270,6 +309,18 @@
 			</div>
 		</div>
 	</div>
+	
+	<div style="float: left; width: 100%; text-align: center;">
+		<c:choose>
+			<c:when test="${pb.tp eq 0}">
+			未找到符合条件的记录！
+		</c:when>
+			<c:otherwise>
+				<%@include file="/pager_admin.jsp"%>
+			</c:otherwise>
+		</c:choose>
+	</div>
+	
 	<%-- <div align="center">
 		<input type="hidden" id="page" value="20" />
 		<ul class="pagination">

@@ -161,7 +161,7 @@
 		/****************************************************************************/
 		/*管理员审核*/
 		$('#auditOrder').click(function(){
-			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?m=auditOrder');
+			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?method=initLoad');
 		});
 		/****************************************************************************/
 		
