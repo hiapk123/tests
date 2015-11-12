@@ -96,9 +96,9 @@
 <script type="text/javascript">
 	
 	$(function() {
-		// $("#bookingDetail").empty();
 	});
 	
+	/* 预览页面 */
 	function show(bno) {
 		//alert("show(bno)函数当前的bno参数值为: " + bno);
 		$.ajax({
@@ -136,6 +136,58 @@
 			}
 		});
 	}
+	
+	/* 编辑页面 */
+	function edit(bno) {
+		$.ajax({
+			url : "/sms/AuditOrderServlet",
+			data : {
+				method : "getBookingDetailByBNo",
+				bno : bno
+			},
+			type : "POST",
+			dataType : "json",
+			asyn : false,
+			cache : false,
+			success : function(result) {
+				
+				if (result.length > 0) { // 该订单有数据
+					var goodsNameHtml = "<option disabled>选择要编辑的商品</option>";
+					for (var i = 0; i < result.length; i++) {
+						goodsNameHtml += "<option value=" + i + ">" + result[i].gName + "</option>";
+					}
+					$("#goodsName").html(goodsNameHtml); // 填充商品名称下拉框内容
+					
+					// 默认表单输入框加载第一件商品的信息
+					$("#barcode").val(result[0].barcode);
+					$("#gName").val(result[0].gName);
+					$("#quantity").val(result[0].gNum);
+					$("#price").val(result[0].price);
+					$("#description").val("库存不足"); // 默认都为库存不足，此处需要修改
+					
+					// 当商品名称下拉框的值发生改变，对应设置表单的值
+					$("#goodsName").change(function(){
+						var index = $("#goodsName").val();
+						//alert(index);
+						
+						$("#barcode").val(result[index].barcode);
+						$("#gName").val(result[index].gName);
+						$("#quantity").val(result[index].gNum);
+						$("#price").val(result[index].price);
+						$("#description").val("库存不足"); // 默认都为库存不足，此处需要修改
+					});
+				} else { // 该订单没有数据,清空表单所有的值
+					$("#goodsName").html("<option disabled>选择要编辑的商品</option>");
+					$("#barcode").val("");
+					$("#gName").val("");
+					$("#quantity").val("");
+					$("#price").val("");
+					$("#description").val("");
+				}
+				
+			}
+		});
+	}
 </script>
 </head>
 
@@ -160,14 +212,6 @@
 				</c:forEach>
 			</select> <select name="status" data-rel="chosen" class="btn btn-default">
 				<option disabled>按状态查看</option>
-				<!-- <option>待审核</option>
-				<option>审核中</option>
-				<option>已审核通过</option>
-				<option>审核未通过</option>
-				<option>待发货</option>
-				<option>已发货</option>
-				<option>已收货</option> -->
-				
 				<option <c:if test="${status eq '待审核'}">selected</c:if>>待审核</option>
 				<option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
 				<option <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
@@ -206,10 +250,9 @@
 						<td class="center">
 							<a onclick="javascript:show('${booking.BNo }');" id="preview" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal"
 							href="#"> 
-<%-- 							href="<c:url value='/AuditOrderServlet?method=getBookingDetailByBNo&bno=${booking.BNo }'/>">  --%>
 								<i class="glyphicon glyphicon-zoom-in icon-white"></i> 预览
 							</a> 
-							<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal2"> 
+							<a onclick="javascript:edit('${booking.BNo }');" class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal2"> 
 								<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
 							</a> 
 							<a class="btn btn-danger" href="#"> 
@@ -231,9 +274,6 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">×</button>
 					<h3>订单明细</h3>
-					<%-- <form action="<c:url value='/AuditOrderServlet?method=getBookingDetailByBNo&bno=${booking.BNo }'/>" method="post">
-						<input type="submit" value="查询订单明细">
-					</form> --%>
 				</div>
 				<div class="modal-body">
 					<table
@@ -250,19 +290,6 @@
 							</tr>
 						</thead>
 						<tbody id="bookingDetail">
-							<%-- <c:forEach begin="1" end="10" step="1" varStatus="status">
-								<tr>
-									<td>${status.index}</td>
-									<td>201511051114${status.index }</td>
-									<td>商品${status.index }</td>
-									<td>${status.index*status.index }</td>
-									<td>${status.index*status.index }</td>
-									<td>${status.index*status.index*status.index*status.index }</td>
-									<td><a class="btn btn-info" href="#"> <i
-											class="glyphicon glyphicon-edit icon-white"></i> 编辑
-									</a></td>
-								</tr>
-							</c:forEach> --%>
 						</tbody>
 					</table>
 					<div id="tip"></div>
@@ -286,12 +313,7 @@
 					<h3>订单编辑</h3>
 				</div>
 				<div class="modal-body">
-					<select data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
-						<option disabled>选择要编辑的商品</option>
-						<option value="2015222222">水杯</option>
-						<option value="2015222222">洗衣粉</option>
-						<option value="2015222222">拖把</option>
-						<option value="2015222222">毛巾</option>
+					<select id="goodsName" data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
 					</select>
 					
 					<table
@@ -301,27 +323,27 @@
 							<tr>
 								<td>商品条码</td>
 								<td><input type="text" class="form-control"
-									id="inputSuccess1" disabled="disabled"></td>
+									id="barcode" disabled="disabled"></td>
 							</tr>
 							<tr>
 								<td>商品名称</td>
 								<td><input type="text" class="form-control"
-									id="inputSuccess1" disabled="disabled"></td>
+									id="gName" disabled="disabled"></td>
 							</tr>
 							<tr>
 								<td>进货数量</td>
 								<td><input type="text" class="form-control"
-									id="inputSuccess1" value="10"></td>
+									id="quantity" value="10"></td>
 							</tr>
 							<tr>
 								<td>进货价格</td>
 								<td><input type="text" class="form-control"
-									id="inputSuccess1" value="30.6"></td>
+									id="price" value="30.6"></td>
 							</tr>
 							<tr>
 								<td>备注</td>
 								<td><input type="text" class="form-control"
-									id="inputSuccess1" value="库存不足"></td>
+									id="description" value="库存不足"></td>
 							</tr>
 						</tbody>
 					</table>
