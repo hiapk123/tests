@@ -16,6 +16,7 @@ import org.uestc.serviceImp.InventoryWarningServiceImp;
 import org.uestc.util.PageBean;
 
 import com.uestc.bean.Booking;
+import com.uestc.bean.OrderItem;
 import com.uestc.bean.Store;
 import com.uestc.bean.Users;
 
@@ -59,9 +60,39 @@ public class AuditOrderServlet extends BaseServlet {
 	
 	public String getBookingDetailByBNo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bno = request.getParameter("bno");
-		System.out.println("当前订单号： " + bno);
-		boolean b = true;
-		response.getWriter().print(b); // 将结果写回客户端
+//		System.out.println("当前订单号： " + bno);
+		
+		List<OrderItem> orderItemList = auditOrderService.findByBNo(bno);
+		// 思路：1.构造json数组，页面遍历json数组
+		// 构造json数组
+		StringBuilder sb = new StringBuilder("[");
+		
+		int index = 0; // 标记最后一个json对象
+		for (OrderItem orderItem : orderItemList) {
+			index++;
+			sb.append("{");
+			
+			// 构造json对象
+			sb.append("\"barcode\"").append(":").append("\""+orderItem.getBarcode()+"\"");
+			sb.append(","); // 数据由逗号分隔
+			sb.append("\"gName\"").append(":").append("\""+orderItem.getgName()+"\"");
+			sb.append(","); 
+			sb.append("\"gNum\"").append(":").append("\""+orderItem.getgNum()+"\"");
+			sb.append(","); 
+			sb.append("\"price\"").append(":").append("\""+orderItem.getPrice()+"\"");
+			
+			if (index == orderItemList.size()) {
+				sb.append("}");
+			} else {
+				sb.append("},");
+			}
+		}
+		sb.append("]");
+//		System.out.println(sb.toString());
+		response.getWriter().print(sb); // 将构造的json数组写回客户端
+		
+//		boolean b = true;
+//		response.getWriter().print(b); // 将结果写回客户端
 		return null;
 //		return "f:/pages/admin/admin-audit-order.jsp";
 	}

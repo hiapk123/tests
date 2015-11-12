@@ -8,6 +8,7 @@ import org.uestc.util.JdbcUtils;
 import org.uestc.util.PageBean;
 
 import com.uestc.bean.Booking;
+import com.uestc.bean.OrderItem;
 
 public interface AuditOrderDao {
 
@@ -18,4 +19,6 @@ public interface AuditOrderDao {
 	List<String> findAllDate()throws SQLException;
 
 	PageBean<Booking> findByCombination(String bookingNo, String date, String storeName, String status, Long uId, int pc) throws SQLException;
+
+	List<OrderItem> findByBNo(String bno)throws SQLException;
 }

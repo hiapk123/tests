@@ -94,24 +94,48 @@
 <!-- application script for Charisma demo -->
 
 <script type="text/javascript">
+	
 	$(function() {
-		/* 点击预览按钮触发ajax请求 */
-		$("#preview").click(function() {
-			//alert("click");
-			var bno = "${booking.BNo }";
-			$.ajax({
-				url: "/sms/AuditOrderServlet",
-				data: {method: "getBookingDetailByBNo", bno: bno},
-				type: "POST",
-				dataType: "json",
-				asyn: false,
-				cache: false,
-				success: function(result) {
-					alert("success");
-				}
-			});
-		});
+		// $("#bookingDetail").empty();
 	});
+	
+	function show(bno) {
+		//alert("show(bno)函数当前的bno参数值为: " + bno);
+		$.ajax({
+			url : "/sms/AuditOrderServlet",
+			data : {
+				method : "getBookingDetailByBNo",
+				bno : bno
+			},
+			type : "POST",
+			dataType : "json",
+			asyn : false,
+			cache : false,
+			success : function(result) {
+				
+				if (result.length > 0) { // 该订单有数据
+					var detailHtml = "";
+					for (var i = 0; i < result.length; i++) {
+						detailHtml += "<tr>";
+						detailHtml += "<td>" + (i+1) + "</td>";
+						detailHtml += "<td>" + result[i].barcode + "</td>";
+						detailHtml += "<td>" + result[i].gName + "</td>";
+						detailHtml += "<td>" + result[i].gNum + "</td>";
+						detailHtml += "<td>" + result[i].price + "</td>";
+						detailHtml += "<td>" + (result[i].gNum * result[i].price) + "</td>";
+						detailHtml += "<td><a class=\"btn btn-info\" href=\"#\"> <i	class=\"glyphicon glyphicon-edit icon-white\"></i>编辑</a></td>";
+						detailHtml += "</tr>";
+					}
+					$("#bookingDetail").html(detailHtml);
+				} else { // 该订单没有数据
+					//$("#bookingDetail").empty();
+					$("#bookingDetail").html("");
+					$("#tip").html("<center><span>该订单没有数据！</span></center>");
+				}
+				
+			}
+		});
+	}
 </script>
 </head>
 
@@ -180,7 +204,7 @@
 							class="label-success label label-default">${booking.BStatus }</span></td>
 						<td class="center">${booking.BInfo }</td>
 						<td class="center">
-							<a id="preview" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal"
+							<a onclick="javascript:show('${booking.BNo }');" id="preview" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal"
 							href="#"> 
 <%-- 							href="<c:url value='/AuditOrderServlet?method=getBookingDetailByBNo&bno=${booking.BNo }'/>">  --%>
 								<i class="glyphicon glyphicon-zoom-in icon-white"></i> 预览
@@ -225,8 +249,8 @@
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody>
-							<c:forEach begin="1" end="10" step="1" varStatus="status">
+						<tbody id="bookingDetail">
+							<%-- <c:forEach begin="1" end="10" step="1" varStatus="status">
 								<tr>
 									<td>${status.index}</td>
 									<td>201511051114${status.index }</td>
@@ -238,9 +262,10 @@
 											class="glyphicon glyphicon-edit icon-white"></i> 编辑
 									</a></td>
 								</tr>
-							</c:forEach>
+							</c:forEach> --%>
 						</tbody>
 					</table>
+					<div id="tip"></div>
 
 				</div>
 				<div class="modal-footer">

@@ -7,6 +7,7 @@ import org.uestc.daoImp.AuditOrderDaoImp;
 import org.uestc.util.PageBean;
 
 import com.uestc.bean.Booking;
+import com.uestc.bean.OrderItem;
 
 public interface AuditOrderService {
 
@@ -18,5 +19,7 @@ public interface AuditOrderService {
 
 	PageBean<Booking> findByCombination(String bookingNo, String date, String storeName, String status, Long uId,
 			int pc);
+
+	List<OrderItem> findByBNo(String bno);
 
 }

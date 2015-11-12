@@ -7,6 +7,7 @@ import org.uestc.service.AuditOrderService;
 import org.uestc.util.PageBean;
 
 import com.uestc.bean.Booking;
+import com.uestc.bean.OrderItem;
 
 public class AuditOrderServiceImp implements AuditOrderService {
 
@@ -33,6 +34,15 @@ public class AuditOrderServiceImp implements AuditOrderService {
 			int pc) {
 		try {
 			return auditOrderDao.findByCombination(bookingNo, date, storeName, status, uId ,pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<OrderItem> findByBNo(String bno) {
+		try {
+			return auditOrderDao.findByBNo(bno);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

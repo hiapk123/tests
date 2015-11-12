@@ -1,5 +1,6 @@
 package org.uestc.daoImp;
 
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,14 +10,72 @@ import java.util.List;
 
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.junit.Test;
 import org.uestc.dao.AuditOrderDao;
 import org.uestc.util.PageBean;
 import org.uestc.util.PageConstants;
 
 import com.uestc.bean.Booking;
+import com.uestc.bean.OrderItem;
 import com.uestc.bean.Store;
 
 public class AuditOrderDaoImp implements AuditOrderDao {
+	
+	@Override
+	public List<OrderItem> findByBNo(String bno) throws SQLException {
+		String sql = "select g_id, b_num from booking where b_no=?";
+		String gIds = "";
+		String bNums = "";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), bno);
+		if (list.size() > 0) {
+			Object[] obj = list.get(0);
+			if (obj[0] != null) {
+				gIds = obj[0].toString();
+			}
+			if (obj[1] != null) {
+				bNums = obj[1].toString();
+			}
+		}
+		String[] bNumArray = null;
+		String[] gIdArray = null;
+		List<OrderItem> orderItemList = new ArrayList<OrderItem>();
+		if (!bNums.equals("")) { // 100;50;
+			bNumArray = bNums.split(";");
+		}
+		if (!gIds.equals("")) { // 10004;10003;
+			gIdArray = gIds.split(";");
+			if (gIdArray.length > 0) {
+				for (int i = 0; i < gIdArray.length; i++) {
+					sql = "select g_barcode,g_name,g_pur_price from goods where g_id=?"; // 还差商品数量，来源于bNums中截取
+					list = qr.query(sql, new ArrayListHandler(), gIdArray[i]);
+					if (list.size() > 0) {
+						Object[] obj = list.get(0);
+						OrderItem orderItem = new OrderItem();
+						if (obj[0] != null) {
+							orderItem.setBarcode(obj[0].toString());
+						}
+						if (obj[1] != null) {
+							orderItem.setgName(obj[1].toString());
+						}
+						if (obj[2] != null) {
+							orderItem.setPrice(obj[2].toString());
+						}
+						orderItem.setgNum(bNumArray[i]);
+						orderItemList.add(orderItem);
+					}
+						
+				}
+			}
+		}
+		
+		return orderItemList;
+	}
+	
+	@Test
+	public void testFindByBNo() throws Exception {
+		List<OrderItem> list = findByBNo("ORDER20151016953452421");
+		System.out.println("heheda");
+	}
 
 	@Override
 	public PageBean<Booking> findAllBookingByUid(Long uId, int pc) throws SQLException {
@@ -26,7 +85,7 @@ public class AuditOrderDaoImp implements AuditOrderDao {
 		Number number = qr.query(sql, new ScalarHandler(), uId);
 		int tr = number.intValue();
 
-		sql = "SELECT b_no,s_id,b_date,b_status,b_info FROM booking WHERE s_id in(select s_id from store where u_id=?) limit ?,?;";
+		sql = "SELECT b_no,s_id,b_date,b_status,b_info FROM booking WHERE s_id in(select s_id from store where u_id=?) order by b_date limit ?,?;";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), uId, (pc - 1) * ps, ps);
 		List<Booking> bookingList = new ArrayList<Booking>();
 		for (Object[] obj : list) {
@@ -148,6 +207,5 @@ public class AuditOrderDaoImp implements AuditOrderDao {
 		}
 		return null;
 	}
-
 
 }
