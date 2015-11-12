@@ -5,7 +5,14 @@ public class OrderItem {
 	private String gName;
 	private String gNum;
 	private String price;
+	private String gInfo;
 	
+	public String getgInfo() {
+		return gInfo;
+	}
+	public void setgInfo(String gInfo) {
+		this.gInfo = gInfo;
+	}
 	public String getBarcode() {
 		return barcode;
 	}

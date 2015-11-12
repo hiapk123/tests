@@ -80,6 +80,8 @@ public class AuditOrderServlet extends BaseServlet {
 			sb.append("\"gNum\"").append(":").append("\""+orderItem.getgNum()+"\"");
 			sb.append(","); 
 			sb.append("\"price\"").append(":").append("\""+orderItem.getPrice()+"\"");
+			sb.append(","); 
+			sb.append("\"gInfo\"").append(":").append("\""+orderItem.getgInfo()+"\"");
 			
 			if (index == orderItemList.size()) {
 				sb.append("}");
@@ -88,13 +90,9 @@ public class AuditOrderServlet extends BaseServlet {
 			}
 		}
 		sb.append("]");
-//		System.out.println(sb.toString());
 		response.getWriter().print(sb); // 将构造的json数组写回客户端
 		
-//		boolean b = true;
-//		response.getWriter().print(b); // 将结果写回客户端
 		return null;
-//		return "f:/pages/admin/admin-audit-order.jsp";
 	}
 	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

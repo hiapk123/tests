@@ -100,7 +100,6 @@
 	
 	/* 预览页面 */
 	function show(bno) {
-		//alert("show(bno)函数当前的bno参数值为: " + bno);
 		$.ajax({
 			url : "/sms/AuditOrderServlet",
 			data : {
@@ -123,12 +122,12 @@
 						detailHtml += "<td>" + result[i].gNum + "</td>";
 						detailHtml += "<td>" + result[i].price + "</td>";
 						detailHtml += "<td>" + (result[i].gNum * result[i].price) + "</td>";
+						detailHtml += "<td>" + result[i].gInfo + "</td>";
 						detailHtml += "<td><a class=\"btn btn-info\" href=\"#\"> <i	class=\"glyphicon glyphicon-edit icon-white\"></i>编辑</a></td>";
 						detailHtml += "</tr>";
 					}
 					$("#bookingDetail").html(detailHtml);
 				} else { // 该订单没有数据
-					//$("#bookingDetail").empty();
 					$("#bookingDetail").html("");
 					$("#tip").html("<center><span>该订单没有数据！</span></center>");
 				}
@@ -163,18 +162,17 @@
 					$("#gName").val(result[0].gName);
 					$("#quantity").val(result[0].gNum);
 					$("#price").val(result[0].price);
-					$("#description").val("库存不足"); // 默认都为库存不足，此处需要修改
+					$("#description").val(result[0].gInfo); // 默认都为库存不足，此处需要修改
 					
 					// 当商品名称下拉框的值发生改变，对应设置表单的值
 					$("#goodsName").change(function(){
 						var index = $("#goodsName").val();
-						//alert(index);
 						
 						$("#barcode").val(result[index].barcode);
 						$("#gName").val(result[index].gName);
 						$("#quantity").val(result[index].gNum);
 						$("#price").val(result[index].price);
-						$("#description").val("库存不足"); // 默认都为库存不足，此处需要修改
+						$("#description").val(result[index].gInfo); // 默认都为库存不足，此处需要修改
 					});
 				} else { // 该订单没有数据,清空表单所有的值
 					$("#goodsName").html("<option disabled>选择要编辑的商品</option>");
@@ -234,7 +232,6 @@
 						<th>订货门店</th>
 						<th>日期</th>
 						<th>状态</th>
-						<th>留言</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -246,7 +243,6 @@
 						<td class="center">${booking.BDate }</td>
 						<td class="center"><span
 							class="label-success label label-default">${booking.BStatus }</span></td>
-						<td class="center">${booking.BInfo }</td>
 						<td class="center">
 							<a onclick="javascript:show('${booking.BNo }');" id="preview" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal"
 							href="#"> 
@@ -286,6 +282,7 @@
 								<th>商品数量</th>
 								<th>进货价</th>
 								<th>小计</th>
+								<th>备注</th>
 								<th>操作</th>
 							</tr>
 						</thead>
