@@ -22,4 +22,6 @@ public interface AuditOrderService {
 
 	List<OrderItem> findByBNo(String bno);
 
+	void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno);
+
 }

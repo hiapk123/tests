@@ -29,6 +29,25 @@ public class AuditOrderServlet extends BaseServlet {
 	private InventoryWarningService inventoryWarningService = new InventoryWarningServiceImp();
 	private AuditOrderService auditOrderService = new AuditOrderServiceImp();
 
+	public String updateBookingByBNo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* 表单获取的参数 */
+		String status = request.getParameter("bookingStatus");
+		String quantity = request.getParameter("quantity");
+		String description = request.getParameter("description");
+		String gIndex = request.getParameter("gIndex");
+		// URL 传递过来的订单编号参数
+		String bno = request.getParameter("bno"); 
+//		System.out.println("status: " + status);
+//		System.out.println("quantity: " + quantity);
+//		System.out.println("description: " + description);
+//		System.out.println("bno: " + bno);
+//		System.out.println("gIndex: " + gIndex);
+		
+		auditOrderService.updateBookingByBNo(status, quantity, description, gIndex, bno);
+		
+		return initLoad(request, response);
+	}
+	
 	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
@@ -40,6 +59,10 @@ public class AuditOrderServlet extends BaseServlet {
 		String date = request.getParameter("date");
 		String storeName = request.getParameter("storeName");
 		String status = request.getParameter("status");
+		System.out.println("bookingNo: " + bookingNo);
+		System.out.println("date: " + date);
+		System.out.println("storeName: " + storeName);
+		System.out.println("status: " + status);
 		
 		request.setAttribute("bookingNo", bookingNo);
 		request.setAttribute("date", date);

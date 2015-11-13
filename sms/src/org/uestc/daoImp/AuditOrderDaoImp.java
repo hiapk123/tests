@@ -18,9 +18,145 @@ import org.uestc.util.PageConstants;
 import com.uestc.bean.Booking;
 import com.uestc.bean.OrderItem;
 import com.uestc.bean.Store;
+import com.uestc.bean.TbOrder;
 
 public class AuditOrderDaoImp implements AuditOrderDao {
 	
+	/**
+	 * ******************************************
+	 * ************形参列表不需要这么多，需修改****************
+	 * ******************************************
+	 */
+	@Override
+	public void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno) throws SQLException {
+/*		public void updateBookingByBNo(String status, String barcode, String gName, String quantity, String price, String description, String gIndex, String bno) throws SQLException {
+*/		/**
+		 * 修改 booking的b_status字段（其他字段不能修改，该表是记录原始订单的信息）
+		 * 不用判断页面是否改变了订单状态，没有改变同样修改（修改成原来的值）
+		 */
+		String sql = "update booking set b_status=? where b_no=?";
+		qr.update(sql, status, bno); // booking表只能修改b_status字段
+		
+		
+		/**
+		 * tb_order操作策略：
+		 * 查询tb_order表是否存在该订单记录
+		 * 		1）如果存在该订单记录，就修改该记录
+		 * 		2）如果不存在该记录，就插入新纪录
+		 */
+		/* 查询tb_order表是否存在该订单记录 */
+		sql = "select count(1) from tb_order where b_no=?";
+		Number number = qr.query(sql, new ScalarHandler(), bno);
+		String bNums = "";
+		String bInfos = "";
+		String[] bNumArray = null;
+		String[] bInfoArray = null;
+		if (number.intValue() == 1) { /* 1）如果存在该订单记录，就修改该记录(update) */
+			sql = "select b_num, b_info from booking where b_no=?"; // 查询出数据库之前的b_num信息，组装拼接再插入
+			List<Object[]> list = qr.query(sql, new ArrayListHandler(), bno);
+			if (list.size() > 0) {
+				Object[] obj = list.get(0);
+				if (obj[0] != null) {
+					bNums = obj[0].toString();
+					bNumArray = bNums.split(";");
+					for (int i = 0; i < bNumArray.length; i++) {
+						if (Integer.parseInt(gIndex) == i) {
+							bNumArray[i] = quantity;
+						}
+					}
+					bNums = ""; // 给bNums置为""
+					for (int i = 0; i < bNumArray.length; i++) {
+						bNums += bNumArray[i]+";";
+					}
+				}
+				if (obj[1] != null) {
+					bInfos = obj[1].toString();
+					bInfoArray = bInfos.split(";");
+					for (int i = 0; i < bInfoArray.length; i++) {
+						if (Integer.parseInt(gIndex) == i) {
+							bInfoArray[i] = description;
+						}
+					}
+					bInfos = ""; // 给bInfos置为""
+					for (int i = 0; i < bInfoArray.length; i++) {
+						bInfos += bInfoArray[i]+";";
+					}
+				}
+			}
+			
+			sql = "update tb_order set b_num=?,b_status=?,b_info=? where b_no=?"; // 只有这三个字段可以修改，其他字段保持不变
+			qr.update(sql, bNums, status, bInfos, bno);
+			
+		} else { // 2）如果不存在该记录，就插入新纪录(insert)  
+			sql = "select * from booking where b_no=?";
+			List<Object[]> list = qr.query(sql, new ArrayListHandler(), bno);
+			TbOrder tbOrder = new TbOrder();
+			if (list.size() > 0) {
+				Object[] obj = list.get(0);
+				if (obj[1] != null) {
+					tbOrder.setbNo(obj[1].toString());
+				}
+				if (obj[2] != null) {
+					tbOrder.setgId(obj[2].toString());
+				}
+				if (obj[3] != null) {
+					bNums = obj[3].toString();
+					bNumArray = bNums.split(";");
+					for (int i = 0; i < bNumArray.length; i++) {
+						if (Integer.parseInt(gIndex) == i) {
+							bNumArray[i] = quantity;
+						}
+					}
+					bNums = ""; // 给bNums置为""
+					for (int i = 0; i < bNumArray.length; i++) {
+						bNums += bNumArray[i]+";";
+					}
+					tbOrder.setbNum(bNums); // 编辑页面中的数量
+				}
+				if (obj[4] != null) {
+					tbOrder.setsId(obj[4].toString());
+				}
+				if (obj[5] != null) {
+					tbOrder.setbStatus(status); // 编辑页面中的状态
+				}
+				if (obj[6] != null) {
+					bInfos = obj[6].toString();
+					bInfoArray = bInfos.split(";");
+					for (int i = 0; i < bInfoArray.length; i++) {
+						if (Integer.parseInt(gIndex) == i) {
+							bInfoArray[i] = description;
+						}
+					}
+					bInfos = ""; // 给bInfos置为""
+					for (int i = 0; i < bInfoArray.length; i++) {
+						bInfos += bInfoArray[i]+";";
+					}
+					tbOrder.setbInfo(description); // 编辑页面中的备注信息
+				}
+				if (obj[7] != null) {
+					tbOrder.setbDate(obj[7].toString());
+				}
+				if (obj[8] != null) {
+					tbOrder.setsDel(Integer.valueOf(obj[8].toString()));
+				}
+			}
+			
+			sql = "insert into tb_order(b_no,o_no,g_id,b_num,s_id,b_status,b_info,b_date,s_del) values(?,?,?,?,?,?,?,?,?)";
+			Object[] params = {
+				tbOrder.getbNo(),
+				tbOrder.getbNo(), // 暂时让o_no和b_no相等
+				tbOrder.getgId(),
+				tbOrder.getbNum(),
+				tbOrder.getsId(),
+				tbOrder.getbStatus(),
+				tbOrder.getbInfo(),
+				tbOrder.getbDate(),
+				tbOrder.getsDel()
+			};
+			qr.update(sql, params);
+		}
+	}
+
 	@Override
 	public List<OrderItem> findByBNo(String bno) throws SQLException {
 		String sql = "select g_id, b_num, b_info from booking where b_no=?";

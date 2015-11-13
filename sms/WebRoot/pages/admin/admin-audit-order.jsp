@@ -138,6 +138,14 @@
 	
 	/* 编辑页面 */
 	function edit(bno) {
+		
+		/**
+		 *	设置 编辑页面表单提交请求的URL(带bno参数) 
+		*/
+		var action = "<c:url value='/AuditOrderServlet?method=updateBookingByBNo&bno=" + bno + "'/>";
+		$("#updateForm").attr("action", action);
+		//alert("action: " + $("#updateForm").attr("action"));
+		
 		$.ajax({
 			url : "/sms/AuditOrderServlet",
 			data : {
@@ -162,17 +170,21 @@
 					$("#gName").val(result[0].gName);
 					$("#quantity").val(result[0].gNum);
 					$("#price").val(result[0].price);
-					$("#description").val(result[0].gInfo); // 默认都为库存不足，此处需要修改
+					$("#description").val(result[0].gInfo);
+					$("#gIndex").val("0");
 					
 					// 当商品名称下拉框的值发生改变，对应设置表单的值
 					$("#goodsName").change(function(){
 						var index = $("#goodsName").val();
+						//alert("index: " + index);
 						
 						$("#barcode").val(result[index].barcode);
 						$("#gName").val(result[index].gName);
 						$("#quantity").val(result[index].gNum);
 						$("#price").val(result[index].price);
-						$("#description").val(result[index].gInfo); // 默认都为库存不足，此处需要修改
+						$("#description").val(result[index].gInfo);
+						$("#gIndex").val(index);
+						//alert("gIndex: " + $("#gIndex").val());
 					});
 				} else { // 该订单没有数据,清空表单所有的值
 					$("#goodsName").html("<option disabled>选择要编辑的商品</option>");
@@ -238,7 +250,7 @@
 				<tbody>
 				<c:forEach items="${pb.beanList }" var="booking" varStatus="status">
 					<tr>
-						<td>${booking.BNo }</td>
+						<td id="bnoTd">${booking.BNo }</td>
 						<td class="center">${booking.store.SName }</td>
 						<td class="center">${booking.BDate }</td>
 						<td class="center"><span
@@ -248,9 +260,18 @@
 							href="#"> 
 								<i class="glyphicon glyphicon-zoom-in icon-white"></i> 预览
 							</a> 
-							<a onclick="javascript:edit('${booking.BNo }');" class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal2"> 
-								<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
-							</a> 
+							<c:choose>
+							<c:when test="${booking.BStatus eq '待审核'}">
+								<a onclick="javascript:edit('${booking.BNo }');" class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal2"> 
+									<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
+								</a> 
+							</c:when>
+							<c:otherwise>
+								<a class="btn btn-primary" href="#" disabled> 
+									<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
+								</a>
+							</c:otherwise>
+							</c:choose>
 							<a class="btn btn-danger" href="#"> 
 								<i class="glyphicon glyphicon-trash icon-white"></i> 删除
 							</a>
@@ -294,7 +315,7 @@
 				</div>
 				<div class="modal-footer">
 					<a href="#" class="btn btn-default" data-dismiss="modal">关闭对话框</a>
-					<a href="#" class="btn btn-primary" data-dismiss="modal">保存订单 </a>
+					<!-- <a href="#" class="btn btn-primary" data-dismiss="modal">保存订单 </a> -->
 				</div>
 			</div>
 		</div>
@@ -312,43 +333,55 @@
 				<div class="modal-body">
 					<select id="goodsName" data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
 					</select>
-					
+					<form id="updateForm" action="<c:url value=''/>" method="post">
+					<input type="hidden" name="gIndex" value="" id="gIndex">
+					<input id="submitInput" type="submit" value="保存订单" style="display: none;"> 
 					<table
 						class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 						<tbody>
 
 							<tr>
 								<td>商品条码</td>
-								<td><input type="text" class="form-control"
-									id="barcode" disabled="disabled"></td>
+								<td><input name="barcode" type="text" class="form-control"
+									id="barcode" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<td>商品名称</td>
-								<td><input type="text" class="form-control"
-									id="gName" disabled="disabled"></td>
+								<td><input name="gName" type="text" class="form-control"
+									id="gName" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<td>进货数量</td>
-								<td><input type="text" class="form-control"
-									id="quantity" value="10"></td>
+								<td><input name="quantity" type="text" class="form-control"
+									id="quantity" value=""></td>
 							</tr>
 							<tr>
 								<td>进货价格</td>
-								<td><input type="text" class="form-control"
-									id="price" value="30.6"></td>
+								<td><input name="price" type="text" class="form-control"
+									id="price" value="" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<td>备注</td>
-								<td><input type="text" class="form-control"
-									id="description" value="库存不足"></td>
+								<td><input name="description" type="text" class="form-control"
+									id="description" value=""></td>
 							</tr>
 						</tbody>
 					</table>
+					<select name="bookingStatus" id="bookingStatus" data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
+						<option <c:if test="${status eq '待审核'}">selected</c:if>>待审核</option>
+						<option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
+						<option selected="selected" <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
+						<option <c:if test="${status eq '审核未通过'}">selected</c:if>>审核未通过</option>
+						<option <c:if test="${status eq '待发货'}">selected</c:if>>待发货</option>
+						<option <c:if test="${status eq '已发货'}">selected</c:if>>已发货</option>
+						<option <c:if test="${status eq '已收货'}">selected</c:if>>已收货</option>
+					</select>
+					</form>
 
 				</div>
 				<div class="modal-footer">
 					<a href="#" class="btn btn-default" data-dismiss="modal">关闭对话框</a>
-					<a href="#" class="btn btn-primary" data-dismiss="modal">保存订单 </a>
+					<a href="#" class="btn btn-primary" data-dismiss="modal" onclick="$('#submitInput').click();">保存订单 </a>
 				</div>
 			</div>
 		</div>
@@ -365,14 +398,6 @@
 		</c:choose>
 	</div>
 	
-	<%-- <div align="center">
-		<input type="hidden" id="page" value="20" />
-		<ul class="pagination">
-			<page:htmlPage pageNo="20" url="index.jsp" totalSum="980"
-				showPage="10" pageSize="10" />
-		</ul>
-	</div> --%>
-
 </body>
 </html>
 

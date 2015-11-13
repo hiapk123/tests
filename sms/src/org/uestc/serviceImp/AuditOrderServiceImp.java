@@ -48,4 +48,13 @@ public class AuditOrderServiceImp implements AuditOrderService {
 		}
 	}
 
+	@Override
+	public void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno) {
+		try {
+			auditOrderDao.updateBookingByBNo(status, quantity, description, gIndex, bno);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

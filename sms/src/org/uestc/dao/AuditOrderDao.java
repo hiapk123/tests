@@ -21,4 +21,7 @@ public interface AuditOrderDao {
 	PageBean<Booking> findByCombination(String bookingNo, String date, String storeName, String status, Long uId, int pc) throws SQLException;
 
 	List<OrderItem> findByBNo(String bno)throws SQLException;
+
+	void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno)throws SQLException;
+
 }
