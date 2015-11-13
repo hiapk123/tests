@@ -24,4 +24,6 @@ public interface AuditOrderDao {
 
 	void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno)throws SQLException;
 
+	void delete(String bno)throws SQLException;
+
 }

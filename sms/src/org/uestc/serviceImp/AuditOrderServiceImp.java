@@ -57,4 +57,13 @@ public class AuditOrderServiceImp implements AuditOrderService {
 		}
 	}
 
+	@Override
+	public void delete(String bno) {
+		try {
+			auditOrderDao.delete(bno);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

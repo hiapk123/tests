@@ -22,15 +22,15 @@ import com.uestc.bean.TbOrder;
 
 public class AuditOrderDaoImp implements AuditOrderDao {
 	
-	/**
-	 * ******************************************
-	 * ************形参列表不需要这么多，需修改****************
-	 * ******************************************
-	 */
+	@Override
+	public void delete(String bno) throws SQLException {
+		String sql = "delete from booking where b_no=?";
+		qr.update(sql, bno);
+	}
+
 	@Override
 	public void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno) throws SQLException {
-/*		public void updateBookingByBNo(String status, String barcode, String gName, String quantity, String price, String description, String gIndex, String bno) throws SQLException {
-*/		/**
+		/**
 		 * 修改 booking的b_status字段（其他字段不能修改，该表是记录原始订单的信息）
 		 * 不用判断页面是否改变了订单状态，没有改变同样修改（修改成原来的值）
 		 */

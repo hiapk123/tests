@@ -267,14 +267,23 @@
 								</a> 
 							</c:when>
 							<c:otherwise>
-								<a class="btn btn-primary" href="#" disabled> 
+								<a class="btn" href="#" disabled> <!-- class="btn btn-primary" -->
 									<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
 								</a>
 							</c:otherwise>
 							</c:choose>
-							<a class="btn btn-danger" href="#"> 
-								<i class="glyphicon glyphicon-trash icon-white"></i> 删除
-							</a>
+							<c:choose>  
+							<c:when test="${booking.BStatus eq '待审核' or booking.BStatus eq '审核中' or booking.BStatus eq '审核未通过'}">
+								<a class="btn btn-danger" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
+									<i class="glyphicon glyphicon-trash icon-white"></i> 删除
+								</a> 
+							</c:when>
+							<c:otherwise>
+								<a disabled class="btn" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
+									<i class="glyphicon glyphicon-trash icon-white"></i> 删除
+								</a>
+							</c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</c:forEach>
@@ -370,7 +379,8 @@
 					<select name="bookingStatus" id="bookingStatus" data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
 						<option <c:if test="${status eq '待审核'}">selected</c:if>>待审核</option>
 						<option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
-						<option selected="selected" <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
+						<option <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
+<%-- 						<option selected="selected" <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option> --%>
 						<option <c:if test="${status eq '审核未通过'}">selected</c:if>>审核未通过</option>
 						<option <c:if test="${status eq '待发货'}">selected</c:if>>待发货</option>
 						<option <c:if test="${status eq '已发货'}">selected</c:if>>已发货</option>

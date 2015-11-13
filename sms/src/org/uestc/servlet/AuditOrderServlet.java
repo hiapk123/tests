@@ -29,6 +29,13 @@ public class AuditOrderServlet extends BaseServlet {
 	private InventoryWarningService inventoryWarningService = new InventoryWarningServiceImp();
 	private AuditOrderService auditOrderService = new AuditOrderServiceImp();
 
+	public String delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String bno = request.getParameter("bno");
+		auditOrderService.delete(bno);
+		System.out.println(bno);
+		return initLoad(request, response);
+	}
+	
 	public String updateBookingByBNo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* 表单获取的参数 */
 		String status = request.getParameter("bookingStatus");
@@ -59,10 +66,11 @@ public class AuditOrderServlet extends BaseServlet {
 		String date = request.getParameter("date");
 		String storeName = request.getParameter("storeName");
 		String status = request.getParameter("status");
-		System.out.println("bookingNo: " + bookingNo);
-		System.out.println("date: " + date);
-		System.out.println("storeName: " + storeName);
-		System.out.println("status: " + status);
+		
+//		System.out.println("bookingNo: " + bookingNo);
+//		System.out.println("date: " + date);
+//		System.out.println("storeName: " + storeName);
+//		System.out.println("status: " + status);
 		
 		request.setAttribute("bookingNo", bookingNo);
 		request.setAttribute("date", date);

@@ -24,4 +24,6 @@ public interface AuditOrderService {
 
 	void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno);
 
+	void delete(String bno);
+
 }
