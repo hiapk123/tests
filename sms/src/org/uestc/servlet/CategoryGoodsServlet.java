@@ -151,7 +151,7 @@ public class CategoryGoodsServlet extends HttpServlet {
 		try {
 			JSONArray array = new JSONArray();
 			HttpSession session = req.getSession();
-			int uid = (Integer) session.getAttribute("uid");
+			int uid = Integer.valueOf(session.getAttribute("uid").toString());
 			System.out.println(uid);
 			List<Object[]> list = CateService.findStoreByUserId(uid);// 查询所有分类，父ID为-1
 			for (int i = 0; i < list.size(); i++) {
