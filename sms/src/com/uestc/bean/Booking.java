@@ -12,9 +12,11 @@ public class Booking implements java.io.Serializable {
 	// Fields
 
 	private Integer BId;
+	private String BNo;
 	private Goods goods;
 	private String BNum;
 	private Integer SId;
+	private Store store;
 	private String BStatus;
 	private String BInfo;
 	private String BDate;
@@ -119,6 +121,22 @@ public class Booking implements java.io.Serializable {
 
 	public void setReturnses(Set returnses) {
 		this.returnses = returnses;
+	}
+
+	public String getBNo() {
+		return BNo;
+	}
+
+	public void setBNo(String bNo) {
+		BNo = bNo;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 }

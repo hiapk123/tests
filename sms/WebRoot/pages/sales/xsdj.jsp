@@ -32,6 +32,14 @@
 <script type="text/javascript"
 	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js'/>"
 	charset="UTF-8"></script>
+<!-- 打印控件资源（前面日期控件引入了jquery.min.js，此处不用引入jquery-1.4.4.min.js，一样可以使用，可能只有1.9.1版本的jquery不能用） -->
+<script type="text/javascript"
+	src="<c:url value='/js/jquery.jqprint-0.3.js'/>"></script>
+<script type="text/javascript">
+	function print() {
+		$("#printDiv").jqprint();
+	}
+</script>
 </head>
 <body>
 	<div class="panel panel-default">
@@ -64,14 +72,15 @@
 						</select>
 					</div>
 
-					<div class="input-group date form_datetime col-xs-3" data-date="" data-link-field="dtp_input1">
+				<div class="col-xs-5">	
+					<div class="input-group date form_datetime col-xs-6" data-date="" data-link-field="dtp_input1">
                     <input name="beginTime" class="form-control" size="16" type="text" value="${beginTime }" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                 </div>
 				<input type="hidden" id="dtp_input1" value="" />
 					
-					<div class="input-group date form_datetime col-xs-3" data-date=""
+					<div class="input-group date form_datetime col-xs-6" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
 						<input name="endTime" class="form-control" size="16" type="text" value="${endTime }"
@@ -81,6 +90,7 @@
 							class="glyphicon glyphicon-th"></span></span>
 					</div>
 					<input type="hidden" id="dtp_input1" value="" />
+				</div>
 
 					<div class="col-xs-1">
 						<input type="text" class="form-control" placeholder="流水号"
@@ -90,12 +100,16 @@
 					<div class="col-xs-1">
 						<button type="submit" class="btn btn-primary">查询</button>
 					</div>
+					
+					<div class="col-xs-1">
+						<button type="button" class="btn btn-primary" onclick="print()">打印</button>
+					</div>
 				</div>
 			</form>
 		</div>
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel panel-default" id="printDiv">
 		<!-- Default panel contents -->
 		<!-- <div class="panel-heading">Panel heading</div> -->
 		<!-- <div class="panel-body">

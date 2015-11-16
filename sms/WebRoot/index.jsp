@@ -168,6 +168,7 @@
 		});
 		/*end*
 		/***************************************************************************/
+
 		/*start*/
 		//商品模块的批量设置
 	 	//批量设置
@@ -196,12 +197,14 @@
 			$('iframe').attr('src','<%=basePath %>EmpleeDateInform?type=init');
 		});
 		
+		
 		/****************************************************************************/
 		/*管理员审核*/
 		$('#auditOrder').click(function(){
-			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?m=auditOrder');
+			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?method=initLoad');
 		});
 		/****************************************************************************/
+		
 		$("li a").click(
 		function() {
 			var parent = $(this).attr("data-options");
@@ -308,7 +311,7 @@
 											<li><a href="#" data-options="销售" id="zbtj">占比统计</a></li>
 											<li><a href="#" data-options="销售" id="spxs">商品销售统计</a></li>
 											<!-- <li><a href="#" data-options="销售" id="djpl">单据评论</a></li> -->
-											<li><a href="#" data-options="销售" id="zktj">折扣统计</a></li>
+											<!-- <li><a href="#" data-options="销售" id="zktj">折扣统计</a></li> -->
 										</ul>
 									</div>
 								</div>

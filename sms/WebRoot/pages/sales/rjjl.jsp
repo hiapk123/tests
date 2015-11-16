@@ -32,6 +32,14 @@
 <script type="text/javascript"
 	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js'/>"
 	charset="UTF-8"></script>
+<!-- 打印控件资源（前面日期控件引入了jquery.min.js，此处不用引入jquery-1.4.4.min.js，一样可以使用，可能只有1.9.1版本的jquery不能用） -->
+<script type="text/javascript"
+	src="<c:url value='/js/jquery.jqprint-0.3.js'/>"></script>
+<script type="text/javascript">
+	function print() {
+		$("#printDiv").jqprint();
+	}
+</script>
 </head>
 <body>
 	<div class="panel panel-default">
@@ -69,15 +77,19 @@
 					<input type="hidden" id="dtp_input1" value="" />
 
 
-					<div class="col-xs-2">
+					<div class="col-xs-1">
 						<button type="submit" class="btn btn-primary">查询</button>
+					</div>
+					
+					<div class="col-xs-1">
+						<button type="button" class="btn btn-primary" onclick="print()">打印</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
 
-	<div class="panel panel-default">
+	<div class="panel panel-default" id="printDiv">
 		<!-- Default panel contents -->
 		<!-- <div class="panel-heading">Panel heading</div> -->
 		<!-- <div class="panel-body">
