@@ -54,26 +54,34 @@ public class GoodsServiceImp implements GoodsService {
 	}
 
 	@Override
-	public List<Object[]> goodssearch(int sid, int currentPage) {
+	public List<Object[]> goodssearch(int sid, int currentPage, String key, String c_name,String g_del) {
 		//String sql = "SELECT g_name,s_name,g_barcode,s_id,g_stock_num,g_pur_price,g_id from goods where s_id=?  limit ?,10";
 		String sql = "SELECT g_id, g_name,s_name,g_barcode,g_stock_num,"  //5
 				+ "g_pur_price,g_sale_price,g_trade_price,c_name,"      //4
 				+ "g_stock_min,g_stock_max,g_prod_date,g_giq,g_pm,"     //5
 				+ "su_name,g_flag,vip_id,g_vip_price,zdy1,zdy2,"      //6
-				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor,g_del,g_info,g_img_path"
-				+ " from goods where s_id=?  limit ?,10";
-		List<Object[]> list = SqlHelper.find(sql, sid, currentPage);
+				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor,g_del,g_info,g_img_path,g_integral,c_id,g_unit,g_howmuch,unit_id"
+				+ " from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  limit ?,10";
+		List<Object[]> list = SqlHelper.find(sql, sid,c_name,g_del, currentPage);
 		return list;
 	}
 
 	@Override
-	public void kuaisuluru(int s_id,String g_barcode,String g_name,String c_name,String g_pur_price,String g_sale_price,String g_stock_num) {
+	public void kuaisuluru(int s_id,String g_barcode,String g_name,String c_name,String g_pur_price,String g_sale_price,String g_stock_num, String c_id, String s_name) {
 		// TODO Auto-generated method stub
-		String sql = "insert into goods(s_id,g_name,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_del) value(?,?,?,?,?,?,?,1)";
+		String sql = "insert into goods(s_id,s_name,g_name,g_del,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_pm,"
+				+ "g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,su_name,g_stock_min,"
+				+ "vip_id,g_vip_price,g_giq,zdy2,zdy4,g_qd_min,g_cl_min,g_stock_nor,"
+				+ "g_flag,g_best,g_sale_nor,g_info,g_img_path,g_integral,c_id) value(?,?,?,?,?,?,?,?,?,?,"
+				+ "?,?,?,?,?,?,?,"
+				+ "?,?,?,?,?,?,?,?,"
+				+ "?,?,?,?,?,?,?)";
 
-
-		SqlHelper.executeUpdate(sql, new String[] { s_id + "",  g_name,  g_stock_num, g_sale_price,
-				g_pur_price, c_name, g_barcode });
+		SqlHelper.executeUpdate(sql, new String[] { s_id+"", s_name, g_name, 1+"", g_stock_num, g_sale_price,
+				g_pur_price, c_name, g_barcode,"","100","",
+				"","","","","","1","100",
+				"","","","","","","0","",
+				"","","","1",c_id});
 
 	}
 
@@ -82,21 +90,21 @@ public class GoodsServiceImp implements GoodsService {
 			String g_pur_price, String c_name, String g_barcode, String g_pm, String g_stock_max, String g_trade_price,
 			String g_prod_date, String zdy1, String zdy3, String su_name, String g_stock_min, String vip_id,
 			String g_vip_price, String g_giq, String zdy2, String zdy4, String g_qd_min, String g_cl_min,
-			String g_stock_nor, String g_flag, String g_best, String g_sale_nor, String g_info, String g_img_path) {
+			String g_stock_nor, String g_flag, String g_best, String g_sale_nor, String g_info, String g_img_path, String g_integral, String c_id, String unit_id, String g_unit, String g_howmuch) {
 		// TODO Auto-generated method stub
 		String sql = "insert into goods(s_id,s_name,g_name,g_del,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_pm,"
 				+ "g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,su_name,g_stock_min,"
 				+ "vip_id,g_vip_price,g_giq,zdy2,zdy4,g_qd_min,g_cl_min,g_stock_nor,"
-				+ "g_flag,g_best,g_sale_nor,g_info,g_img_path) value(?,?,?,?,?,?,?,?,?,?,"
+				+ "g_flag,g_best,g_sale_nor,g_info,g_img_path,g_integral,c_id, unit_id, g_unit, g_howmuch) value(?,?,?,?,?,?,?,?,?,?,"
 				+ "?,?,?,?,?,?,?,"
 				+ "?,?,?,?,?,?,?,?,"
-				+ "?,?,?,?,?)";
+				+ "?,?,?,?,?,?,?,?,?,?)";
 
 		SqlHelper.executeUpdate(sql, new String[] { s_id, s_name, g_name, g_del, g_stock_num, g_sale_price,
 				g_pur_price, c_name, g_barcode,g_pm,g_stock_max,g_trade_price,
 				g_prod_date,zdy1,zdy3,su_name,g_stock_min,vip_id,g_vip_price,
 				g_giq,zdy2,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,
-				g_sale_nor,g_info,g_img_path});
+				g_sale_nor,g_info,g_img_path,g_integral,c_id, unit_id, g_unit, g_howmuch});
 	}
 
 
@@ -109,20 +117,21 @@ public class GoodsServiceImp implements GoodsService {
 			String g_prod_date, String zdy1, String zdy3, String su_name, String g_stock_min, String vip_id,
 			String g_vip_price, String g_giq, String zdy2, String zdy4, String g_qd_min, String g_cl_min,
 			String g_stock_nor, String g_flag, String g_best, String g_sale_nor, String g_info, String g_img_path,
-			int g_id) {
+			int g_id, String g_integral, String c_id,String g_unit,String g_howmuch,String unit_id) {
 		// TODO Auto-generated method stub
 		String sql="update goods set s_name=?,g_name=?,g_del=?,g_stock_num=?,g_sale_price=?,"
 				+ "g_pur_price=?,c_name=?,g_barcode=?,g_pm=?,g_stock_max=?,g_trade_price=?,"
 				+ "g_prod_date=?, zdy1=?,zdy3=?,su_name=?,g_stock_min=?,vip_id=?,"
 				+ "g_vip_price=?,g_giq=?,zdy2=?,zdy4=?,g_qd_min=?,g_cl_min=?,"
-				+ "  g_stock_nor=?,g_flag=?,g_best=?,g_sale_nor=?,g_info=?, g_img_path=? where g_id=? ";
+				+ "  g_stock_nor=?,g_flag=?,g_best=?,g_sale_nor=?,g_info=?, g_img_path=?,g_integral=?,c_id=?,g_unit=?,"
+				+ "g_howmuch=?,unit_id=? where g_id=? ";
 
 		SqlHelper.executeUpdate(sql, new String[] {s_name, g_name, g_del,
 				g_stock_num, g_sale_price, g_pur_price, c_name,g_barcode,
 				g_pm,g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,
 				su_name,g_stock_min,vip_id,g_vip_price,g_giq,zdy2,zdy4,
 				g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,g_sale_nor,
-				g_info,g_img_path, String.valueOf(g_id)});
+				g_info,g_img_path,g_integral,c_id,g_unit,g_howmuch, unit_id,String.valueOf(g_id)});
 
 	}
 
@@ -134,9 +143,9 @@ public class GoodsServiceImp implements GoodsService {
 	}
 
 	@Override
-	public int getTotalSize(int store) {
-		String sql = "select count(g_id) from goods where  s_id=?";
-		List<Object[]> list = SqlHelper.find(sql, store);
+	public int getTotalSize(int store, String key, String c_name, String g_del) {
+		String sql = "select count(g_id) from goods where  s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')";
+		List<Object[]> list = SqlHelper.find(sql, store,c_name,g_del);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
@@ -145,21 +154,21 @@ public class GoodsServiceImp implements GoodsService {
 
 
 	@Override
-	public List<Object[]> upsort(  int sid,int currentPage,String sorted) {
+	public List<Object[]> upsort(  int sid,int currentPage,String sorted, String key,String c_name,String g_del) {
 		// TODO Auto-generated method stub
 		String a=sorted;
-		String sql="select * from goods where s_id=?   order by cast("+ a+" as signed) asc limit ?,10";
-		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
+		String sql="select * from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast("+ a+" as signed) asc limit ?,10";
+		List<Object[]> list = SqlHelper.find(sql,sid,c_name,g_del,currentPage);
 		return list;
 	}
 
 	@Override
-	public List<Object[]> downsort(int sid, int currentPage,String sorted) {
+	public List<Object[]> downsort(int sid, int currentPage,String sorted, String key,String c_name,String g_del) {
 		// TODO Auto-generated method stub
 		String a=sorted;
 		//String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price desc limit ?,10";
-		String sql="select * from goods where s_id=?   order by cast(" + a+" as signed) desc limit ?,10";
-		List<Object[]> list = SqlHelper.find(sql,sid,currentPage);
+		String sql="select * from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast(" + a+" as signed) desc limit ?,10";
+		List<Object[]> list = SqlHelper.find(sql,sid,c_name,g_del,currentPage);
 		return list;
 	}
 
@@ -168,7 +177,10 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public List<Object[]> toExcel(int s_id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT g_name,s_name,g_barcode from goods where s_id=? and g_del=1 ";
+		String sql = "SELECT g_name,c_name,g_barcode,g_stock_num,g_pur_price,g_sale_price,"
+				+ "g_trade_price,g_vip_price,g_integral,vip_id,"
+				+ "g_stock_max,g_stock_min,su_name,g_prod_date,g_giq,g_pm,zdy1,zdy2,zdy3,zdy4,"
+				+ "g_del,g_info from goods where s_id=? ";
 		List<Object[]> list = SqlHelper.find(sql, s_id);
 		return list;
 	}
@@ -176,23 +188,34 @@ public class GoodsServiceImp implements GoodsService {
 	@Override
 	public void fuzhi(int s_id1,int s_id2) {
 		// TODO Auto-generated method stub
-		String sql1="select * from goods where s_id=? ";
+		String sql1="select s_id,s_name,g_name,g_del,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_pm,"//10
+					+ "g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,su_name,g_stock_min,"//7
+					+ "vip_id,g_vip_price,g_giq,zdy2,zdy4,g_qd_min,g_cl_min,g_stock_nor,"//8
+					+ "g_flag,g_best,g_sale_nor,g_info,g_img_path,g_integral,c_id from goods where s_id=? ";
 		List<Object[]> list1 = SqlHelper.find(sql1, s_id1);
-		String sql2="select * from goods where s_id=? ";
+		String sql2="select g_barcode from goods where s_id=? ";
 		List<Object[]> list2 = SqlHelper.find(sql2, s_id2);
 		String []sqls=new String[list1.size()];
 		String sql="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
 		for (int i = 0; i < sqls.length; i++) {
-			sqls[i]="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
+		//	sqls[i]="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
+			sqls[i] = "insert into goods(s_id,s_name,g_name,g_del,g_stock_num,g_sale_price,g_pur_price, c_name,g_barcode,g_pm,"//10
+					+ "g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,su_name,g_stock_min,"//7
+					+ "vip_id,g_vip_price,g_giq,zdy2,zdy4,g_qd_min,g_cl_min,g_stock_nor,"//8
+					+ "g_flag,g_best,g_sale_nor,g_info,g_img_path,g_integral,c_id)"//7
+					+ " value(?,?,?,?,?,?,?,?,?,?,"
+					+ "?,?,?,?,?,?,?,"
+					+ "?,?,?,?,?,?,?,?,"
+					+ "?,?,?,?,?,?,?)";
 		}
 
-		String [][]sb= new String [list1.size()][4];
+		String [][]sb= new String [list1.size()][32];
 		//第12位为条码字段
 		for(int i=0;i<list1.size();i++){
 			int flag=0;
 			for (int j = 0; j < list2.size(); j++) {
 				//扫描另一个门店，观察有没有条码一样的商品
-				if (list1.get(i)[11].equals(list2.get(j)[11])) {
+				if (list1.get(i)[8].equals(list2.get(j)[0])) {
 					flag=1;
 
 				}
@@ -201,10 +224,11 @@ public class GoodsServiceImp implements GoodsService {
 
 			}
 			if(flag==0){
-				sb[i][0]=s_id2+"";
-				sb[i][1]=(String) list1.get(i)[3];
-				sb[i][2]=(String) list1.get(i)[1];
-				sb[i][3]=(String) list1.get(i)[11];
+				sb[i][0]=String.valueOf(s_id2) ;
+				for (int k = 1; k < 32; k++) {
+					sb[i][k]=String.valueOf(list1.get(i)[k]) ;
+				}
+			
 
 				//String sql="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";
 
@@ -377,9 +401,9 @@ public class GoodsServiceImp implements GoodsService {
 					g.setG_integral(sheet.getCell(j, i).getContents());
 					continue;
 				}
-				if(g.getG_vip()==null)
+				if(g.getVip_id()==null)
 				{
-					g.setG_vip(sheet.getCell(j, i).getContents());
+					g.setVip_id(sheet.getCell(j, i).getContents());
 					continue;
 				}
 				if(g.getG_stock_max()==null)
@@ -537,13 +561,27 @@ public class GoodsServiceImp implements GoodsService {
 				}
 				if(g.getG_integral()==null)
 				{
-					g.setG_integral(sheet.getCell(j, i).getContents());
-					continue;
+					if (sheet.getCell(j, i).getContents().trim().equals("是")) {
+						g.setG_integral("1");
+						continue;
+					}else if(sheet.getCell(j, i).getContents().equals("")||
+							sheet.getCell(j, i).getContents().trim().equals("否")){
+						g.setG_integral("0");
+						continue;
+					}
+					
 				}
-				if(g.getG_vip()==null)
+				if(g.getVip_id()==null)
 				{
-					g.setG_vip(sheet.getCell(j, i).getContents());
-					continue;
+					if (sheet.getCell(j, i).getContents().trim().equals("是")) {
+						g.setVip_id("0");
+						continue;
+					}else if(sheet.getCell(j, i).getContents().equals("")||
+							sheet.getCell(j, i).getContents().trim().equals("否")){
+						g.setVip_id("1");
+						continue;
+					}
+				
 				}
 				if(g.getG_stock_max()==null)
 				{
@@ -656,7 +694,7 @@ public class GoodsServiceImp implements GoodsService {
 
 		SqlHelper.executeUpdate(sql, new String[] { g.getG_name(),g.getC_name(),g.getG_barcode(),
 				g.getG_stock_num(),g.getG_pur_price(),g.getG_sale_price(),g.getG_trade_price(),
-				g.getG_vip_price(),g.getG_integral(),g.getG_vip(),g.getG_stock_max(),g.getG_stock_min(),
+				g.getG_vip_price(),g.getG_integral(),g.getVip_id(),g.getG_stock_max(),g.getG_stock_min(),
 				g.getSu_name(),g.getG_prod_date(),g.getG_giq(),g.getG_pm(),g.getZdy1(),
 				g.getZdy2(),g.getZdy3(),g.getZdy4(),g.getG_del(),g.getG_info(),g_id+""});
 		
@@ -666,12 +704,15 @@ public class GoodsServiceImp implements GoodsService {
 	public void daoruexcel(Good g,String s_id,String s_name)
 	{   
 
-		String sql="insert into goods(s_id,s_name,g_name,c_name,g_barcode,g_stock_num,g_pur_price,"
-				+ "g_sale_price,g_trade_price,g_vip_price,g_integral,g_vip,g_stock_max,g_stock_min,"
-				+ "su_name,g_prod_date,g_giq,g_pm,zdy1,zdy2,zdy3,zdy4,g_del,g_info) values"
-				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		SqlHelper.executeUpdate(sql, new String[]{
-		});
+		String sql="insert into goods(s_id,s_name,g_name,c_name,g_barcode,g_stock_num,g_pur_price,"//7
+				+ "g_sale_price,g_trade_price,g_vip_price,g_integral,vip_id,g_stock_max,g_stock_min,"//7
+				+ "su_name,g_prod_date,g_giq,g_pm,zdy1,zdy2,zdy3,zdy4,g_del,g_info) values"     //10
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		SqlHelper.executeUpdate(sql, new String[]{s_id,s_name, g.getG_name(),g.getC_name(),g.getG_barcode(),
+				g.getG_stock_num(),g.getG_pur_price(),g.getG_sale_price(),g.getG_trade_price(),
+				g.getG_vip_price(),g.getG_integral(),g.getVip_id(),g.getG_stock_max(),g.getG_stock_min(),
+				g.getSu_name(),g.getG_prod_date(),g.getG_giq(),g.getG_pm(),g.getZdy1(),
+				g.getZdy2(),g.getZdy3(),g.getZdy4(),g.getG_del(),g.getG_info()});
 	}
 
 

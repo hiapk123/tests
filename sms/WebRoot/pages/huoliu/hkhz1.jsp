@@ -1,0 +1,123 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"
+	import="java.util.*,org.uestc.util.DateFormatUtils,java.math.BigDecimal;"%>
+	<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+    <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%
+String SUM=request.getAttribute("sum").toString();
+int sum=Integer.valueOf(SUM);
+String currentPage=request.getAttribute("currentPage").toString(); 
+String start=request.getAttribute("start").toString();
+String end=request.getAttribute("end").toString();
+String s_id=request.getAttribute("s_id").toString();
+%>
+<script>
+	
+$("li a").click(function() {
+	
+	var which = $(this).text();
+	var s_id=<%=s_id%>;
+	var start=<%=start%>;
+	var end=<%=end%>;
+	if (which === "首页") {
+		which="first";
+	} else if (which == "上一页") {
+		which="prev";
+	} else if (which === "下一页") {
+		which="next";
+	} else if (which === "尾页") {
+		which="last";
+	} 
+	$("#fenye").empty();
+	var currentPage=<%=currentPage%>;
+
+	$.post("<%=basePath%>huoliu", {
+		"which" : which,
+		"s_id" : s_id,
+		"m" : "findhk",
+		"currentPage" : currentPage,
+		"start" :start,
+		"end" :end,
+	}, function(data) {
+		$("#fenye").html(data);
+	}, "html");
+});
+		
+
+        
+</script>
+<table class="table table-bordered table-condensed table-hover table-striped ">
+		<thead>
+			<tr >
+				<th>序号</th>
+				<th>商品条码</th>
+				<th>商品名称</th>
+				<th>商品进价</th>
+				<th>商品售价</th>
+				<th>累计出货</th>
+				<th>配送返利</th>
+				<th>固定返利</th>
+				
+				<th>利润</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+		<%
+			List<Object[]> list = (List<Object[]>) request.getAttribute("list");
+
+			
+			String yanse[]={"success","danger","active","warning","info"};
+			if (list != null && list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
+		%>
+		<tr class="<%= yanse[i%5]%>">
+			<td><%=i%></td>
+						
+					<%
+			
+				for (int j = 0; j <=4; j++) {
+			%>
+			<td><%=list.get(i)[j]%></td>
+			<%
+				}
+					
+			%>
+			<td><%=(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))%></td>	
+			<td><%=(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2])))%></td>	
+		<td>
+		<%=(int)(((int)( Double.parseDouble(String.valueOf(list.get(i)[3])))
+				-(int)(Double.parseDouble(String.valueOf(list.get(i)[2])))+
+				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))+
+				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2]))) )*
+				(int)(Double.parseDouble(String.valueOf(list.get(i)[4]))))%>
+		
+		</td>
+		<%sum=sum+(int)(((int)( Double.parseDouble(String.valueOf(list.get(i)[3])))
+				-(int)(Double.parseDouble(String.valueOf(list.get(i)[2])))+
+				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))+
+				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2]))) )*
+				(int)(Double.parseDouble(String.valueOf(list.get(i)[4])))); %>
+		</tr>
+		<%
+			}
+			}
+		%>
+		<tr>
+								<td colspan="8">总利润</td>
+						
+						
+					    <td><%=sum %></td>
+		</tr>
+	</tbody>
+
+	</table>
+<ul class="pagination" id="page" style="position: absolute; bottom: 0px;">
+	<page:htmlPage  pageNo="${currentPage}"
+		url=""
+		totalSum="${totalSize }" showPage="10" pageSize="10" />
+</ul>

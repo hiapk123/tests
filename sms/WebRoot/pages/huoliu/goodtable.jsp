@@ -16,24 +16,22 @@ int n=0;
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Insert title here</title>
-<style type="text/css">
 
-#mm{ display: block;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: white;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=80);}
-</style>
+
 	<script type="text/javascript">
-$(function(){
+
 	
 	  if ($("#status").val() != "") {
 		$("#status").show();
 	}  
 	
 	
-	 var $table = $("#mytable");
+	<%--  var $table = $("#mytable");
 	var $trs = $table.find("tbody").find("tr");
 	
-	$("tr").dblclick(function(){ 
-		k=$(this).attr("id");
+	function tr(node){ 
+		
+		k=$(node).attr("id");
 		var $tr = $trs.eq(k);
 		var $td = $tr.find("td");
 		
@@ -43,10 +41,9 @@ $(function(){
 		var su_name = $td.eq(4).text();
 		var g_pur_price = $td.eq(5).text();
 		var g_id = $td.eq(6).text();
-		$("#mm").remove();
+		
 		$.post("<%=basePath%>huoliu", {
 			"m":"add",
-			
 			"g_name":g_name,
 			"g_barcode":g_barcode,
 			"g_stock_num":g_stock_num,
@@ -56,33 +53,30 @@ $(function(){
 			
 		}, function(data) {
 			$("#11").append(data);
+			
 		}, "html");
-	});
-});
+		
+		
+		
+	} --%>
+
 	</script>
-	<style type="text/css">
+	
 
-    #sb{ margin-left:10px;overflow-y:scroll; overflow-x:scroll;} 
-span,table.ziti {
-font-weight: bold;
-font-size:16px;
-color:#EE2C2C;
-}
-#mm th{
-background:#FFB5C5;
-}
 
-</style>
 </head>
 
 <body>
 
-	<div id="mm" >
+ <div data-spy="scroll"
+		style="width:auto;height:300px; overflow: auto; position: relative;"
+		data-offset="10">
+
 	
-	<div id="sb"  style=" margin: 80px auto; width: 650px;  height: 400px; border: 5px solid #EE2C2C;">
+	
 			<span font-size:24px >商品搜索:双击选中商品</span>
         
-			<table id="mytable" class="ziti" style="width: 600px; height: 50px; font-weight:blod;table-layout: fixed;"border="1";>
+			<table id="mytable"  class="table table-bordered table-condensed table-hover table-striped ziti ">
 				<thead>
 					<tr >
 					    
@@ -92,8 +86,8 @@ background:#FFB5C5;
 						<th>库存</th>
 						<th>供货商</th>
 						<th>进货价</th>
-						
-						<button onclick="guanbi()" style="float:right" class="btn-danger" >&times;</button>
+					    <th>单位</th>
+						<th>分类</th>
 					</tr>
 					
 				</thead>
@@ -105,7 +99,7 @@ background:#FFB5C5;
 						if (goods != null && goods.size() > 0) {
 							for (int i = 0; i < goods.size(); n++,i++) {
 					%>
-					<tr id="<%=n%goods.size()%>">
+					<tr id="<%=n%goods.size()%>" ondblclick="tr(this)">
                          <td><%=n%goods.size()%></td>
 						<%
 							for (int j = 0; j <= 4; j++) {
@@ -117,6 +111,8 @@ background:#FFB5C5;
 							}
 						%>
 						<td style="display:none"><%=goods.get(i)[5]%></td>
+						<td><%=goods.get(i)[6]%></td>
+						<td><%=goods.get(i)[7]%></td>
 					</tr>
 					<%
 						}
@@ -128,7 +124,7 @@ background:#FFB5C5;
 			 <input id="status" type="text" readOnly="true" style="display:none;width: 300px; height: 50px; font-size:24px;color:#EE2C2C;" name="status" value="${status}"> 
 			</center>
            </div>
-		</div>
+		
 
 </body>
 </html>

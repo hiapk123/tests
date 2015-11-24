@@ -34,11 +34,7 @@
 	charset="UTF-8"></script>
 </head>
 <body>
-	<div class="panel panel-default">
-		<div class="panel-footer">
-			<form
-				action="<c:url value='/SPXSServlet?method=findByCombination' />"
-				method="post">
+	
 				<div class="row">
 					<!-- <div class="col-xs-2">
 						<h4>商品销售统计</h4>

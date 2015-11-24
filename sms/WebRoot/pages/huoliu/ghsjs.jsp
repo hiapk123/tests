@@ -16,103 +16,18 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content=",keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!-- The styles -->
-<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
-	rel="stylesheet">
-
-<link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
-<link
-	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
-	rel='stylesheet' media='print'>
-<link href='<%=basePath%>bower_components/chosen/chosen.min.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
-	rel='stylesheet'>
-<link href='<%=basePath%>css/jquery.noty.css' rel='stylesheet'>
-<link href='<%=basePath%>css/noty_theme_default.css' rel='stylesheet'>
-<link href='<%=basePath%>css/elfinder.min.css' rel='stylesheet'>
-<link href='<%=basePath%>css/elfinder.theme.css' rel='stylesheet'>
-<link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
-<link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
-<link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
-<link href="<%=basePath%>css/bootstrap-datetimepicker.css"
-	rel="stylesheet">
-<link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
-
-<!-- jQuery -->
+<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
-
-<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-<!-- The fav icon -->
-<link rel="shortcut icon" href="<%=basePath%>img/favicon.ico">
-
-<!-- external javascript -->
-
-<script
-	src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<!-- library for cookie management -->
-<script src="<%=basePath%>js/jquery.cookie.js"></script>
-<!-- calender plugin -->
-<script src='<%=basePath%>bower_components/moment/min/moment.min.js'></script>
-<script
-	src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
-<!-- data table plugin -->
-<script src='<%=basePath%>js/jquery.dataTables.min.js'></script>
-
-<!-- select or dropdown enhancer -->
-<script src="<%=basePath%>bower_components/chosen/chosen.jquery.min.js"></script>
-<!-- plugin for gallery image view -->
-<script
-	src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
-<!-- notification plugin -->
-<script src="<%=basePath%>js/jquery.noty.js"></script>
-<!-- library for making tables responsive -->
-<script
-	src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
-<!-- tour plugin -->
-<script
-	src="<%=basePath%>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
-<!-- star rating plugin -->
-<script src="<%=basePath%>js/jquery.raty.min.js"></script>
-<!-- for iOS style toggle switch -->
-<script src="<%=basePath%>js/jquery.iphone.toggle.js"></script>
-<!-- autogrowing textarea plugin -->
-<script src="<%=basePath%>js/jquery.autogrow-textarea.js"></script>
-<!-- multiple file upload plugin -->
-<script src="<%=basePath%>js/jquery.uploadify-3.1.min.js"></script>
-<!-- history.js for cross-browser state change on ajax -->
-<script src="<%=basePath%>js/jquery.history.js"></script>
-<!-- application script for Charisma demo -->
-<script src="<%=basePath%>js/charisma.js"></script>
-<script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
+   <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="<%=basePath%>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
-<style type="text/css">
-table thead tr th{
-background: #D5E9ED;
-}
- </style>
 </head>
 <script type="text/javascript">
 function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
 var flag="";
 
-function querenjiesuan1(){
+<%-- function querenjiesuan1(){
     var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
 		var list_ss_id=tr.find(".ss_id");
 		var list="";
@@ -138,8 +53,8 @@ function querenjiesuan1(){
 	}, "html");
 	
 	
-}
-function querenjiesuan(node)
+} --%>
+<%-- function querenjiesuan(node)
 {
 	var tr=$(node).parent().parent();
 	var td = tr.find("td");
@@ -178,7 +93,7 @@ function querenjiesuan(node)
 	
 	
 	
-}
+} --%>
 function querenduizhang1()
 {   var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
 	var list_ss_id=tr.find(".ss_id");
@@ -187,7 +102,7 @@ function querenduizhang1()
 		list=list+list_ss_id.eq(i).val()+" ";
 	}
 	
-	$("#qrdz").empty();
+	$("#motai1").empty();
 	$("#ghsjs").empty();
 	$.post("<%=basePath%>huoliu", {
 		"m" : "qrdz1",
@@ -195,6 +110,7 @@ function querenduizhang1()
 	}, function(data) {
 		$("#ghsjs").append(data);
 	}, "html");
+	$("#motaidz").click();
 }
 function querenduizhang(node)
 {    var tr=$(node).parent().parent();
@@ -205,10 +121,10 @@ var zhuangtai=td.eq(7).text();
  
 	var danshu=$("#findjs").find("input:checkbox[class='subBox']:checked").length ;
 	if(danshu==0) {
-		alert("您还没有选择待对账的货单");
+		alert("您还没有选择待结算的货单");
 		return;
 	}
-	
+	$("#xx").click();
 	var tr=$("#findjs").find("input:checkbox[class='subBox']:checked").parent().parent();
 	var td = tr.find("td");
 	
@@ -219,51 +135,44 @@ var zhuangtai=td.eq(7).text();
 		price=price+parseInt(td.eq(9+12*i).text());
 	}
 	
-	$("#qrdz").empty();
+	$("#motai1").empty();
 	$.post("<%=basePath%>huoliu", {
 		"m" : "QRDZ",
 		"danshu":danshu,
 		"numOfGoods":numOfGoods,
 		"price":price,
 	}, function(data) {
-		$("#qrdz").append(data);
+		$("#motai1").append(data);
 	}, "html");
 }
-function guanbi1(){
-	
-	$("#detail").empty();
-	
-}
+
 
 function getdetail(node){
 	
 	
 	var list=$(node).val();
-		//alert(list);
+	$("#motai").empty();
 	$.post("<%=basePath%>huoliu", {
 			"m" : "ghsdetail",
 			"list":list,
 		}, function(data) {
-			$("#detail").append(data);
+			$("#motai").append(data);
 		}, "html");
 	
 } 
-$(function(){
 
-$("#search").click(function(){
+
+function search(){
 	var s_id=$("#store").val();
 	var status=$("#category").val();
 	var supplier=$("#supplier").val();
     flag=trimStr(status);
-    if(flag=="待对账货单"){
+    if(flag=="待结算货单"){
     	$("#1").attr('disabled',false);
-    	$("#2").attr('disabled',true);
-    }else if(flag=="待结算货单"){
-    	$("#2").attr('disabled',false);
-    	$("#1").attr('disabled',true);
+    	
     }else{
     	$("#1").attr('disabled',true);
-    	$("#2").attr('disabled',true);
+    	
     }
 	var currentPage=null;
 	if(store==null){
@@ -281,16 +190,14 @@ $("#search").click(function(){
 		$("#findjs").append(data);
 	}, "html");
 	
-});
-});
+}
+
 
 </script>
 <body>
 <div id="ghsjsdiv">
 
-	<button type="button" class="btn btn-success" name="submit"
-		id="jsjl">结算记录</button>
-	&nbsp;&nbsp;
+	<label >供货商结算</label>
 	
 	<div style="float: right;">
 	<select id="store" class="singleSelector">
@@ -324,26 +231,28 @@ $("#search").click(function(){
 
 	</select>
 	<select id="category">
-	   <!--  <option value="全部状态" selected="selected" >全部状态</option> -->
+	   <option value="全部状态" selected="selected" >全部状态</option> 
 		<option value="未成功货单" >未成功货单</option>
-		<option value="待对账货单">待对账货单</option>
+		
 		<option value="待结算货单">待结算货单</option>
 		<option value="已结算货单">已结算货单</option>
 	</select>
 
 	
 		<input class="input-medium search-query" type="text" float:right /> <input
-			type="button"  class="btn btn-warning" value="  查     询     " id="search" class="submitBtn" />
+			type="button"  class="btn btn-success" value="  查     询     " onclick="search()" class="submitBtn" />
 		
 	</div>
 	
 	<div data-spy="scroll"
-		style="width: 100%; height:450px; overflow: auto; position: relative;"
+		style="width: 100%; overflow: auto; position: relative;"
 		data-offset="10">
  
 <div id="findjs">
 		
-		<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;>
+		<table style="width:1200px; height:30px;  table-layout:fixed;" border="1" ;
+		class="table-bordered table-condensed table-hover table-striped">
+		
 		<thead>
 			<tr>
 			    <th><input id="checkAll" type="checkbox"/></th>
@@ -376,19 +285,17 @@ $("#search").click(function(){
  </div>
 	
 
-   <div id="ly" style="position: fixed; top: 500px;">
+   <div id="ly" style="position: fixed; top: 480px;">
 	
-	<button type="button" class="btn btn-primary btn-lg" name="submit"
-	id="1"		onclick="querenduizhang(this)" style="margin: 0 0 0 950px" disabled="disabled" >确认对账</button>
 	<button type="button" class="btn btn-success btn-lg" name="submit"
-	id="2"		onclick="querenjiesuan(this)" style="margin: 0 0 0 50px" disabled="disabled">确认结算</button>	
-	</div> 
- <div id="detail">
- 
- </div>
-<div id="qrdz"  >
+	id="1"		onclick="querenduizhang(this)"  style="margin: 0 0 0 1100px" disabled="disabled" >确认结算</button>
 	
-</div>
+	<!-- <button type="button" class="btn btn-success btn-lg" name="submit"
+	id="2"		onclick="querenjiesuan(this)" style="margin: 0 0 0 50px" disabled="disabled">确认结算</button> -->	
+	</div> 
+ <button  data-toggle="modal" style="display:none"
+		   data-target="#myModal1" id="xx"></button>
+
 <div id="qrjs"  >
 	
 </div>
@@ -396,3 +303,45 @@ $("#search").click(function(){
 </body>
 
 </html>
+<!-- 模态框  详细（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+           
+           
+             
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+<!-- 模态框  对账（Modal） -->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" id="motaidz" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai1">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+           
+           
+             
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>

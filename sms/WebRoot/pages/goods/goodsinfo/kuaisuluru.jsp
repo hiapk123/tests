@@ -11,52 +11,91 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <base href="<%=basePath%>">
 
 
-<title>添加商品</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
 
 
-
-<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-
-<link
-	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
-	rel='stylesheet'>
-
-<link href='css/elfinder.min.css' rel='stylesheet'>
-
-<link href='css/animate.min.css' rel='stylesheet'>
-
-<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="bower_components/jquery/jquery.min.js"></script>
-<SCRIPT LANGUAGE="javascript">
-<!--
-
-function help()
-{
-window.open ('pages/goods/goodsinfo/help.jsp','newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT>
 </head>
 <%
 String s_id=request.getParameter("s_id");
 String s_name=request.getParameter("s_name");
 %>
+<script type="text/javascript">
+$(document).ready(function () {
+	if ($("#status").val() != "") {
+		alert($("#status").val());
+	}
+	
+});
+</script>
+<script>
+function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
+function tijiao(){
+	
+	var s_id=<%=s_id%>;
+	var s_name="<%=s_name%>";
+    var g_barcode=$("#g_barcode").val();
+    if(trimStr(g_barcode)==""){
+    	alert("商品条码不可为空!");
+    	return;
+    }
+    var g_name=$("#g_name").val();
+    if(trimStr(g_name)==""){
+    	alert("商品名称不可为空!");
+    	return;
+    }
+    var c_name=$("#c_name :selected").text();
+    var c_id=$("#c_name").val();
+    var g_pur_price=$("#g_pur_price").val();
+    if(trimStr(g_pur_price)==""){
+    	alert("进货价不可为空!");
+    	return;
+    }
+    var g_sale_price=$("#g_sale_price").val();
+    if(trimStr(g_sale_price)==""){
+    	alert("销售价不可为空!");
+    	return;
+    }
+    var g_stock_num=$("#g_stock_num").val();
+    if(trimStr(g_stock_num)==""){
+    	alert("库存量不可为空!");
+    	return;
+    }
+	
+	$.post("<%=basePath%>goods", {
+		"m" : "kuaisu1",
+		"s_id" : s_id,
+		"s_name":s_name,
+		"g_barcode":g_barcode,
+		"g_name" : g_name,
+		"c_name" : c_name,
+		"c_id" : c_id,
+		"g_pur_price" : g_pur_price,
+		"g_sale_price" : g_sale_price,
+		"g_stock_num" : g_stock_num,
+		
+	}, function(data) {
+		if(data!="buhege"){
+			$("#hehe").empty();
+			$("#hehe").append(data);
+			
+		}else{
+			alert("该商品条码已存在");
+			return;
+		}
+	}, "html");
+	
+}
+
+
+
+
+</script>
 <body>
 	<span class="label label-default" style="padding:10px">商品快速录入</span>  &nbsp;&nbsp;
-	<a href="pages/goods/goods-info.jsp"><input type="button" class="btn btn-success" value="返回"></input></a>
-	<button type="button" class="btn btn-success" name="submit" onclick="help()">使用帮助</button>
-	<label>录入门店<%=s_name %></label>
-	<form action="<%=basePath%>goods?m=kuaisu1"  method="post">
+	<a href="<%=basePath %>goods?m=goodsInfo"><input type="button" class="btn btn-success" value="返回"></input></a>
+	<div style="float:right">
+	<label>录入门店:</label>
+	  <input  readonly= "true " value="<%=s_name%>"	 class="btn-success">
+</div>
 	<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
 			<tr class="danger">
@@ -70,21 +109,33 @@ String s_name=request.getParameter("s_name");
 			</tr>
 		</thead>
 		<tbody >
+		<input id="status" type="hidden" name="message" value="${message}">
 		<tr class="info">
 				<td>1</td>
-				<td><input type="text" name="g_barcode" style="width:100px"></td>
-				<td><input type="text" name="g_name" style="width:100px"></td>
-				<td><input type="text" name="c_name" style="width:100px"></td>
-				<td><input type="text" name="g_pur_price" style="width:100px"></td>
-				<td><input type="text" name="g_sale_price" style="width:100px"></td>
-				<td><input type="text" name="g_stock_num" style="width:100px"></td>
+				<td><input type="text" id="g_barcode" style="width:100px"></td>
+				<td><input type="text" id="g_name" style="width:100px"></td>
+				<td><select id="c_name" class="btn btn-success">
+									<%
+										List<Object[]> list1 = (List<Object[]>) request.getAttribute("fenlei");
+										if (list1 != null && list1.size() != 0) {
+											for (Object[] obj : list1) {
+									%>
+									<option value='<%=obj[0]%>'><%=obj[1]%></option>
+									<%
+										}
+										}
+									%>
+                </select></td>
+				<td><input type="text" id="g_pur_price" style="width:100px"></td>
+				<td><input type="text" id="g_sale_price" style="width:100px"></td>
+				<td><input type="text" id="g_stock_num" style="width:100px"></td>
 			</tr>	
 		</tbody>
 	</table>
-	<input type="hidden" name="s_id" value="<%=s_id%>">
-	<button type="submit" i class="btn btn-success" name="submit" >保存</button>
+	
+	<button type="submit"  class="btn btn-success" onclick="tijiao()" >保存</button>
 	<button type="reset" i class="btn btn-success" name="reset" >取消</button>
-	</form>
+
 	
 </body>
 </html>

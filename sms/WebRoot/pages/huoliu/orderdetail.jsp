@@ -5,29 +5,10 @@
 	<%!
 	int n=0;
 	%>
-	<head>
-	<style type="text/css">
-   #sb1{display: block;  position: absolute;  top: 5%;  left: 22%;  width: 53%;  height: 20%;  padding: 8px;  border: 8px solid #E8E9F7;  background-color: white;  z-index:1002;  overflow: auto;}
-
-
- 
-table.ziti {
-font-weight: bold;
-font-size:16px;
-color:#EE2C2C;
-}
-
-#mm th{
-background:#FFB5C5;
-}
-
-</style>
 	
-	</head>
 
-<div id="close">
-<div id="sb1" >
-<table id="mytable" class="ziti" style="width: 600px; height: 50px; font-weight:blod;table-layout: fixed;"border="1";>
+
+<table id="mytable" class="table table-bordered table-condensed table-hover table-striped ">
 				<thead>
 					<tr >
 					    
@@ -37,10 +18,12 @@ background:#FFB5C5;
 						<th>供货商</th>
 						<th>货流量</th>
 						<th>进货价</th>
-						<th>小计</th>
-					
+						
+					<th>单位</th>
+					<th>分类</th>
+					<th>小计</th>
 					</tr>
-					<button onclick="guanbi1()" style="float:right" class="btn-danger" id="x">&times;</button>
+					
 				</thead>
 				<tbody>
 					<%
@@ -49,20 +32,20 @@ background:#FFB5C5;
 					
 
 						if (orderlist != null && orderlist.length > 0) {
-							for (int i = 0; i < orderlist.length/5; n++,i++) {
+							for (int i = 0; i < orderlist.length/7; n++,i++) {
 					%>
 					<tr id="<%=n%orderlist.length%>">
                          <td><%=n%orderlist.length%></td>
 						<%
-							for (int j = 0; j <5; j++) {
+							for (int j = 0; j <7; j++) {
 						%>
 						
-						<td><%=orderlist[5*i+j]%></td>
+						<td><%=orderlist[7*i+j]%></td>
 						
 						<%
 							}
 						%>
-					<td><%=Double.parseDouble(orderlist[5*i+3])*Double.parseDouble(orderlist[5*i+4])%></td>
+					<td><%=Double.parseDouble(orderlist[7*i+3])*Double.parseDouble(orderlist[7*i+4])%></td>
 					</tr>
 					<%
 						}

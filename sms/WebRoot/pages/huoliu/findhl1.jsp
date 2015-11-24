@@ -13,7 +13,7 @@ String type=request.getAttribute("type").toString();
 %>
  <script>
  
-	$(function() {
+	
 		$("li a").click(function() {
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
@@ -40,17 +40,11 @@ String type=request.getAttribute("type").toString();
 				$("#fenye").html(data);
 			}, "html");
 		});
-	});
+
         
 </script>
 <head>
-<style>
-table .ziti{
 
-WORD-WRAP: break-word
-}
-
-</style>
 
 
 </head>
@@ -75,6 +69,8 @@ WORD-WRAP: break-word
 				<th>备注</th>
 				<th>入库</th>
 			</tr>
+			</thead>
+			<tbody>
 			<%
         List <Object[]> list=(List<Object[]>) request.getAttribute("list");
         String yanse[]={"success","danger","active","warning","info"};
@@ -83,20 +79,22 @@ WORD-WRAP: break-word
          	<tr class="<%= yanse[i%5]%>">
 				<td><input  type="checkbox"/></td>
 				<td>序号</td>
-				<td><button class="btn btn-success"  onclick="getdetail(this)"  value="<%=list.get(i)[0]%>">详细</button></td>
+				<td> <button class="btn btn-xs btn-success" onclick="getdetail(this)" data-toggle="modal" 
+   data-target="#myModal5" value="<%=list.get(i)[0]%>">详细</button></td>
 				
 				<%
 					for (int j = 1; j<11; j++) {
+						if(String.valueOf(list.get(i)[j]).equals("null")) list.get(i)[j]="";
 				%>
 				<td> <%=list.get(i)[j]%> </td>
 				<%
 					}
 				%>
-				<td><button class="btn btn-success"  onclick="ruku(this)"  >入库</button></td>
+				<td><button class="btn btn-xs btn-info"  onclick="ruku(this)"  >入库</button></td>
 				<input type="hidden" class="l_detail"  value="<%=list.get(i)[0]%>">
 			<input type="hidden" class="l_id"  value="<%=list.get(i)[11]%>">
-			<input type="hidden" class="s_id_out"  value="<%=list.get(i)[4]%>">
-			<input type="hidden" class="s_id_in"  value="<%=list.get(i)[5]%>">
+			<input type="hidden" class="s_id_out"  value="<%=list.get(i)[13]%>">
+			<input type="hidden" class="s_id_in"  value="<%=list.get(i)[12]%>">
 			<input type="hidden" class="l_serial_num"  value="<%=list.get(i)[1]%>">
 			<input type="hidden" class="l_date"  value="<%=list.get(i)[2]%>">
 			</tr>
@@ -105,14 +103,13 @@ WORD-WRAP: break-word
 				}
 			%>
 			
-		</thead>
-		<tbody>
+		
 		
 		
 	</tbody>
 
 	</table>
-<ul class="pagination" id="page">
+<ul class="pagination" id="page" style="position: absolute; bottom: 0px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />

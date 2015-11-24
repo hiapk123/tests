@@ -43,9 +43,10 @@ int n=0;
 					<%-- <%a=a+arr[4]+" ";%> --%>
 					<td ><input   value="<%=arr[5]%>" class="jieguo" type="text" style="height: 40px; width: 100px"></td>
 					<%-- <%a=a+arr[5]+" "; --%>
-					
-					<td></td>
-					      
+					  <input class="jieguo"  type="hidden"   value="<%=arr[6]%>">
+					    <input class="jieguo"  type="hidden"   value="<%=arr[7]%>">
+					<td><%=arr[6]%></td>
+					<td ><%=arr[7]%></td>    
 					<td><%=Double.parseDouble(arr[5])*Double.parseDouble(arr[4])%></td>
 					
 					

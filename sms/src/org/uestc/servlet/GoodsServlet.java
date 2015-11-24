@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.apache.commons.fileupload.ProgressListener;
 import org.uestc.service.GoodsService;
@@ -119,28 +120,223 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goodsinfo/kuaisuluru.jsp").forward(req, resp);
 		}else if (m.equals("kuaisu1")) {
 			this.kuaisu1(req,resp);
-			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);
+			//
+		}else if (m.equals("picture")) {
+			this.picture(req,resp);
+			
+		}else if (m.equals("newdw")) {
+			this.newdw(req,resp);
+			
 		}
 
 	}
+	private void newdw(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		String g_unit=req.getParameter("g_unit");
+		String g_howmuch=req.getParameter("g_howmuch");
+		String s_id=req.getParameter("s_id");
+		String sql0="select g_unit from unit where s_id=?";
+		List<Object[]>list0=SqlHelper.find(sql0,s_id);
+		String message="hege";
+		for (int i = 0; i < list0.size(); i++) {
+			if (String.valueOf(list0.get(i)[0]).equals(g_unit)) {
+				resp.setCharacterEncoding("UTF-8");
+				message="buhege";
+				req.setAttribute("message", message);
+				PrintWriter out=resp.getWriter();
+				out.print(message);
+				return;
+			}
+		}
+	//	g_unit= String.valueOf(list0.get(0)[0]);
+		//Number num = (Number) list0.get(0)[0];  
+	//	g_unit= String.valueOf(num.Value());
+	
+			String sql="insert into unit (g_unit,g_howmuch,s_id) value(?,?,?)";
+			SqlHelper.executeUpdate(sql, new String[]{
+					g_unit,g_howmuch,s_id
+			});
+			
+			String sql3="select unit_id, g_unit from unit where s_id=? ";
+			List<Object[]> danwei = SqlHelper.find(sql3, s_id);
+			req.setAttribute("danwei", danwei);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/newdw.jsp").forward(req, resp);
+	
+		
+		
+	}
+
+	private void picture(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		 String savePath = this.getServletContext().getRealPath("/img");
+        //上传时生成的临时文件保存目录
+        String tempPath = this.getServletContext().getRealPath("/WEB-INF/temp");
+        File tmpFile = new File(tempPath);
+        if (!tmpFile.exists()) {
+            //创建临时目录
+            tmpFile.mkdir();
+        }
+        //
+        String wenjianming = "";
+        try{
+            //使用Apache文件上传组件处理文件上传步骤：
+            //1、创建一个DiskFileItemFactory工厂
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            //设置工厂的缓冲区的大小，当上传的文件大小超过缓冲区的大小时，就会生成一个临时文件存放到指定的临时目录当中。
+            factory.setSizeThreshold(1024*100);//设置缓冲区的大小为100KB，如果不指定，那么缓冲区的大小默认是10KB
+            //设置上传时生成的临时文件的保存目录
+            factory.setRepository(tmpFile);
+            //2、创建一个文件上传解析器
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            //监听文件上传进度
+            upload.setProgressListener(new ProgressListener(){
+                public void update(long pBytesRead, long pContentLength, int arg2) {
+                    System.out.println("文件大小为：" + pContentLength + ",当前已处理：" + pBytesRead);
+                    /**
+                     * 文件大小为：14608,当前已处理：4096
+                        文件大小为：14608,当前已处理：7367
+                        文件大小为：14608,当前已处理：11419
+                        文件大小为：14608,当前已处理：14608
+                     */
+                }
+            });
+             //解决上传文件名的中文乱码
+            upload.setHeaderEncoding("UTF-8"); 
+            //3、判断提交上来的数据是否是上传表单的数据
+            if(!ServletFileUpload.isMultipartContent(req)){
+                //按照传统方式获取数据
+                return;
+            }
+            
+            //设置上传单个文件的大小的最大值，目前是设置为1024*1024字节，也就是1MB
+            upload.setFileSizeMax(1024*1024*10);
+            //设置上传文件总量的最大值，最大值=同时上传的多个文件的大小的最大值的和，目前设置为10MB
+            upload.setSizeMax(1024*1024*10);
+            //4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
+            List<FileItem> list = upload.parseRequest(req);
+            for(FileItem item : list){
+                //如果fileitem中封装的是普通输入项的数据
+                if(item.isFormField()){
+                    String name = item.getFieldName();
+                    //解决普通输入项的数据的中文乱码问题
+                    String value = item.getString("UTF-8");
+                    //value = new String(value.getBytes("iso8859-1"),"UTF-8");
+                    System.out.println(name + "=" + value);
+                }else{//如果fileitem中封装的是上传文件
+                    //得到上传的文件名称，
+                    String filename = item.getName();
+                    wenjianming=filename;
+                    System.out.println(filename);
+                    if(filename==null || filename.trim().equals("")){
+                        continue;
+                    }
+                    //注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：  c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
+                    //处理获取到的上传文件的文件名的路径部分，只保留文件名部分
+                    filename = filename.substring(filename.lastIndexOf("\\")+1);
+                    //得到上传文件的扩展名
+                    String fileExtName = filename.substring(filename.lastIndexOf(".")+1);
+                    //如果需要限制上传的文件类型，那么可以通过文件的扩展名来判断上传的文件类型是否合法
+                    System.out.println("上传的文件的扩展名是："+fileExtName);
+                    //获取item中的上传文件的输入流
+                    InputStream in = item.getInputStream();
+                  
+                    //创建一个文件输出流
+                    FileOutputStream out = new FileOutputStream(savePath + "\\" + filename);
+                    //创建一个缓冲区
+                    byte buffer[] = new byte[1024];
+                    //判断输入流中的数据是否已经读完的标识
+                    int len = 0;
+                    //循环将输入流读入到缓冲区当中，(len=in.read(buffer))>0就表示in里面还有数据
+                    while((len=in.read(buffer))>0){
+                        //使用FileOutputStream输出流将缓冲区的数据写入到指定的目录(savePath + "\\" + filename)当中
+                        out.write(buffer, 0, len);
+                    }
+                    //关闭输入流
+                    in.close();
+                    //关闭输出流
+                    out.close();
+                    //删除处理文件上传时生成的临时文件
+                    
+                   // message = "文件上传成功！";
+                    
+                }
+            }
+        }catch (FileUploadBase.FileSizeLimitExceededException e) {
+            e.printStackTrace();
+          
+            return;
+        }catch (FileUploadBase.SizeLimitExceededException e) {
+            e.printStackTrace();
+          
+            return;
+        }catch (Exception e) {
+       	
+            
+            e.printStackTrace();
+        }
+        
+        PrintWriter out=resp.getWriter();
+	
+		JSONObject json=new JSONObject();
+		try {
+			json.put("name",  wenjianming);
+			out.print(json);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+
 	/***
 	 * 快速录制商品功能
 	 * @param req
 	 * @param resp
+	 * @throws IOException 
+	 * @throws ServletException 
 	 */
-	private void kuaisu1(HttpServletRequest req, HttpServletResponse resp) {
+	private void kuaisu1(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		// TODO Auto-generated method stub
+		
+		 String s_name = req.getParameter("s_name");
 		 String s_id = req.getParameter("s_id");
 	     String g_barcode=req.getParameter("g_barcode");
 	     String g_name = req.getParameter("g_name");
+	     String c_id = req.getParameter("c_id");
 	     String c_name=req.getParameter("c_name");
 	     String g_pur_price = req.getParameter("g_pur_price");
 	     String g_sale_price=req.getParameter("g_sale_price");
 	     String g_stock_num=req.getParameter("g_stock_num");
-	     good.kuaisuluru(Integer.valueOf(s_id), g_barcode, g_name, c_name, g_pur_price, g_sale_price, g_stock_num);
+	     String message = req.getParameter("message");
+			message="hege";
+			
+			String sql="select g_barcode from goods where s_id=? ";
+			List<Object[]> list = SqlHelper.find(sql, s_id);
+		
+			for (int k = 0; k < list.size(); k++) {
+				String hehe=(String) list.get(k)[0];
+				if ((hehe).equals(g_barcode)){
+					resp.setCharacterEncoding("UTF-8");
+					message="buhege";
+					req.setAttribute("message", message);
+					PrintWriter out=resp.getWriter();
+					out.print(message);
+					return;
+				}
+			}	
+	     good.kuaisuluru(Integer.valueOf(s_id), g_barcode, g_name, c_name, g_pur_price, g_sale_price, g_stock_num,c_id,s_name);
 	 	HttpSession session = req.getSession();
 	     List<Object[]> storeList = good.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
 		req.setAttribute("storeList", storeList);
+		 String sql2="select c_id,c_name from category where s_id=? ";
+			List<Object[]> fenlei = SqlHelper.find(sql2, s_id);
+			req.setAttribute("fenlei", fenlei);
+			
+			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);	
+			
 	} 
 	/***
 	 * 进入快速录制商品页面
@@ -153,7 +349,9 @@ public class GoodsServlet extends HttpServlet {
 	     String s_name=req.getParameter("s_name");
 		 req.setAttribute("s_id", s_id);
 		 req.setAttribute("s_name", s_name);
-		
+		 String sql2="select c_id,c_name from category where s_id=? ";
+			List<Object[]> fenlei = SqlHelper.find(sql2, s_id);
+			req.setAttribute("fenlei", fenlei);
 	}
 
 	/***
@@ -213,9 +411,9 @@ public class GoodsServlet extends HttpServlet {
 	private void daochu(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
         String s_id = req.getParameter("s_id");
+        String s_name = req.getParameter("s_name");
 		
-		
-		
+        req.setAttribute("s_name", s_name);
 		req.setAttribute("s_id", s_id);
 		
 	}
@@ -438,12 +636,16 @@ System.out.println("真是路径"+TruePath);
 	 */
 	private void downsort(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
+		
 		String method=req.getParameter("m");
 		String sorted=req.getParameter("sorted");
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String s_id = req.getParameter("s_id");
-		int totalSize = getTotalSize(s_id);
+		String key = req.getParameter("key");
+		String c_name = req.getParameter("c_name");
+		String g_del = req.getParameter("g_del");
+		int totalSize = getTotalSize(s_id, key,c_name,g_del);
 		int totalPage = 0;
 		if(""==currentPage){
 			currentPage="1";
@@ -476,10 +678,10 @@ System.out.println("真是路径"+TruePath);
 			}else {
 				pageNo = Integer.valueOf(which.trim());
 			}
-			List<Object[]> list = good.downsort(Integer.valueOf(s_id), (pageNo-1) * 10,sorted);
+			List<Object[]> list = good.downsort(Integer.valueOf(s_id), (pageNo-1) * 10,sorted,key,c_name,g_del);
 			
-            
-			
+			req.setAttribute("c_name", c_name);
+			req.setAttribute("key", key);
 			req.setAttribute("goodsList", list);
 			req.setAttribute("s_id", s_id);
 			req.setAttribute("currentPage", pageNo);
@@ -502,11 +704,13 @@ System.out.println("真是路径"+TruePath);
 		// TODO Auto-generated method stub
 		String method=req.getParameter("m");
 		String sorted=req.getParameter("sorted");
-		
+		String key=req.getParameter("key");
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String s_id = req.getParameter("s_id");
-		int totalSize = getTotalSize(s_id);
+		String c_name = req.getParameter("c_name");
+		String g_del = req.getParameter("g_del");
+		int totalSize = getTotalSize(s_id, key,c_name,g_del);
 		int totalPage = 0;
 		if(""==currentPage){
 			currentPage="1";
@@ -540,12 +744,13 @@ System.out.println("真是路径"+TruePath);
 			}else {
 				pageNo = Integer.valueOf(which.trim());
 			}
-			List<Object[]> list = good.upsort(Integer.valueOf(s_id), (pageNo-1) * 10,sorted);
+			List<Object[]> list = good.upsort(Integer.valueOf(s_id), (pageNo-1) * 10,sorted,key,c_name,g_del);
 		
             
 			
 			req.setAttribute("goodsList", list);
 			req.setAttribute("s_id", s_id);
+			req.setAttribute("c_name", c_name);
 			req.setAttribute("currentPage", pageNo);
 			req.setAttribute("totalSize", totalSize);
 			req.setAttribute("sort", sorted);
@@ -585,6 +790,17 @@ System.out.println("真是路径"+TruePath);
 				break;
 			}
 		}
+		String sql1="select su_id,su_name from supplier where s_id=? ";
+		List<Object[]> suppliers = SqlHelper.find(sql1, s_id);
+		req.setAttribute("suppliers", suppliers);
+		String sql2="select c_id,c_name from category where s_id=? ";
+		List<Object[]> fenlei = SqlHelper.find(sql2, s_id);
+		req.setAttribute("fenlei", fenlei);
+		
+		String sql3="select unit_id, g_unit from unit where s_id=? ";
+		List<Object[]> danwei = SqlHelper.find(sql3, s_id);
+		req.setAttribute("danwei", danwei);
+		
 		
 		req.setAttribute("s_id", s_id);
 		req.setAttribute("s_name", s_name);
@@ -627,6 +843,7 @@ System.out.println("真是路径"+TruePath);
 		// TODO Auto-generated method stub
 
 		String g_id = req.getParameter("g_id");
+		String s_id = req.getParameter("s_id");
 		//必填资料
 				
 				String s_name = req.getParameter("s_name");
@@ -662,6 +879,24 @@ System.out.println("真是路径"+TruePath);
 				String g_info=req.getParameter("g_info");
 				//图片路径
 				String g_img_path=req.getParameter("g_img_path");
+				//
+				String g_integral=req.getParameter("g_integral");
+				String c_id=req.getParameter("c_id");
+				
+				String unit_id=req.getParameter("unit_id");
+				String g_unit=req.getParameter("g_unit");
+				String g_howmuch="";
+				if (g_unit.equals("无")) {
+					unit_id="0";
+				 g_howmuch="1";
+				}else{
+					String sql="select g_howmuch from unit where g_unit=? and s_id=?";
+					List<Object[]>list=SqlHelper.find(sql, g_unit,s_id);
+				 g_howmuch=(String) list.get(0)[0];
+				}
+				
+				
+				
 		try {
 
 			good.editgood( s_name, g_name, g_del,
@@ -669,7 +904,7 @@ System.out.println("真是路径"+TruePath);
 					g_pm,g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,
 					s_name,g_stock_min,vip_id,g_vip_price,g_giq,zdy2,zdy4,
 					g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,g_sale_nor,
-					g_info,g_img_path, Integer.valueOf(g_id));
+					g_info,g_img_path, Integer.valueOf(g_id),g_integral,c_id,g_unit,g_howmuch,unit_id);
 			
 			findGoodByPage(req,resp);
 		} catch (NumberFormatException e) {
@@ -688,12 +923,20 @@ System.out.println("真是路径"+TruePath);
 
 	private void editGood(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		
+		String s_id =  req.getParameter("s_id");
 		String list =  req.getParameter("list");
 		
 		req.setAttribute("list", list);
-	
-      
+		String sql="select c_id,c_name from category where s_id=? ";
+		List<Object[]> fenlei = SqlHelper.find(sql, s_id);
+		req.setAttribute("fenlei", fenlei);
+		String sql1="select su_id,su_name from supplier where s_id=? ";
+		List<Object[]> suppliers = SqlHelper.find(sql1, s_id);
+		req.setAttribute("suppliers", suppliers);
+		
+		String sql3="select unit_id, g_unit from unit where s_id=? ";
+		List<Object[]> danwei = SqlHelper.find(sql3, s_id);
+		req.setAttribute("danwei", danwei);
 	}
 
 	/***
@@ -770,13 +1013,27 @@ System.out.println("真是路径"+TruePath);
 		String g_info=req.getParameter("g_info");
 		//图片路径
 		String g_img_path=req.getParameter("g_img_path");
+		String g_integral=req.getParameter("g_integral");
+		String c_id=req.getParameter("c_id");
+		String unit_id=req.getParameter("unit_id");
+		String g_unit=req.getParameter("g_unit");
+		String g_howmuch="";
+		if (g_unit.equals("无")) {
+			unit_id="0";
+		 g_howmuch="1";
+		}else{
+			String sql="select g_howmuch from unit where g_unit=? and s_id=?";
+			List<Object[]>list=SqlHelper.find(sql, g_unit,s_id);
+		 g_howmuch=(String) list.get(0)[0];
+		}
+		
 		try {
 			good.addgood(s_id, s_name, g_name, g_del,
 					g_stock_num, g_sale_price, g_pur_price, c_name,g_barcode,
 					g_pm,g_stock_max,g_trade_price,g_prod_date,zdy1,zdy3,
-					s_name,g_stock_min,vip_id,g_vip_price,g_giq,zdy2,zdy4,
+					su_name,g_stock_min,vip_id,g_vip_price,g_giq,zdy2,zdy4,
 					g_qd_min,g_cl_min,g_stock_nor,g_flag,g_best,g_sale_nor,
-					g_info,g_img_path);
+					g_info,g_img_path,g_integral,c_id,unit_id,g_unit,g_howmuch);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -815,6 +1072,13 @@ System.out.println("真是路径"+TruePath);
 		//2
 		req.setAttribute("g_info", g_info);
 		req.setAttribute("g_img_path", g_img_path);
+		//
+		req.setAttribute("g_integral", g_integral);
+		req.setAttribute("c_id", c_id);
+		
+		req.setAttribute("g_unit", g_unit);
+		req.setAttribute("g_howmuch", g_howmuch);
+		req.setAttribute("unit_id", unit_id);
 	}
 
 	/***
@@ -829,7 +1093,13 @@ System.out.println("真是路径"+TruePath);
 		String currentPage=req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String s_id = req.getParameter("s_id");
-		int totalSize = getTotalSize(s_id);
+		String key = req.getParameter("key");
+		String g_del = req.getParameter("g_del");
+		String c_name = req.getParameter("c_name");
+		if(key==null){
+			key="";
+		}
+		int totalSize = getTotalSize(s_id,key,c_name,g_del);
 		int totalPage = 0;
 		if(""==currentPage||currentPage==null){
 			currentPage="1";
@@ -860,9 +1130,12 @@ System.out.println("真是路径"+TruePath);
 			}else {
 				pageNo = Integer.valueOf(which.trim());
 			}
-			List<Object[]> list = good.goodssearch(Integer.valueOf(s_id), (pageNo-1) * 10);
+			List<Object[]> list = good.goodssearch(Integer.valueOf(s_id), (pageNo-1) * 10,key,c_name,g_del);
 			req.setAttribute("goodsList", list);
 			req.setAttribute("s_id", s_id);
+			req.setAttribute("key", key);
+			req.setAttribute("c_name", c_name);
+			req.setAttribute("g_del", g_del);
 			req.setAttribute("currentPage", pageNo);
 			req.setAttribute("totalSize", totalSize);
 			HttpSession session=(HttpSession)req.getSession();
@@ -876,6 +1149,9 @@ System.out.println("真是路径"+TruePath);
 		HttpSession session = req.getSession();
 
 		try {
+			String sql2="select c_id,c_name from category ";
+			List<Object[]> fenlei = SqlHelper.find(sql2);
+			req.setAttribute("fenlei", fenlei);
 			storeList = good.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
 
 			req.setAttribute("storeList", storeList);
@@ -888,8 +1164,8 @@ System.out.println("真是路径"+TruePath);
 	}
 
 	// 
-	private int getTotalSize(String s_id) {
-		int totalsize = good.getTotalSize(Integer.valueOf(s_id));
+	private int getTotalSize(String s_id, String key, String c_name, String g_del) {
+		int totalsize = good.getTotalSize(Integer.valueOf(s_id),key,c_name,g_del);
 		return totalsize;
 	}
 

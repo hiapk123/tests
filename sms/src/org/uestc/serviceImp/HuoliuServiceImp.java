@@ -24,6 +24,7 @@ import org.uestc.util.SqlHelper;
 
 import com.sun.javafx.image.impl.IntArgb;
 import com.sun.rowset.internal.Row;
+import com.uestc.bean.Good1;
 import com.uestc.bean.Suppliers;
 import com.uestc.bean.logistics;
 
@@ -84,7 +85,7 @@ public class HuoliuServiceImp implements HuoliuService{
 		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
 		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
 		String sFilePath =truePath;
-		
+
 		InputStream is = new FileInputStream(sFilePath);  
 
 		//创建工作簿
@@ -95,7 +96,7 @@ public class HuoliuServiceImp implements HuoliuService{
 		String flag="add";
 		for (int m = 0; m < sheet.getColumns(); m++) {
 			content=sheet.getCell(m, 0).getContents();
-			
+
 		}
 		for(int i=1;i<sheet.getRows();i++)
 		{   
@@ -113,18 +114,18 @@ public class HuoliuServiceImp implements HuoliuService{
 					supplier.setSu_name(sheet.getCell(j, i).getContents());
 					continue;
 				}
-				
+
 
 				if(supplier.getSu_contacter()==null)
 				{
 					supplier.setSu_contacter(sheet.getCell(j, i).getContents());
 					continue;
 				}
-				
+
 				if(supplier.getSu_phone()==null)
 				{
-						supplier.setSu_phone(sheet.getCell(j, i).getContents());
-						continue;
+					supplier.setSu_phone(sheet.getCell(j, i).getContents());
+					continue;
 				}
 				if(supplier.getSu_email()==null)
 				{
@@ -136,11 +137,11 @@ public class HuoliuServiceImp implements HuoliuService{
 					if (sheet.getCell(j, i).getContents().trim().equals("禁用")) {
 						supplier.setS_del("0");
 						continue;
-						}else if(sheet.getCell(j, i).getContents().equals("")||
-								sheet.getCell(j, i).getContents().trim().equals("启用")){
-							supplier.setS_del("1");
-							continue;
-						}
+					}else if(sheet.getCell(j, i).getContents().equals("")||
+							sheet.getCell(j, i).getContents().trim().equals("启用")){
+						supplier.setS_del("1");
+						continue;
+					}
 				}
 				if(supplier.getSu_ps_return()==null)
 				{
@@ -151,7 +152,7 @@ public class HuoliuServiceImp implements HuoliuService{
 						supplier.setSu_ps_return(sheet.getCell(j, i).getContents());
 						continue;
 					}
-					
+
 				}
 				if(supplier.getSu_gd_return()==null)
 				{
@@ -159,8 +160,8 @@ public class HuoliuServiceImp implements HuoliuService{
 						supplier.setSu_gd_return("0");
 						continue;
 					}else{
-					supplier.setSu_gd_return(sheet.getCell(j, i).getContents());
-					continue;
+						supplier.setSu_gd_return(sheet.getCell(j, i).getContents());
+						continue;
 					}
 				}
 
@@ -201,13 +202,13 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 
 		String message="导入成功";
-    	resp.setCharacterEncoding("UTF-8"); 
-    	PrintWriter out=resp.getWriter();
-    	JSONObject json=new JSONObject();
-    	json.put("message", message);
+		resp.setCharacterEncoding("UTF-8"); 
+		PrintWriter out=resp.getWriter();
+		JSONObject json=new JSONObject();
+		json.put("message", message);
 		out.print(json);
-	
-		
+
+
 	}
 	//修改
 	private void daoruexcel1(Suppliers supplier,int su_id) {
@@ -223,7 +224,7 @@ public class HuoliuServiceImp implements HuoliuService{
 				su_id+""});
 		String m=null;
 	}
-	
+
 	//添加
 	public void daoruexcel(Suppliers supplier,String s_id,String s_name)
 	{   
@@ -252,7 +253,7 @@ public class HuoliuServiceImp implements HuoliuService{
 
 	public List<Object[]> search(String s_id, String shuru) {
 		// TODO Auto-generated method stub
-		String sql="select g_name,g_barcode,g_stock_num,su_name,g_pur_price,g_id from goods where s_id=? and"
+		String sql="select g_name,g_barcode,g_stock_num,su_name,g_pur_price,g_id,g_unit,c_name from goods where s_id=? and"
 				+ " (g_name like '%"+shuru+"%' or g_barcode  like '%"+shuru+"%')";
 		List<Object[]> list=SqlHelper.find(sql, s_id);
 		return list;
@@ -331,12 +332,12 @@ public class HuoliuServiceImp implements HuoliuService{
 
 	}
 
-	public void Inforuku(String order,String s_id_in,String l_pre_price,String l_info) {
+	public void Inforuku(String order,String s_id_in,String l_pre_price,String l_info, String s_name_in) {
 		// TODO Auto-generated method stub
 		String sql="insert into logistics(s_id_in,l_detail,"
-				+ "l_serial_num,l_date,l_type,l_status,l_num,l_price,l_pre_price,l_info) value("
-				+ "?,?,?,?,'进货单','待审核',?,?,?,?)";
-		
+				+ "l_serial_num,l_date,l_type,l_status,l_num,l_price,l_pre_price,l_info,s_name_in) value("
+				+ "?,?,?,?,'进货单','待审核',?,?,?,?,?)";
+
 		/*String sql1="insert into s_settlement(ss_sid_in,ss_detail,"
 				+ "ss_serial_num,ss_date,ss_type,ss_status,ss_num,ss_price,ss_pre_price,ss_info) value("
 				+ "?,?,?,?,'进货单','待确认进货',?,?,?,?)";*/
@@ -346,28 +347,28 @@ public class HuoliuServiceImp implements HuoliuService{
 		String strDate=simpledateformat.format(dt);
 		System.out.println(strDate);
 		String []orderArr=order.split(" ");
-		
-		
+
+
 		int l_num=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_num=l_num+Integer.valueOf(orderArr[3+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_num=l_num+Integer.valueOf(orderArr[3+7*i]);
 		}
 		double l_price=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_price=l_price+Integer.valueOf(orderArr[3+5*i])*Double.parseDouble(orderArr[4+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_price=l_price+Integer.valueOf(orderArr[3+7*i])*Double.parseDouble(orderArr[4+7*i]);
 		}
-		
-		
-		
-		String SQL[]=new String[orderArr.length/5];
-		String detail[]=new String[orderArr.length/5];
-		String liuyan[][]=new String[orderArr.length/5][9];
+
+
+
+		String SQL[]=new String[orderArr.length/7];
+		String detail[]=new String[orderArr.length/7];
+		String liuyan[][]=new String[orderArr.length/7][10];
 		String liupeng[]=new String[]{s_id_in,strDate,strDate,String.valueOf(l_num),
 				String.valueOf(l_price),l_pre_price,l_info
-		
+
 		};
-		for (int i = 0; i < orderArr.length/5; i++) {
-			detail[i]=orderArr[i*5]+" "+orderArr[5*i+1]+" "+orderArr[5*i+2]+" "+orderArr[5*i+3]+" "+orderArr[5*i+4];
+		for (int i = 0; i < orderArr.length/7; i++) {
+			detail[i]=orderArr[i*7]+" "+orderArr[7*i+1]+" "+orderArr[7*i+2]+" "+orderArr[7*i+3]+" "+orderArr[7*i+4]+" "+orderArr[7*i+5]+" "+orderArr[7*i+6];
 			for (int j = 0; j <1; j++) {
 				liuyan[i][j]=liupeng[j];
 			}
@@ -378,18 +379,20 @@ public class HuoliuServiceImp implements HuoliuService{
 				liuyan[i][j]=liupeng[j-1];
 			}
 			for (int j = 8; j <9; j++) {
-				liuyan[i][j]=orderArr[i*5+2];
+				liuyan[i][j]=orderArr[i*7+2];
 			}
-			
+			for (int j = 9; j <10; j++) {
+				liuyan[i][j]=s_name_in;
+			}
 			SQL[i]="insert into s_settlement(ss_sid_in,ss_detail,"
-					+ "ss_serial_num,ss_date,ss_type,ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_supplier) value("
-					+ "?,?,?,?,'进货单','待确认进货',?,?,?,?,?)";
+					+ "ss_serial_num,ss_date,ss_type,ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_supplier,ss_name_in) value("
+					+ "?,?,?,?,'进货单','待确认进货',?,?,?,?,?,?)";
 		}
-		
-		
-		
+
+
+
 		SqlHelper.executeUpdate(sql, new String[]{
-				s_id_in,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_pre_price,l_info
+				s_id_in,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_pre_price,l_info,s_name_in
 		});
 		/*SqlHelper.executeUpdate(sql1, new String[]{
 				s_id_in,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_pre_price,l_info
@@ -399,16 +402,16 @@ public class HuoliuServiceImp implements HuoliuService{
 
 	public List<Object[]> findhl(String s_id, String type,int currentPage) {
 		// TODO Auto-generated method stub
-		
+
 		if (!s_id.equals("")) {
-		String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-				+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
-				+ " from logistics where s_id_in=? and l_type=? limit ?,10";
-		List<Object[]> list=SqlHelper.find(sql, s_id,type, currentPage);
-		return list;
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
+					+ " from logistics where s_id_in=? and l_type=? limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,type, currentPage);
+			return list;
 		}else {
-			String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
 					+ " from logistics where  l_type=? limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql,type, currentPage);
 			return list;
@@ -432,12 +435,12 @@ public class HuoliuServiceImp implements HuoliuService{
 		System.out.println(strDate);
 		String []orderArr=order.split(" ");
 		int l_num=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_num=l_num+Integer.valueOf(orderArr[3+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_num=l_num+Integer.valueOf(orderArr[3+7*i]);
 		}
 		double l_price=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_price=l_price+Integer.valueOf(orderArr[3+5*i])*Double.parseDouble(orderArr[4+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_price=l_price+Integer.valueOf(orderArr[3+7*i])*Double.parseDouble(orderArr[4+7*i]);
 		}
 		SqlHelper.executeUpdate(sql, new String[]{
 				s_id_in,order,strDate,String.valueOf(l_num),String.valueOf(l_price),l_info
@@ -447,56 +450,57 @@ public class HuoliuServiceImp implements HuoliuService{
 
 	public void ruku( String s_id_out,String s_id_in, String l_id,String l_detail, String l_serial_num, String l_date) {
 		// TODO Auto-generated method stub
+
 		String []orderArr=l_detail.split(" ");
 		if(s_id_out.equals("null")){ 
-		String sql="update  logistics set l_status='已完成进货' where l_id=? and s_id_in=?";
-	SqlHelper.executeUpdate(sql, new String[]{l_id,s_id_in});
-	String sql1="update  s_settlement set ss_status='待对账' where ss_serial_num=? and ss_sid_in=?";
-	SqlHelper.executeUpdate(sql1, new String[]{l_serial_num,s_id_in});
-	
-	
-	
+			String sql="update  logistics set l_status='已完成进货' where l_id=? and s_id_in=?";
+			SqlHelper.executeUpdate(sql, new String[]{l_id,s_id_in});
+			String sql1="update  s_settlement set ss_status='待结算' where ss_serial_num=? and ss_sid_in=?";
+			SqlHelper.executeUpdate(sql1, new String[]{l_serial_num,s_id_in});
+
+
+
 		}else if(s_id_in.equals("null")){       
 			String sql="update  logistics set l_status='已完成退货' where l_id=? ";
 			SqlHelper.executeUpdate(sql, new String[]{l_id });
 		}else{
 			String sql="update  logistics set l_status='已完成调货' where l_id=? ";
 			SqlHelper.executeUpdate(sql, new String[]{l_id });
-			
+
 		}
-		
-		
-		
-		
+
+
+
+
 		if(s_id_out.equals("null")){        //进货
-			String SQL[]=new String[orderArr.length/5];
+			String SQL[]=new String[orderArr.length/7];
 			for (int i = 0; i < SQL.length; i++) {
 				SQL[i]="";
 			}
-			String a[][]=new String[orderArr.length/5][2];
-			for (int i = 0; i < orderArr.length/5; i++) {
-				a[i][0]=orderArr[1+5*i];
+			String a[][]=new String[orderArr.length/7][2];
+			for (int i = 0; i < orderArr.length/7; i++) {
+				a[i][0]=orderArr[1+7*i];
 				a[i][1]=s_id_in;
 			}
-			for (int j = 0; j < orderArr.length/5; j++) {
-				SQL[j]="update goods set g_stock_num=g_stock_num+"+orderArr[3+5*j]+" where g_barcode=? and s_id=?"; 
+			for (int j = 0; j < orderArr.length/7; j++) {
+				SQL[j]="update goods set g_stock_num=g_stock_num+"+orderArr[3+7*j]+" where g_barcode=? and s_id=?"; 
 
 			}
 			SqlHelper.executeUpdate(SQL,a);
 		}else if(s_id_in.equals("null")){   //退货
 
-			String SQL[]=new String[orderArr.length/5];
-			
+			String SQL[]=new String[orderArr.length/7];
+
 			for (int i = 0; i < SQL.length; i++) {
 				SQL[i]="";
 			}
-			String a[][]=new String[orderArr.length/5][2];
-			for (int i = 0; i < orderArr.length/5; i++) {
-				a[i][0]=orderArr[1+5*i];
+			String a[][]=new String[orderArr.length/7][2];
+			for (int i = 0; i < orderArr.length/7; i++) {
+				a[i][0]=orderArr[1+7*i];
 				a[i][1]=s_id_out;
 			}
-			for (int j = 0; j < orderArr.length/5; j++) {
-				SQL[j]="update goods set g_stock_num=g_stock_num-"+orderArr[3+5*j]+" where g_barcode=? and s_id=?"; 
+			for (int j = 0; j < orderArr.length/7; j++) {
+				SQL[j]="update goods set g_stock_num=g_stock_num-"+orderArr[3+7*j]+" where g_barcode=? and s_id=?"; 
 
 			}
 			SqlHelper.executeUpdate(SQL,a);
@@ -506,42 +510,42 @@ public class HuoliuServiceImp implements HuoliuService{
 			simpledateformat = new SimpleDateFormat("yyyyMMddHHmmss");
 			Date dt=new Date();
 			String strDate=simpledateformat.format(dt);
-			
+
 			int l_num=0;
-			for (int i = 0; i < orderArr.length/5; i++) {
-				l_num=l_num+Integer.valueOf(orderArr[3+5*i]);
+			for (int i = 0; i < orderArr.length/7; i++) {
+				l_num=l_num+Integer.valueOf(orderArr[3+7*i]);
 			}
 			double l_price=0;
-			for (int i = 0; i < orderArr.length/5; i++) {
-				l_price=l_price+Integer.valueOf(orderArr[3+5*i])*Double.parseDouble(orderArr[4+5*i]);
+			for (int i = 0; i < orderArr.length/7; i++) {
+				l_price=l_price+Integer.valueOf(orderArr[3+7*i])*Double.parseDouble(orderArr[4+7*i]);
 			}
 			SqlHelper.executeUpdate(sql5,new String[]{
-				l_detail,strDate,l_serial_num,l_date,"退货单",
-				String.valueOf(l_num),String.valueOf(l_price),"备注"
-					
+					l_detail,strDate,l_serial_num,l_date,"退货单",
+					String.valueOf(l_num),String.valueOf(l_price),"备注"
+
 			});
 
 		} else{                    //调货
 
-			String SQL[]=new String[orderArr.length*2/5];
+			String SQL[]=new String[orderArr.length*2/7];
 			for (int i = 0; i < SQL.length; i++) {
 				SQL[i]="";
 			}
-			String a[][]=new String[orderArr.length*2/5][2];
-			for (int i = 0; i < orderArr.length*2/5; i++) {
-				a[i][0]=orderArr[1+5*(i/2)];
+			String a[][]=new String[orderArr.length*2/7][2];
+			for (int i = 0; i < orderArr.length*2/7; i++) {
+				a[i][0]=orderArr[1+7*(i/2)];
 				if((i%2)==0){
 					a[i][1]=s_id_out;
 				}else {
 					a[i][1]=s_id_in;
 				}
 			}
-			for (int j = 0; j < orderArr.length*2/5; j++) {
+			for (int j = 0; j < orderArr.length*2/7; j++) {
 				if((j%2)==0){
-					SQL[j]="update goods set g_stock_num=g_stock_num-"+orderArr[3+5*(j/2)]+" where g_barcode=? and s_id=?"; 
+					SQL[j]="update goods set g_stock_num=g_stock_num-"+orderArr[3+7*(j/2)]+" where g_barcode=? and s_id=?"; 
 
 				}else {
-					SQL[j]="update goods set g_stock_num=g_stock_num+"+orderArr[3+5*(j/2)]+" where g_barcode=? and s_id=?"; 
+					SQL[j]="update goods set g_stock_num=g_stock_num+"+orderArr[3+7*(j/2)]+" where g_barcode=? and s_id=?"; 
 
 				}
 
@@ -562,11 +566,11 @@ public class HuoliuServiceImp implements HuoliuService{
 		return 0;
 	}
 
-	public void Inforuku1(String order, String s_id_out, String s_id_in, String l_info) {
+	public void Inforuku1(String order, String s_id_out, String s_id_in, String l_info, String s_name_out, String s_name_in) {
 		// TODO Auto-generated method stub
 		String sql="insert into logistics(s_id_out,s_id_in,l_detail,"
-				+ "l_serial_num,l_date,l_type,l_status,l_num,l_price,l_info) value("
-				+ "?,?,?,?,?,'调货单','待审核',?,?,?)";
+				+ "l_serial_num,l_date,l_type,l_status,l_num,l_price,l_info,s_name_out,s_name_in) value("
+				+ "?,?,?,?,?,'调货单','待审核',?,?,?,?,?)";
 		SimpleDateFormat simpledateformat;
 		simpledateformat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date dt=new Date();
@@ -574,30 +578,30 @@ public class HuoliuServiceImp implements HuoliuService{
 		System.out.println(strDate);
 		String []orderArr=order.split(" ");
 		int l_num=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_num=l_num+Integer.valueOf(orderArr[3+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_num=l_num+Integer.valueOf(orderArr[3+7*i]);
 		}
 		double l_price=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_price=l_price+Integer.valueOf(orderArr[3+5*i])*Double.parseDouble(orderArr[4+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_price=l_price+Integer.valueOf(orderArr[3+7*i])*Double.parseDouble(orderArr[4+7*i]);
 		}
 
 		SqlHelper.executeUpdate(sql, new String[]{
-				s_id_out,s_id_in,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_info
+				s_id_out,s_id_in,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_info,s_name_out,s_name_in
 		});
 	}
 
 	public List<Object[]> findhl1(String s_id, String type, int currentPage) {
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")) {
-		String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-				+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
-				+ " from logistics where s_id_out=? and l_type=? limit ?,10";
-		List<Object[]> list=SqlHelper.find(sql, s_id,"调货单", currentPage);
-		return list;
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
+					+ " from logistics where s_id_out=? and l_type=? limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,"调货单", currentPage);
+			return list;
 		}else {
-			String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
 					+ " from logistics where  l_type=? limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql, "调货单", currentPage);
 			return list;
@@ -617,25 +621,25 @@ public class HuoliuServiceImp implements HuoliuService{
 	public List<Object[]> findhl2(String s_id, String type, int currentPage) {
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")) {
-		String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-				+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
-				+ " from logistics where s_id_in=? and l_type=? limit ?,10";
-		List<Object[]> list=SqlHelper.find(sql, s_id,"调货单", currentPage);
-		return list;
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
+					+ " from logistics where s_id_in=? and l_type=? limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,"调货单", currentPage);
+			return list;
 		}else {
-			String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
 					+ " from logistics where  l_type=? limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql, "调货单", currentPage);
 			return list;
 		}
 	}
 
-	public void Inforuku2(String order, String s_id, String l_info) {
+	public void Inforuku2(String order, String s_id, String l_info, String s_name_out) {
 		// TODO Auto-generated method stub
 		String sql="insert into logistics(s_id_out,l_detail,"
-				+ "l_serial_num,l_date,l_type,l_status,l_num,l_price,l_info) value("
-				+ "?,?,?,?,'退货单','待同意',?,?,?)";
+				+ "l_serial_num,l_date,l_type,l_status,l_num,l_price,l_info,s_name_out) value("
+				+ "?,?,?,?,'退货单','待同意',?,?,?,?)";
 		SimpleDateFormat simpledateformat;
 		simpledateformat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date dt=new Date();
@@ -643,16 +647,16 @@ public class HuoliuServiceImp implements HuoliuService{
 		System.out.println(strDate);
 		String []orderArr=order.split(" ");
 		int l_num=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_num=l_num+Integer.valueOf(orderArr[3+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_num=l_num+Integer.valueOf(orderArr[3+7*i]);
 		}
 		double l_price=0;
-		for (int i = 0; i < orderArr.length/5; i++) {
-			l_price=l_price+Integer.valueOf(orderArr[3+5*i])*Double.parseDouble(orderArr[4+5*i]);
+		for (int i = 0; i < orderArr.length/7; i++) {
+			l_price=l_price+Integer.valueOf(orderArr[3+7*i])*Double.parseDouble(orderArr[4+7*i]);
 		}
 
 		SqlHelper.executeUpdate(sql, new String[]{
-				s_id,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_info
+				s_id,order,strDate,strDate,String.valueOf(l_num),String.valueOf(l_price),l_info,s_name_out
 		});
 
 	}
@@ -660,14 +664,14 @@ public class HuoliuServiceImp implements HuoliuService{
 	public List<Object[]> findhl3(String s_id, String type, int currentPage) {
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")) {
-		String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-				+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
-				+ " from logistics where s_id_out=? and l_type=? limit ?,10";
-		List<Object[]> list=SqlHelper.find(sql, s_id,type, currentPage);
-		return list;
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
+					+ " from logistics where s_id_out=? and l_type=? limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,type, currentPage);
+			return list;
 		}else {
-			String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
 					+ " from logistics where  l_type=? limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql,type, currentPage);
 			return list;
@@ -678,15 +682,15 @@ public class HuoliuServiceImp implements HuoliuService{
 		// TODO Auto-generated method stub
 		List<Object[]> list=null;
 		if(!s_id.equals("")){
-		String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-				+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
-				+ " from logistics where s_id_out or s_id_in=?  limit ?,10";
-		 list=SqlHelper.find(sql, s_id, currentPage);
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
+					+ " from logistics where s_id_out or s_id_in=?  limit ?,10";
+			list=SqlHelper.find(sql, s_id, currentPage);
 		}else {
-			String sql="select l_detail,l_serial_num,l_date,l_type,s_id_out,s_id_in,"
-					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id"
+			String sql="select l_detail,l_serial_num,l_date,l_type,s_name_out,s_name_in,"
+					+ "l_status,l_num,l_price,l_pre_price,l_info,l_id,s_id_in,s_id_out"
 					+ " from logistics   limit ?,10";
-			 list=SqlHelper.find(sql, currentPage);
+			list=SqlHelper.find(sql, currentPage);
 		}
 		return list;
 	}
@@ -712,9 +716,9 @@ public class HuoliuServiceImp implements HuoliuService{
 	public int getTotalSize3(int store) {
 		String sql="";
 		if(!String.valueOf(store).equals("")){
-	     sql = "select count(l_id) from logistics where  s_id_out or s_id_in=? ";
+			sql = "select count(l_id) from logistics where  s_id_out or s_id_in=? ";
 		}else {
-		sql = "select count(l_id) from logistics  ";
+			sql = "select count(l_id) from logistics  ";
 		}
 		List<Object[]> list = SqlHelper.find(sql, store);
 		if (null != list && list.size() == 1) {
@@ -772,66 +776,66 @@ public class HuoliuServiceImp implements HuoliuService{
 
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")&&!supplier.equals("")) {
-		String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-				+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-				+ " from s_settlement where ss_sid_in=? and ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-		List<Object[]> list=SqlHelper.find(sql, s_id,supplier, currentPage);
-		return list;
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_sid_in=? and ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,supplier, currentPage);
+			return list;
 		}else if(s_id.equals("")&&!supplier.equals("")){
-			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
 					+ " from s_settlement where ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
 			return list;
 		}else if(!s_id.equals("")&&supplier.equals("")){
-			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
 					+ " from s_settlement where ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
 			return list;
 		}else {
-			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
 					+ " from s_settlement where  (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql, currentPage);
 			return list;
 		}
-	
-	
+
+
 	}
 	public List<Object[]> findjs1(String s_id, String supplier, int currentPage) {
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")&&!supplier.equals("")) {
-			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待对账' limit ?,10";
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待结算' limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql,supplier, s_id, currentPage);
 			return list;
-			}else if(s_id.equals("")&&!supplier.equals("")){
-				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-						+ " from s_settlement where ss_supplier=? and ss_status='待对账'  limit ?,10";
-				List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
-				return list;
-			}else if(!s_id.equals("")&&supplier.equals("")){
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=? and ss_status='待结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+			return list;
+		}else if(!s_id.equals("")&&supplier.equals("")){
 
-				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-						+ " from s_settlement where ss_sid_in=? and ss_status='待对账'  limit ?,10";
-				List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
-				return list;
-			
-			}else{
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_sid_in=? and ss_status='待结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+			return list;
+
+		}else{
 
 
-				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-						+ " from s_settlement where  ss_status='待对账'  limit ?,10";
-				List<Object[]> list=SqlHelper.find(sql,  currentPage);
-				return list;
-			
-			
-			}
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where  ss_status='待结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+			return list;
+
+
+		}
 	}
 	public List<Object[]> findjs2(String s_id, String supplier, int currentPage) {
 		// TODO Auto-generated method stub
@@ -841,36 +845,96 @@ public class HuoliuServiceImp implements HuoliuService{
 					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待结算' limit ?,10";
 			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, currentPage);
 			return list;
-			}else if(s_id.equals("")&&!supplier.equals("")){
-				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-						+ " from s_settlement where ss_supplier=? and ss_status='待结算'  limit ?,10";
-				List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
-				return list;
-			}else if(!s_id.equals("")&&supplier.equals("")){
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=? and ss_status='待结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+			return list;
+		}else if(!s_id.equals("")&&supplier.equals("")){
 
-				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-						+ " from s_settlement where ss_sid_in=? and ss_status='待结算'  limit ?,10";
-				List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
-				return list;
-			
-			}else{
-				String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
-						+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-						+ " from s_settlement where  ss_status='待结算'  limit ?,10";
-				List<Object[]> list=SqlHelper.find(sql,  currentPage);
-				return list;
-			}
-		
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_sid_in=? and ss_status='待结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+			return list;
+
+		}else{
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where  ss_status='待结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+			return list;
+		}
+
 	}
-	public List<Object[]> findjs3(String s_id, String type, int currentPage) {
+	public List<Object[]> findjs3(String s_id, String supplier, int currentPage) {
 		// TODO Auto-generated method stub
-		return null;
+
+		// TODO Auto-generated method stub
+		if (!s_id.equals("")&&!supplier.equals("")) {
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='已结算' limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, currentPage);
+			return list;
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=? and ss_status='已结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+			return list;
+		}else if(!s_id.equals("")&&supplier.equals("")){
+
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_sid_in=? and ss_status='已结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+			return list;
+
+		}else{
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where  ss_status='已结算'  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+			return list;
+		}
+
+
 	}
-	public List<Object[]> findjs4(String s_id, String type, int currentPage) {
+	public List<Object[]> findjs4(String s_id, String supplier, int currentPage) {
 		// TODO Auto-generated method stub
-		return null;
+
+		// TODO Auto-generated method stub
+		if (!s_id.equals("")&&!supplier.equals("")) {
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, currentPage);
+			return list;
+		}else if(s_id.equals("")&&!supplier.equals("")){
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_supplier=?   limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+			return list;
+		}else if(!s_id.equals("")&&supplier.equals("")){
+
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where ss_sid_in=?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+			return list;
+
+		}else{
+			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
+					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
+					+ " from s_settlement where  1=1  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+			return list;
+		}
+
+
 	}
 	public void qrdz1(String list) {
 		// TODO Auto-generated method stub
@@ -878,27 +942,27 @@ public class HuoliuServiceImp implements HuoliuService{
 		String SQL[]=new String[a.length];
 		String b[][]=new String[a.length][1];
 		for (int i = 0; i < a.length; i++) {
-			SQL[i]="update s_settlement set ss_status='待结算' where ss_id=?";
+			SQL[i]="update s_settlement set ss_status='已结算' where ss_id=?";
 			b[i][0]=a[i];
 		}
-		
+
 		SqlHelper.executeUpdate(SQL,b);
 	}
 	public List<Object[]> qrjs(String supplier) {
 		// TODO Auto-generated method stub
 		String sql="select su_gd_return,su_ps_return from supplier where su_name=?";
-	List<Object[]> list=	SqlHelper.find(sql, supplier);
+		List<Object[]> list=	SqlHelper.find(sql, supplier);
 		return list;
-		
-		
+
+
 	}
 	public void addsupplier(String s_id, String s_name, String su_name, String su_phone, String su_email, String su_contacter,
 			String s_del, String su_ps_return, String su_gd_return, String su_number, String su_empower,
 			String su_address, String su_info) {
 		// TODO Auto-generated method stub
 		String sql="insert into supplier(s_id,s_name,su_name,su_phone,su_email,su_contacter,s_del,"
-			+"su_ps_return,su_gd_return,su_number,su_empower,su_address,su_info) values ("
-			+ "?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+"su_ps_return,su_gd_return,su_number,su_empower,su_address,su_info) values ("
+				+ "?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		SqlHelper.executeUpdate(sql, new String[]{s_id,s_name,su_name,su_phone,su_email,su_contacter,s_del,
 				su_ps_return,su_gd_return,su_number,su_empower,su_address,su_info});
 	}
@@ -906,7 +970,7 @@ public class HuoliuServiceImp implements HuoliuService{
 		// TODO Auto-generated method stub
 		ArrayList list = new ArrayList();
 		boolean kong = true;
-		
+
 		JSONObject json=new JSONObject();
 		String []supplierArrary=new String[]{"供货商编号(必填)","供货商名称(必填)","联系人","联系电话","邮箱","状态",
 				"配送费返点","固定返利点","地址","备注"};
@@ -916,7 +980,7 @@ public class HuoliuServiceImp implements HuoliuService{
 		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
 		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
 		String sFilePath =truePath;
-		
+
 		InputStream is = new FileInputStream(sFilePath);  
 
 		//创建工作簿
@@ -933,13 +997,13 @@ public class HuoliuServiceImp implements HuoliuService{
 			for (int m = 0; m < sheet.getColumns(); m++) {
 				content=sheet.getCell(m, 0).getContents();
 				if(!content.equals(supplierArrary[m])){
-				String	message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+supplierArrary[m];
+					String	message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+supplierArrary[m];
 					list.add(message);
 					return list;
 				}
 			}
 		}
-		
+
 		if (sheet.getRows()==2) {
 			for(int i=1;i<2;i++){
 				for(int j=0;j<sheet.getColumns();j++){
@@ -950,142 +1014,414 @@ public class HuoliuServiceImp implements HuoliuService{
 				}
 			}
 		}
-		
+
 		for(int i=1;i<sheet.getRows();i++)
 		{   int a=0,b=0;
-			Suppliers supplier=new Suppliers();
-			for(int j=0;j<sheet.getColumns();j++)
+		Suppliers supplier=new Suppliers();
+		for(int j=0;j<sheet.getColumns();j++)
+		{
+			content=sheet.getCell(0, i).getContents();
+			if(supplier.getSu_number()==null&&a==0)
+			{ 
+				a=a+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+					if (kong) {
+						String	message="该表无数据！" ;
+						list.add(message) ;
+					}else{
+						String	message="第"+(i+1)+"行"+"供货商编号不能为空!" ;
+						list.add(message) ;
+					}
+
+
+				}else {
+					supplier.setSu_number(sheet.getCell(j, i).getContents());
+					continue;
+				}
+
+			}
+			if(supplier.getSu_name()==null&&b==0)
 			{
-				content=sheet.getCell(0, i).getContents();
-				if(supplier.getSu_number()==null&&a==0)
-				{ 
-					a=a+1;
-					if (sheet.getCell(j, i).getContents().trim().equals("")){
-						if (kong) {
-							String	message="该表无数据！" ;
-							 list.add(message) ;
-						}else{
-							String	message="第"+(i+1)+"行"+"供货商编号不能为空!" ;
-							 list.add(message) ;
-						}
-						
-						 
-					}else {
-						supplier.setSu_number(sheet.getCell(j, i).getContents());
-						continue;
-					}
-					
-				}
-				if(supplier.getSu_name()==null&&b==0)
-				{
-					b=b+1;
-					if (sheet.getCell(j, i).getContents().trim().equals("")){
-						
-						if (kong) {
-							
-						}else{
+				b=b+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+
+					if (kong) {
+
+					}else{
 						String	message="第"+(i+1)+"行"+"供货商名字不能为空!" ;
-						 list.add(message) ;
-						}
-					}else {
+						list.add(message) ;
+					}
+				}else {
 					supplier.setSu_name(sheet.getCell(j, i).getContents());
-					continue;
-					}
-				}
-				
-
-				if(supplier.getSu_contacter()==null)
-				{
-					supplier.setSu_contacter(sheet.getCell(j, i).getContents());
-					continue;
-				}
-				
-				if(supplier.getSu_phone()==null)
-				{
-						supplier.setSu_phone(sheet.getCell(j, i).getContents());
-						continue;
-				}
-				if(supplier.getSu_email()==null)
-				{
-					supplier.setSu_email(sheet.getCell(j, i).getContents());
-					continue;
-				}
-				if(supplier.getS_del()==null)
-				{
-					if (sheet.getCell(j, i).getContents().trim().equals("禁用")) {
-					supplier.setS_del("0");
-					continue;
-					}else if(sheet.getCell(j, i).getContents().equals("")||
-							sheet.getCell(j, i).getContents().trim().equals("启用")){
-						supplier.setS_del("1");
-						continue;
-					}else {
-						 String	message="第"+(i+1)+"行"+"状态数据格式错误，请输入启用或者禁止" ;
-						 list.add(message) ;
-					}
-				}
-				if(supplier.getSu_ps_return()==null)
-				{
-					if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
-						supplier.setSu_ps_return(sheet.getCell(j, i).getContents());
-						continue;
-					}else if(sheet.getCell(j, i).getContents().equals("")){
-						supplier.setSu_ps_return("0");
-						continue;
-					}else {
-						
-					   String	message="第"+(i+1)+"行"+"配送返费点数据格式错误！" ;
-					   list.add(message) ;
-					}
-					
-				}
-				if(supplier.getSu_gd_return()==null)
-				{
-					if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
-						supplier.setSu_gd_return(sheet.getCell(j, i).getContents());
-						continue;
-					}else if(sheet.getCell(j, i).getContents().equals("")){
-						supplier.setSu_gd_return("0");
-						continue;
-					}else {
-						String	message="第"+(i+1)+"行"+"固定返利点数据格式错误！" ;
-						 list.add(message) ;
-						
-					}
-						
-						
-						
-					
-					
-					
-				}
-
-				if(supplier.getSu_address()==null)
-				{
-					supplier.setSu_address(sheet.getCell(j, i).getContents());
-					continue;
-				}
-
-				if(supplier.getSu_info()==null)
-				{
-					supplier.setSu_info(sheet.getCell(j, i).getContents());
 					continue;
 				}
 			}
-			
-		
+
+
+			if(supplier.getSu_contacter()==null)
+			{
+				supplier.setSu_contacter(sheet.getCell(j, i).getContents());
+				continue;
+			}
+
+			if(supplier.getSu_phone()==null)
+			{
+				supplier.setSu_phone(sheet.getCell(j, i).getContents());
+				continue;
+			}
+			if(supplier.getSu_email()==null)
+			{
+				supplier.setSu_email(sheet.getCell(j, i).getContents());
+				continue;
+			}
+			if(supplier.getS_del()==null)
+			{
+				if (sheet.getCell(j, i).getContents().trim().equals("禁用")) {
+					supplier.setS_del("0");
+					continue;
+				}else if(sheet.getCell(j, i).getContents().equals("")||
+						sheet.getCell(j, i).getContents().trim().equals("启用")){
+					supplier.setS_del("1");
+					continue;
+				}else {
+					String	message="第"+(i+1)+"行"+"状态数据格式错误，请输入启用或者禁止" ;
+					list.add(message) ;
+				}
+			}
+			if(supplier.getSu_ps_return()==null)
+			{
+				if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
+					supplier.setSu_ps_return(sheet.getCell(j, i).getContents());
+					continue;
+				}else if(sheet.getCell(j, i).getContents().equals("")){
+					supplier.setSu_ps_return("0");
+					continue;
+				}else {
+
+					String	message="第"+(i+1)+"行"+"配送返费点数据格式错误！" ;
+					list.add(message) ;
+				}
+
+			}
+			if(supplier.getSu_gd_return()==null)
+			{
+				if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
+					supplier.setSu_gd_return(sheet.getCell(j, i).getContents());
+					continue;
+				}else if(sheet.getCell(j, i).getContents().equals("")){
+					supplier.setSu_gd_return("0");
+					continue;
+				}else {
+					String	message="第"+(i+1)+"行"+"固定返利点数据格式错误！" ;
+					list.add(message) ;
+
+				}
+
+
+
+
+
+
+			}
+
+			if(supplier.getSu_address()==null)
+			{
+				supplier.setSu_address(sheet.getCell(j, i).getContents());
+				continue;
+			}
+
+			if(supplier.getSu_info()==null)
+			{
+				supplier.setSu_info(sheet.getCell(j, i).getContents());
+				continue;
+			}
+		}
+
+
 		}
 		return list;
+
+
+
+
+
+
+
+
+	}
+	public List<String> isRegular1(String truePath, String s_id) throws BiffException, IOException {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		ArrayList list = new ArrayList();
+		boolean kong = true;
+
+		JSONObject json=new JSONObject();
+		String []huodanArrary=new String[]{"商品名称(必填)","条码(必填)","货流量(必填)"};
+        String flag="buhege";
+		//List liststu=new ArrayList();
+		// 找到导入的文件
+		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
+		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
+		String sFilePath =truePath;
+
+		InputStream is = new FileInputStream(sFilePath);  
+
+		//创建工作簿
+		Workbook wb=Workbook.getWorkbook(is);
+		//创建工作表
+		jxl.Sheet sheet=wb.getSheet(0);
+		String content=null; 
 		
-		
-	
+		if (sheet.getColumns()>3) {
+			String	message="该表列数超过了模板的列数，请使用模板";
+			list.add(message);
+			return list;
+		}else{
+			for (int m = 0; m < sheet.getColumns(); m++) {
+				content=sheet.getCell(m, 0).getContents();
+				if(!content.equals(huodanArrary[m])){
+					String	message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+huodanArrary[m];
+					list.add(message);
+					return list;
+				}
+			}
+		}
+
+		if (sheet.getRows()==2) {
+			for(int i=1;i<2;i++){
+				for(int j=0;j<sheet.getColumns();j++){
+					if(!sheet.getCell(j, 1).getContents().trim().equals("")){
+						kong=false;
+						break;
+					}
+				}
+			}
+		}
+
+		for(int i=1;i<sheet.getRows();i++)
+		{   int a=0,b=0,c=0;
+		Good1 good=new Good1();
+		for(int j=0;j<sheet.getColumns();j++)
+		{
+			content=sheet.getCell(0, i).getContents();
+			if(good.getG_name()==null&&a==0)
+			{ 
+				a=a+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+					if (kong) {
+						String	message="该表无数据！" ;
+						list.add(message) ;
+					}else{
+						String	message="第"+(i+1)+"行"+"商品名称不能为空!" ;
+						list.add(message) ;
+					}
+
+
+				}else {
+					
+					
+					good.setG_name(sheet.getCell(j, i).getContents());
+					continue;
+				}
+
+			}
+			if(good.getG_barcode()==null&&b==0)
+			{
+				b=b+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+
+					if (kong) {
+
+					}else{
+						String	message="第"+(i+1)+"行"+"条码不能为空!" ;
+						list.add(message) ;
+					}
+				}else {
+					String sql="select g_barcode from goods where s_id="+s_id;
+					List<Object[]> list0=SqlHelper.find(sql);
+					String tiaoma="";
+					for (int k = 0; k < list0.size(); k++) {
+						 tiaoma=(String) list0.get(k)[0];
+						if (sheet.getCell(j, i).getContents().equals(tiaoma)) {
+							flag="hege";
+							break;
+						}
+					}
+					if (flag.equals("hege")) {
+						String sql1="select g_name from goods where g_barcode='"+sheet.getCell(j, i).getContents()+"' and  s_id="+s_id;
+						List<Object[]> list1=SqlHelper.find(sql1);
+						String mingcheng=(String) list1.get(0)[0];
+						if (mingcheng.equals(good.getG_name())) {
+							
+						}else{
+							String	message="第"+(i+1)+"行"+j+"列: "+"该条码对应的商品名称应为: "+mingcheng+"  " ;
+							list.add(message) ;
+						}
+						good.setG_barcode(sheet.getCell(j, i).getContents());
+						continue;
+					}else {
+						String	message="不存在该商品条码的商品！" ;
+						list.add(message) ;
+					}
+					
+				}
+			}
+
+
+			if(good.getNumber()==null&&c==0)
+			{
+                   c=c+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+
+					if (kong) {
+
+					}else{
+						String	message="第"+(i+1)+"行"+"条码不能为空!" ;
+						list.add(message) ;
+					}
+				}else {
+					if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
+						good.setNumber(sheet.getCell(j, i).getContents());
+						continue;
+					}else {
+						String	message="第"+(i+1)+"行"+"货流量必须为数字!" ;
+						list.add(message) ;
+					}
+					
+				}
+
+			}
+
+
+		}
+
+
+		}
+		return list;
+
+
+
+
+
+
+
+
+
+	}
+	public String importExcel1(HttpServletRequest req, HttpServletResponse resp, String truePath, String s_id,
+			String s_name) throws BiffException, IOException {
+		// TODO Auto-generated method stub
+
+		String list="";
+		String []huodanArrary=new String[]{"商品名称(必填)","条码(必填)","货流量(必填)"};
+		int su_id = 0;
+		List liststu=new ArrayList();
+		// 找到导入的文件
+		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
+		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
+		String sFilePath =truePath;
+
+		InputStream is = new FileInputStream(sFilePath);  
+
+		//创建工作簿
+		Workbook wb=Workbook.getWorkbook(is);
+		//创建工作表
+		jxl.Sheet sheet=wb.getSheet(0);
+		String content=null; 
+		String flag="add";
+		for (int m = 0; m < sheet.getColumns(); m++) {
+			content=sheet.getCell(m, 0).getContents();
+
+		}
+		for(int i=1;i<sheet.getRows();i++)
+		{   
+			Good1 good=new Good1();
+			for(int j=0;j<sheet.getColumns();j++)
+			{
+				content=sheet.getCell(0, i).getContents();
+				if(good.getG_name()==null)
+				{
+					good.setG_name(sheet.getCell(j, i).getContents());
+					continue;
+				}
+				if(good.getG_barcode()==null)
+				{
+					good.setG_barcode(sheet.getCell(j, i).getContents());
+					continue;
+				}
+
+
+				if(good.getNumber()==null)
+				{
+					good.setNumber(sheet.getCell(j, i).getContents());
+					continue;
+				}
+
+				
+			}
 			
-		
-		
-		
+			
+	
+			String sql="select g_pur_price,c_name,g_unit,g_stock_num,su_name from goods where s_id=? and g_barcode='"+good.getG_barcode()+"'";
+				List<Object[]> x=SqlHelper.find(sql, s_id);
+				String g_pur_price=(String) x.get(0)[0];
+				String c_name=(String) x.get(0)[1];
+				String g_unit=(String) x.get(0)[2];
+				String g_stock_num=(String) x.get(0)[3];
+				String su_name=(String) x.get(0)[4];
+				String []result={good.getG_name(),good.getG_barcode(),g_stock_num,su_name,good.getNumber(),g_pur_price,g_unit,c_name};
+				list=list+good.getG_name()+","+
+				          good.getG_barcode()+","+
+				          g_stock_num +","+
+				          su_name +","+
+				          good.getNumber()+","+
+						  g_pur_price +","+
+						  g_unit+","+
+				          c_name+",";
+				/*String sql="select g_name,g_barcode,g_stock_num,su_name,g_pur_price,g_id,g_unit,c_name from goods where s_id=? and"
+						+ " (g_name like '%"+shuru+"%' or g_barcode  like '%"+shuru+"%')";
+				List<Object[]> list=SqlHelper.find(sql, s_id);
+				return list;*/
+			
+		}
+
+	return list;
+
 	
 	}
+	/*private void daoruexcel3(Good1 good, String g_id) {
+
+		// TODO Auto-generated method stub
+		String sql="update good set su_name=?,su_contacter=?,"
+				+ "su_phone=?,su_email=?,su_empower=?,su_ps_return=?,"
+				+ "su_gd_return=?,su_address=?,su_info=? where su_id=?";
+
+		SqlHelper.executeUpdate(sql, new String[] { supplier.getSu_name(),
+				supplier.getSu_contacter(),supplier.getSu_phone(),supplier.getSu_email(),
+				supplier.getS_del(),String.valueOf(supplier.getSu_ps_return()),String.valueOf(supplier.getSu_gd_return()),
+				supplier.getSu_address(),supplier.getSu_info(),
+				su_id+""});
+		String m=null;
 	
+		
+	}*/
+	public List<Object[]> hkhz(String s_id, String start, String end, int currentPage) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT t1.g_barcode,t1.g_name,t1.g_pur_price,t1.g_sale_price,t2.sa_goods_num,t3.su_gd_return,t3.su_ps_return FROM goods t1,sale t2, supplier t3 WHERE t1.su_name=t3.su_name and  t1.g_barcode=t2.g_barcode and t2.store_id=t1.s_id and t1.s_id=? and t3.s_id=? and CAST(t2.sa_date AS signed)>? and CAST(t2.sa_date AS signed)<? limit ?, 10 ";
+		List<Object[]> list=SqlHelper.find(sql, s_id,s_id,start,end,currentPage);
+		return list;
+	}
+	public List<String> isRegular2(String truePath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void importExcel2(HttpServletRequest req, HttpServletResponse resp, String truePath, String s_id,
+			String s_name) {
+		// TODO Auto-generated method stub
+
+	}
+
 
 
 

@@ -14,7 +14,7 @@ public class Good {
 	private String g_trade_price;
 	private String g_vip_price;
 	private String g_integral;
-	private String g_vip;
+	private String vip_id;
 	private String g_stock_max;
 	private String g_stock_min;
 	private String su_name;
@@ -99,11 +99,12 @@ public class Good {
 	public void setG_integral(String g_integral) {
 		this.g_integral = g_integral;
 	}
-	public String getG_vip() {
-		return g_vip;
+	
+	public String getVip_id() {
+		return vip_id;
 	}
-	public void setG_vip(String g_vip) {
-		this.g_vip = g_vip;
+	public void setVip_id(String vip_id) {
+		this.vip_id = vip_id;
 	}
 	public String getG_stock_max() {
 		return g_stock_max;
