@@ -267,7 +267,7 @@
 								</a> 
 							</c:when>
 							<c:otherwise>
-								<a class="btn" href="#" disabled> <!-- class="btn btn-primary" -->
+								<a class="btn btn-default" href="#" disabled> <!-- class="btn btn-primary" -->
 									<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
 								</a>
 							</c:otherwise>
@@ -279,7 +279,7 @@
 								</a> 
 							</c:when>
 							<c:otherwise>
-								<a disabled class="btn" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
+								<a disabled class="btn btn-default" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
 									<i class="glyphicon glyphicon-trash icon-white"></i> 删除
 								</a>
 							</c:otherwise>
