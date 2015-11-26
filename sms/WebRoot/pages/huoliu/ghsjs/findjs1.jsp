@@ -9,11 +9,13 @@
 %>
 <%String currentPage=request.getAttribute("currentPage").toString(); 
 String s_id=request.getAttribute("s_id").toString();
+String supplier=request.getAttribute("supplier").toString();
 String type=request.getAttribute("status").toString();
 %>
  <script>
 
 		$("li a").click(function() {
+			var supplier=$("#supplier").val();
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
 			var status=$("#status").val();
@@ -32,7 +34,8 @@ String type=request.getAttribute("status").toString();
 			$.post("<%=basePath%>huoliu", {
 				"which" : which,
 				"s_id" : s_id,
-				"m" : "findhl",
+				"supplier" : supplier,
+				"m" : "findjs",
 				"currentPage" : currentPage,
 				"status" :status,
 			}, function(data) {

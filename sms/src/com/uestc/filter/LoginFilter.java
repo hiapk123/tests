@@ -15,7 +15,7 @@ import com.uestc.bean.Users;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-
+@WebFilter(urlPatterns = { "*.do" })
 public class LoginFilter implements Filter {
 
 	/**
@@ -40,6 +40,12 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		Users user = (Users) req.getSession().getAttribute("sessionUser");
 
+		String path = req.getRequestURI();
+		// 登陆页面无需过滤
+		if (path.indexOf("/login.jsp") > -1) {
+			chain.doFilter(request, response);
+			return;
+		}
 		if (user == null) {
 			req.getRequestDispatcher("/login.jsp").forward(req, response);
 		} else {

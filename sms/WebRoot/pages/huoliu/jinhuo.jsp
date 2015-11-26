@@ -69,7 +69,7 @@ function search(){
 		"s_id":s_id,
 		"shuru":shuru,
 	}, function(data) {
-		alert(data);
+		
 		$("#motai").append(data);
 	}, "html");
 	
@@ -80,17 +80,17 @@ function Inforukujh()
 	
 	var s_id=$("#STORE").val();
 	var s_name=$("#STORE :selected").text();
-	alert(s_name);
+	
      var l_pre_price=$("#paidMoney").val();
      var l_info=$("#txt_remarks").val();
 	var list="";
 	var listlength=$("#11").find(".jieguo").length;
-	
+    //alert(listlength);
         for(var i=0;i<listlength;i++)   {
         	var  list=list+$("#11").find(".jieguo").eq(i).val()+" ";
         }
         list=list.substring(0,list.length);
-     
+    
       $("#hlgldiv").empty();
 	$.post("<%=basePath%>huoliu", {
 		"m" : "Inforuku",

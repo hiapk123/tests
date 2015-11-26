@@ -10,8 +10,9 @@
 %>
 
 <%
-String SUM=request.getAttribute("sum").toString();
-int sum=Integer.valueOf(SUM);
+String sum=request.getAttribute("sum").toString();
+String sum1=request.getAttribute("sum1").toString();
+
 String currentPage=request.getAttribute("currentPage").toString(); 
 String start=request.getAttribute("start").toString();
 String end=request.getAttribute("end").toString();
@@ -96,21 +97,17 @@ String s_id=request.getAttribute("s_id").toString();
 				}
 					
 			%>
-			<td><%=(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))%></td>	
-			<td><%=(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2])))%></td>	
+			<td><%=(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))%></td>	
+			<td><%=(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2])))%></td>	
 		<td>
-		<%=(int)(((int)( Double.parseDouble(String.valueOf(list.get(i)[3])))
-				-(int)(Double.parseDouble(String.valueOf(list.get(i)[2])))+
-				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))+
-				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2]))) )*
-				(int)(Double.parseDouble(String.valueOf(list.get(i)[4]))))%>
-		
+		<%-- <%=((( Double.parseDouble(String.valueOf(list.get(i)[3])))
+				-(Double.parseDouble(String.valueOf(list.get(i)[2])))+
+				(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))+
+				(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2]))) )*
+				(Double.parseDouble(String.valueOf(list.get(i)[4]))))%> --%>
+		<%=sum1 %>
 		</td>
-		<%sum=sum+(int)(((int)( Double.parseDouble(String.valueOf(list.get(i)[3])))
-				-(int)(Double.parseDouble(String.valueOf(list.get(i)[2])))+
-				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[5]))*Double.parseDouble(String.valueOf(list.get(i)[2])))+
-				(int)(0.01*Double.parseDouble(String.valueOf(list.get(i)[6]))*Double.parseDouble(String.valueOf(list.get(i)[2]))) )*
-				(int)(Double.parseDouble(String.valueOf(list.get(i)[4])))); %>
+		
 		</tr>
 		<%
 			}
