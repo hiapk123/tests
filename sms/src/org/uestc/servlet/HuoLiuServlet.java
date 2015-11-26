@@ -128,6 +128,9 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("findhl")) {
 			this.findhl(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/findhl.jsp").forward(req, resp);
+		}else if (m.equals("findhl1")) {
+			this.findhl(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/findhl1.jsp").forward(req, resp);
 		}else if (m.equals("detail")) {
 			this.detail(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/orderdetail.jsp").forward(req, resp);
@@ -146,6 +149,9 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("findjs")) {
 			this.findjs(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/ghsjs/findjs.jsp").forward(req, resp);
+		}else if (m.equals("findjs1")) {
+			this.findjs(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/ghsjs/findjs1.jsp").forward(req, resp);
 		}else if (m.equals("QRDZ")) {
 			this.QRDZ(req, resp);
 			req.getRequestDispatcher("/pages/huoliu/ghsjs/qrdz.jsp").forward(req, resp);

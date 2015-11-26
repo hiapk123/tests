@@ -12,10 +12,19 @@ String s_id=request.getAttribute("s_id").toString();
 String supplier=request.getAttribute("supplier").toString();
 String status=request.getAttribute("status").toString();
 %>
+
+ 
+
+<div id="fenye" style="width:1400px;height:500px">
 <script>
 	
 		$("li a").click(function() {
+			alert(66);
+			var start=$("#start").val();
+
+			var end=$("#end").val();
 			var supplier=$("#supplier").val();
+			
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
 			var status=$("#status").val();
@@ -34,7 +43,9 @@ String status=request.getAttribute("status").toString();
 			$.post("<%=basePath%>huoliu", {
 				"which" : which,
 				"s_id" : s_id,
-				"m" : "findjs",
+				"end":end,
+				"start":start,
+				"m" : "findjs1",
 				"supplier" : supplier,
 				"currentPage" : currentPage,
 				"status" :status,
@@ -45,9 +56,6 @@ String status=request.getAttribute("status").toString();
 	
         
 </script>
- 
-
-<div id="fenye" style="width:1400px;height:500px">
 <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
 			<tr>
@@ -108,7 +116,7 @@ String status=request.getAttribute("status").toString();
 
 
 	</table>
-<ul class="pagination" id="page" style="position: relative; bottom: 0px;">
+<ul class="pagination" id="page" >
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />
