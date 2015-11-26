@@ -24,112 +24,25 @@
 
 
 
-<SCRIPT LANGUAGE="javascript">
-<!--
-
-function fuzhishangpin()
-{
-	var id=$("#store").val();
-	var name=$("#store :selected").text();
-window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'newwindow','height=500,width=800,top=100,left=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
-}
--->
-</SCRIPT>
 
 
-<!-- The styles -->
-<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
-	rel="stylesheet">
-
-<link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
-<link
-	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.print.css'
-	rel='stylesheet' media='print'>
-<link href='<%=basePath%>bower_components/chosen/chosen.min.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/colorbox/example3/colorbox.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/responsive-tables/responsive-tables.css'
-	rel='stylesheet'>
-<link
-	href='<%=basePath%>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
-	rel='stylesheet'>
-<link href='<%=basePath%>css/jquery.noty.css' rel='stylesheet'>
-<link href='<%=basePath%>css/noty_theme_default.css' rel='stylesheet'>
-<link href='<%=basePath%>css/elfinder.min.css' rel='stylesheet'>
-<link href='<%=basePath%>css/elfinder.theme.css' rel='stylesheet'>
-<link href='<%=basePath%>css/jquery.iphone.toggle.css' rel='stylesheet'>
-<link href='<%=basePath%>css/uploadify.css' rel='stylesheet'>
-<link href='<%=basePath%>css/animate.min.css' rel='stylesheet'>
-<link href="<%=basePath%>css/bootstrap-datetimepicker.css"
-	rel="stylesheet">
-<link href="<%=basePath%>css/jquery.dataTables.min.css" rel="stylesheet">
-
-<!-- jQuery -->
-<script src="<%=basePath%>bower_components/jquery/jquery.min.js"></script>
-
-<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-<!-- The fav icon -->
-<link rel="shortcut icon" href="<%=basePath%>img/favicon.ico">
-
-<!-- external javascript -->
-
-<script
-	src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<!-- library for cookie management -->
-<script src="<%=basePath%>js/jquery.cookie.js"></script>
-<!-- calender plugin -->
-<script src='<%=basePath%>bower_components/moment/min/moment.min.js'></script>
-<script
-	src='<%=basePath%>bower_components/fullcalendar/dist/fullcalendar.min.js'></script>
-<!-- data table plugin -->
-<script src='<%=basePath%>js/jquery.dataTables.min.js'></script>
-
-<!-- select or dropdown enhancer -->
-<script src="<%=basePath%>bower_components/chosen/chosen.jquery.min.js"></script>
-<!-- plugin for gallery image view -->
-<script
-	src="<%=basePath%>bower_components/colorbox/jquery.colorbox-min.js"></script>
-<!-- notification plugin -->
-<script src="<%=basePath%>js/jquery.noty.js"></script>
-<!-- library for making tables responsive -->
-<script
-	src="<%=basePath%>bower_components/responsive-tables/responsive-tables.js"></script>
-<!-- tour plugin -->
-<script
-	src="<%=basePath%>bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
-<!-- star rating plugin -->
-<script src="<%=basePath%>js/jquery.raty.min.js"></script>
-<!-- for iOS style toggle switch -->
-<script src="<%=basePath%>js/jquery.iphone.toggle.js"></script>
-<!-- autogrowing textarea plugin -->
-<script src="<%=basePath%>js/jquery.autogrow-textarea.js"></script>
-<!-- multiple file upload plugin -->
-<script src="<%=basePath%>js/jquery.uploadify-3.1.min.js"></script>
-<!-- history.js for cross-browser state change on ajax -->
-<script src="<%=basePath%>js/jquery.history.js"></script>
-<!-- application script for Charisma demo -->
-<script src="<%=basePath%>js/charisma.js"></script>
-<script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+   <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+   <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="<%=basePath%>js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
 <script type="text/javascript">
 	$(function(){
 	
 		$("#search").click(function(){
+			
 			var store=$("#store").val();
-			var number=$("#category").val();
+			var g_del=$("#g_del").val();
+			var c_id=$("#c_name").val();
+			var c_name=$("#c_name :selected").text();
 			var currentPage=null;
+			var key=$("#key").val();
 			if(store==null){
 				alert("请重新选择店铺！");
 				return;
@@ -138,34 +51,18 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 			$.post("<%=basePath%>goods", {
 				"m" : "findGoodByPage",
 				"s_id" : store,
-				"catagory" :number  ,
+				"g_del" : g_del,
+				"c_name" :c_name  ,
+				"c_id" :c_id  ,
 				"currentPage":currentPage,
+				"key":key,
 			}, function(data) {
 				$("#goodsinfodiv").append(data);
 			}, "html");
 			
 		});
 		
-		//新增商品
-		$("#xinzengshangpin").click(function(){
-			var message="";
-			var s_id=$("#store").val();
-			var s_name=$("#store :selected").text();
-			if(store==null){
-				alert("请重新选择店铺！");
-				return;
-			}
-			$("#goodsinfodiv").empty();
-			$.post("<%=basePath%>goods",{
-				"m" : "addGoods",
-				"s_id" :s_id,
-				"s_name" :s_name  ,
-				"message" :message,
-			}, function(data) {
-				$("#goodsinfodiv").append(data);
-			}, "html");
-			
-		});
+	
 		$("#kuaisu").click(function(){
 			var store=$("#store").val();
 			var s_name=$("#store :selected").text();
@@ -189,6 +86,34 @@ window.open ("<%=basePath%>goods?m=fuzhishangpin&s_id="+id+"&s_name="+name,'neww
 	});
 </script>
 <script>
+function fuzhishangpin(){
+	var s_id=$("#store").val();
+	var s_name=$("#store :selected").text();
+	$("#motai4").empty();
+	$.post("<%=basePath%>goods", {
+		"m" : "fuzhishangpin",
+		"s_id" :s_id,
+		"s_name" :s_name  ,
+	}, function(data) {
+		$("#motai4").append(data);
+	}, "html");
+	
+	
+}
+function daochu(){
+	var s_id=$("#store").val();
+	var s_name=$("#store :selected").text();
+	$("#motai3").empty();
+	$.post("<%=basePath%>goods", {
+		"m" : "daochu",
+		"s_id" :s_id,
+		"s_name" :s_name  ,
+	}, function(data) {
+		$("#motai3").append(data);
+	}, "html");
+	
+	
+}
 function DaoRu(){
 	
 	$("#motai1").empty();
@@ -200,30 +125,50 @@ function DaoRu(){
 	
 	
 }
-
+//新增商品
+function xinzengshangpin(){
+	var message="";
+	var s_id=$("#store").val();
+	var s_name=$("#store :selected").text();
+	if(store==null){
+		alert("请重新选择店铺！");
+		return;
+	}
+	$("#motai").empty();
+	$.post("<%=basePath%>goods",{
+		"m" : "addGoods",
+		"s_id" :s_id,
+		"s_name" :s_name  ,
+		"message" :message,
+	}, function(data) {
+		$("#motai").append(data);
+	}, "html");
+	$("#BAOCUN").hide();
+	$("#tuichu").hide();
+}
 
 </script>
 </head>
 
 <body>
 <div id="hehe">
-	<span class="label label-default" style="padding: 10px">商品资料</span>
+	<span class="label label-success" style="padding: 10px">商品资料</span>
 	&nbsp;&nbsp;
-	<button type="button" id="xinzengshangpin" class="btn btn-success"
-		name="submit" >新增商品</button>
+	<button type="button" onclick="xinzengshangpin()" class="btn btn-primary"
+		data-toggle="modal" data-target="#myModal" >新增商品</button>
 	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" data-toggle="modal" 
+	<button type="button" class="btn btn-primary" data-toggle="modal" 
    data-target="#myModal1" onclick="DaoRu()">导入</button>
 	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
-		onclick="daochu()">导出</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" 
+   data-target="#myModal3" onclick="daochu()">导出</button>
 	&nbsp;&nbsp;
-	<button type="button" class="btn btn-success" name="submit"
-		onclick="fuzhishangpin()">复制商品</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" 
+   data-target="#myModal4" onclick="fuzhishangpin()">复制商品</button>
 	&nbsp;&nbsp;
-   <button type="button" id="kuaisu" class="btn btn-success"
+   <button type="button" id="kuaisu" class="btn btn-primary"
 		name="submit" >快速录入</button>
-	<select id="store" class="singleSelector">
+	<select id="store" class="btn btn-success">
 		<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
 
 		<%
@@ -239,22 +184,32 @@ function DaoRu(){
 
 	</select>
 
-	<select id="category">
-		<option value="0" selected="selected">有效单据</option>
-		<option value="1">作废单据</option>
+	<select id="g_del"  class="btn btn-success">
+		<option value="1" selected="selected">有效单据</option>
+		<option value="0">作废单据</option>
 	</select>
-
+<select id="c_name" class="btn btn-success">
+<option value="-1" selected="selected" >无</option>
+									<%
+										List<Object[]> list1 = (List<Object[]>) request.getAttribute("fenlei");
+										if (list1 != null && list1.size() != 0) {
+											for (Object[] obj : list1) {
+									%>
+									<option value='<%=obj[0]%>'><%=obj[1]%></option>
+									<%
+										}
+										}
+									%>
+</select>
 	<div style="float: right;">
-		<input class="input-medium search-query" type="text" float:right /> <input
-			type="button" value="查询" id="search" class="submitBtn" />
-		<button type="button" class="btn btn-success" float:right>按分类</button>
+		<input style="height:33px" id="key" class="input" type="text" float:right /> <input
+			type="button" value="查询" id="search" class="btn btn-primary" />
+		
 	</div>
 	
-	<!-- <div data-spy="scroll"
-		style="height: 100%; width:100%; overflow: auto; position: relative;"
-		data-offset="10"> -->
+	
      <div data-spy="scroll"
-		style="width:1200px;height:auto; overflow: auto; position: relative;"
+		style="width:1200px;height:500px; overflow: auto; position: relative;"
 		data-offset="10">
 
 		<div id="goodsinfodiv" >
@@ -268,6 +223,35 @@ function DaoRu(){
 </body>
 
 </html>
+
+<!-- 模态框  新增（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+           <button type="button" id="BAOCUN" onclick="save()" style="display:none;"  class="btn btn-primary" 
+              >保存
+            </button>
+           
+             <button type="button"  id="tuichu" style="display:none;"  class="btn btn-success" 
+               data-dismiss="modal">退出
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+
+
 <!-- 模态框  导入（Modal） -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" 
    aria-labelledby="myModalLabel" aria-hidden="true" >
@@ -291,3 +275,81 @@ function DaoRu(){
       </div><!-- /.modal-content -->
 </div><!-- /.modal -->
 </div>
+
+<!-- 模态框  编辑（Modal） -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai2">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+          
+            <button type="button" onclick="save1()"  class="btn btn-primary" 
+              >保存
+            </button>
+             <button type="button"  id="tuichu2" class="btn btn-success" 
+               data-dismiss="modal">退出
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+<!-- 模态框  导出（Modal） -->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai3">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+          
+            <!-- <button type="button" onclick="save1()"  class="btn btn-primary" 
+              >保存
+            </button>
+             <button type="button"  id="tuichu2" class="btn btn-success" 
+               data-dismiss="modal">退出
+            </button> -->
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+<!-- 模态框  复制（Modal） -->
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+         </div>
+            
+      <!-- 模态框本质内容 --> 
+      <div id="motai4">
+   </div>    
+     <!-- 模态框本质内容 -->   
+         <div class="modal-footer">
+          
+            <!-- <button type="button" onclick="save1()"  class="btn btn-primary" 
+              >保存
+            </button>
+             <button type="button"  id="tuichu2" class="btn btn-success" 
+               data-dismiss="modal">退出
+            </button> -->
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+

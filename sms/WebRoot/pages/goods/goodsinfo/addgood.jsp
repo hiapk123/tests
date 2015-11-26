@@ -19,7 +19,7 @@ background:pink;
 } */
 </style>
 <script>
-function edit(){
+<%-- function edit(){
     
     var list=$("#list").val();
     $("#goodsinfodiv").empty();
@@ -31,30 +31,39 @@ function edit(){
 	}, function(data) {
 		$("#goodsinfodiv").append(data);
 	}, "html");
+} --%>
+function edit1(){
+	var s_id=$("#s_id").val();
+    var list=$("#list").val();
+  // $("#tableContent").empty();
+    $("#motai2").empty();
+	$.post("<%=basePath%>goods", {
+		"m" : "editGood",
+		"list" : list,
+		"s_id" : s_id,
+	}, function(data) {
+		$("#motai2").append(data);
+	}, "html");
 }
+function del(){
+	var s_id=$("#s_id").val();
+	var g_id=$("#g_id").val();
+	$("#goodsinfodiv").empty();
 
+	$.post("<%=basePath%>goods", {
+		"m" : "deleteGood",
+		"g_id" : g_id,
+		"s_id" :s_id,
+		"currentPage":"1",
+	}, function(data) {
+		$("#goodsinfodiv").append(data);
+	}, "html");
+	}
 </script>
 
 
 </head>
-<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
 
-
-<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-
-<link
-	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
-	rel='stylesheet'>
-
-<link href='css/elfinder.min.css' rel='stylesheet'>
-
-
-<link href='css/animate.min.css' rel='stylesheet'>
-
-<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="bower_components/jquery/jquery.min.js"></script>
-<script src="js/bootstrap.file-input.js"></script>
 <div style="width:3000px;">
 <table  class="table table-bordered table-condensed table-hover table-striped ">
 	<thead>
@@ -68,6 +77,8 @@ function edit(){
 				<th>销售价</th>
 				<th>批发价</th>
 				<th>分类</th>
+				<th>单位</th>
+				<th>单位数量</th>
 				<th>库存下限</th>
 				<th>库存上限</th>
 				<th>生产日期</th>
@@ -126,8 +137,12 @@ function edit(){
 		    		String g_info=request.getParameter("g_info");
 		    		//图片路径
 		    		String g_img_path=request.getParameter("g_img_path");
-		          
-		          
+		    		String g_integral=request.getParameter("g_integral");
+		    		String c_id=request.getParameter("c_id");
+		    		
+		    		String g_unit=request.getParameter("g_unit");
+		    		String g_howmuch=request.getAttribute("g_howmuch").toString();
+		    		String unit_id=request.getAttribute("unit_id").toString();
 		            String sql="select g_id from goods where s_id=? and g_barcode=?";
 		    		List<Object[]> a = SqlHelper.find(sql, s_id,g_barcode);
 		    		Number num = (Number) a.get(0)[0];  
@@ -137,12 +152,12 @@ function edit(){
 		    				g_trade_price,c_name,g_stock_min,g_stock_max,g_prod_date,g_giq,       //6
 		    				g_pm,su_name,g_flag,vip_id,g_vip_price,                    //5
 		    				zdy1,zdy2,zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,                //7
-		    				g_best,g_sale_nor,g_del,g_info,g_img_path                             //5
+		    				g_best,g_sale_nor,g_del,g_info,g_img_path,g_integral,c_id,g_unit,g_howmuch,unit_id                            //5
 		    		};
 		    		
 		    		String list="";   //如果此次用逗号会引起按钮不能触发的BUG
 		               
-                	for (int j = 0; j <30; j++) {
+                	for (int j = 0; j <35; j++) {
                 		if(String.valueOf(arr[j]).equals(""))
                 		{list=list+" ,";
                 		
@@ -153,24 +168,67 @@ function edit(){
 			
 				%>
 				<input type="hidden" id="list" value="<%=list%>">
-				
+				<input type="hidden" id="s_id" value="<%=s_id%>">
+				<input type="hidden" id="g_id" value="<%=arr[0]%>">
 		<tr class="success">
-			<td class="center"><a href="href="<%=basePath%>goods?m=deleteGood&g_id=<%=g_id%>""> 删除 </a> <br>
-			<a   href="javascript:edit()">编辑</a>
+			<td class="center"><a   href="javascript:del()">删除</a>	 
+			<a  data-toggle="modal" data-target="#myModal2" onclick="edit1()">编辑</a>
 <br>
-			<a href="#"> Delete </a></td>
+			
 			
 			<%
-			for(int i=1;i<27;i++){
+			for(int i=1;i<9;i++){
 				
 			
-			%>		
+			%>	
+			<td><%=arr[i]%></td>		
 			
-			<td><%=arr[i]%></td>
 			<%
 			}
 			%>
-					
+			
+			<td><%=arr[32]%></td>
+			
+			<td><%=arr[33]%></td>
+		
+			
+			<%
+			for(int i=9;i<15;i++){
+				
+			
+			%>	
+			<td><%=arr[i]%></td>		
+			
+			<%
+			}
+			%>
+			
+			
+			
+			<%
+				
+				if(String.valueOf(arr[15]).equals("0")){
+					arr[15]="否";
+				}else{
+					arr[15]="是";
+				}
+			if(String.valueOf(arr[16]).equals("1")){
+				arr[16]="否";
+			}else{
+				arr[16]="是";
+			}
+				%>
+			<td><%=arr[15]%></td>
+			<td><%=arr[16]%></td>
+				<%
+			for(int i=17;i<29;i++){
+				
+			
+			%>		
+			<td><%=arr[i]%></td>	
+			<%
+			}
+			%>	
 		</tr>
 		
 
@@ -185,4 +243,4 @@ function edit(){
 		totalSum="${totalPage }" showPage="10" pageSize="10" />
 </ul>
 
-<a href="<%=basePath%>goods?m=goodsInfo">返回商品资料页面</a>
+<%-- <a href="<%=basePath%>goods?m=goodsInfo">返回商品资料页面</a> --%>

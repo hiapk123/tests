@@ -12,7 +12,7 @@ String s_id=request.getAttribute("s_id").toString();
 String type=request.getAttribute("status").toString();
 %>
  <script>
-	$(function() {
+
 		$("li a").click(function() {
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
@@ -39,24 +39,19 @@ String type=request.getAttribute("status").toString();
 				$("#fenye").html(data);
 			}, "html");
 		});
-	});
+	
         
 </script>
 <head>
-<style>
-table .ziti{
 
-WORD-WRAP: break-word
-}
-
-</style>
 
 
 </head>
 
 
-<div style="width:1200px;height:auto">
+<div style="width:1400px;height:500px">
 <table class="table table-bordered table-condensed table-hover table-striped ">
+
 		<thead>
 			<tr>
 			
@@ -75,6 +70,8 @@ WORD-WRAP: break-word
 				<th>备注</th>
 				
 			</tr>
+			</thead>
+			<tbody>
 			<%
         List <Object[]> list=(List<Object[]>) request.getAttribute("list");
         String yanse[]={"success","danger","active","warning","info"};
@@ -83,7 +80,9 @@ WORD-WRAP: break-word
          	<tr class="<%= yanse[i%5]%>">
 				<td><input class="subBox" type="checkbox"/></td>
 				<td>序号</td>
-				<td><button class="btn btn-success"  onclick="getdetail(this)"  value="<%=list.get(i)[0]%>">详细</button></td>
+				
+				<td> <button class="btn btn-xs btn-success" onclick="getdetail(this)" data-toggle="modal" 
+   data-target="#myModal" value="<%=list.get(i)[0]%>">详细</button></td>
 				
 				<%
 					for (int j = 1; j<10; j++) {
@@ -104,15 +103,14 @@ WORD-WRAP: break-word
 				}
 			%>
 			
-		</thead>
-		<tbody>
+		
 		
 		
 	</tbody>
 
 	</table>
 	</div>
-<ul class="pagination" id="page">
+<ul class="pagination" id="page" style="position: relative; bottom: 0px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />

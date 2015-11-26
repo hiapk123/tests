@@ -37,7 +37,7 @@ $(document).ready(function () {
 </head>
 
 <body>
-<div id="addproduct">
+
 	
 </br>
 </br>
@@ -48,7 +48,7 @@ $(document).ready(function () {
       <label for="firstname" class="col-md-3 control-label">店铺名：</label>
       <div class="col-md-6">
       <select id="store" class="singleSelector form-control"">
-		<option value="<%=s_id%>" selected="selected" disabled="disabled"><%=s_name%></option>
+		<option value="<%=s_id%>" selected="selected" ><%=s_name%></option>
 
 		<%
 			List<Object[]> list = (List<Object[]>) request.getAttribute("storeList");
@@ -90,9 +90,10 @@ $(document).ready(function () {
 	
 
 
-</div>
+
 <script>
 function deliver(){
+	
 	var s_id=<%=s_id%>;
 	var s_name='<%=s_name%>';
 	var g_barcode=$("#g_barcode").val();
@@ -104,7 +105,7 @@ function deliver(){
 		alert("请输入条码！");
 		return;
 	}
-	$("#addproduct").empty();
+	$("#motai").empty();
 		
 	$.post("<%=basePath%>goods", {
 		"m" : "addGood1",
@@ -112,9 +113,10 @@ function deliver(){
 		"s_name" :s_name  ,
 		"g_barcode" :g_barcode  ,
 	}, function(data) {
-		$("#addproduct").append(data);
+		$("#motai").append(data);
 	}, "html");
-	
+	$("#BAOCUN").show();
+	$("#tuichu").show();
 }
 </script>
 </body>

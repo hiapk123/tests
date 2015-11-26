@@ -12,8 +12,9 @@ String s_id=request.getAttribute("s_id").toString();
 String type=request.getAttribute("type").toString();
 %>
 <script>
-	$(function() {
+	
 		$("li a").click(function() {
+			
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
 			var type=$("#type").val();
@@ -40,10 +41,12 @@ String type=request.getAttribute("type").toString();
 			}, "html");
 		});
 		
-	});
+
         
+>>>>>>> refs/remotes/origin/ly-branch
 </script>
  
+<<<<<<< HEAD
 <head>
 <style>
 table .ziti td{
@@ -56,6 +59,13 @@ WORD-WRAP: break-word;
 
 
 </head>
+=======
+<head>
+
+
+
+</head>
+>>>>>>> refs/remotes/origin/ly-branch
 
 <div id="fenye" style="width:1400px;height:auto">
 <table class="table table-bordered table-condensed table-hover table-striped ">
@@ -76,6 +86,8 @@ WORD-WRAP: break-word;
 				<th>备注</th>
 				<th>入库</th>
 			</tr>
+			</thead>
+			<tbody>
 			<%
         List <Object[]> list=(List<Object[]>) request.getAttribute("list");
         String yanse[]={"success","danger","active","warning","info"};
@@ -84,37 +96,68 @@ WORD-WRAP: break-word;
          	<tr class="<%= yanse[i%5]%>">
 				<td><input  type="checkbox"/></td>
 				<td>序号</td>
+<<<<<<< HEAD
 				<td><button class="btn btn-primary"  onclick="getdetail(this)"  value="<%=list.get(i)[0]%>">详细</button></td>
 				
+=======
+				
+				<td> <button class="btn btn-xs btn-success" onclick="getdetail(this)" data-toggle="modal" 
+   data-target="#myModal5" value="<%=list.get(i)[0]%>">详细</button></td>
+>>>>>>> refs/remotes/origin/ly-branch
 				  
 				<%
 					for (int j = 1; j<11; j++) {
+						if(String.valueOf(list.get(i)[j]).equals("null")) list.get(i)[j]="";
 				%>
 				<td> <%=list.get(i)[j]%> </td>
 				<%
 					}
+<<<<<<< HEAD
 				%>
 				<td><button class="btn btn-warning"  onclick="ruku(this)"  >入库</button></td>
+=======
+				%>
+				<td><button class="btn btn-xs btn-info"  onclick="ruku(this)"  >入库</button></td>
+>>>>>>> refs/remotes/origin/ly-branch
 			<input type="hidden" class="l_detail"  value="<%=list.get(i)[0]%>">
+<<<<<<< HEAD
 			<input type="hidden" class="l_id"  value="<%=list.get(i)[11]%>">
 			<input type="hidden" class="s_id_out"  value="<%=list.get(i)[4]%>">
 			<input type="hidden" class="s_id_in"  value="<%=list.get(i)[5]%>">
 			<input type="hidden" class="l_serial_num"  value="<%=list.get(i)[1]%>">
 			<input type="hidden" class="l_date"  value="<%=list.get(i)[2]%>">
+=======
+			<input type="hidden" class="l_id"  value="<%=list.get(i)[11]%>">
+			<input type="hidden" class="s_id_out"  value="<%=list.get(i)[13]%>">
+			<input type="hidden" class="s_id_in"  value="<%=list.get(i)[12]%>">
+			<input type="hidden" class="l_serial_num"  value="<%=list.get(i)[1]%>">
+			<input type="hidden" class="l_date"  value="<%=list.get(i)[2]%>">
+>>>>>>> refs/remotes/origin/ly-branch
 			</tr>
 			<%
 				}
 				}
 			%>
 			
-		</thead>
-		<tbody>
+		
+		
 		
 		
 	</tbody>
 
 	</table>
+<<<<<<< HEAD
 <ul class="pagination" id="page">
+	<page:htmlPage  pageNo="${currentPage}"
+		url=""
+		totalSum="${totalSize }" showPage="10" pageSize="10" />
+</ul>
+
+
+</div>
+<input type="hidden" id="s_id" value="<%=s_id%>" />
+=======
+<ul class="pagination" id="page" style="position: absolute; bottom: 0px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />

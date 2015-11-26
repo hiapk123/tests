@@ -13,22 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
 
-
-<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-
-<link
-	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
-	rel='stylesheet'>
-
-<link href='css/elfinder.min.css' rel='stylesheet'>
-
-<link href='css/animate.min.css' rel='stylesheet'>
-
-<script src="bower_components/bootstrap/dist/css/bootstrap.min.css"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="bower_components/jquery/jquery.min.js"></script>
 
 
 <script>

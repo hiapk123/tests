@@ -65,6 +65,9 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("Shangchuanwenjian")) {
 			this.shangchuan(req,resp);
 			//req.getRequestDispatcher("/pages/huoliu/success.jsp").forward(req,resp);
+		}else if (m.equals("shangchuan1")) {
+			this.shangchuan(req,resp);
+			//req.getRequestDispatcher("/pages/huoliu/shibai.jsp").forward(req,resp);
 		}else if (m.equals("daochu")) {
 			this.daochu(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/daochu.jsp").forward(req, resp);
@@ -85,7 +88,10 @@ public class HuoLiuServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/huoliu/goodtable.jsp").forward(req, resp);
 		}else if (m.equals("add")) {
 			this.add(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
+			
+		}else if (m.equals("add1")) {
+			this.add1(req,resp);
+			
 		}else if (m.equals("xzmd")) {
 			this.xzmd(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/xzmd.jsp").forward(req, resp);
@@ -106,13 +112,13 @@ public class HuoLiuServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
 		}else if (m.equals("Inforuku")) {
 			this.Inforuku(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli1.jsp").forward(req, resp);
 		}else if (m.equals("Inforuku1")) {
 			this.Inforuku1(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli1.jsp").forward(req, resp);
 		}else if (m.equals("Inforuku2")) {
 			this.Inforuku2(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/huoliu/huoliuguanli1.jsp").forward(req, resp);
 		}else if (m.equals("ruku")) {
 			this.ruku(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/huoliuguanli.jsp").forward(req, resp);
@@ -146,17 +152,27 @@ public class HuoLiuServlet extends HttpServlet {
 		}else if (m.equals("qrdz1")) {
 			this.qrdz1(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/ghsjs.jsp").forward(req, resp);
-		}else if (m.equals("qrjs")) {
-			this.qrjs(req,resp);
-			req.getRequestDispatcher("/pages/huoliu/ghsjs/qrjs.jsp").forward(req, resp);
 		}else if (m.equals("addsupplier")) {
 			this.addsupplier(req,resp);
 			req.getRequestDispatcher("/pages/huoliu/addsupplier.jsp").forward(req, resp);
 		}else if (m.equals("addsupplier2")) {
 			this.addsupplier2(req,resp);
 			//req.getRequestDispatcher("/pages/huoliu/addsupplier2.jsp").forward(req, resp);
-		}else if("hkhz".equals(m)){
-			req.getRequestDispatcher("/pages/huoliu/huokuanhuizong.jsp").forward(req, resp);
+		}else if (m.equals("hkhz")) {
+			this.hkhz(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/hkhz0.jsp").forward(req, resp);
+		}else if (m.equals("hkhz1")) {
+			this.hkhz1(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/hkhz.jsp").forward(req, resp);
+		}else if (m.equals("findhk")) {
+			this.hkhz1(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/hkhz1.jsp").forward(req, resp);
+		}else if (m.equals("shangchuan2")) {
+			this.shangchuan2(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/add1.jsp").forward(req, resp);
+		}else if (m.equals("shangchuan3")) {
+			this.shangchuan3(req,resp);
+			req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
 		}
 
 
@@ -165,6 +181,145 @@ public class HuoLiuServlet extends HttpServlet {
 	
 
 	
+
+
+	private void shangchuan3(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+      String result=req.getParameter("RESULT");
+      String arr[]=result.split(",");
+		ArrayList list = new ArrayList();
+		list.add(arr);
+		req.setAttribute("List", list);
+		
+	}
+
+	private void shangchuan2(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		String result=req.getParameter("result");
+		
+		req.setAttribute("result", result);
+		
+	}
+
+	private void hkhz(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		HttpSession session=req.getSession();
+	
+		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+		
+		req.setAttribute("storeList", storeList);
+	}
+
+	private void hkhz1(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+
+		
+		HttpSession session=req.getSession();
+		String s_id=req.getParameter("s_id");
+		String start=req.getParameter("start");
+		String end=req.getParameter("end");
+		String sum=req.getParameter("sum");
+		if (sum==null) {
+			sum="0";
+		}
+		String currentPage=req.getParameter("currentPage");
+		String which = req.getParameter("which");
+		int totalSize = getTotalSize9(s_id,start,end);
+		int totalPage = 0;
+		if(""==currentPage||currentPage==null){
+			currentPage="1";
+		}
+			int pageNo = Integer.valueOf(currentPage.trim());
+			if (null == which) {
+				which = "first";
+				pageNo = 1;
+			} else if ("first".equals(which)) {
+				which = "first";
+				pageNo = 1;
+			} else if ("next".equals(which)) {
+				if(pageNo==(totalSize % 10 == 0 ? totalSize / 10 : (totalSize / 10 + 1)))
+				{pageNo=pageNo;}else{
+				 pageNo++;
+				}
+				
+			} else if ("prev".equals(which)) {
+				if (pageNo==1) {
+					pageNo=pageNo;
+				}else {
+					pageNo--;
+				}
+				
+			} else if ("last".equals(which)) {
+				totalPage = (totalSize % 10 == 0 ? totalSize / 10 : (totalSize / 10 + 1));
+				pageNo = totalPage;
+			}else {
+				pageNo = Integer.valueOf(which.trim());
+			}
+		
+		List <Object[]> list=huoliu.hkhz(s_id,start,end,(pageNo-1) * 10);
+		List <Object[]> storeList=huoliu.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
+		req.setAttribute("s_id", s_id);
+		req.setAttribute("start", start);
+		req.setAttribute("end", end);
+		req.setAttribute("sum", sum);
+		req.setAttribute("currentPage", pageNo);
+		req.setAttribute("totalSize", totalSize);
+		req.setAttribute("list", list);
+		req.setAttribute("storeList", storeList);
+	
+	}
+
+	private int getTotalSize9(String s_id, String start, String end) {
+		// TODO Auto-generated method stub
+	
+		
+		int totalsize=0;
+		
+			String sql = "SELECT count(t2.sa_id) FROM goods t1,sale t2, supplier t3 WHERE t1.su_name=t3.su_name"
+					+ " and  t1.g_barcode=t2.g_barcode and t2.store_id=t1.s_id and t1.s_id=? and"
+					+ " t3.s_id=? and CAST(t2.sa_date AS signed)>? and"
+					+ " CAST(t2.sa_date AS signed) < ?";
+
+			List<Object[]> list = SqlHelper.find(sql,s_id,s_id,start,end);
+			if (null != list && list.size() == 1) {
+				return Integer.valueOf(list.get(0)[0]+"");
+			}
+		
+
+		return totalsize;
+	}
+
+	private void add1(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+
+		String s_id_out=req.getParameter("s_id_out");
+		
+		String g_name=req.getParameter("g_name");
+		String g_barcode=req.getParameter("g_barcode");
+		
+	
+		
+		String g_stock_num=req.getParameter("g_stock_num");
+		String su_name=req.getParameter("su_name");
+		String g_pur_price=req.getParameter("g_pur_price");
+		String g_id=req.getParameter("g_id");
+		String g_unit=req.getParameter("g_unit");
+		String c_name=req.getParameter("c_name");
+		String arr[]=new String[]{g_name,g_barcode,g_stock_num,su_name,"1",
+				g_pur_price,g_id,g_unit,c_name};
+		ArrayList list = new ArrayList();
+
+		list.add(arr);
+
+
+		
+		req.setAttribute("List", list);
+		req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
+
+	
+	}
 
 	private void addsupplier2(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -239,7 +394,7 @@ public class HuoLiuServlet extends HttpServlet {
 
 	
 
-	private void qrjs(HttpServletRequest req, HttpServletResponse resp) {
+	/*private void qrjs(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		String danshu=req.getParameter("danshu");
 		String numOfGoods=req.getParameter("numOfGoods");
@@ -255,7 +410,7 @@ public class HuoLiuServlet extends HttpServlet {
 		req.setAttribute("su_gd_return", String.valueOf(num1));
 		req.setAttribute("su_ps_return", String.valueOf(num2));
 		
-	}
+	}*/
 	
 	private void qrdz1(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
@@ -280,17 +435,15 @@ public class HuoLiuServlet extends HttpServlet {
 		String s_id=req.getParameter("s_id");
 		String status=req.getParameter("status");
 		String supplier=req.getParameter("supplier");
+		if(supplier==null) supplier="";
 		String currentPage=req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		int totalSize=0;
 		if (status.equals("未成功货单")) {
 			
 			totalSize = unsuccess(s_id,supplier);
-		} else if(status.equals("待对账货单")) {
+		} else if(status.equals("待结算货单")) {
 			totalSize = preCheck(s_id,supplier);
-		}else if(status.equals("待结算货单")) {
-			//totalSize = getTotalSize(s_id);
-			totalSize = daijs(s_id,supplier);
 		}else if (status.equals("已结算货单")) {
 			totalSize = yijs(s_id);
 		}else if (status.equals("全部状态")) {
@@ -330,14 +483,12 @@ public class HuoLiuServlet extends HttpServlet {
 		}
 		if (status.equals("未成功货单")) {
 			list=huoliu.findjs0(s_id,supplier,(pageNo-1) * 10);
-		}else if(status.equals("待对账货单")){
-			list=huoliu.findjs1(s_id,supplier,(pageNo-1) * 10);
 		}else if(status.equals("待结算货单")){
-			list=huoliu.findjs2(s_id,supplier,(pageNo-1) * 10);
+			list=huoliu.findjs1(s_id,supplier,(pageNo-1) * 10);
 		}else if(status.equals("已结算货单")){
-			list=huoliu.findjs3(s_id,status,(pageNo-1) * 10);
+			list=huoliu.findjs3(s_id,supplier,(pageNo-1) * 10);
 		}else if(status.equals("全部状态")){
-			list=huoliu.findjs4(s_id,status,(pageNo-1) * 10);
+			list=huoliu.findjs4(s_id,supplier,(pageNo-1) * 10);
 		}
 
 
@@ -370,7 +521,7 @@ public class HuoLiuServlet extends HttpServlet {
 		if (!s_id.equals("")) {
 			totalsize = huoliu.yijs(Integer.valueOf(s_id));
 		}else {
-			String sql = "select count(l_id) from s_settlement where   l_status='已结算' ";
+			String sql = "select count(ss_id) from s_settlement where   ss_status='已结算' ";
 			List<Object[]> list = SqlHelper.find(sql);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
@@ -418,14 +569,14 @@ public class HuoLiuServlet extends HttpServlet {
 		if (!s_id.equals("")&&!supplier.equals("")) {
 			totalsize = huoliu.preCheck(Integer.valueOf(s_id),supplier);
 		}else if(s_id.equals("")&&!supplier.equals("")){
-			String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_status='待对账' ";
+			String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_status='待结算' ";
 			List<Object[]> list = SqlHelper.find(sql,supplier);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
 			}
 		}else if(!s_id.equals("")&&supplier.equals("")){
 
-			String sql = "select count(ss_id) from s_settlement where ss_sid_in=? and  ss_status='待对账' ";
+			String sql = "select count(ss_id) from s_settlement where ss_sid_in=? and  ss_status='待结算' ";
 			List<Object[]> list = SqlHelper.find(sql,s_id);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
@@ -434,7 +585,7 @@ public class HuoLiuServlet extends HttpServlet {
 		}else{
 
 
-			String sql = "select count(ss_id) from s_settlement where  ss_status='待对账' ";
+			String sql = "select count(ss_id) from s_settlement where  ss_status='待结算' ";
 			List<Object[]> list = SqlHelper.find(sql);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
@@ -470,7 +621,7 @@ public class HuoLiuServlet extends HttpServlet {
 
 			String sql = "select count(ss_id) from s_settlement where (ss_status='已拒绝进货' or ss_status='待确认进货')";
 
-			List<Object[]> list = SqlHelper.find(sql,s_id);
+			List<Object[]> list = SqlHelper.find(sql);
 			if (null != list && list.size() == 1) {
 				return Integer.valueOf(list.get(0)[0]+"");
 			}
@@ -494,20 +645,22 @@ public class HuoLiuServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String list=req.getParameter("list");
 		String s_id=req.getParameter("s_id");
-
+		String s_name_out=req.getParameter("s_name_out");
 		String l_info=req.getParameter("l_info");
 
 		System.out.println("list:   "+list);
 		list=list.trim();
-		huoliu.Inforuku2(list,s_id,l_info);
+		huoliu.Inforuku2(list,s_id,l_info,s_name_out);
 		hlgl(req, resp);
 	}
 
 	private void xzmd2(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
-		String s_id=req.getParameter("s_id");
+		String s_id_out=req.getParameter("s_id");
+		String s_name_out=req.getParameter("s_name_out");
 		String mm=req.getParameter("mm");
-		req.setAttribute("s_id", s_id);
+		req.setAttribute("s_id", s_id_out);
+		req.setAttribute("s_name_out", s_name_out);
 	}
 
 	private void tuihuo(HttpServletRequest req, HttpServletResponse resp) {
@@ -526,11 +679,13 @@ public class HuoLiuServlet extends HttpServlet {
 		String list=req.getParameter("list");
 		String s_id_in=req.getParameter("s_id_in");
 		String s_id_out=req.getParameter("s_id_out");
+		String s_name_in=req.getParameter("s_name_in");
+		String s_name_out=req.getParameter("s_name_out");
 		String l_info=req.getParameter("l_info");
 
 		System.out.println("list:   "+list);
 		list=list.trim();
-		huoliu.Inforuku1(list,s_id_out,s_id_in,l_info);
+		huoliu.Inforuku1(list,s_id_out,s_id_in,l_info,s_name_out,s_name_in);
 		hlgl(req, resp);
 	}
 
@@ -594,8 +749,12 @@ public class HuoLiuServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String s_id_out=req.getParameter("s_id_out");
 		String s_id_in=req.getParameter("s_id_in");
+		String s_name_out=req.getParameter("s_name_out");
+		String s_name_in=req.getParameter("s_name_in");
 		req.setAttribute("s_id_out", s_id_out);
 		req.setAttribute("s_id_in", s_id_in);
+		req.setAttribute("s_name_out", s_name_out);
+		req.setAttribute("s_name_in", s_name_in);
 	}
 
 	/***
@@ -635,6 +794,7 @@ public class HuoLiuServlet extends HttpServlet {
 		String currentPage=req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String s_id = req.getParameter("s_id");
+		String s_name = req.getParameter("s_name");
 		int totalSize=0;
 		if (type.equals("调拨出货单")) {
 			totalSize = getTotalSize1(s_id);
@@ -791,12 +951,13 @@ public class HuoLiuServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String list=req.getParameter("list");
 		String s_id_in=req.getParameter("s_id");
+		String s_name_in=req.getParameter("s_name");
 		String l_pre_price=req.getParameter("l_pre_price");
 		String l_info=req.getParameter("l_info");
 
 		System.out.println("list:   "+list);
 		list=list.trim();
-		huoliu.Inforuku(list,s_id_in,l_pre_price,l_info);
+		huoliu.Inforuku(list,s_id_in,l_pre_price,l_info,s_name_in);
 		hlgl(req, resp);
 	}
 
@@ -840,29 +1001,53 @@ public class HuoLiuServlet extends HttpServlet {
 	private void xzmd(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		String s_id=req.getParameter("s_id");
+		String s_name=req.getParameter("s_name");
 		String mm=req.getParameter("mm");
 		req.setAttribute("s_id", s_id);
+		req.setAttribute("s_name", s_name);
 	}
 
-	private void add(HttpServletRequest req, HttpServletResponse resp) {
+	private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 
-		String s_id=req.getParameter("s_id");
+		String s_id_out=req.getParameter("s_id_out");
+		String s_id_in=req.getParameter("s_id_in");
 		String g_name=req.getParameter("g_name");
 		String g_barcode=req.getParameter("g_barcode");
+		String sql="select g_barcode from goods where s_id=?";
+		String message="buhege";
+		List<Object[]> list0=SqlHelper.find(sql, s_id_in);
+		for (int i = 0; i < list0.size(); i++) {
+		String	flag=(String) list0.get(i)[0];
+			if (flag.equals(g_barcode)) {
+				message="hege";
+				break;
+			}
+			
+		}
+		if (message.equals("buhege")) {
+			req.setAttribute("message", message);
+			PrintWriter out=resp.getWriter();
+			out.print(message);
+			return;
+		}
+		
 		String g_stock_num=req.getParameter("g_stock_num");
 		String su_name=req.getParameter("su_name");
 		String g_pur_price=req.getParameter("g_pur_price");
-		String g_id=req.getParameter("g_id");
-		String arr[]=new String[]{g_name,g_barcode,g_stock_num,su_name,"1",g_pur_price,g_id};
+		//String g_id=req.getParameter("g_id");
+		String g_unit=req.getParameter("g_unit");
+		String c_name=req.getParameter("c_name");
+		String arr[]=new String[]{g_name,g_barcode,g_stock_num,su_name,"1",
+				g_pur_price,g_unit,c_name};
 		ArrayList list = new ArrayList();
 
 		list.add(arr);
 
 
-		req.setAttribute("s_id", s_id);
+		
 		req.setAttribute("List", list);
-
+		req.getRequestDispatcher("/pages/huoliu/add.jsp").forward(req, resp);
 
 	}
 
@@ -1020,7 +1205,7 @@ public class HuoLiuServlet extends HttpServlet {
 					InputStream in = item.getInputStream();
 					realSavePath = makePath(filename, savePath);
 					TruePath=realSavePath + "\\" + filename;
-System.out.println("真是路径"+TruePath);
+                     System.out.println("真实路径"+TruePath);
 					//创建一个文件输出流
 					FileOutputStream out = new FileOutputStream(realSavePath + "\\" + filename);
 					//创建一个缓冲区
@@ -1085,6 +1270,40 @@ System.out.println("真是路径"+TruePath);
 			}
 		}else if(m.equals("shangchuan")){
 			req.setAttribute("message","上传成功");
+		}else if(m.equals("shangchuan1")){
+
+			try {
+		           List<String> list=huoliu.isRegular1(TruePath,s_id);
+				    if (list.size()==0) {
+					String LIST = huoliu.importExcel1(req,resp,TruePath,s_id,s_name);
+					
+					resp.setCharacterEncoding("UTF-8"); 
+			    	PrintWriter out=resp.getWriter();
+			    	JSONObject json=new JSONObject();
+					json.put("RESULT", LIST);
+					out.print(json);
+					return;
+				    }else {
+				    	
+				    	String result="";
+				    	for (int i = 0; i < list.size(); i++) {
+				    		result+=String.valueOf(list.get(i))+";";
+						}
+				    	resp.setCharacterEncoding("UTF-8"); 
+				    	PrintWriter out=resp.getWriter();
+				    	JSONObject json=new JSONObject();
+				    
+						
+						json.put("result", result);
+						out.print(json);
+						return;
+						
+					}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		}
 
 

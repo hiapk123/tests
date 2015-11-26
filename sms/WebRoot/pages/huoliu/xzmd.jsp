@@ -10,22 +10,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
-<style type="text/css">
-table thead tr th{
-background: #D5E9ED;
-}
- </style>
+
 
 </head>
 <body>
 
 
 	<%String s_id=request.getParameter("s_id");
-	
+	String s_name=request.getParameter("s_name");
 	%>
-	<label>门店:<%=s_id %></label>
+	<label>门店:<%=s_name %></label>
 		<table style="width: 1200px; height: 30px; table-layout: fixed;"
-			border="1";>
+			border="1"; class="table-bordered table-condensed table-hover table-striped ">
 			<thead>
 				<tr>
 					
@@ -38,6 +34,7 @@ background: #D5E9ED;
 					<th>进货量</th>
 					<th>进货价(元)</th>
 					<th>单位</th>
+					<th>分类</th>
 					<th>小计(元)</th>
 				</tr>
 			</thead>

@@ -151,6 +151,10 @@
 			$('iframe').attr('src','<%=basePath %>huoliu?m=ghsjs');
 			
 		}); 
+		$('#hkhz').click(function(){
+			$('iframe').attr('src','<%=basePath %>huoliu?m=hkhz');
+			
+		});
 		$('#spfl').click(function(){
 			
 			$('iframe').attr('src','<%=basePath %>CategoryGoods?type=initPage');
