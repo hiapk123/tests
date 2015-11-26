@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"
-	import="java.util.*,org.uestc.util.DateFormatUtils;"%>
+	import="java.util.*,org.uestc.util.DateFormatUtils"%>
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 <%
 	String path = request.getContextPath();
@@ -11,10 +11,10 @@
 String s_id=request.getAttribute("s_id").toString();
 String type=request.getAttribute("type").toString();
 %>
-<script>
+ <script>
+ 
 	
 		$("li a").click(function() {
-			
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
 			var type=$("#type").val();
@@ -40,37 +40,20 @@ String type=request.getAttribute("type").toString();
 				$("#fenye").html(data);
 			}, "html");
 		});
-		
 
         
->>>>>>> refs/remotes/origin/ly-branch
 </script>
- 
-<<<<<<< HEAD
-<head>
-<style>
-table .ziti td{
-font-size:15px;
-WORD-WRAP: break-word;
-
-}
-
-</style>
-
-
-</head>
-=======
 <head>
 
 
 
 </head>
->>>>>>> refs/remotes/origin/ly-branch
 
-<div id="fenye" style="width:1400px;height:auto">
+
+<div  style="width:1400px;height:auto">
 <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
-			<tr >
+			<tr>
 			    <th><input id="checkAll" type="checkbox"/></th>
 				<th>序号</th>
 				<th>操作</th>
@@ -96,15 +79,9 @@ WORD-WRAP: break-word;
          	<tr class="<%= yanse[i%5]%>">
 				<td><input  type="checkbox"/></td>
 				<td>序号</td>
-<<<<<<< HEAD
-				<td><button class="btn btn-primary"  onclick="getdetail(this)"  value="<%=list.get(i)[0]%>">详细</button></td>
-				
-=======
-				
 				<td> <button class="btn btn-xs btn-success" onclick="getdetail(this)" data-toggle="modal" 
    data-target="#myModal5" value="<%=list.get(i)[0]%>">详细</button></td>
->>>>>>> refs/remotes/origin/ly-branch
-				  
+				
 				<%
 					for (int j = 1; j<11; j++) {
 						if(String.valueOf(list.get(i)[j]).equals("null")) list.get(i)[j]="";
@@ -112,27 +89,14 @@ WORD-WRAP: break-word;
 				<td> <%=list.get(i)[j]%> </td>
 				<%
 					}
-<<<<<<< HEAD
-				%>
-				<td><button class="btn btn-warning"  onclick="ruku(this)"  >入库</button></td>
-=======
 				%>
 				<td><button class="btn btn-xs btn-info"  onclick="ruku(this)"  >入库</button></td>
->>>>>>> refs/remotes/origin/ly-branch
-			<input type="hidden" class="l_detail"  value="<%=list.get(i)[0]%>">
-<<<<<<< HEAD
-			<input type="hidden" class="l_id"  value="<%=list.get(i)[11]%>">
-			<input type="hidden" class="s_id_out"  value="<%=list.get(i)[4]%>">
-			<input type="hidden" class="s_id_in"  value="<%=list.get(i)[5]%>">
-			<input type="hidden" class="l_serial_num"  value="<%=list.get(i)[1]%>">
-			<input type="hidden" class="l_date"  value="<%=list.get(i)[2]%>">
-=======
+				<input type="hidden" class="l_detail"  value="<%=list.get(i)[0]%>">
 			<input type="hidden" class="l_id"  value="<%=list.get(i)[11]%>">
 			<input type="hidden" class="s_id_out"  value="<%=list.get(i)[13]%>">
 			<input type="hidden" class="s_id_in"  value="<%=list.get(i)[12]%>">
 			<input type="hidden" class="l_serial_num"  value="<%=list.get(i)[1]%>">
 			<input type="hidden" class="l_date"  value="<%=list.get(i)[2]%>">
->>>>>>> refs/remotes/origin/ly-branch
 			</tr>
 			<%
 				}
@@ -142,28 +106,11 @@ WORD-WRAP: break-word;
 		
 		
 		
-		
 	</tbody>
 
 	</table>
-<<<<<<< HEAD
-<ul class="pagination" id="page">
-	<page:htmlPage  pageNo="${currentPage}"
-		url=""
-		totalSum="${totalSize }" showPage="10" pageSize="10" />
-</ul>
-
-
-</div>
-<input type="hidden" id="s_id" value="<%=s_id%>" />
-=======
 <ul class="pagination" id="page" style="position: absolute; bottom: 0px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />
 </ul>
-
-
-</div>
-<input type="hidden" id="s_id" value="<%=s_id%>" />
-<input type="hidden" id="type" value="<%=type%>" />
