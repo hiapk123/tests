@@ -704,10 +704,10 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 		return 0;
 	}
-	public int unsuccess(int store, String supplier) {
+	public int unsuccess(int store, String supplier, String start, String end) {
 		// TODO Auto-generated method stub
-		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货') and ss_supplier=? ";
-		List<Object[]> list = SqlHelper.find(sql, store,supplier);
+		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货') and ss_supplier=? and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<? ";
+		List<Object[]> list = SqlHelper.find(sql, store,supplier,start,end);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
@@ -736,10 +736,10 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 		return 0;
 	}
-	public int preCheck(int store, String supplier) {
+	public int preCheck(int store, String supplier, String start, String end) {
 		// TODO Auto-generated method stub
-		String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_sid_in=? and ss_status='待对账' ";
-		List<Object[]> list = SqlHelper.find(sql, supplier,store);
+		String sql = "select count(ss_id) from s_settlement where ss_supplier=? and  ss_sid_in=? and ss_status='待对账'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  ";
+		List<Object[]> list = SqlHelper.find(sql, supplier,store,start,end);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
@@ -754,75 +754,75 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 		return 0;
 	}
-	public int yijs(int store) {
+	public int yijs(int store, String start, String end) {
 		// TODO Auto-generated method stub
-		String sql = "select count(l_id) from s_settlement where  (s_id_out or s_id_in=?) and l_status='已结算' ";
+		String sql = "select count(ss_id) from s_settlement where  (ss_sid_out or ss_sid_in=?) and ss_status='已结算'  ";
 		List<Object[]> list = SqlHelper.find(sql, store);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
 		return 0;
 	}
-	public int allStatus(int store) {
+	public int allStatus(int store, String start, String end) {
 		// TODO Auto-generated method stub
-		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=?  ";
-		List<Object[]> list = SqlHelper.find(sql, store);
+		String sql = "select count(ss_id) from s_settlement where   ss_sid_in=?  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  ";
+		List<Object[]> list = SqlHelper.find(sql, store,start,end);
 		if (null != list && list.size() == 1) {
 			return Integer.valueOf(list.get(0)[0]+"");
 		}
 		return 0;
 	}
-	public List<Object[]> findjs0(String s_id, String supplier, int currentPage) {
+	public List<Object[]> findjs0(String s_id, String supplier, int currentPage, String start, String end) {
 
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")&&!supplier.equals("")) {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=? and ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id,supplier, currentPage);
+					+ " from s_settlement where ss_sid_in=? and ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' )  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,supplier, start,end,currentPage);
 			return list;
 		}else if(s_id.equals("")&&!supplier.equals("")){
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+					+ " from s_settlement where ss_supplier=? and (ss_status='已拒绝进货' or ss_status='待确认进货' )  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier, start,end, currentPage);
 			return list;
 		}else if(!s_id.equals("")&&supplier.equals("")){
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+					+ " from s_settlement where ss_sid_in=? and (ss_status='已拒绝进货' or ss_status='待确认进货' )  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, start,end,currentPage);
 			return list;
 		}else {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where  (ss_status='已拒绝进货' or ss_status='待确认进货' ) limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, currentPage);
+					+ " from s_settlement where  (ss_status='已拒绝进货' or ss_status='待确认进货' )  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,start,end, currentPage);
 			return list;
 		}
 
 
 	}
-	public List<Object[]> findjs1(String s_id, String supplier, int currentPage) {
+	public List<Object[]> findjs1(String s_id, String supplier, int currentPage, String start, String end) {
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")&&!supplier.equals("")) {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待结算' limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql,supplier, s_id, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='待结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,supplier, s_id,start,end, currentPage);
 			return list;
 		}else if(s_id.equals("")&&!supplier.equals("")){
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and ss_status='待结算'  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_status='待结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?   limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,start,end, currentPage);
 			return list;
 		}else if(!s_id.equals("")&&supplier.equals("")){
 
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=? and ss_status='待结算'  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+					+ " from s_settlement where ss_sid_in=? and ss_status='待结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id, start,end, currentPage);
 			return list;
 
 		}else{
@@ -830,8 +830,8 @@ public class HuoliuServiceImp implements HuoliuService{
 
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_name_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where  ss_status='待结算'  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+					+ " from s_settlement where  ss_status='待结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, start,end, currentPage);
 			return list;
 
 
@@ -868,69 +868,69 @@ public class HuoliuServiceImp implements HuoliuService{
 		}
 
 	}
-	public List<Object[]> findjs3(String s_id, String supplier, int currentPage) {
+	public List<Object[]> findjs3(String s_id, String supplier, int currentPage, String start, String end) {
 		// TODO Auto-generated method stub
 
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")&&!supplier.equals("")) {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='已结算' limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=? and ss_status='已结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,s_id,start,end, currentPage);
 			return list;
 		}else if(s_id.equals("")&&!supplier.equals("")){
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and ss_status='已结算'  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_status='已结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,start,end, currentPage);
 			return list;
 		}else if(!s_id.equals("")&&supplier.equals("")){
 
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=? and ss_status='已结算'  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+					+ " from s_settlement where ss_sid_in=? and ss_status='已结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,start,end, currentPage);
 			return list;
 
 		}else{
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where  ss_status='已结算'  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+					+ " from s_settlement where  ss_status='已结算'  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,start,end,  currentPage);
 			return list;
 		}
 
 
 	}
-	public List<Object[]> findjs4(String s_id, String supplier, int currentPage) {
+	public List<Object[]> findjs4(String s_id, String supplier, int currentPage, String start, String end) {
 		// TODO Auto-generated method stub
 
 		// TODO Auto-generated method stub
 		if (!s_id.equals("")&&!supplier.equals("")) {
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=? and ss_sid_in=?  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, currentPage);
+					+ " from s_settlement where ss_supplier=? and ss_sid_in=?  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?   limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,s_id, start,end,currentPage);
 			return list;
 		}else if(s_id.equals("")&&!supplier.equals("")){
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_supplier=?   limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, supplier, currentPage);
+					+ " from s_settlement where ss_supplier=?  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?   limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, supplier,start,end, currentPage);
 			return list;
 		}else if(!s_id.equals("")&&supplier.equals("")){
 
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where ss_sid_in=?  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql, s_id, currentPage);
+					+ " from s_settlement where ss_sid_in=?  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?   limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql, s_id,start,end, currentPage);
 			return list;
 
 		}else{
 			String sql="select ss_detail,ss_serial_num,ss_date,ss_type,ss_sid_in,"
 					+ "ss_status,ss_num,ss_price,ss_pre_price,ss_info,ss_id"
-					+ " from s_settlement where  1=1  limit ?,10";
-			List<Object[]> list=SqlHelper.find(sql,  currentPage);
+					+ " from s_settlement where  1=1  and CAST(ss_date AS signed)>? and CAST(ss_date AS signed)<?  limit ?,10";
+			List<Object[]> list=SqlHelper.find(sql,start,end,  currentPage);
 			return list;
 		}
 
@@ -1261,7 +1261,7 @@ public class HuoliuServiceImp implements HuoliuService{
 						good.setG_barcode(sheet.getCell(j, i).getContents());
 						continue;
 					}else {
-						String	message="不存在该商品条码的商品！" ;
+						String	message="第"+(i+1)+"行"+j+"列: "+"不存在该商品条码的商品！" ;
 						list.add(message) ;
 					}
 					
@@ -1408,18 +1408,204 @@ public class HuoliuServiceImp implements HuoliuService{
 	}*/
 	public List<Object[]> hkhz(String s_id, String start, String end, int currentPage) {
 		// TODO Auto-generated method stub
+		
 		String sql = "SELECT t1.g_barcode,t1.g_name,t1.g_pur_price,t1.g_sale_price,t2.sa_goods_num,t3.su_gd_return,t3.su_ps_return FROM goods t1,sale t2, supplier t3 WHERE t1.su_name=t3.su_name and  t1.g_barcode=t2.g_barcode and t2.store_id=t1.s_id and t1.s_id=? and t3.s_id=? and CAST(t2.sa_date AS signed)>? and CAST(t2.sa_date AS signed)<? limit ?, 10 ";
 		List<Object[]> list=SqlHelper.find(sql, s_id,s_id,start,end,currentPage);
+		double sum=0;
+		
+		
+		
 		return list;
 	}
-	public List<String> isRegular2(String truePath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	public void importExcel2(HttpServletRequest req, HttpServletResponse resp, String truePath, String s_id,
 			String s_name) {
 		// TODO Auto-generated method stub
 
+	}
+	public List<String> isRegular2(String truePath, String s_id_in, String s_id_out) throws BiffException, IOException {
+		
+		// TODO Auto-generated method stub
+		ArrayList list = new ArrayList();
+		boolean kong = true;
+
+		JSONObject json=new JSONObject();
+		String []huodanArrary=new String[]{"商品名称(必填)","条码(必填)","货流量(必填)"};
+        String flag1="buhege";
+        String flag2="buhege";
+        String flag="buhege";
+		//List liststu=new ArrayList();
+		// 找到导入的文件
+		//InputStream is= Date.class.getClassLoader().getResourceAsStream("/1.xls");
+		//String sFilePath = "F:/liuyan00/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sms/WEB-INF/upload/供货商资料模板.xls";  
+		String sFilePath =truePath;
+
+		InputStream is = new FileInputStream(sFilePath);  
+
+		//创建工作簿
+		Workbook wb=Workbook.getWorkbook(is);
+		//创建工作表
+		jxl.Sheet sheet=wb.getSheet(0);
+		String content=null; 
+		
+		if (sheet.getColumns()>3) {
+			String	message="该表列数超过了模板的列数，请使用模板";
+			list.add(message);
+			return list;
+		}else{
+			for (int m = 0; m < sheet.getColumns(); m++) {
+				content=sheet.getCell(m, 0).getContents();
+				if(!content.equals(huodanArrary[m])){
+					String	message="列表的第"+(m+1)+"个字段名错误，正确字段为:"+huodanArrary[m];
+					list.add(message);
+					return list;
+				}
+			}
+		}
+
+		if (sheet.getRows()==2) {
+			for(int i=1;i<2;i++){
+				for(int j=0;j<sheet.getColumns();j++){
+					if(!sheet.getCell(j, 1).getContents().trim().equals("")){
+						kong=false;
+						break;
+					}
+				}
+			}
+		}
+
+		for(int i=1;i<sheet.getRows();i++)
+		{   int a=0,b=0,c=0;
+		Good1 good=new Good1();
+		for(int j=0;j<sheet.getColumns();j++)
+		{
+			content=sheet.getCell(0, i).getContents();
+			if(good.getG_name()==null&&a==0)
+			{ 
+				a=a+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+					if (kong) {
+						String	message="该表无数据！" ;
+						list.add(message) ;
+					}else{
+						String	message="第"+(i+1)+"行"+"商品名称不能为空!" ;
+						list.add(message) ;
+					}
+
+
+				}else {
+					
+					
+					good.setG_name(sheet.getCell(j, i).getContents());
+					continue;
+				}
+
+			}
+			if(good.getG_barcode()==null&&b==0)
+			{
+				b=b+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+
+					if (kong) {
+
+					}else{
+						String	message="第"+(i+1)+"行"+"条码不能为空!" ;
+						list.add(message) ;
+					}
+				}else {
+					String sql1="select g_barcode from goods where s_id="+s_id_out;
+					String sql2="select g_barcode from goods where s_id="+s_id_in;
+				
+					List<Object[]> list1=SqlHelper.find(sql1);
+					List<Object[]> list2=SqlHelper.find(sql2);
+					String tiaoma="";
+					for (int k = 0; k < list1.size(); k++) {
+						 tiaoma=(String) list1.get(k)[0];
+						if (sheet.getCell(j, i).getContents().equals(tiaoma)) {
+							flag1="hege";
+							break;
+						}
+					}
+					for (int k = 0; k < list2.size(); k++) {
+						 tiaoma=(String) list2.get(k)[0];
+						if (sheet.getCell(j, i).getContents().equals(tiaoma)) {
+							flag2="hege";
+							break;
+						}
+					}
+					if (flag1.equals("hege")&&flag2.equals("hege")) {
+						flag="hege";
+					}
+					if (flag.equals("hege")) {
+						String sql11="select g_name from goods where g_barcode='"+sheet.getCell(j, i).getContents()+"' and  s_id="+s_id_out;
+						List<Object[]> list11=SqlHelper.find(sql11);
+						String mingcheng=(String) list11.get(0)[0];
+						if (mingcheng.equals(good.getG_name())) {
+							
+						}else{
+							String	message="第"+(i+1)+"行"+j+"列: "+"该条码对应的商品名称应为: "+mingcheng+"  " ;
+							list.add(message) ;
+						}
+						good.setG_barcode(sheet.getCell(j, i).getContents());
+						continue;
+					}else {
+						if (flag1.equals("buhege")) {
+							String	message="第"+(i+1)+"行"+j+"列: "+"调货店不存在该商品条码的商品！" ;
+							list.add(message) ;
+							continue;
+						}
+						if (flag2.equals("buhege")) {
+							String	message="第"+(i+1)+"行"+j+"列: "+"进货店不存在该商品条码的商品！" ;
+							list.add(message) ;
+							continue;
+						}
+					}
+					
+				}
+			}
+
+
+			if(good.getNumber()==null&&c==0)
+			{
+                   c=c+1;
+				if (sheet.getCell(j, i).getContents().trim().equals("")){
+
+					if (kong) {
+
+					}else{
+						String	message="第"+(i+1)+"行"+"条码不能为空!" ;
+						list.add(message) ;
+					}
+				}else {
+					if (sheet.getCell(j, i).getContents().matches("[0-9]+")) {
+						good.setNumber(sheet.getCell(j, i).getContents());
+						continue;
+					}else {
+						String	message="第"+(i+1)+"行"+"货流量必须为数字!" ;
+						list.add(message) ;
+					}
+					
+				}
+
+			}
+
+
+		}
+
+
+		}
+		System.out.println(111);
+		return list;
+
+
+
+
+
+
+
+
+
+	
 	}
 
 

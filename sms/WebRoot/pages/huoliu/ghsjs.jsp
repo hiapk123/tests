@@ -163,6 +163,17 @@ function getdetail(node){
 
 
 function search(){
+	var start=$("#start").val();
+
+	var end=$("#end").val();
+	if(start==""){
+		alert("请输入起始时间！");
+		return;
+	}
+	if(end==""){
+		alert("请输入终止时间！");
+		return;
+	}
 	var s_id=$("#store").val();
 	var status=$("#category").val();
 	var supplier=$("#supplier").val();
@@ -185,6 +196,8 @@ function search(){
 		"s_id" : s_id,
 		"status" :status,
 		"supplier" :supplier,
+		"end":end,
+		"start":start,
 		"currentPage":currentPage,
 	}, function(data) {
 		$("#findjs").append(data);
@@ -197,9 +210,44 @@ function search(){
 <body>
 <div id="ghsjsdiv">
 
-	<label >供货商结算</label>
 	
-	<div style="float: right;">
+	
+	<form class="form-horizontal" role="form">
+						<div class="form-group">
+						
+							<label for="firstname" class="col-sm-1 control-label">从</label>
+							<div class="col-sm-2">
+								<div class="input-group date form_date " data-date=""
+									data-date-format="dd MM yyyy" data-link-field="start"
+									data-link-format="yyyymmddHHmmss">
+									<input   class="form-control" size="16" 
+										type="text" value="" readonly> <span
+										class="input-group-addon"><span
+										class="glyphicon glyphicon-remove"></span></span> <span
+										class="input-group-addon"><span
+										class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+								<input type="hidden" id="start" value="" />
+							</div>
+
+							<label for="firstname" class="col-sm-1 control-label">到</label>
+							<div class="col-sm-2">
+								<div class="input-group date form_date " data-date=""
+									data-date-format="dd MM yyyy" data-link-field="end"
+									data-link-format="yyyymmddHHmmss">
+									<input   class="form-control" size="16" 
+										type="text" value="" readonly> <span
+										class="input-group-addon"><span
+										class="glyphicon glyphicon-remove"></span></span> <span
+										class="input-group-addon"><span
+										class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+								<input type="hidden" id="end" value="" />
+							</div>
+							<div class="col-sm-6"  style="float: right;">
+						
+	
+		
 	<select id="store" class="singleSelector">
 		<option value="" selected="selected" >全部门店</option>
 
@@ -215,7 +263,7 @@ function search(){
 		%>
 
 	</select>
-<select id="supplier" class="singleSelector">
+<select id="supplier" >
 		<option value="" selected="selected" >全部供货商</option>
 
 		<%
@@ -230,7 +278,7 @@ function search(){
 		%>
 
 	</select>
-	<select id="category">
+	<select id="category" >
 	   <option value="全部状态" selected="selected" >全部状态</option> 
 		<option value="未成功货单" >未成功货单</option>
 		
@@ -238,11 +286,37 @@ function search(){
 		<option value="已结算货单">已结算货单</option>
 	</select>
 
-	
-		<input class="input-medium search-query" type="text" float:right /> <input
-			type="button"  class="btn btn-success" value="  查     询     " onclick="search()" class="submitBtn" />
+	&nbsp;&nbsp;
+	<input class="input-medium search-query" type="text" float:right /> 
+	<input type="button"  class="btn btn-success "  value="  查     询     " onclick="search()"  />
 		
+	
+		
+	
 	</div>
+							</div>
+</form>
+							
+ <script type="text/javascript">
+  
+	$('.form_date').datetimepicker({
+	 //   format: 'yyyy-mm-dd hh:ii',
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	
+</script>
+
+	
+	
+	
+	
 	
 	<div data-spy="scroll"
 		style="width: 100%; overflow: auto; position: relative;"
