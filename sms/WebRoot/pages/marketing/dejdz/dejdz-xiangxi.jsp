@@ -114,7 +114,7 @@
 				  							out.println("<td> <input type = \"text\" disabled=\"disabled\" value = \""+m.getDiscount()+"\"/></td>");
 				  						}else if (type.equals("gengxin")||type.equals("copy")){
 				  							//out.println("<td>"+m.getCoupons()+"</td>");
-				  							out.println("<td> <input  onblur=\"disinput("+m.getG_id()+");\"  type = \"text\"  value = \""+m.getDiscount()+"\"/></td>");
+				  							out.println("<td> <input class='cfnum' onblur=\"disinput("+m.getG_id()+");\"  type = \"text\"  value = \""+m.getDiscount()+"\"/></td>");
 				  							out.println("<td><a  onclick=\"delGoodsInList("+m.getG_id()+");\" href=\"javascript:void(0)\" >删除</a></td>");
 				  						}
 				  						out.println("</tr>");

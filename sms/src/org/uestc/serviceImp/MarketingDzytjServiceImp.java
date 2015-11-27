@@ -262,7 +262,7 @@ public class MarketingDzytjServiceImp implements MarketingDzytjService {
 		StringBuffer sb =new StringBuffer();
 		String d_name = req.getParameter("d_name");
 		String d_start_time = req.getParameter("d_start_time");
-		String sql  = "delete from discount where s_id = "+s_id+" and active_type = 0 and  d_name = \'"+d_name+"\' and d_start_date = \'"+d_start_time+"\'";
+		String sql  = "delete from discount where  active_type = 0 and  d_name = \'"+d_name+"\' and d_start_date = \'"+d_start_time+"\'";
 		
 		String p[] = {};
 		String sql_disc = "delete from disc_goods where d_active_type = '打折与特价' and d_active_name = \'"+d_name+"\' and d_start_date = \'"+d_start_time+"\'";

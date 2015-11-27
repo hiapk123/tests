@@ -106,7 +106,7 @@
 <link rel="stylesheet" href="<%=basePath%>css/jPages.css">
 <script src="<%=basePath%>js/jPages.js"></script>
 <link rel="stylesheet" href="<%=basePath%>css/animate.css">
-
+<script src="<%=basePath%>js/formcheck.js"></script>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -208,7 +208,7 @@ function searchGoods(pageIndex,type) {
 			$("#hgcx_tb_list").append(str[0].table);
 			var count = str[0].pageCount;
 			pageCount =Math.floor(count/pageSize +1);	
-			
+			$('.cfIntNum').bind('keyup',intnumcolor);
     	},
     	dataType:"json"});
     	
@@ -292,7 +292,7 @@ function XGactive(active_type,name,start_time){
  						$("#hidden_name").val($("#mbt_hgcx_active_name").val());
  		 				$("#hidden_d_start_time").val($("#date_start").val());
  		 				timeinput();
- 						
+ 		 				$('.cfnum').bind('keyup',numcolor);
  					
  					}else{
  					
@@ -378,8 +378,8 @@ function XGactive(active_type,name,start_time){
 	  g_counts.length=0;
 	  	
  	
-  	   tb_k += "<td id = 'tdminp_"+num+"'><input id = 'minput_"+num+"'   value='0' /></td>";
-  	   tb_k +=" <td  id = tddinp_"+num+"'> <input id = 'dinput_"+num+"'  value='0' /></td>";
+  	   tb_k += "<td id = 'tdminp_"+num+"'><input class='cfnum' id = 'minput_"+num+"'   value='0' /></td>";
+  	   tb_k +=" <td  id = tddinp_"+num+"'><input class='cfnum' id = 'dinput_"+num+"'  value='0' /></td>";
   	   tb_k +="<td id='glist_"+num+"'>";
   	 	
   	   arrChk.each(function(index,ob){
@@ -447,6 +447,7 @@ function XGactive(active_type,name,start_time){
 					 retype =type;
 	  }
   	 	 sgtt=false;
+  	 	$('.cfnum').bind('keyup',numcolor);
   	 	 return retype;
  }
  
@@ -458,6 +459,10 @@ function XGactive(active_type,name,start_time){
 	 
  }
  function saveGoodsToActive(savetype){
+	 if(!ifNumOk()){
+		 alert("请输入正确金额！");
+		 return false;
+	 }
 	var trs = $("#hgcx_daitianjiashangpinxianshi").children('tr');
 	var info = new Array();
 	trs.each(function(index,ob){
@@ -730,7 +735,7 @@ function XGactive(active_type,name,start_time){
 										    	
 												<a   href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
 												
-												<a id="Tsavetotable" href="#" class="btn btn-primary" onclick="saveGoodsToTable('tianjia')"  data-dismiss="modal">添加到列表</a>
+												<a id="Tsavetotable" href="#" class="btn btn-primary fsub" onclick="saveGoodsToTable('tianjia')"  data-dismiss="modal">添加到列表</a>
 											</div>
 										</div>
 									</div>

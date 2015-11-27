@@ -243,7 +243,7 @@ public class MarketingTccxServiceImp implements MarketingTccxService {
 			sb.append("<td width=\"15%\">"+cateName+"</td>");
 			sb.append("<td width=\"15%\">"+g.get("g_sale_price")+"</td>"); 
 			sb.append("<td width=\"15%\">"+g.get("g_pur_price")+"</td>"); 
-			sb.append("<td width=\"25%\"><input id=\"count_"+g.get("g_barcode")+"\" style=\"width:80%;float: right;\" value=\"1\" /></td>");
+			sb.append("<td width=\"25%\"><input class='cfIntNum' id=\"count_"+g.get("g_barcode")+"\" style=\"width:80%;float: right;\" value=\"1\" /></td>");
 		}
 		json.put("pageCount", itmscount);
 		json.put("table", sb.toString());

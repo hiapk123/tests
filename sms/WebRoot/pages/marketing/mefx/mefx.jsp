@@ -103,6 +103,7 @@
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"charset="utf-8"></script>
 <link href="<%=basePath%>css/bootstrap-datetimepicker.css"rel="stylesheet">	
 
+<script src="<%=basePath%>js/formcheck.js"></script>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -196,6 +197,7 @@ function addactive(){
  			function(str){				
  					$("#mmefx").empty();	
  					$("#mmefx").html(str);
+ 					 $('.cfIntNum').bind('keyup',intnumcolor);
  					timeinput();				
  			});
 	
@@ -226,7 +228,8 @@ function XGactive(active_type,name,start_time,c_id){
  						$("#hc_id").val($("#mbt_mefx_active_id").val());
  		 				
  		 				timeinput();
- 						
+ 		 				$('.cfnum').bind('keyup',numcolor);
+ 		 				$('.cfIntNum').bind('keyup',intnumcolor);
  					
  					}else{
  						if(str=="filed")
@@ -249,8 +252,8 @@ function addgoods(type){
   var num = $("#mefx_daitianjiashangpinxianshi").children("tr[class = 'tdbody'] ").length+1;
   if(type=='tianjia'){
   	var tb_k="<tr id = \"trlist_"+num+"\" class='tdbody'>";
- 	    tb_k+="<td class='mane'><input type='text' value = '0' /></td>";
-		 tb_k += "<td class = 'back'> <input type='text' value='0' />   </td>";
+ 	    tb_k+=  "<td class='mane'>	<input class='cfnum' type='text' value = '0' /></td>";
+		 tb_k += "<td class = 'back'> <input class='cfnum' type='text' value='0' />   </td>";
  	    tb_k += "<td class ='shanchu'><a onclick=\"delGoodsInList('trlist_"+num+"');\" href=\"javascript:void(0)\">删除</a></td></tr>";
  	  
 	 $("#mefx_daitianjiashangpinxianshi").append(tb_k);
@@ -263,6 +266,8 @@ function addgoods(type){
  	  
 	 $("#mefx_daitianjiashangpinxianshi").append(tb_k);
   }
+  $('.cfnum').bind('keyup',numcolor);
+ 
  	 	 sgtt=false;
 }
 	
@@ -277,6 +282,14 @@ function addgoods(type){
 	 
  }
  function saveGoodsToActive(savetype){
+	 if(!ifNumOk()){
+		 alert("请输入正确金额！");
+		 return false;
+	 }
+	 if(!ifIntNumOK()){
+		 alert("请输入正确数量！");
+		 return false;
+	 }
 	var trs = $("#mefx_daitianjiashangpinxianshi").children("tr[class='tdbody']");
 	
 	var info = new Array();
@@ -312,10 +325,10 @@ function addgoods(type){
 	
 	info.push("MIPT"+miptl.join(",")+"MIPT");
 	info.push("BIPT"+biptl.join(",")+"BIPT");
-	if(flag){
+	/* if(flag){
 		alert("请输入正确的金额！");
 		return false;
-	}
+	} */
 	
 //	alert(discount);
 	var type = 0;
@@ -485,7 +498,7 @@ function addgoods(type){
 										    	
 												<a   href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
 												
-												<a id="Tsavetotable" href="#" class="btn btn-primary" onclick="saveGoodsToTable('tianjia')"  data-dismiss="modal">添加到列表</a>
+												<a id="Tsavetotable" href="#" class="btn btn-primary fsub" onclick="saveGoodsToTable('tianjia')"  data-dismiss="modal">添加到列表</a>
 											</div>
 										</div>
 									</div>
