@@ -150,7 +150,7 @@ public class MarketingHgcxServiceImp implements MarketingHgcxService {
 			}
 			
 			sb.append("<td width=\"25%\">"+g.get("g_pur_price")+"</td>"); 
-			sb.append("<td width=\"40%\"><input id=\"count_"+g.get("g_barcode")+"\" value=\"1\" /></td>");
+			sb.append("<td width=\"40%\"><input class='cfIntNum' id=\"count_"+g.get("g_barcode")+"\" value=\"1\" /></td>");
 		}
 		return sb;
 	}
@@ -277,7 +277,7 @@ public class MarketingHgcxServiceImp implements MarketingHgcxService {
 			}
 			
 			sb.append("<td width=\"25%\">"+g.get("g_pur_price")+"</td>"); 
-			sb.append("<td width=\"40%\"><input id=\"count_"+g.get("g_barcode")+"\" value=\"1\" /></td>");
+			sb.append("<td width=\"40%\"><input class='cfIntNum' id=\"count_"+g.get("g_barcode")+"\" value=\"1\" /></td>");
 		}
 		json.put("pageCount", itmscount);
 		json.put("table", sb.toString());

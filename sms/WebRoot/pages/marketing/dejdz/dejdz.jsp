@@ -106,6 +106,8 @@
 <link rel="stylesheet" href="<%=basePath%>css/jPages.css">
 <script src="<%=basePath%>js/jPages.js"></script>
 <link rel="stylesheet" href="<%=basePath%>css/animate.css">
+<script src="<%=basePath%>js/formcheck.js"></script>
+
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -296,6 +298,8 @@ function XGactive(active_type,name,start_time){
  						}
  						$("#hidden_name").val($("#mbt_dejdz_active_name").val());
  				   	$("#hidden_d_start_time").val($("#date_start").val());
+ 				   
+ 				   	$('.cfnum').bind('keyup',numcolor);
  						timeinput();
  					}else{	
  						backlist();
@@ -367,9 +371,10 @@ function XGactive(active_type,name,start_time){
   		 	if(disprice!=""){
   		 		//alert(salprice +":"+disprice)
   		 		discount = disprice/salprice*100;
+  		 		discount = (Number(discount)).toFixed(4);
   		 	}
   		 	
-  			tb_k += "<td><input class=\"disinput\"  onblur=\"disinput("+ob.value+");\" type=\"text\" value = \""+discount+"\"/></td>";
+  			tb_k += "<td><input class=\"disinput cfnum\"  onblur=\"disinput("+ob.value+");\" type=\"text\" value = \""+discount+"\"/></td>";
   		 	tb_k += "<td><a onclick=\"delGoodsInList("+ob.value+");\" href='javascript:void(0)'>删除</a></td>" ;
   		 	tb_k +="</tr>"; 
   		 } 
@@ -381,6 +386,8 @@ function XGactive(active_type,name,start_time){
 		 var str =  dejdz_goods_id_list.join(',');
   	// alert(str);
 		 $("#dejdz_daitianjiashangpinxianshi").append(tb_k);
+		 classnumcheck();
+		 $('.cfnum').bind('keyup',numcolor);
   	 	 sgtt=false;
  }
  
@@ -405,7 +412,10 @@ function XGactive(active_type,name,start_time){
 	 
  }
  function saveGoodsToActive(savetype){
-
+	 if(!ifNumOk()){
+			alert("请输入正确数字！");
+			return false;
+		}
 	var s =dejdz_goods_id_list.join(',');
 	var discount = dejdz_dis_list.join(',');
 //	alert(discount);
@@ -566,13 +576,31 @@ function XGactive(active_type,name,start_time){
 	function discprice(){
 		var disprice = $("#dejdz_spice_price");
 		var discount = $("#dejdz_discount");
-		if(disprice.val()==""){
+		if(disprice.val()==""){	
 			discount.attr("disabled",false);
 			discount.val("100");
-		}else{
+			discount.css('background','white');
+			disprice.css('background','white');
+			discount.addClass('tcfnum');
+			$('.tcfnum').bind('keyup',numcolor);
+		}else{	
+			dispriceCheck();
 			discount.attr("disabled","disabled");
+			discount.css('background','lightgrey');	
+			discount.removeClass('tcfnum');
 			discount.val("");
 		}
+	}
+	function dispriceCheck(){
+		var disprice = $("#dejdz_spice_price");
+		 reg = /^([1-9][\d]{0,7}|0)(\.[\d]{0,4})?$/
+			var num = disprice.val();
+			num =num.trim();
+			if(!reg.test(num)){
+				disprice.css("background","red");
+			}else{
+				disprice.css("background","white");
+			}
 	}
 </script>
 
@@ -678,7 +706,7 @@ function XGactive(active_type,name,start_time){
 											</div>
 											<div class="modal-footer">
 											
-										    	<span class="dejdz_left">折扣：</span><input class="dejdz_left" id="dejdz_discount" style=" width: 10%;" value="100" type="text" /><span style="padding-right: 20px;" class="dejdz_left">%</span>
+										    	<span class="dejdz_left">折扣：</span><input class="dejdz_left tcfnum" id="dejdz_discount" style=" width: 10%;" value="100" type="text" /><span style="padding-right: 20px;" class="dejdz_left">%</span>
 												<span class="dejdz_left">特价：</span><input class="dejdz_left" onkeyup="discprice()" id="dejdz_spice_price" style=" width: 10%"  value=""/>
 												
 												<a   href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
@@ -891,3 +919,4 @@ function XGactive(active_type,name,start_time){
                 </thead>  
                 <tbody></tbody>  
             </table>    -->
+

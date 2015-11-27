@@ -334,7 +334,7 @@
 											<li><a href="#" data-options="商品" id="spfl">商品分类</a></li>
 											<li><a href="#" data-options="商品" id="plsz">批量设置</a></li>
 											<li><a href="#" data-options="商品" id="kcyd">库存预警</a></li>
-											<li><a href="#" data-options="商品" id="spck">商品查看</a></li>
+											<!-- <li><a href="#" data-options="商品" id="spck">商品查看</a></li> -->
 											<!-- <li><a href="#" data-options="商品" id="spxxfx">商品信息分析</a></li>
 											<li><a href="#" data-options="商品" id="kcpdjl">库存盘点记录</a></li>
 											<li><a href="#" data-options="商品" id="kcbdjl">库存变动记录</a></li>
@@ -360,12 +360,12 @@
 										<ul class="nav nav-pills nav-stacked">
 											<li><a href="#" data-options="会员" id="hyzl">会员资料</a></li>
 											<li><a href="#" data-options="会员" id="hydj">会员等级</a></li>
-											<li><a href="#" data-options="会员" id="hybz">会员报账</a></li>
+											<!-- <li><a href="#" data-options="会员" id="hybz">会员报账</a></li> -->
 											<li><a href="#" data-options="会员" id="czmx">充值明细</a></li>
 											<li><a href="#" data-options="会员" id="hygmjl">会员购买查询</a></li>
-											<li><a href="#" data-options="会员" id="fsdx">发送短信</a></li>
+											<!-- <li><a href="#" data-options="会员" id="fsdx">发送短信</a></li>
 											<li><a href="#" data-options="会员" id="dxjl">短信记录</a></li>
-											<li><a href="#" data-options="会员" id="jfzd">积分制度</a></li>
+											<li><a href="#" data-options="会员" id="jfzd">积分制度</a></li> -->
 										</ul>
 									</div>
 								</div>
@@ -406,9 +406,9 @@
 											<li><a href="#" data-options="员工" id="syyzl">收银员资料</a></li>
 											<li><a href="#" data-options="员工" id="syyyj">收银员业绩</a></li>
 											<li><a href="#" data-options="员工" id="jjbjl">交接班记录</a></li>
-											<li><a href="#" data-options="员工" id="dgyzl">导购员资料</a></li>
+											<!-- <li><a href="#" data-options="员工" id="dgyzl">导购员资料</a></li>
 											<li><a href="#" data-options="员工" id="dgyyj">导购员业绩</a></li>
-											<li><a href="#" data-options="员工" id="dgmx">导购明细</a></li>
+											<li><a href="#" data-options="员工" id="dgmx">导购明细</a></li> -->
 										</ul>
 									</div>
 								</div>
@@ -444,10 +444,10 @@
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
 											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
-											<li><a href="#" data-options="管理员">调货单审核</a></li>
+											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
-											<li><a href="#" data-options="管理员">XXXX</a></li>
+											<li><a href="#" data-options="管理员">XXXX</a></li> -->
 										</ul>
 									</div>
 								</div>

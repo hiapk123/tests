@@ -136,7 +136,7 @@
 				  						out.println("</td>");
 				  						
 				  						out.println("<td id=\"tdminp_"+k+"\" >  <input "+enable+" value=\""+m.getPackage_name()+"\" id=\"minput_"+k+"\"></td>");
-				  						out.println("<td id=\"tddinp_"+k+"'\"> <input "+enable+" value=\""+m.getP_price()+"\" id=\"dinput_"+k+"\"></td>");
+				  						out.println("<td id=\"tddinp_"+k+"'\"> <input class='cfnum' "+enable+" value=\""+m.getP_price()+"\" id=\"dinput_"+k+"\"></td>");
 				  						if(function.equals("gengxin")||function.equals("copy")){
 				  							out.println("<td id=\"shanchu_"+k+"\"><a href=\"javascript:void(0)\" onclick=\"delGoodsInList('trlist_"+k+"');\">删除</a></td>");
 				  						}
@@ -171,4 +171,5 @@
  
 </body>
 </html>
+
  

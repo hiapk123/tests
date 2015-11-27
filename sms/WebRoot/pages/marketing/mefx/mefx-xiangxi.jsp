@@ -76,7 +76,7 @@
  						<div class="panel-heading" id="mbt_mefx_content_head">
  						<input type = 'hidden' id = 'mbt_mefx_active_id' value ='<%=request.getAttribute("c_id") %>' />
  						优惠券名称：<input type="text" <%=enable %> value='<%=request.getAttribute("c_name") %>' id="mbt_mefx_active_name">
- 						优惠券数量：<input type="text"  <%=enable %>  value='<%=request.getAttribute("c_num") %>' id="mbt_mefx_cnum">
+ 						优惠券数量：<input class='cfIntNum' type="text"  <%=enable %>  value='<%=request.getAttribute("c_num") %>' id="mbt_mefx_cnum">
  						开始时段:<input  type="text"  <%=enable %> value='<%=request.getAttribute("c_start_time") %>' <%=readable %> id="date_start" class="form_datetime"/>
  						结束时段：<input type="text" <%=enable %> value='<%=request.getAttribute("c_end_time") %>'   <%=readable %> id="date_stop"class="form_datetime"/ >
  						 类型： <label class="checkbox-inline">
@@ -113,8 +113,8 @@
 				  							String g_name = it_gns.next();
 				  							String g_count = it_gcs.next();
 				  							out.println("<tr id = \"trlist_"+k+"\" class='tdbody' value=\""+k+"\">");
-				  							out.println("<td class='mane' >  <input "+enable+" type='text' value=\""+g_name+"\"  /></td>");
-					  						out.println("<td class='back' >  <input "+enable+" type='text' value=\""+g_count+"\" /></td>");
+				  							out.println("<td class='mane' >  <input class='cfnum' "+enable+" type='text' value=\""+g_name+"\"  /></td>");
+					  						out.println("<td class='back' >  <input class='cfnum' "+enable+" type='text' value=\""+g_count+"\" /></td>");
 					  						if(type.equals("gengxin")){
 					  							out.println("<td class='shanchu'><a href=\"javascript:void(0)\" onclick=\"delGoodsInList('trlist_"+k+"');\">删除</a></td>");
 					  						}
@@ -143,4 +143,5 @@
  
 </body>
 </html>
+
  

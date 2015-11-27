@@ -107,7 +107,7 @@
 <script src="<%=basePath%>js/jPages.js"></script>
 <link rel="stylesheet" href="<%=basePath%>css/animate.css">
 
-
+<script src="<%=basePath%>js/formcheck.js"></script>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -169,8 +169,13 @@ function searchGoods(pageIndex,type) {
     });  
     function PageCallback(page, item) { 
     	
-    	InitTable(page.current,typein);  
-    
+    	 if(ifIntNumOK()){
+    		 InitTable(page.current,typein);
+   		}else{
+   			pageIndex =page;
+   			return false;
+   		}
+    	
     }  	
     
     function InitTable(pageIndex,type1) {  
@@ -210,6 +215,8 @@ function searchGoods(pageIndex,type) {
 			$("#dzcx_tb_list").append(str[0].table);
 			var count = str[0].pageCount;
 			pageCount =Math.floor(count/pageSize +1);	
+			
+			$('.cfIntNum').bind('keyup',intnumcolor);
     	},
     	dataType:"json"});
     }
@@ -378,8 +385,15 @@ function XGactive(active_type,name,start_time){
  var sgtt = false;
  function saveGoodsToTable(type){
 	  if(sgtt){
-		  return;
-	  } 
+			  return;
+	  	} 
+	  if(ifIntNumOK()){
+  			
+  		}else{
+  			alert("请输入整数！");
+  			return false;
+  		}
+  
 	  var retype="tianjia";
 	  sgtt = true;
 	  if(type=='tianjia'){
@@ -766,7 +780,7 @@ function XGactive(active_type,name,start_time){
 										    	
 												<a   href="#" class="btn btn-default"  data-dismiss="modal">取消</a>
 												
-												<a id="Tsavetotable" href="#" class="btn btn-primary" onclick="saveGoodsToTable('tianjia')"  data-dismiss="modal">添加到列表</a>
+												<a id="Tsavetotable" href="#" class="btn btn-primary fsub" onclick="saveGoodsToTable('tianjia')"  data-dismiss="modal">添加到列表</a>
 											</div>
 										</div>
 									</div>
@@ -879,4 +893,5 @@ function XGactive(active_type,name,start_time){
 		 		 },"text");
 	 } --%>
 	 
+
 	 

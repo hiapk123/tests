@@ -120,8 +120,8 @@
 				  				
 				  						
 				  						out.println("<tr id = \"trlist_"+k+"\" class='tdbody' value=\""+k+"\">");
-				  						out.println("<td id=\"tdminp_"+k+"\" >  <input "+enable+" value=\""+m.getM_price()+"\" id=\"minput_"+k+"\"></td>");
-				  						out.println("<td id=\"tddinp_"+k+"'\"> <input "+enable+" value=\""+m.getB_price()+"\" id=\"dinput_"+k+"\"></td>");
+				  						out.println("<td id=\"tdminp_"+k+"\" >  <input class='cfnum' "+enable+" value=\""+m.getM_price()+"\" id=\"minput_"+k+"\"></td>");
+				  						out.println("<td id=\"tddinp_"+k+"'\"> <input  class='cfnum' "+enable+" value=\""+m.getB_price()+"\" id=\"dinput_"+k+"\"></td>");
 				  						
 				  						out.println("<td id = \"glist_"+k+"\">");
 				  						for(Iterator<String> it_gns= gm_names.iterator(), it_gcs = gm_counts.iterator();it_gns.hasNext();){
@@ -169,4 +169,5 @@
  
 </body>
 </html>
+
  

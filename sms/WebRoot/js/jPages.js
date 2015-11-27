@@ -303,12 +303,16 @@
     },
 
     getNewPage : function(nav, target) {
-      if (target.is(nav.currentPage)) return this._currentPageNum;
-      if (target.is(nav.pages)) return nav.pages.index(target) + 1;
-      if (target.is(nav.first)) return 1;
-      if (target.is(nav.last)) return this._numPages;
-      if (target.is(nav.previous)) return nav.pages.index(nav.currentPage);
-      if (target.is(nav.next)) return nav.pages.index(nav.currentPage) + 2;
+    	if(ifIntNumOK()){
+    		if (target.is(nav.currentPage)) return this._currentPageNum;
+    		if (target.is(nav.pages)) return nav.pages.index(target) + 1;
+    		if (target.is(nav.first)) return 1;
+    		if (target.is(nav.last)) return this._numPages;
+    		if (target.is(nav.previous)) return nav.pages.index(nav.currentPage);
+    		if (target.is(nav.next)) return nav.pages.index(nav.currentPage) + 2;
+    	}else {
+    		
+    	}
     },
 
     validNewPage : function(newPage) {
@@ -562,5 +566,20 @@
 
     return this;
   };
+  function ifIntNumOK(){
+		var flag = true;
+		$('.cfIntNum').each(function(index,obj){
+			var num = obj.value;
+			num =num.trim();
+			reg = /^([0-9][\d]{0,7})$/
+			if(!reg.test(num)){
+				flag= false;
+				$(this).css("background","red");
+			}
+		});
+		return flag;
+	};
 
 })(jQuery, window, document);
+
+

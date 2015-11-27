@@ -51,7 +51,7 @@ $(function(){
  						<div class="panel-heading" id="mbt_mefx_content_head">
  						<input type = 'hidden' id = 'mbt_mefx_active_id' value ='' />
  						优惠券名称：<input type="text"  value='' id="mbt_mefx_active_name">
- 						优惠券数量：<input type="text"  value='' id="mbt_mefx_cnum">
+ 						优惠券数量：<input class='cfIntNum' type="text"  value='100' id="mbt_mefx_cnum">
  						开始时段:<input  type="text" readonly="readonly"  value=''  id="date_start" class="form_datetime"/>
  						结束时段：<input type="text" readonly="readonly"  value=''   id="date_stop"class="form_datetime"/ >
  						 类型： 
@@ -86,4 +86,5 @@ $(function(){
  
 </body>
 </html>
+
  
