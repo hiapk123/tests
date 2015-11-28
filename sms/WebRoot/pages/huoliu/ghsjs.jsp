@@ -210,13 +210,15 @@ function search(){
 <body>
 <div id="ghsjsdiv">
 
+	<div class="panel panel-default">
+		<div class="panel-footer">
+			
+				<div class="row">
+
+					<div class="col-xs-2">
 	
 	
-	<form class="form-horizontal" role="form">
-						<div class="form-group">
 						
-							<label for="firstname" class="col-sm-1 control-label">从</label>
-							<div class="col-sm-2">
 								<div class="input-group date form_date " data-date=""
 									data-date-format="dd MM yyyy" data-link-field="start"
 									data-link-format="yyyymmddHHmmss">
@@ -228,10 +230,10 @@ function search(){
 										class="glyphicon glyphicon-calendar"></span></span>
 								</div>
 								<input type="hidden" id="start" value="" />
-							</div>
+					</div>
 
-							<label for="firstname" class="col-sm-1 control-label">到</label>
-							<div class="col-sm-2">
+							
+				<div class="col-xs-2">
 								<div class="input-group date form_date " data-date=""
 									data-date-format="dd MM yyyy" data-link-field="end"
 									data-link-format="yyyymmddHHmmss">
@@ -243,8 +245,8 @@ function search(){
 										class="glyphicon glyphicon-calendar"></span></span>
 								</div>
 								<input type="hidden" id="end" value="" />
-							</div>
-							<div class="col-sm-6"  style="float: right;">
+				</div>
+	<div class="col-xs-6"  style="float: right;">
 						
 	
 		
@@ -294,8 +296,8 @@ function search(){
 		
 	
 	</div>
-							</div>
-</form>
+	</div>
+	</div></div>		
 							
  <script type="text/javascript">
   

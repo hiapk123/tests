@@ -189,7 +189,7 @@ function xinzengshangpin(){
 		<option value="0">作废单据</option>
 	</select>
 <select id="c_name" class="btn btn-success">
-<option value="-1" selected="selected" >无</option>
+
 									<%
 										List<Object[]> list1 = (List<Object[]>) request.getAttribute("fenlei");
 										if (list1 != null && list1.size() != 0) {

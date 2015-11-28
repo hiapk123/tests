@@ -221,7 +221,7 @@ function del(){
 			<td><%=arr[15]%></td>
 			<td><%=arr[16]%></td>
 				<%
-			for(int i=17;i<29;i++){
+			for(int i=17;i<27;i++){
 				
 			
 			%>		
