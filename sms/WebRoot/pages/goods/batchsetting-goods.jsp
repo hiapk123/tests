@@ -179,8 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  if(cbox[i].checked){
 			  
 			  shs[j]=cbox[i].value;
-			  j++;
-			  		  
+			  j++;		  
 		  }
 	  }
 	  
@@ -912,9 +911,13 @@ $(function(){
   
   <!--批量处理的布局  -->
   <div class="conditionNav">
-	
+	<div class="panel panel-default">
+		<div class="panel-footer">
 		<!-- onchange="shstore();" -->
-		<select id="shselectstore" class="singleSelector" >
+		
+	<div class="row">	
+	<div class="col-xs-2">
+		<select id="shselectstore" class="form-control" >
 			<!-- <option value="-1"  disabled="disabled">选择店铺</option> -->
 
 			<%
@@ -931,14 +934,18 @@ $(function(){
 				   }
 			%>
 		</select>
+		</div>
+		
 		<!--类别（是否启用）  -->
-		 <select id="shleibie" class="singleSelector">
+	<div class="col-xs-2">
+		 <select  id="shleibie" class="form-control" >
 			<option value="0" selected="selected">启用</option>
 			<option value="1">禁用</option>
 		</select>
-		
+	</div>
+		<div class="col-xs-2">
 		<!--分类的下拉框  -->
-		<select style="width: 50px" id="shfenlei" class="singleSelector">
+		<select id="shfenlei" class="form-control" >
 		<!-- <option value="-1"  disabled="disabled">全部分类</option> -->
 		<%
 		List<batchgoods> shselect1=null;
@@ -957,9 +964,10 @@ $(function(){
 			}
 		%>
 		</select>
-		
-		
-		<select id=shsuname class="singleSelector" >
+
+		</div>
+		<div class="col-xs-2">
+		<select id=shsuname class="form-control" >
 		<!-- <option value="-1" disabled="disabled">全部供货商</option> -->
 		<%
 		List<batchgoods> shselect2=null;
@@ -975,21 +983,33 @@ $(function(){
 		}
 		%>
 		</select>
+		</div>
 	
-	<input type="text" id="shshangpin" placeholder="输入商品条码">
-		<input type="button" value="查询" id="shsearch" class="submitBtn" onclick="shsubmit();" />
+	
+	<div class="col-xs-2">
+	<input class="search-query form-control col-md-10" type="text" id="shshangpin" placeholder="输入商品条码">
 	</div>
+		<div class="col-xs-1">
+		<input type="button" value="查询" id="shsearch" class="btn btn-primary" onclick="shsubmit();" />
+		</div>
+		</div><!-- //新增 -->
+	</div>
+	</div>
+	</div>
+
 	<!--下面是显示表格的页面  -->
-	<div class="content" id="shgettable">
+	<div class="panel panel-default" id="shgettable" >
 		<!--start  -->
-		<div id="shtable"></div>
+		<div id="shtable" style="height: 535px"></div>
 		<!-- end -->
 	</div>
 
 	
 	
  <!--批量设置的布局  -->
-	<div>
+	<div style="position: absolute;top:635px;width: 100%">
+	<div class="panel panel-default">
+		<div class="panel-footer">
 	<table>
 	<td><input type="checkbox" id="xuanze"  onchange="yemianclick();"></td>
 	<td>本页全选</td>
@@ -997,7 +1017,7 @@ $(function(){
 	<td>|</td>
 	<td>已选中:</td>
 	<td><input type="text" value="0" id="shqwer" style=" background: transparent;border: 0"/></td>
-	<td><input type="button" disabled value="批量设置" id="shsubmitbutton"  onclick="volumeset();"></td>
+	<td><input class="btn btn-inverse btn-default btn-lg" type="button" disabled value="批量设置" id="shsubmitbutton"  onclick="volumeset();"></td>
 	<td></td>
 	<td>|</td>
 	<td>共
@@ -1005,6 +1025,10 @@ $(function(){
 	个商品</td>
 	</table>
 	</div>	
+	</div>
+	</div>
+	
+	
 	
 	<div id="shkklmmm"></div>
 <!-- 批量设置的 弹出层 -->

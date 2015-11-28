@@ -27,5 +27,6 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.33-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/tomcat-jdbc.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/tomcat-juli.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/org.json.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

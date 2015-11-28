@@ -235,7 +235,6 @@ $(function(){
 
 </script>
 
-
 <script type="text/javascript">
 //激发模态框的信息。
 function sqclick1()
@@ -323,15 +322,22 @@ function shmsub() {
 
 
 <body>
-<div>
-	<div class="conditionNav">			
-		<a href="#" onclick="sqclick1();" id="shlxzhy">新增会员</a>
-		<a href="#" onclick="sqclick2();" id="shlhydr">批量导入</a>
-		<a href="#" onclick="sqclick3();" id="shlpldc">批量导出</a>	
+	<div class="conditionNav">	
+		<div class="panel panel-default">
+			<div class="panel-footer">
+				<div class="row">
+			<div style="clear: both;">
+			
+		<div class="col-xs-2"><a style="width: 100px" href="#" onclick="sqclick1();" id="shlxzhy">新增会员</a></div>
+		<div class="col-xs-2"><a href="#" onclick="sqclick2();" id="shlhydr">批量导入</a></div>
+		<div class="col-xs-2"><a href="#" onclick="sqclick3();" id="shlpldc">批量导出</a></div>	
+		</div>
 		<!-- //嵌套div想让它对齐的作用 -->
-		<div class="conditionNav" style="float: right;">
+		<div class="conditionNav" style="float: left;padding-top: 20px">
 		<!-- //门店下拉 -->
-		<select id="shmdm">
+		<div class="col-xs-3">
+		<select style="width: 150px" id="shmdm" class="form-control">
+		
 			<option value="-1" >--全部开卡门店</option>
 			<%
 				List<Object[]> snw1=null;
@@ -349,9 +355,11 @@ function shmsub() {
 				}
 			%>
 		</select>
+		</div>
 		
+		<div class="col-xs-3">
 		<!-- //会员等级 -->
-		<select id="shdjm">
+		<select id="shdjm" class="form-control">
 		<option value="-1" >--全部等级--</option>
 		<%
 		List<Object[]> snw2=null;
@@ -371,24 +379,31 @@ function shmsub() {
 		%>
 		
 		</select>
+		</div>
 		
+		<div class="col-xs-2">
 		<!-- //会员卡启用状态 -->
-		<select id="shqq">
+		<select id="shqq" class="form-control">
 		<option value="1" selected="selected">启用</option>
 		<option value="0">禁用</option>
 		</select>
-		
-		<input id="shminput" type="text" placeholder="卡号/姓名/电话" />
-		
-	<!-- 	//查询按钮 -->
-		<input onclick="shmsub();" type="submit" value="查询">
-		
 		</div>
-				
+		<div class="col-xs-3">
+		<input class="search-query form-control col-md-10" id="shminput" type="text" placeholder="卡号/姓名/电话" />
+		</div>
+	<!-- 	//查询按钮 -->
+	<div class="col-xs-1">
+		<input class="btn btn-primary" onclick="shmsub();" type="submit" value="查询">
+		</div>
+		</div>
+			</div>
+				</div>	
 	</div>
+	</div>
+		
 	
 	<!-- //展示表格的div -->
-	<div class="content" style="width: 100%; top: 0px;height: 500px;padding-top: 12px">
+	<div class="panel panel-default" style="width: 100%;height: 500px;padding-top: 1px">
 	     
 		<div id="shmemtable">	
 		</div>
@@ -397,6 +412,8 @@ function shmsub() {
 	
 	<!-- //下面的显示会员数和总余额 -->
 	<div  class="pageList" style="display: block;height: 50%;padding-top: 10px">
+	<div class="panel panel-default">
+		<div class="panel-footer">
 
 <%
 	List<Object[]> shklist=(List<Object[]>)request.getAttribute("nlistq");
@@ -423,6 +440,8 @@ function shmsub() {
 	<span>总积分：</span>
 	<span><input type="text" id="sjmountd3" style=" background: transparent;border: 0" /></span>
 
+</div>
+</div>
 	</div>
 	
 	<!-- //模态框的部分 -->

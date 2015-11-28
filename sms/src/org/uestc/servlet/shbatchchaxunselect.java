@@ -43,12 +43,31 @@ public class shbatchchaxunselect extends HttpServlet {
 		if("".equals(shnameofshangpin))
 		{
 		 shlist=new TableBatchServiceImp().yshbathdate(shopname, shzhuangtai, shfenlei, shgonghuoshang, currentpage);
-		 shnumsql="SELECT a.g_id,a.g_name,a.g_barcode,a.c_name,a.g_vip_price,a.su_name,a.g_flag,a.g_integral,a.s_name,b.com_name,a.s_name from goods a LEFT JOIN commission_rule b  ON a.c_id=b.com_id  where a.s_name="+"'"+ shopname +"'"+ " and a.g_flag=" + shzhuangtai + " and a.c_name= " + "'"+shfenlei +"'"+ " and a.su_name="+ "'"+shgonghuoshang +"'";
-		}
+		 
+		 if("null".equals(shgonghuoshang))
+		 {
+			 shnumsql="SELECT a.g_id,a.g_name,a.g_barcode,a.c_name,a.g_vip_price,a.su_name,a.g_flag,a.g_integral,a.s_name,b.com_name,a.s_name from goods a LEFT JOIN commission_rule b ON a.c_id=b.com_id where a.s_name="+"'"+ shopname +"'"+ " and a.g_flag=" + shzhuangtai + " and a.c_name= " + "'"+shfenlei +"'"+ " and a.su_name is null"; 
+		 
+		 }
+		 else 
+		 {
+			 shnumsql="SELECT a.g_id,a.g_name,a.g_barcode,a	.c_name,a.g_vip_price,a.su_name,a.g_flag,a.g_integral,a.s_name,b.com_name,a.s_name from goods a LEFT JOIN commission_rule b ON a.c_id=b.com_id where a.s_name="+"'"+ shopname +"'"+ " and a.g_flag=" + shzhuangtai + " and a.c_name= " + "'"+shfenlei +"'"+ " and a.su_name="+ "'"+shgonghuoshang +"'";
+		 }
+		 
+		 }
 		else {
 		shlist=shlist=new TableBatchServiceImp().mshbathdate(shopname, shzhuangtai, shfenlei, shgonghuoshang, shnameofshangpin, currentpage);	
+		
+		 if("null".equals(shgonghuoshang))
+		 {
+			 shnumsql="SELECT a.g_id,a.g_name,a.g_barcode,a.c_name,a.g_vip_price,a.su_name,a.g_flag,a.g_integral,a.s_name,b.com_name,a.s_name from goods a LEFT JOIN commission_rule b ON a.c_id=b.com_id where a.s_name="+"'"+ shopname +"'"+ " and a.g_flag=" + shzhuangtai + " and a.c_name= " + "'"+shfenlei +"'"+ " and a.su_name is null"; 
+		 
+		 }
+		 else {
+			
 		shnumsql="SELECT a.g_id,a.g_name,a.g_barcode,a.c_name,a.g_vip_price,a.su_name,a.g_flag,a.g_integral,a.s_name,b.com_name,a.s_name from goods a LEFT JOIN commission_rule b  ON a.c_id=b.com_id  where a.s_name="+"'"+ shopname +"'"+ " and a.g_flag=" + shzhuangtai + " and a.c_name= " +"'"+ shfenlei +"'" + " and a.su_name="+ "'"+shgonghuoshang +"'"+ " and a.g_barcode= " +"'"+ shnameofshangpin+"'";	
-		}
+		 }
+		 }
 		//#####################计算数量
 		List<Object[]> ppazlccm=new MemInformServiceImp().normalfinad(shnumsql);
 		int totalnum=0;
