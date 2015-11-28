@@ -273,7 +273,7 @@ function save(){
 							<label for="firstname" class="col-sm-2 control-label">商品分类</label>
 							<div class="col-sm-3">
 								<select id="c_name0" class="form-control">
-							<option value="-1"  >无</option> 
+							
 									<%
 										List<Object[]> list1 = (List<Object[]>) request.getAttribute("fenlei");
 										if (list1 != null && list1.size() != 0) {
@@ -300,7 +300,7 @@ function save(){
 							<label for="firstname" class="col-sm-2 control-label">单位</label>
 							<div class="col-sm-3">
 								<select id="g_unit" class="form-control">
-								<option value="-1" selected="selected" >无</option>
+								
 								<%
 										List<Object[]> list0 = (List<Object[]>) request.getAttribute("danwei");
 										if (list0 != null && list0.size() != 0) {
