@@ -141,13 +141,17 @@ $(function(){
 
 </tbody>
 </table>	
-	<!-- //分页的标签属性totalPage  currentPage ${currentPage} -->
+<div style="text-align: center;">
+	<!--${currentPage};${totalPage} -->
 	<input type="hidden" id="page" value="${currentPage}" />
 <ul class="pagination" id="shpageing">
 	<page:htmlPage pageNo="${currentPage}"
 		url="http://www.baidu.com"
 		totalSum="${totalPage}" showPage="10" pageSize="10" />
 </ul>
+
+</div>
+
 </div>
 
 

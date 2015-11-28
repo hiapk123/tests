@@ -109,11 +109,13 @@ public class BatchGoodsDAOImp  implements BatchGoodsDAO{
 			//这里取出的是sql的查询的顺序。类型转�?/�?定是按照查询顺序
 			batchgoods shbath=new batchgoods();
 			
+			try{
 			shbath.setG_id(Integer.parseInt(obj[0].toString()));
 			//直接对其列表赋�??
 			shbath.setG_name(obj[1].toString());//商品名称
 			shbath.setG_barcode(obj[2].toString());//条码
 			shbath.setC_name(obj[3].toString());//分类的名�?
+			}catch(NullPointerException e){}
 			try{
 			shbath.setG_vip_price(obj[4].toString());//会员优惠
 			}catch(NullPointerException e){
@@ -124,15 +126,19 @@ public class BatchGoodsDAOImp  implements BatchGoodsDAO{
 			}catch(NullPointerException e){
 				//e.printStackTrace();
 			}
+			
+			try{
 			shbath.setG_flag(Integer.parseInt(obj[6].toString()));//状�??
 			shbath.setG_integral(obj[7].toString());//积分
-			
+			}catch(NullPointerException e){}
 			try{
 				shbath.setCome_name(obj[9].toString());//提成规则
 			}catch(NullPointerException e){
 				//e.printStackTrace();
 			}
+			try{
 			shbath.setS_name(obj[8].toString());//�?属的门店名字
+			}catch(NullPointerException e){}
 			newlist.add(shbath);						
 		}
 		return newlist;
