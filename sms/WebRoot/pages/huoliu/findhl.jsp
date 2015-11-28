@@ -33,7 +33,7 @@ String type=request.getAttribute("type").toString();
 			$.post("<%=basePath%>huoliu", {
 				"which" : which,
 				"s_id" : s_id,
-				"m" : "findhl",
+				"m" : "findhl1",
 				"currentPage" : currentPage,
 				"type" :type,
 			}, function(data) {

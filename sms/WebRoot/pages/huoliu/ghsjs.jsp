@@ -319,7 +319,7 @@ function search(){
 	
 	
 	<div data-spy="scroll"
-		style="width: 100%; overflow: auto; position: relative;"
+		style="width: 100%; height: 500px; overflow: auto; position: relative;"
 		data-offset="10">
  
 <div id="findjs">
@@ -359,7 +359,7 @@ function search(){
  </div>
 	
 
-   <div id="ly" style="position: fixed; top: 480px;">
+   <div id="ly" style="position: absolute; top: 480px;">
 	
 	<button type="button" class="btn btn-success btn-lg" name="submit"
 	id="1"		onclick="querenduizhang(this)"  style="margin: 0 0 0 1100px" disabled="disabled" >确认结算</button>

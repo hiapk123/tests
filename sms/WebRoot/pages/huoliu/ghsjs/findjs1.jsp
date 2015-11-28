@@ -15,6 +15,10 @@ String type=request.getAttribute("status").toString();
  <script>
 
 		$("li a").click(function() {
+			alert(77);
+			var start=$("#start").val();
+
+			var end=$("#end").val();
 			var supplier=$("#supplier").val();
 			var which = $(this).text();
 			var s_id=$("#s_id").val();
@@ -35,7 +39,9 @@ String type=request.getAttribute("status").toString();
 				"which" : which,
 				"s_id" : s_id,
 				"supplier" : supplier,
-				"m" : "findjs",
+				"m" : "findjs1",
+				"end":end,
+				"start":start,
 				"currentPage" : currentPage,
 				"status" :status,
 			}, function(data) {
@@ -113,7 +119,7 @@ String type=request.getAttribute("status").toString();
 
 	</table>
 	</div>
-<ul class="pagination" id="page" style="position: relative; bottom: 0px;">
+<ul class="pagination" id="page" style="position: absolute; bottom: 20px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />

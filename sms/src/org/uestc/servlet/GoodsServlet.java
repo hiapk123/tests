@@ -1018,14 +1018,11 @@ System.out.println("真是路径"+TruePath);
 		String unit_id=req.getParameter("unit_id");
 		String g_unit=req.getParameter("g_unit");
 		String g_howmuch="";
-		if (g_unit.equals("无")) {
-			unit_id="0";
-		 g_howmuch="1";
-		}else{
+		
 			String sql="select g_howmuch from unit where g_unit=? and s_id=?";
 			List<Object[]>list=SqlHelper.find(sql, g_unit,s_id);
 		 g_howmuch=(String) list.get(0)[0];
-		}
+		
 		
 		try {
 			good.addgood(s_id, s_name, g_name, g_del,
