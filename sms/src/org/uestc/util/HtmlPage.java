@@ -63,7 +63,8 @@ public class HtmlPage extends Page {
 
 	public String getBackpageNum() {
 		if (variablePage.pageNo <= 1) {
-			return buildSpan("上一页", variablePage);
+			//return buildSpan("上一页", variablePage);
+			return "";
 		} else {
 			return buildA("上一页", (variablePage.url + (variablePage.pageNo - 1)));
 		}
@@ -71,7 +72,8 @@ public class HtmlPage extends Page {
 
 	public String getNextpageNum() {
 		if (variablePage.pageNo >= variablePage.totalPage) {
-			return buildSpan("下一页", variablePage);
+			//return buildSpan("下一页", variablePage);
+			return "";
 		} else {
 			return buildA("下一页", variablePage.url + (variablePage.pageNo + 1));
 		}
@@ -82,10 +84,10 @@ public class HtmlPage extends Page {
 	}
 
 	public String buildA(String text, String url) {
-		return "<li><a href=\"" + url + "\">" + text + "</a></li>";
+		return "<li><a href=\"" + url + "\" onclick=\"return false;\">" + text + "</a></li>";
 	}
 
 	public String buildA(VariablePage variablePage, int num) {
-		return ("<li><a href=\"" + variablePage.url + num + "\">" + num + "</a></li>");
+		return ("<li><a href=\"" + variablePage.url + num + "\" onclick=\"return false;\">" + num + "</a></li>");
 	}
 }
