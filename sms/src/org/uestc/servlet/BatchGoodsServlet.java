@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.uestc.serviceImp.MemInformServiceImp;
 import org.uestc.serviceImp.TableBatchServiceImp;
 
 import com.uestc.bean.batchgoods;
@@ -44,9 +45,14 @@ public class BatchGoodsServlet extends HttpServlet {
 		// 直接加入连接跳转
 		String leixing = request.getParameter("type");
 		List<batchgoods> list = new TableBatchServiceImp().showtablebatchbyinit();
-		List<batchgoods> list1 = new TableBatchServiceImp().showtablebatchbyinit1();
+		
+		//分类下拉框的绑定
+		//List<batchgoods> list1 = new TableBatchServiceImp().showtablebatchbyinit1();
+		String newsssql="select c_name from category";
+		List<Object[]> list1=new MemInformServiceImp().normalfinad(newsssql);
+		
+		
 		List<batchgoods> list2 = new TableBatchServiceImp().showtablebatchbyinit2();
-
 		// 绑定后台文本的下拉框
 		List<Object[]> list3 = new TableBatchServiceImp().shticheng();
 

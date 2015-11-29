@@ -584,7 +584,7 @@ function shmsub() {
       </div>  <!-- //主体部分的结束-->
       <div class="modal-footer">  
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-        <button onclick="shaddmem();" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>  
+        <button id="shsavebutton"  onclick="shaddmem();" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>  
       </div>  
     </div><!-- /.modal-content -->  
   </div><!-- /.modal-dialog -->  
@@ -685,6 +685,7 @@ function shmsub() {
 //编辑的模态框的触发
 function shbianji(id){
 	//alert("编辑");
+	//alert(id);
 	var shvid=id;
 	//alert(shvid);
 	//开始进行新的页面的查询并绑定列表框
@@ -694,6 +695,7 @@ function shbianji(id){
 	},function(date){
 		//alert(date)
 		//先进行绑定
+		$("#ldfucl").empty();
 		$("#ldfucl").append(date);
 		$("#shyhbj").click();
 		
@@ -768,15 +770,19 @@ function shaddmem()
 	if(v_card_no=="")
 		{
 		alert("请填写会员编号");
+		
 		}
 	else if (vip_name=="") {
 		alert("填写会员姓名");	
+	
 	}
 	else if (sshhydj=="-1") {
 		alert("请选择会员等级");
+		
 	}
 	else if (shlxdh=="") {
 		alert("请填写会员电话");
+	
 	}
 	else
 		{
@@ -788,6 +794,7 @@ function shaddmem()
 			"shyouxiang":shyouxiang,"shdizhi":shdizhi,"shbeizhu":shbeizhu},
 				function(data)
 				{
+			//document.getElementById("shsavebutton").disabled ="";
 			//alert("页面添加成功");
 			//alert(data)
 			$("#shmemtable").empty();

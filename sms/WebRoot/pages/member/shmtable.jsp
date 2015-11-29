@@ -107,6 +107,7 @@ $(function(){
 %>	
 </tbody>
 </table>
+<div style="text-align: center;">
 	<!-- //分页的标签属性 -->
 	<input type="hidden" id="page" value="${currentPage}" />
 <ul class="pagination" id="shaomempaging">
@@ -114,6 +115,8 @@ $(function(){
 		url="http://www.baidu.com"
 		totalSum="${totalPage}" showPage="10" pageSize="10" />
 </ul>
+
+</div>
 <%
  int kknum1=(int)request.getAttribute("shshoenum");
 int kknum2=(int)request.getAttribute("shshoeyue");

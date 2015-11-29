@@ -948,16 +948,15 @@ $(function(){
 		<select id="shfenlei" class="form-control" >
 		<!-- <option value="-1"  disabled="disabled">全部分类</option> -->
 		<%
-		List<batchgoods> shselect1=null;
-		shselect1=(List<batchgoods>)request.getAttribute("list1");
-		
-			if(shselect1!=null&&shselect1.size()!=0){
+		List<Object[]> shselect1=null;
+		shselect1=(List<Object[]>)request.getAttribute("list1");		
+		if(shselect1!=null&&shselect1.size()!=0){
 				
-				for(batchgoods obj:shselect1){
+				for(Object[] obj:shselect1){
 			
 		%>
 		<!--这里还是要进行绑定  -->
-		<option value="<%= obj.getC_name() %>"><%=obj.getC_name() %></option>
+		<option value="<%= obj[0] %>"><%=obj[0] %></option>
 		
 		<%
 				}
@@ -1198,9 +1197,9 @@ $(function(){
         <%
  	if(shselect1!=null&&shselect1.size()!=0){
 		
-		for(batchgoods obj:shselect1){
+		for(Object[] obj:shselect1){
      %>
-     <option value="<%=obj.getC_name()%>"> <%=obj.getC_name() %></option>
+     <option value="<%=obj[0]%>"> <%=obj[0] %></option>
   <%
 		}
  	}
