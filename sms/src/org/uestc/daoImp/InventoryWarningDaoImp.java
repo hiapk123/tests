@@ -192,7 +192,7 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 				} else {
 					// 0 0 0
 					if (inventoryStatus.equals("库存不足")) {
-						sql = "select count(*) from goods where CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL) s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
+						sql = "select count(*) from goods where CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL) and s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
 					} else if (inventoryStatus.equals("库存过剩")) {
 						sql = "select count(*) from goods where CAST(g_stock_num AS DECIMAL)>=CAST(g_stock_max AS DECIMAL) and s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
 					} else {
