@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.uestc.service.UserService;
@@ -35,15 +36,17 @@ public class UserServlet extends BaseServlet {
 		 */
 		String loginname = request.getParameter("loginname");
 		String loginpass = request.getParameter("loginpass");
+		String verifyCode = request.getParameter("verifyCode");
 
 		Users formUser = new Users();
 		formUser.setUName(loginname);
 		formUser.setUPassword(loginpass);
+		formUser.setVerifyCode(verifyCode);
 
 		/*
 		 * 2.校验表单数据
 		 */
-		Map<String, String> errors = validateLogin(formUser);
+		Map<String, String> errors = validateLogin(formUser, request.getSession());
 		if (errors.size() > 0) {
 			request.setAttribute("errors", errors);
 			request.setAttribute("formUser", formUser);
@@ -73,7 +76,7 @@ public class UserServlet extends BaseServlet {
 		}
 	}
 
-	private Map<String, String> validateLogin(Users formUser) {
+	private Map<String, String> validateLogin(Users formUser, HttpSession session) {
 
 		Map<String, String> errors = new HashMap<String, String>();
 
@@ -95,6 +98,18 @@ public class UserServlet extends BaseServlet {
 		} else if (loginpass.length() < 3 || loginpass.length() > 20) {
 			errors.put("loginpass", "密码长度必须在3~20之间");
 		}
+		
+		/*
+		 * 验证码校验
+		 */
+		String verifyCode = formUser.getVerifyCode();
+		String vcode = (String) session.getAttribute("vCode");
+		if (verifyCode == null || verifyCode.trim().isEmpty()) {
+			errors.put("verifyCode", "验证码不能为空");
+		} else if (!verifyCode.equalsIgnoreCase(vcode)) {
+			errors.put("verifyCode", "验证码错误");
+		}
+		
 		return errors;
 	}
 

@@ -143,7 +143,7 @@
 									class="glyphicon glyphicon-lock red"></i></span> <input
 									type="text" class="form-control" placeholder="验证码" 
 									style="width:40%;"
-									name="verifyCode" id="verifyCode" value="${formUser.VerifyCode }">
+									name="verifyCode" id="verifyCode" value="${formUser.verifyCode }">
 								<img id="img" style="width:20%;" alt="验证码图片" src="<c:url value='/VerifyCodeServlet' />">
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<a href="javascript:_hyz()">换一张</a>
