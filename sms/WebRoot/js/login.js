@@ -36,6 +36,9 @@ $(document).ready(
 				if (!validateLoginpass()) {
 					bool = false;
 				}
+				if (!validateVerifyCode()) {
+					bool = false;
+				}
 				return bool;
 			});
 		});
@@ -79,6 +82,43 @@ function validateLoginpass() {
 		showError($("#" + id + "Error"));
 		return false;
 	}
+	return true;
+}
+
+/*
+ * 校验验证码方法
+ */
+function validateVerifyCode() {
+	var id = "verifyCode";
+	var value = $("#" + id).val();
+	if (!value) {
+		$("#" + id + "Error").text("验证码不能为空！");
+		showError($("#" + id + "Error"));
+		return false; // 此处的return语句起停顿作用，不然值为空也满足下面的<3的条件，将覆盖这个条件
+	}
+	if (value.length != 4) {
+		$("#" + id + "Error").text("验证码错误！");
+		showError($("#" + id + "Error"));
+		return false;
+	}
+	
+	// 验证码是否正确
+	$.ajax({
+		url: "/sms/UserServlet",
+		data: {method: "ajaxValidateVerifyCode", verifyCode: value},
+		type: "POST",
+		dataType: "json",
+		asyn: false,
+		cache: false,
+		success: function(result) {
+			if (!result) {
+				$("#" + id + "Error").text("验证码错误！");
+				showError($("#" + id + "Error"));
+				return false;
+			}
+		}
+	});
+	
 	return true;
 }
 

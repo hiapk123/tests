@@ -200,5 +200,14 @@ public class UserServlet extends BaseServlet {
 		response.getWriter().print(b);
 		return null;
 	}
+	
+	public String ajaxValidateVerifyCode(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String verifyCode = request.getParameter("verifyCode");
+		String vCode = (String) request.getSession().getAttribute("vCode");
+		boolean b = verifyCode.equalsIgnoreCase(vCode);
+		response.getWriter().print(b);
+		return null;
+	}
 }
 

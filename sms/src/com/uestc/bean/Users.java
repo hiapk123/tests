@@ -26,7 +26,16 @@ public class Users implements java.io.Serializable {
 	// ------------新加字段UPassword------------
 	private String UPassword;
 	private String Reloginpass;
+	private String VerifyCode;
 	
+	public String getVerifyCode() {
+		return VerifyCode;
+	}
+
+	public void setVerifyCode(String verifyCode) {
+		VerifyCode = verifyCode;
+	}
+
 	public String getReloginpass() {
 		return Reloginpass;
 	}

@@ -136,6 +136,23 @@
 									id="loginpassError">${errors.loginpass }</label>
 							</div>
 							<div class="clearfix"></div>
+							<br>
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon"><i
+									class="glyphicon glyphicon-lock red"></i></span> <input
+									type="text" class="form-control" placeholder="验证码" 
+									style="width:40%;"
+									name="verifyCode" id="verifyCode" value="${formUser.VerifyCode }">
+								<img id="img" style="width:20%;" alt="验证码图片" src="<c:url value='/VerifyCodeServlet' />">
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<a href="javascript:_hyz()">换一张</a>
+							</div>
+							<div>
+								<label for="verifyCode" style="color: #f40000" class="errorClass"
+									id="verifyCodeError">${errors.verifyCode }</label>
+							</div>
+							<div class="clearfix"></div>
 
 							<div class="input-prepend">
 								<label class="remember" for="remember"><input
@@ -172,4 +189,10 @@
 
 
 </body>
+<script type="text/javascript">
+	function _hyz() {
+		var img = document.getElementById("img");
+		img.src = "<c:url value='/VerifyCodeServlet?a='/>" + new Date().getTime();
+	}
+</script>
 </html>
