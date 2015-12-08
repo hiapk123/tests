@@ -28,7 +28,7 @@ public class HtmlPage extends Page {
 								index$No = 1;
 							for (int i = index$No; i < (variablePage.showPageNum + index$No); i++) {
 								if (i == variablePage.pageNo) {// 如果是当前页:不添加连接URL
-									printNo +="<li><a>"+ (i + variablePage.split)+"</a></li>";
+									printNo +="<li><a><font color=\"red\">"+ (i + variablePage.split)+"</font></a></li>";
 								} else {
 									printNo += (buildA(variablePage, i) + variablePage.split);
 								}
@@ -43,7 +43,7 @@ public class HtmlPage extends Page {
 						int index$No = variablePage.pageNo - print$No + 1;
 						for (int i = index$No; i < variablePage.showPageNum + index$No; i++) {
 							if (i == variablePage.pageNo) {// 如果是当前页:不添加连接URL
-								printNo +="<li><a>"+ (i + variablePage.split)+"</a></li>";
+								printNo +="<li><a><font color=\"red\">"+ (i + variablePage.split)+"</font></a></li>";
 							} else {
 								printNo += (buildA(variablePage, i) + variablePage.split);
 							}

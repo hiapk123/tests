@@ -73,7 +73,7 @@ public abstract class Page {
 		StringBuffer buffer = new StringBuffer(100);
 		for (int i = 1; i <= variablePage.showPageNum; i++) {
 			if (i == variablePage.pageNo) {// 如果是当前页:不添加连接URL
-				buffer.append("<li><a>"+i + variablePage.split+"</a></li>");
+				buffer.append("<li><a><font color=\"red\">"+i + variablePage.split+"</font></a></li>");
 			} else {
 				buffer.append(buildA(variablePage, i) + variablePage.split);
 			}
@@ -92,7 +92,7 @@ public abstract class Page {
 		for (int i = startPage; i <= variablePage.totalPage; i++) {
 			if (i == variablePage.pageNo) {// 如果是当前页:不添加连接URL
 				//buffer.append(i + variablePage.split);
-				buffer.append("<li><a>"+i + variablePage.split+"</a></li>");
+				buffer.append("<li><a><font color=\"red\">"+i + variablePage.split+"</font></a></li>");
 			} else {
 				buffer.append(buildA(variablePage, i) + variablePage.split);
 			}
