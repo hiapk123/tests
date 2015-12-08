@@ -283,6 +283,9 @@ $(document).ready(function(){
 
 //页面查询的按钮。
 function shmsub() {
+	//进行表单验证：
+	//var mems=document.memkkk.memshtextx.value;
+	//alert(mems);
 	//alert("点击提交");//在后台进行sql的值传递进行判断
 	var mshopname=$("#shmdm").val(); 
 	var mshopdj=$("#shdjm").val();
@@ -333,6 +336,7 @@ function shmsub() {
 		<div class="col-xs-2"><a href="#" onclick="sqclick3();" id="shlpldc">批量导出</a></div>	
 		</div>
 		<!-- //嵌套div想让它对齐的作用 -->
+		<form name="memkkk">
 		<div class="conditionNav" style="float: left;padding-top: 20px">
 		<!-- //门店下拉 -->
 		<div class="col-xs-3">
@@ -389,13 +393,15 @@ function shmsub() {
 		</select>
 		</div>
 		<div class="col-xs-3">
-		<input class="search-query form-control col-md-10" id="shminput" type="text" placeholder="卡号/姓名/电话" />
+		<input name="memshtextx" class="search-query form-control col-md-10" id="shminput" type="text" placeholder="卡号/姓名/电话" />
 		</div>
 	<!-- 	//查询按钮 -->
 	<div class="col-xs-1">
 		<input class="btn btn-primary" onclick="shmsub();" type="submit" value="查询">
 		</div>
 		</div>
+		</form>
+		<!-- //新增 -->
 			</div>
 				</div>	
 	</div>
@@ -403,7 +409,7 @@ function shmsub() {
 		
 	
 	<!-- //展示表格的div -->
-	<div class="panel panel-default" style="width: 100%;height: 500px;padding-top: 1px">
+	<div class="panel panel-default" style="width: 100%;height: 537px;padding-top: 1px">
 	     
 		<div id="shmemtable">	
 		</div>
@@ -433,12 +439,12 @@ function shmsub() {
 	}
 			
 %>
-	<span>会员数：</span>
-	<span><input type="text" id="sjmountd1" style=" background: transparent;border: 0"  /></span>
-	<span>总余额：</span>
-	<span><input type="text" id="sjmountd2" style=" background: transparent;border: 0" /></span>
-	<span>总积分：</span>
-	<span><input type="text" id="sjmountd3" style=" background: transparent;border: 0" /></span>
+	<span><font size="3px" style="text-align: center;">会员数：</font></span>
+	<span><input size="3px" type="text" id="sjmountd1" style="text-align:center; background: transparent;border: 0"  /></span>
+	<span><font  size="3px" style="text-align: center;">总余额：</font></span>
+	<span><input size="3px" type="text" id="sjmountd2" style=" text-align:center;background: transparent;border: 0" /></span>
+	<span><font size="3px" style="text-align: center;">总积分：</font></span>
+	<span><input size="3px" type="text" id="sjmountd3" style=" text-align:center; background: transparent;border: 0" /></span>
 
 </div>
 </div>

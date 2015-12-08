@@ -6,7 +6,11 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<table class="table table-bordered" name="numgettable">
+<head>
+   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <script src="/scripts/jquery.min.js"></script>
+   <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
 <script>
 //额外加入分页的标签
 $(function(){
@@ -60,18 +64,20 @@ $(function(){
 });
 
 </script>
+<div class="panel panel-default" id="shgettable" >
+<table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" name="numgettable">
 <thead>
 	<tr>
-		<th>会员序号</th>
-		<th>操作</th>
-		<th>会员号</th>
-		<th>姓名</th>
-		<th>电话</th>
-		<th>会员等级</th>
-		<th>余额</th>
-		<th>积分</th>
-		<th>开卡门店</th>
-		<th>开卡时间</th>
+		<th style="text-align: center;"><font size="3px">会员序号</font></th>
+		<th><font style="text-align: center;" size="3px">操作</font></th>
+		<th><font style="text-align: center;" size="3px">会员号</font></th>
+		<th><font style="text-align: center;" size="3px">姓名</font></th>
+		<th><font style="text-align: center;" size="3px">电话号码</font></th>
+		<th><font style="text-align: center;" size="3px">会员等级</font></th>
+		<th><font style="text-align: center;" size="3px">余额</font></th>
+		<th><font style="text-align: center;" size="3px">积分</font></th>
+		<th><font style="text-align: center;" size="3px">开卡门店</font></th>
+		<th><font style="text-align: center;"  size="3px">开卡时间</font></th>
 	</tr>
 </thead>
 <tbody>
@@ -86,20 +92,20 @@ $(function(){
 	
 %>
 		<tr>
-		<td><%=shnumxh %></td>
-		<td>
-		<a class="<%=al[0] %>" onclick="shbianji(<%=al[0] %>);" id="shmedit">编辑</a>
+		<td style="text-align: center;"><font size="3px"><%=shnumxh %></font></td>
+		<td style="text-align: center;">
+		<a class="<%=al[0] %>"  onclick="shbianji(<%=al[0] %>);" id="shmedit"><font size="3px">编辑</font></a>
 		<!-- //设置一个隐藏按钮的值 -->
 		<input id="shycan" type="hidden" value="<%=al[0]%>">
 		</td>
-		<td><%=al[1]%></td>
-		<td><%=al[2]%></td>
-		<td><%=al[3]%></td>
-		<td><%=al[4]%></td>
-		<td><%=al[5] %></td>
-		<td><%=al[6] %></td>
-		<td><%=al[7] %></td>
-		<td><%=al[8] %></td>
+		<td style="text-align: center;"><font size="3px"><%=al[1]%></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[2]%></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[3]%></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[4]%></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[5] %></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[6] %></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[7] %></font></td>
+		<td style="text-align: center;"><font size="3px"><%=al[8] %></font></td>
 		</tr>
 <% 
 	}
@@ -107,6 +113,7 @@ $(function(){
 %>	
 </tbody>
 </table>
+</div>
 <div style="text-align: center;">
 	<!-- //分页的标签属性 -->
 	<input type="hidden" id="page" value="${currentPage}" />

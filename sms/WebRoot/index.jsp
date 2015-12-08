@@ -201,8 +201,20 @@
 			$('iframe').attr('src','<%=basePath %>EmpleeDateInform?type=init');
 		});
 		
-		
-		/****************************************************************************/
+		//*******************************
+		//交接班记录
+		$('#jjbjl').click(function(){
+			$('iframe').attr('src','<%=basePath %>shmem_jiaojieban?type=init');
+		});
+		//********************************
+		//会员购买查询
+		$('#hygmjl').click(function(){
+			$('iframe').attr('src','<%=basePath %>shbuychaxun?type=init');
+		});
+		//充值明细
+		$('#czmx').click(function(){
+			$('iframe').attr('src','<%=basePath %>moneydetails?type=init');
+		});
 		/*管理员审核*/
 		$('#auditOrder').click(function(){
 			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?method=initLoad');
