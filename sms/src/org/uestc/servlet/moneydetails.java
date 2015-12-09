@@ -1,11 +1,15 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.uestc.serviceImp.MemInformServiceImp;
 
 /**
  * Servlet implementation class moneydetails
@@ -25,9 +29,12 @@ public class moneydetails extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		System.out.println("充值明细servlet");
+		String sql1="select s_name from store";
+		List<Object[]> list1=new MemInformServiceImp().normalfinad(sql1);
+		request.setAttribute("shdetails", list1);
+		//绑定支付方式
 		request.getRequestDispatcher("/pages/member/shchongzhidetails.jsp").forward(request,response);
 	}
 

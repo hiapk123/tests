@@ -129,7 +129,7 @@ a {
 //进行下拉查询的操作
 function shselectchange()
 {
-	alert("下拉框进行刷新");
+	//alert("下拉框进行刷新");
 	
 }
 </script>

@@ -125,6 +125,85 @@ a {
 }
 </style>
 </head>
+<script type="text/javascript">
+function sh_memmoneyclick()
+{
+	alert("submit");
+	var shopname =$("#sh_shopname").val();
+	var time11=$("#sstartime").val();
+	var time22=$("#ssendtime").val();
+	var v_type=$("#shzhifufangshi").val();
+	//alert(shopname);
+	//alert(time1);
+	//alert(time2);
+	//alert(v_type);
+	
+	//1.对时间进行表单验证
+	var d11 = new Date(time11.replace(/\-/g, "\/"));  
+	var d22 = new Date(time22.replace(/\-/g, "\/"));  
+	if(d11>d22)
+		{
+		alert("开始时间不能大于结束时间");
+		return false;
+		}
+	else{
+		//进行表单的查询提交
+		$.post("<%=basePath%>shdetailsbath",{
+			"type":"init",
+			"shopname":shopname,
+			"sh_stime":time11,
+			"sh_etime":time22,
+			"sh_fangshi":v_type	
+		},function(date){
+			alert(date);
+			//可以直接实现页面的绑定
+			$("#sh_moneytable").empty();
+			$("#sh_moneytable").append(date);
+			
+		},"html");
+		
+		
+		//结束
+	}
+	
+}
+
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//alert("初始化");
+	//初始化绑定时间列表
+	var t=document.getElementsByName("kkendTime");
+	var d=new Date(); 
+	t.value=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes(); 
+	var s=t.value;
+	//alert(s);
+	$("#sstartime").val(s);
+	$("#ssendtime").val(s);
+	//获取数据
+	var shopname=$("#sh_shopname").val();
+	var sh_stime=$("#sstartime").val();
+	var sh_etime=$("#ssendtime").val();
+	var sh_fangshi=$("#shzhifufangshi").val();
+
+	//初始化页面提交
+	$.post("<%=basePath%>shdetailsbath",{
+		"type":"init",
+		"shopname":shopname,
+		"sh_stime":sh_stime,
+		"sh_etime":sh_etime,
+		"sh_fangshi":sh_fangshi	
+	},function(date){
+		
+		//可以直接实现页面的绑定
+		$("#sh_moneytable").empty();
+		$("#sh_moneytable").append(date);
+		
+	},"html")
+	
+	//alert($("#shzhifufangshi").val());
+});
+</script>
 <body>
 	<!-- 表头部分 -->
   <div class="conditionNav">
@@ -133,16 +212,30 @@ a {
 			<div class="row">
 			<!--   下拉框开始 -->
 					<div class="col-xs-2">
-						<select id="" class="form-control" >
-							<option>悠食客2店</option>
+						<select id="sh_shopname" class="form-control" >
+						<%
+						List<Object[]> dlist=(List<Object[]>)request.getAttribute("shdetails");
+						if(dlist!=null&&dlist.size()!=0)
+						{
+							for(Object[] obj:dlist)
+							{
+								
+						
+						%>
+							<option value="<%=obj[0]%>"><%=obj[0] %></option>
+						<% 
+	}
+							
+						}
+						%>	
 						</select>
 					</div>
 				<!-- 	第一个日期插件 -->
-		<div class="col-xs-2">
+		<div class="col-xs-3">
 			<div class="input-group date form_datetime" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input name="endTime" class="form-control" size="16" type="text"
+						<input  id="sstartime" name="kkendTime" class="form-control" size="16" type="text"
 							value="" readonly> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
@@ -153,11 +246,11 @@ a {
 		</div>
 		<div style="float: left"><font size="5">至</font></div>
 			<!-- 显示第二个下拉框 -->
-			<div class="col-xs-2">
+			<div class="col-xs-3">
 			<div class="input-group date form_datetime" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input name="endTime" class="form-control" size="16" type="text"
+						<input id="ssendtime" name="kkendTime" class="form-control" size="16" type="text"
 							value="" readonly> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
@@ -167,20 +260,16 @@ a {
 				<input type="hidden" id="dtp_input1" value="" />
 		</div>
 		
-			<div class="col-xs-2">
-						<select id="" class="form-control" >
-							<option>充值类型</option>
-						</select>
-					</div>
-		
 		<div class="col-xs-2">
-						<select id="" class="form-control" >
-							<option>支付方式</option>
+						<select id="shzhifufangshi" class="form-control" >
+							<option value="1">现金</option>
+							<option value="2">银联卡</option>
+							<option value="3">在线</option>
 						</select>
 					</div>
 					
 		<div class="col-xs-1">
-		<input type="button" value="查询" id="" class="btn btn-primary" onclick="" />
+		<input type="button" value="查询" id="" class="btn btn-primary" onclick="sh_memmoneyclick();" />
 		</div>
 		<!-- 	下拉框结束 -->
 			  </div>
@@ -191,7 +280,7 @@ a {
 <!-- 	显示表格的部分	 -->
 	<div class="panel panel-default" id="" >
 		<!--start  -->
-		<div id="" style="height: 535px"></div>
+		<div id="sh_moneytable" style="height: 535px"></div>
 		<!-- end -->
 	</div>
 </body>

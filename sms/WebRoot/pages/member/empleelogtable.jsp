@@ -11,7 +11,8 @@
 
 
 <!-- 分页头部引用 -->
-<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page" %>
+<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+
 <table class="table table-bordered" >
 <thead>
 	<tr>
@@ -29,7 +30,7 @@
 	<tbody>
 	<% 
 	List<Object[]> showloglist=(List<Object[]>)request.getAttribute("longlist3");
-	if(showloglist!=null&showloglist.size()!=0)
+	if(showloglist!=null&&showloglist.size()!=0)
 	{
 		for(Object[] obj:showloglist)
 		{
