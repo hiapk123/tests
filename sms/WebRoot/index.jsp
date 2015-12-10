@@ -136,7 +136,8 @@
 		//ly
 		/* start */
 		$('#spzl').click(function(){
-			$('iframe').attr('src','<%=basePath %>goods?m=goodsInfo&s_id=1&g_del=1');
+			$('iframe').attr('src','<%=basePath %>goods?m=goodsInfo&s_id=1&g_del=1'
+					);
 			
 		});  
 		$('#ghs').click(function(){

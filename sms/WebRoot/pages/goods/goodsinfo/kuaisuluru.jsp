@@ -60,6 +60,8 @@ function tijiao(){
     	return;
     }
 	
+    
+    
 	$.post("<%=basePath%>goods", {
 		"m" : "kuaisu1",
 		"s_id" : s_id,

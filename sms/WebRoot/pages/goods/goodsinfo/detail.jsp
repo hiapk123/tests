@@ -94,6 +94,7 @@ String [] good=new String[Good.length];
 for(int i=0;i<Good.length;i++){
 	good[i]=Good[i].trim();
 	if(good[i].equals("null")) good[i]="";
+	
 }
 
 System.out.println(good.length+"ssss"+good[8]);

@@ -45,6 +45,7 @@ function edit1(){
 		$("#motai2").append(data);
 	}, "html");
 }
+
 function detail1(node){
 	 var list=$("#list").val();
 	var s_id=$("#s_id").val();

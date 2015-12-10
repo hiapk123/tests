@@ -83,6 +83,8 @@ $("#g_barcode").val(randomno);
 </div> 
   
   
+  
+  
 		<input type="hidden" value="<%=s_id%>" >
 					<input id="status" type="hidden" name="message" value="${message}">
 					<center>

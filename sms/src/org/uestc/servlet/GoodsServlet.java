@@ -340,9 +340,12 @@ public class GoodsServlet extends HttpServlet {
 			List<Object[]> fenlei = SqlHelper.find(sql2, s_id);
 			req.setAttribute("fenlei", fenlei);*/
 	    
+	     
 	       
 			goodsInfo(req, resp);
 			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);	
+			
+			
 			
 	} 
 	/***

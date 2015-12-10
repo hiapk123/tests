@@ -83,6 +83,7 @@ public class GoodsServiceImp implements GoodsService {
 				"","","","","","","0","",
 				"","","","1",c_id});
 
+
 	}
 
 	@Override

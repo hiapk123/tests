@@ -526,6 +526,8 @@ String method=application.getAttribute("method").toString();
 
 </html>
 
+
+
 <!-- 模态框  新增（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
    aria-labelledby="myModalLabel" aria-hidden="true" >
