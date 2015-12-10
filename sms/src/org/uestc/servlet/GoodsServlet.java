@@ -333,13 +333,15 @@ public class GoodsServlet extends HttpServlet {
 				}
 			}	
 	     good.kuaisuluru(Integer.valueOf(s_id), g_barcode, g_name, c_name, g_pur_price, g_sale_price, g_stock_num,c_id,s_name);
-	 	HttpSession session = req.getSession();
+	 	/*HttpSession session = req.getSession();
 	     List<Object[]> storeList = good.findStoreByUserID(Integer.valueOf(session.getAttribute("uid").toString()));
 		req.setAttribute("storeList", storeList);
 		 String sql2="select c_id,c_name from category where s_id=? ";
 			List<Object[]> fenlei = SqlHelper.find(sql2, s_id);
-			req.setAttribute("fenlei", fenlei);
-			
+			req.setAttribute("fenlei", fenlei);*/
+	    
+	       
+			goodsInfo(req, resp);
 			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);	
 			
 	} 
@@ -417,7 +419,9 @@ public class GoodsServlet extends HttpServlet {
 		// TODO Auto-generated method stub
         String s_id = req.getParameter("s_id");
         String s_name = req.getParameter("s_name");
-		
+        String sql2="select c_id,c_name from category ";
+		List<Object[]> fenlei = SqlHelper.find(sql2);
+		req.setAttribute("fenlei", fenlei);
         req.setAttribute("s_name", s_name);
 		req.setAttribute("s_id", s_id);
 		
@@ -431,8 +435,8 @@ public class GoodsServlet extends HttpServlet {
 	private void toExcel(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		String s_id = req.getParameter("s_id");
-		
-		List<Object[]> list = good.toExcel(Integer.valueOf(s_id));
+		String c_id = req.getParameter("c_name");
+		List<Object[]> list = good.toExcel(Integer.valueOf(s_id),Integer.valueOf(c_id));
 		req.setAttribute("goodsList", list);
 		req.setAttribute("s_id", s_id);
 	}
@@ -1176,6 +1180,9 @@ System.out.println("真是路径"+TruePath);
 		String c_name = req.getParameter("c_name");
 		if(c_name==null){
 			c_name="未分类";
+		}
+		if(g_del==null){
+			g_del="1";
 		}
 		if(key==null){
 			key="";

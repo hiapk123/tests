@@ -187,13 +187,13 @@ public class GoodsServiceImp implements GoodsService {
 
 
 	@Override
-	public List<Object[]> toExcel(int s_id) {
+	public List<Object[]> toExcel(int s_id, int c_id) {
 		// TODO Auto-generated method stub
 		String sql = "SELECT g_name,c_name,g_barcode,g_stock_num,g_pur_price,g_sale_price,"
 				+ "g_trade_price,g_vip_price,g_integral,vip_id,"
 				+ "g_stock_max,g_stock_min,su_name,g_prod_date,g_giq,g_pm,zdy1,zdy2,zdy3,zdy4,"
-				+ "g_del,g_info from goods where s_id=? ";
-		List<Object[]> list = SqlHelper.find(sql, s_id);
+				+ "g_del,g_info from goods where s_id=? and c_id=?";
+		List<Object[]> list = SqlHelper.find(sql, s_id,c_id);
 		return list;
 	}
 
