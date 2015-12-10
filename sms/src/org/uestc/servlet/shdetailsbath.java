@@ -1,6 +1,8 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
@@ -45,6 +49,18 @@ public class shdetailsbath extends HttpServlet {
 		String sh_stime=rq.getParameter("sh_stime").toString();
 		String sh_etime=rq.getParameter("sh_etime").toString();
 		String sh_fangshi=rq.getParameter("sh_fangshi").toString();
+		try {
+			sh_stime=StrToDate(sh_stime);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sh_etime=StrToDate(sh_etime);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//查询并返回数据
 		//1.获取充值门店id
 		String sqle="select s_id from store where s_name="+"'"+shopname+"'";
@@ -61,6 +77,18 @@ public class shdetailsbath extends HttpServlet {
 		rq.setAttribute("detailslist", detailslist);
 		rq.getRequestDispatcher("/pages/member/shmoneydetailsbath.jsp").forward(rq, rs);
 		
+	}
+	//编写字符串转化为毫秒级
+	private String StrToDate(String str) throws java.text.ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "" + date.getTime();
 	}
 	
 

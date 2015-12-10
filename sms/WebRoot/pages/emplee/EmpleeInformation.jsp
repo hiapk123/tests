@@ -236,12 +236,18 @@ function addempleer(){
 </script>
 <body>
 	<!-- //会员按钮和资料 -->
+	<div class="panel panel-default">
+	<div class="panel-footer">
+	
 	<div class="conditionNav">
+
 		<!-- //左边的button按钮 -->
-		<input onclick="addempleer();" type="button" value="新增收银员">
+		<input class="btn btn-primary" onclick="addempleer();" type="button" value="新增收银员">
 		<!-- //右边的显示部分  -->
 		<div class="conditionNav" style="float: right;">
-			<select id="shmemstore">
+		<div class="row">
+			<div class="col-xs-3" >
+			<select style="width: 122px" id="shmemstore" class="form-control">
 				<%
 					List<Object[]> listf = null;
 					List<Object[]> listg = null;
@@ -255,13 +261,27 @@ function addempleer(){
 					}
 					}
 				%>
-			</select> <select id="shmemstate">
+			</select> 
+			</div>
+			<div class="col-xs-3" >
+			<select class="form-control" id="shmemstate">
 				<option value="0" selected="selected">启用</option>
 				<option value="1">禁用</option>
-			</select> <input id="shcheckbox" type="text" placeholder="卡号/姓名/电话" /> <input
-				onclick="shcheckbutton();" type="button" value="查询">
+			</select> 
+			</div>
+			<div class="col-xs-4">
+			<input class="search-query form-control col-md-10" id="shcheckbox" type="text" placeholder="卡号/姓名/电话" /> 
+			</div>	
+			<div class="col-xs-1">
+			<input class="btn btn-primary" onclick="shcheckbutton();" type="button" value="查询">
+			</div>
+			</div>
+		<!-- end -->
 		</div>
 	</div>
+	
+</div>
+</div>
 
 	<div style="overflow-y: scoll;height:50px" >
 		<!-- //这里是所列的表格 -->

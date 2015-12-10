@@ -197,8 +197,7 @@ function  shlogsubmit() {
 		$("#shshshoewtabled").empty();
 		$("#shshshoewtabled").append(date);
 	},"html");
-	
-	
+		
 }
 </script>
 <body>
@@ -219,8 +218,7 @@ function  shlogsubmit() {
 				for(Object[] obj:logmem)
 				{
 					
-			
-			
+
 			%>
 			<option value=<%= obj[0] %>><%=obj[0] %></option>
 			<%

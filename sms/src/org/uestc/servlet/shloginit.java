@@ -1,6 +1,8 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import com.uestc.bean.meminform;
 
 @WebServlet(urlPatterns="/shloginit",name="shloginitServlet")
@@ -31,6 +34,19 @@ public class shloginit extends HttpServlet {
 		String lonname=request.getParameter("lonname").toString();
 		String timestart=request.getParameter("timestart").toString();
 		String timeend=request.getParameter("timeend").toString();
+		//将时间进行处理
+		try {
+			timestart=StrToDate(timestart);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			timeend=StrToDate(timeend);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//查询所属的门店名对应的Id号码
 		String sql1="select s_id from store where s_name="+"'"+lonname+"'";
 		List<Object[]> longlist1=new MemInformServiceImp().normalfinad(sql1);
@@ -48,5 +64,19 @@ public class shloginit extends HttpServlet {
 		request.getRequestDispatcher("/pages/member/empleelogtable.jsp").forward(request, response);
 		
 	}
+	
+	//编写字符串的转化类
+	private String StrToDate(String str) throws java.text.ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date =format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "" + date.getTime();
+	}
+
 
 }

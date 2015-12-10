@@ -304,7 +304,15 @@ function addgrace()
 </script>
 <body>
 	<div class="conditionNav">
-		<input onclick="addgrace();" type="button" value="新增等级">
+		<div class="panel panel-default">
+			<div class="panel-footer">
+				<div class="row">
+			<div class="col-xs-2">	
+		<input class="btn btn-primary" onclick="addgrace();" type="button" value="新增等级">
+				</div>
+				</div>
+		</div>
+			</div>
 	</div>
 		<div>
 		<!-- //这里是所列的表格 -->

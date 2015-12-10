@@ -1,6 +1,8 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 /**
  * Servlet implementation class shempleelogquery
@@ -30,6 +34,18 @@ public class shempleelogquery extends HttpServlet {
 		String shshopname=request.getParameter("shshopname").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();
+		try {
+			time1=StrToDate(time1);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			time2=StrToDate(time2);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//查询所属的门店名对应的Id号码
 		String sql1="select s_id from store where s_name="+"'"+shshopname+"'";
 		List<Object[]> longlist1=new MemInformServiceImp().normalfinad(sql1);
@@ -47,6 +63,20 @@ public class shempleelogquery extends HttpServlet {
 		request.getRequestDispatcher("/pages/member/empleelogtable.jsp").forward(request, response);
 		
 	//---end---
+	}
+	
+	
+	//将时间转化为毫秒级
+	private String StrToDate(String str) throws java.text.ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date =format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "" + date.getTime();
 	}
 
 }

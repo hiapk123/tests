@@ -160,10 +160,16 @@ $(document).ready(function(){
 </script>
 <body>
 <div>
+
 <div class="conditionNav" style="clear:both; margin-top : 0px">
 		<!-- //右边的显示部分  -->
-		<div class="conditionNav" style="float: right;">
-			<select id="shempperformtstore">
+		<!-- <div class="conditionNav" style="float: right;"> -->
+		
+		<div class="panel panel-default">
+		<div class="panel-footer">
+			<div class="row">
+			<div class="span3" style="float: left;">
+			<select class="form-control" id="shempperformtstore">
 			<%
 			List<Object[]> shparameter1=(List<Object[]>)request.getAttribute("shperformstore");
 			if(shparameter1.size()!=0&&shparameter1!=null)
@@ -180,8 +186,9 @@ $(document).ready(function(){
 			
 			%>
 			</select> 
-			
-			<select id="shempperformemplee">
+		</div>
+		<div class="span3" style="float: left;">
+			<select class="form-control" id="shempperformemplee">
 				<option value="-1">全部收银员</option>
 				<%
 				List<Object[]> shparameter2=(List<Object[]>)request.getAttribute("shperformempname");
@@ -200,8 +207,9 @@ $(document).ready(function(){
 				
 				%>
 			</select> 
-			
-			<select id="shemppreformfenlei">
+			</div>
+		<div class="span3" style="float: left;">
+			<select class="form-control" id="shemppreformfenlei">
 			<option value="-1">全部分类</option>
 			<%
 			List<Object[]> shparameter3=(List<Object[]>)request.getAttribute("shperformgoodstype");
@@ -218,13 +226,47 @@ $(document).ready(function(){
 			}
 			%>
 			</select> 
-			
+			</div>
 			<!-- //时间选择列表-->
-			<input id="shemperformtime1" size="16" type="text" value="2015-06-15 14:45" readonly class="form_datetime">
-			<input id="shemperformtime2" size="16" type="text" value="2015-06-15 14:45" readonly class="form_datetime">
-			 <input onclick="shemppreformcheck();" type="button" value="查询">
+	<!-- 	第一个日期插件 -->
+		<div class="span3" style="float: left;">
+			<div class="input-group date form_datetime" data-date=""
+						data-date-format="yyyy-mm-dd HH:mm:ss"
+						data-link-field="dtp_input1">
+						<input id="shemperformtime1" name="shempendtime" class="form-control" size="16" type="text"
+							value="" readonly> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-th"></span></span>
+					</div>
+					<input type="hidden" id="dtp_input1" value="" />
+				</div>
+		
+			<div class="span3" style="float: left;">
+			<div class="input-group date form_datetime" data-date=""
+						data-date-format="yyyy-mm-dd HH:mm:ss"
+						data-link-field="dtp_input1">
+						<input id="shemperformtime2" name="shempendtime" class="form-control" size="16" type="text"
+							value="" readonly> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-th"></span></span>
+					</div>
+				<input type="hidden" id="" value="" />
 		</div>
+			 <div class="span3" style="float: left;">
+			 <input class="btn btn-primary" onclick="shemppreformcheck();" type="button" value="查询">
+			 </div>
+		
+		</div>
+		</div>
+		</div>
+		<!-- </div> -->
 	</div>
+
+	<!-- 展示表格div -->
 		<div>
 		<!-- //这里是所列的表格 -->
 		<table class="table table-bordered" name="numgettable">
