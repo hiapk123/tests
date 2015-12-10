@@ -157,7 +157,13 @@ public class GoodsServiceImp implements GoodsService {
 	public List<Object[]> upsort(  int sid,int currentPage,String sorted, String key,String c_name,String g_del) {
 		// TODO Auto-generated method stub
 		String a=sorted;
-		String sql="select * from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast("+ a+" as signed) asc limit ?,10";
+		//String sql="select * from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast("+ a+" as signed) asc limit ?,10";
+		String sql = "SELECT g_id, g_name,s_name,g_barcode,g_stock_num,"  //5
+				+ "g_pur_price,g_sale_price,g_trade_price,c_name,"      //4
+				+ "g_stock_min,g_stock_max,g_prod_date,g_giq,g_pm,"     //5
+				+ "su_name,g_flag,vip_id,g_vip_price,zdy1,zdy2,"      //6
+				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor,g_del,g_info,g_img_path,g_integral,c_id,g_unit,g_howmuch,unit_id"
+				+ " from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast("+ a+" as signed) asc   limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql,sid,c_name,g_del,currentPage);
 		return list;
 	}
@@ -167,7 +173,13 @@ public class GoodsServiceImp implements GoodsService {
 		// TODO Auto-generated method stub
 		String a=sorted;
 		//String sql="select * from goods where s_id=? and g_del=1  order by g_pur_price desc limit ?,10";
-		String sql="select * from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast(" + a+" as signed) desc limit ?,10";
+		//String sql="select * from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast(" + a+" as signed) desc limit ?,10";
+		String sql = "SELECT g_id, g_name,s_name,g_barcode,g_stock_num,"  //5
+				+ "g_pur_price,g_sale_price,g_trade_price,c_name,"      //4
+				+ "g_stock_min,g_stock_max,g_prod_date,g_giq,g_pm,"     //5
+				+ "su_name,g_flag,vip_id,g_vip_price,zdy1,zdy2,"      //6
+				+ "zdy3,zdy4,g_qd_min,g_cl_min,g_stock_nor,g_best,g_sale_nor,g_del,g_info,g_img_path,g_integral,c_id,g_unit,g_howmuch,unit_id"
+				+ " from goods where s_id=? and c_name=? and g_del=? and (g_name like '%"+key+"%' or g_barcode  like '%"+key+"%' or g_pm  like '%"+key+"%')  order by cast(" + a+" as signed) desc   limit ?,10";
 		List<Object[]> list = SqlHelper.find(sql,sid,c_name,g_del,currentPage);
 		return list;
 	}

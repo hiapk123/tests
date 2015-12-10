@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"
 	import="java.util.*,org.uestc.util.*"%>
-<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+
 
 
 <%
@@ -45,6 +45,20 @@ function edit1(){
 		$("#motai2").append(data);
 	}, "html");
 }
+function detail1(node){
+	 var list=$("#list").val();
+	var s_id=$("#s_id").val();
+   // var list=$("#list").val();
+  // $("#tableContent").empty();
+    $("#motai22").empty();
+	$.post("<%=basePath%>goods", {
+		"m" : "detail",
+		"list" : list,
+		"s_id" : s_id,
+	}, function(data) {
+		$("#motai22").append(data);
+	}, "html");
+}
 function del(){
 	var s_id=$("#s_id").val();
 	var g_id=$("#g_id").val();
@@ -64,10 +78,10 @@ function del(){
 
 </head>
 
-<div style="width:3000px;">
+
 <table  class="table table-bordered table-condensed table-hover table-striped ">
 	<thead>
-		<tr class="danger">
+		<tr class="default">
 			<th>操作</th>
 				<th>商品名称</th>
 				<th>所属门店</th>
@@ -77,26 +91,8 @@ function del(){
 				<th>销售价</th>
 				<th>批发价</th>
 				<th>分类</th>
-				<th>单位</th>
-				<th>单位数量</th>
-				<th>库存下限</th>
-				<th>库存上限</th>
-				<th>生产日期</th>
-				<th>保质期 ↑ ↓</th>
-				<th>拼音码</th>
-				<th>供货商</th>
-				<th>是否锁定</th>
-				<th>会员折扣</th>
-				<th>会员价</th>  
-				<th>自定义1</th>
-				<th>自定义2</th>
-				<th>自定义3</th>
-				<th>自定义4</th>
-				<th>最小起订量</th>
-				<th>最低陈列量</th>
-				<th>库存合理值</th>
-				<th>畅销量</th>
-				<th>正常销售量</th>
+				<th>详细</th>
+				
 		</tr>
 	</thead>
 	<tbody>
@@ -170,7 +166,7 @@ function del(){
 				<input type="hidden" id="list" value="<%=list%>">
 				<input type="hidden" id="s_id" value="<%=s_id%>">
 				<input type="hidden" id="g_id" value="<%=arr[0]%>">
-		<tr class="success">
+		<tr class="default">
 			<td class="center"><a   href="javascript:del()">删除</a>	 
 			<a  data-toggle="modal" data-target="#myModal2" onclick="edit1()">编辑</a>
 <br>
@@ -187,60 +183,28 @@ function del(){
 			}
 			%>
 			
-			<td><%=arr[32]%></td>
+			<td><a  data-toggle="modal" data-target="#myModal22" onclick="detail1(this)">详细</a></td>
 			
-			<td><%=arr[33]%></td>
+			
 		
 			
-			<%
-			for(int i=9;i<15;i++){
-				
-			
-			%>	
-			<td><%=arr[i]%></td>		
-			
-			<%
-			}
-			%>
 			
 			
 			
-			<%
-				
-				if(String.valueOf(arr[15]).equals("0")){
-					arr[15]="否";
-				}else{
-					arr[15]="是";
-				}
-			if(String.valueOf(arr[16]).equals("1")){
-				arr[16]="否";
-			}else{
-				arr[16]="是";
-			}
-				%>
-			<td><%=arr[15]%></td>
-			<td><%=arr[16]%></td>
-				<%
-			for(int i=17;i<27;i++){
-				
 			
-			%>		
-			<td><%=arr[i]%></td>	
-			<%
-			}
-			%>	
+			
 		</tr>
 		
 
 	</tbody>
 
 </table>
-</div>
+
 <input type="hidden" id="page" value="20"/>
-<ul class="pagination" id="page">
+<%-- <ul class="pagination" id="page">
 	<page:htmlPage pageNo="${currentPage }"
 		url="/goods?m=findGoodByPage&currentPage=${currentPage }"
 		totalSum="${totalPage }" showPage="10" pageSize="10" />
-</ul>
+</ul> --%>
 
 <%-- <a href="<%=basePath%>goods?m=goodsInfo">返回商品资料页面</a> --%>

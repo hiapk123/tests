@@ -68,7 +68,7 @@ public class GoodsServlet extends HttpServlet {
 			req.getRequestDispatcher("/pages/goods/goods-info.jsp").forward(req, resp);
 		} else if ("findGoodByPage".equals(m)) {
 			this.findGoodByPage(req, resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 		} else if (m.equals("addGood")) {
 			this.addGood(req, resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/addgood.jsp").forward(req, resp);
@@ -81,14 +81,17 @@ public class GoodsServlet extends HttpServlet {
 		} else if (m.equals("editGood")) {
 			this.editGood(req, resp);
 			req.getRequestDispatcher("/pages/goods/goodsinfo/editgood.jsp").forward(req, resp);
-		} else if (m.equals("editGood2")) {
+		} else if (m.equals("detail")) {
+			this.editGood(req, resp);
+			req.getRequestDispatcher("/pages/goods/goodsinfo/detail.jsp").forward(req, resp);
+		}else if (m.equals("editGood2")) {
 			this.editGood2(req, resp);
 			//req.getRequestDispatcher("/pages/goods/goodsinfo/tiaozhuan.jsp").forward(req, resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 			//req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
 		} else if (m.equals("deleteGood")) {
 			this.deleteGood(req, resp);
-			req.getRequestDispatcher("/pages/goods/goodsinfo/findgood.jsp").forward(req, resp);
+			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
 		} else if (m.equals("findByPage")) {
 			this.findGoodByPage(req,resp);
 			req.getRequestDispatcher("/pages/goods/findgoodspage.jsp").forward(req, resp);
@@ -130,6 +133,8 @@ public class GoodsServlet extends HttpServlet {
 		}
 
 	}
+	
+
 	private void newdw(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		String g_unit=req.getParameter("g_unit");
@@ -682,6 +687,7 @@ System.out.println("真是路径"+TruePath);
 			
 			req.setAttribute("c_name", c_name);
 			req.setAttribute("key", key);
+			req.setAttribute("g_del", g_del);
 			req.setAttribute("goodsList", list);
 			req.setAttribute("s_id", s_id);
 			req.setAttribute("currentPage", pageNo);
@@ -691,7 +697,7 @@ System.out.println("真是路径"+TruePath);
 			ServletContext application=(ServletContext)session.getServletContext();
 
 			application.setAttribute("method",method);
-			application.setAttribute("sorted",sorted);
+			//application.setAttribute("sorted",sorted);
 	}
 
 	/***
@@ -705,6 +711,7 @@ System.out.println("真是路径"+TruePath);
 		String method=req.getParameter("m");
 		String sorted=req.getParameter("sorted");
 		String key=req.getParameter("key");
+		
 		String currentPage = req.getParameter("currentPage");
 		String which = req.getParameter("which");
 		String s_id = req.getParameter("s_id");
@@ -712,7 +719,7 @@ System.out.println("真是路径"+TruePath);
 		String g_del = req.getParameter("g_del");
 		int totalSize = getTotalSize(s_id, key,c_name,g_del);
 		int totalPage = 0;
-		if(""==currentPage){
+		if(""==currentPage||null==currentPage){
 			currentPage="1";
 		}
 		
@@ -753,12 +760,14 @@ System.out.println("真是路径"+TruePath);
 			req.setAttribute("c_name", c_name);
 			req.setAttribute("currentPage", pageNo);
 			req.setAttribute("totalSize", totalSize);
-			req.setAttribute("sort", sorted);
+			req.setAttribute("sorted", sorted);
+			req.setAttribute("key", key);
+			req.setAttribute("g_del", g_del);
 			HttpSession session=(HttpSession)req.getSession();
 			ServletContext application=(ServletContext)session.getServletContext();
 
 			application.setAttribute("method",method);
-			application.setAttribute("sorted",sorted);
+			//application.setAttribute("sorted",sorted);
              
 	}
 
@@ -1156,7 +1165,65 @@ System.out.println("真是路径"+TruePath);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
+
 		
+	    String method="findByPage";
+		String currentPage=req.getParameter("currentPage");
+		String which = req.getParameter("which");
+		String s_id = req.getParameter("s_id");
+		String key = req.getParameter("key");
+		String g_del = req.getParameter("g_del");
+		String c_name = req.getParameter("c_name");
+		if(c_name==null){
+			c_name="未分类";
+		}
+		if(key==null){
+			key="";
+		}
+		int totalSize = getTotalSize(s_id,key,c_name,g_del);
+		int totalPage = 0;
+		if(""==currentPage||currentPage==null){
+			currentPage="1";
+		}
+			int pageNo = Integer.valueOf(currentPage.trim());
+			if (null == which) {
+				which = "first";
+				pageNo = 1;
+			} else if ("first".equals(which)) {
+				which = "first";
+				pageNo = 1;
+			} else if ("next".equals(which)) {
+				if(pageNo==(totalSize % 10 == 0 ? totalSize / 10 : (totalSize / 10 + 1)))
+				{pageNo=pageNo;}else{
+				 pageNo++;
+				}
+				
+			} else if ("prev".equals(which)) {
+				if (pageNo==1) {
+					pageNo=pageNo;
+				}else {
+					pageNo--;
+				}
+				
+			} else if ("last".equals(which)) {
+				totalPage = (totalSize % 10 == 0 ? totalSize / 10 : (totalSize / 10 + 1));
+				pageNo = totalPage;
+			}else {
+				pageNo = Integer.valueOf(which.trim());
+			}
+			List<Object[]> list = good.goodssearch(Integer.valueOf(s_id), (pageNo-1) * 10,key,c_name,g_del);
+			req.setAttribute("goodsList", list);
+			req.setAttribute("s_id", s_id);
+			req.setAttribute("key", key);
+			req.setAttribute("c_name", c_name);
+			req.setAttribute("g_del", g_del);
+			req.setAttribute("currentPage", pageNo);
+			req.setAttribute("totalSize", totalSize);
+			//HttpSession session=(HttpSession)req.getSession();
+			ServletContext application=(ServletContext)session.getServletContext();
+			application.setAttribute("method",method);
+			//application.setAttribute("currentPage",pageNo);
+	
 
 	}
 
