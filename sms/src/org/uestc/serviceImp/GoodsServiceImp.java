@@ -239,7 +239,7 @@ public class GoodsServiceImp implements GoodsService {
 
 
 
-	public ArrayList isRegular(String truePath) throws BiffException, IOException {
+	public ArrayList isRegular(String truePath, String s_id) throws BiffException, IOException {
 		// TODO Auto-generated method stub
 		ArrayList list = new ArrayList();
 		boolean kong = true;
@@ -263,6 +263,8 @@ public class GoodsServiceImp implements GoodsService {
 		jxl.Sheet sheet=wb.getSheet(0);
 		String content=null; 
 		String flag="add";
+		String category="";
+		String HH="";
 		if (sheet.getColumns()>22) {
 			String	message="该表列数超过了模板的列数，请使用模板";
 			list.add(message);
@@ -302,9 +304,11 @@ public class GoodsServiceImp implements GoodsService {
 						if (kong) {
 							String	message="该表无数据！" ;
 							list.add(message) ;
+							continue;
 						}else{
 							String	message="第"+(i+1)+"行"+"名称不能为空!" ;
 							list.add(message) ;
+							continue;
 						}
 
 
@@ -320,14 +324,36 @@ public class GoodsServiceImp implements GoodsService {
 					if (sheet.getCell(j, i).getContents().trim().equals("")){
 
 						if (kong) {
-
+							continue;
 						}else{
 							String	message="第"+(i+1)+"行"+"分类不能为空!" ;
 							list.add(message) ;
+							continue;
 						}
 					}else {
-						g.setC_name(sheet.getCell(j, i).getContents());
-						continue;
+						String sql="select c_name from category where s_id=? ";
+						List<Object[]> list0=SqlHelper.find(sql, s_id);
+						
+						for (int k = 0; k < list0.size(); k++) {
+							String fenlei=(String) list0.get(k)[0];
+							if (sheet.getCell(j, i).getContents().equals(fenlei)) {
+								category="hege";
+								break;
+							}
+							
+						}
+						if(category.equals("hege")){
+							g.setC_name(sheet.getCell(j, i).getContents());
+							category="";
+									
+							continue;
+							
+						}else {
+							g.setC_name(sheet.getCell(j, i).getContents());
+							String	message="第"+(i+1)+"行"+"分类不存在，请填入正确的分类!" ;
+							list.add(message) ;
+							continue;
+						}
 					}
 				}
 
@@ -338,6 +364,7 @@ public class GoodsServiceImp implements GoodsService {
 						}else{
 							String	message="第"+(i+1)+"行"+"条码不能为空!" ;
 							list.add(message) ;
+							continue;
 						}
 					}else {
 						g.setG_barcode(sheet.getCell(j, i).getContents());
@@ -348,9 +375,11 @@ public class GoodsServiceImp implements GoodsService {
 				{
 					if (sheet.getCell(j, i).getContents().trim().equals("")){
 						if (kong) {
+							continue;
 						}else{
 							String	message="第"+(i+1)+"行"+"库存量不能为空!" ;
 							list.add(message) ;
+							continue;
 						}
 					}else {
 						g.setG_stock_num(sheet.getCell(j, i).getContents());
@@ -362,9 +391,11 @@ public class GoodsServiceImp implements GoodsService {
 				{
 					if (sheet.getCell(j, i).getContents().trim().equals("")){
 						if (kong) {
+							continue;
 						}else{
 							String	message="第"+(i+1)+"行"+"进货价不能为空!" ;
 							list.add(message) ;
+							continue;
 						}
 					}else {
 						g.setG_pur_price(sheet.getCell(j, i).getContents());
@@ -376,9 +407,11 @@ public class GoodsServiceImp implements GoodsService {
 				{
 					if (sheet.getCell(j, i).getContents().trim().equals("")){
 						if (kong) {
+							continue;
 						}else{
 							String	message="第"+(i+1)+"行"+"销售价不能为空!" ;
 							list.add(message) ;
+							continue;
 						}
 					}else {
 						g.setG_sale_price(sheet.getCell(j, i).getContents());
@@ -398,13 +431,35 @@ public class GoodsServiceImp implements GoodsService {
 				}
 				if(g.getG_integral()==null)
 				{
-					g.setG_integral(sheet.getCell(j, i).getContents());
-					continue;
+					String mm=sheet.getCell(j, i).getContents();
+					if (sheet.getCell(j, i).getContents().trim().equals("否")) {
+						g.setG_integral("0");
+						continue;
+					}else if(sheet.getCell(j, i).getContents().trim().equals("是")){
+						g.setG_integral("1");
+						continue;
+					}else {
+						String	message="第"+(i+1)+"行"+j+"列状态数据格式错误，请输入是或者否" ;
+						list.add(message) ;
+						g.setG_integral("");
+						continue;
+					}
 				}
 				if(g.getVip_id()==null)
 				{
-					g.setVip_id(sheet.getCell(j, i).getContents());
-					continue;
+					String mm=sheet.getCell(j, i).getContents();
+					if (sheet.getCell(j, i).getContents().trim().equals("否")) {
+						g.setVip_id("1");
+						continue;
+					}else if(sheet.getCell(j, i).getContents().trim().equals("是")){
+						g.setVip_id("0");
+						continue;
+					}else {
+						String	message="第"+(i+1)+"行"+j+"列状态数据格式错误，请输入是或者否" ;
+						list.add(message) ;
+						g.setVip_id("");
+						continue;
+					}
 				}
 				if(g.getG_stock_max()==null)
 				{
@@ -418,8 +473,41 @@ public class GoodsServiceImp implements GoodsService {
 				}
 				if(g.getSu_name()==null)
 				{
-					g.setSu_name(sheet.getCell(j, i).getContents());
-					continue;
+
+
+					if (sheet.getCell(j, i).getContents().trim().equals("")){
+
+						if (kong) {
+							continue;
+						}
+					}else {
+						String sql="select su_name from supplier where s_id=? ";
+						List<Object[]> list0=SqlHelper.find(sql, s_id);
+						
+						for (int k = 0; k < list0.size(); k++) {
+							String su_name=(String) list0.get(k)[0];
+							if (sheet.getCell(j, i).getContents().equals(su_name)) {
+								HH="hege";
+								break;
+							}
+							
+						}
+						if(HH.equals("hege")){
+							g.setSu_name(sheet.getCell(j, i).getContents());
+							HH="";
+									
+							continue;
+							
+						}else {
+							g.setSu_name(sheet.getCell(j, i).getContents());
+							String	message="第"+(i+1)+"行"+"供货商不存在，请填入已经存在的供货商!" ;
+							list.add(message) ;
+							continue;
+						}
+					}
+				
+					
+					
 				}
 				if(g.getG_prod_date()==null)
 				{
@@ -453,21 +541,24 @@ public class GoodsServiceImp implements GoodsService {
 				}
 				if(g.getZdy4()==null)
 				{
+					
 					g.setZdy4(sheet.getCell(j, i).getContents());
 					continue;
 				}
 				if(g.getG_del()==null)
 				{
+					String mm=sheet.getCell(j, i).getContents();
 					if (sheet.getCell(j, i).getContents().trim().equals("禁用")) {
 						g.setG_del("0");
 						continue;
-					}else if(sheet.getCell(j, i).getContents().equals("")||
+					}else if(sheet.getCell(j, i).getContents().trim().equals("")||
 							sheet.getCell(j, i).getContents().trim().equals("启用")){
 						g.setG_del("1");
 						continue;
 					}else {
 						String	message="第"+(i+1)+"行"+"状态数据格式错误，请输入启用或者禁止" ;
 						list.add(message) ;
+						continue;
 					}
 				}
 				if(g.getG_info()==null)
@@ -476,11 +567,15 @@ public class GoodsServiceImp implements GoodsService {
 					continue;
 				}
 
-			}
+			
+			
 		}
 
+		
+		
+		
+		}
 		return list;
-
 
 	}
 
@@ -489,10 +584,11 @@ public class GoodsServiceImp implements GoodsService {
 
 	public void importExcel(HttpServletRequest req, HttpServletResponse resp, String truePath, String s_id,String s_name) throws Exception {
 		// TODO Auto-generated method stub
+		
 		String []goodArrary=new String[]{"名称(必填)","分类(必填)","条码(必填)","库存量(必填)","进货价(必填)","销售价(必填)",
 				"批发价","会员价","积分商品","会员折扣","库存上限","库存下限","供货商","生产日期",
 				"保质期","拼音码","自定义1","自定义2","自定义3","自定义4","商品状态","商品描述"};
-		int g_id = 0;
+		
 		List liststu=new ArrayList();
 		String sFilePath =truePath;
 		InputStream is = new FileInputStream(sFilePath);  
@@ -506,14 +602,15 @@ public class GoodsServiceImp implements GoodsService {
 			content=sheet.getCell(m, 0).getContents();
 
 		}
-
+		String SQL[]=new String[sheet.getRows()-1];
+		String ly[][]=new String[sheet.getRows()-1][26];
 
 		for(int i=1;i<sheet.getRows();i++)
-		{   
+		{   int g_id = 0;
 			Good g=new Good();
 			for(int j=0;j<sheet.getColumns();j++)
 			{
-				content=sheet.getCell(0, i).getContents();
+				content=sheet.getCell(2, i).getContents();
 				if(g.getG_name()==null)
 				{ 
 						g.setG_name(sheet.getCell(j, i).getContents());
@@ -600,7 +697,7 @@ public class GoodsServiceImp implements GoodsService {
 				}
 				if(g.getG_prod_date()==null)
 				{
-					g.setG_prod_date(sheet.getCell(j, i).getContents());
+					g.setG_prod_date(sheet.getCell(j, i).getContents().trim());
 					continue;
 				}
 				if(g.getG_giq()==null)
@@ -665,23 +762,61 @@ public class GoodsServiceImp implements GoodsService {
 					continue;
 				}
 			}
+			String c_id="";
+			String sql5="select c_id from category where s_id=? and c_name=?";
+			List<Object[]> list5=SqlHelper.find(sql5, s_id,g.getC_name());
+			Number num1 = (Number) list5.get(0)[0];  
+		    int	C_id= num1.intValue();
+			c_id=String.valueOf(C_id) ;
+			String su_id="";
+			String sql6="select su_id from supplier where s_id=? and su_name=?";
+			List<Object[]> list6=SqlHelper.find(sql6, s_id,g.getSu_name());
+			Number num2 = (Number) list6.get(0)[0];  
+		    int	Su_id= num2.intValue();
+			su_id=String.valueOf(Su_id) ;
+			String yan[]={s_id,s_name, g.getG_name(),g.getC_name(),g.getG_barcode(), //5
+				g.getG_stock_num(),g.getG_pur_price(),g.getG_sale_price(),g.getG_trade_price(),//4
+				g.getG_vip_price(),g.getG_integral(),g.getVip_id(),g.getG_stock_max(),g.getG_stock_min(),//5
+				g.getSu_name(),g.getG_prod_date(),g.getG_giq(),g.getG_pm(),g.getZdy1(),//5
+				g.getZdy2(),g.getZdy3(),g.getZdy4(),g.getG_del(),g.getG_info(),c_id,su_id};//7
 			if(flag=="add")
 			{
-				daoruexcel(g,s_id,s_name);
+				//daoruexcel(g,s_id,s_name);
+			
+				String sql="insert into goods(s_id,s_name,g_name,c_name,g_barcode,g_stock_num,g_pur_price,"//7
+						+ "g_sale_price,g_trade_price,g_vip_price,g_integral,vip_id,g_stock_max,g_stock_min,"//7
+						+ "su_name,g_prod_date,g_giq,g_pm,zdy1,zdy2,zdy3,zdy4,g_del,g_info,c_id,su_id) values"     //10
+						+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				SQL[i-1]=sql;
+				
+				for(int m=0;m<26;m++){
+					ly[i-1][m]=yan[m];
+				}
+				
+				
 			}else if(flag=="update"){
-				daoruexcel1(g,g_id);
+				//daoruexcel1(g,g_id);
+				String sql="update goods set s_id=?,s_name=?, g_name=?,c_name=?,g_barcode=?,g_stock_num=?,g_pur_price=?,"
+						+ "g_sale_price=?,g_trade_price=?,g_vip_price=?,g_integral=?,vip_id=?,"
+						+ "g_stock_max=?,g_stock_min=?,su_name=?,g_prod_date=?,g_giq=?,g_pm=?,"
+						+ "zdy1=?,zdy2=?,zdy3=?,zdy4=?,g_del=?,g_info=?,c_id=?,su_id=? where g_id="+g_id;
+				SQL[i-1]=sql;
+				
+				for(int m=0;m<26;m++){
+					ly[i-1][m]=yan[m];
 			}
 		}
 
+		
 
+		}
+		SqlHelper.executeUpdate(SQL, ly);
 		String message="导入成功";
 		resp.setCharacterEncoding("UTF-8"); 
 		PrintWriter out=resp.getWriter();
 		JSONObject json=new JSONObject();
 		json.put("message", message);
 		out.print(json);
-
-
 	}
 
 	//修改

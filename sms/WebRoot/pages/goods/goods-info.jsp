@@ -152,23 +152,37 @@ function xinzengshangpin(){
 
 <body>
 <div id="hehe">
-	<span class="label label-success" style="padding: 10px">商品资料</span>
-	&nbsp;&nbsp;
-	<button type="button" onclick="xinzengshangpin()" class="btn btn-primary"
-		data-toggle="modal" data-target="#myModal" >新增商品</button>
-	&nbsp;&nbsp;
-	<button type="button" class="btn btn-primary" data-toggle="modal" 
-   data-target="#myModal1" onclick="DaoRu()">导入</button>
-	&nbsp;&nbsp;
-	<button type="button" class="btn btn-primary" data-toggle="modal" 
-   data-target="#myModal3" onclick="daochu()">导出</button>
-	&nbsp;&nbsp;
-	<button type="button" class="btn btn-primary" data-toggle="modal" 
-   data-target="#myModal4" onclick="fuzhishangpin()">复制商品</button>
-	&nbsp;&nbsp;
-   <button type="button" id="kuaisu" class="btn btn-primary"
-		name="submit" >快速录入</button>
-	<select id="store" class="btn btn-success">
+<div class="panel panel-default">
+		<div class="panel-footer">
+				<div class="row">
+				
+				<div class="col-xs-1">
+				<span class="badge pull-right" style="margin:10px ">商品资料</span>
+				</div>
+				<div class="col-xs-1">
+				<a onclick="xinzengshangpin()" 
+		data-toggle="modal" data-target="#myModal" >新增商品</a>
+				</div>
+				<div class="col-xs-1">
+				<a data-toggle="modal" 
+   data-target="#myModal1" onclick="DaoRu()">导入</a>
+				</div>
+				<div class="col-xs-1">
+				 <a data-toggle="modal" 
+   data-target="#myModal3" onclick="daochu()">导出</a>
+				</div>
+				<div class="col-xs-1">
+				<a data-toggle="modal" 
+   data-target="#myModal4" onclick="fuzhishangpin()">复制商品</a>
+				</div>
+				<div class="col-xs-1">
+				<a id="kuaisu"
+		name="submit" >快速录入</a>
+				</div>
+				
+		<div class="conditionNav" style="float: left;padding-top: 20px">
+				<div class="col-xs-3">
+				<select id="store" class="form-control">
 		<!-- <option value="-1" selected="selected" disabled="disabled">选择店铺</option> -->
 
 		<%
@@ -183,12 +197,15 @@ function xinzengshangpin(){
 		%>
 
 	</select>
-
-	<select id="g_del"  class="btn btn-success">
+				</div>
+				<div class="col-xs-3">
+				<select id="g_del"  class="form-control">
 		<option value="1" selected="selected">有效单据</option>
 		<option value="0">作废单据</option>
 	</select>
-<select id="c_name" class="btn btn-success">
+				</div>
+				<div class="col-xs-3">
+				<select id="c_name" class="form-control">
 
 									<%
 										List<Object[]> list1 = (List<Object[]>) request.getAttribute("fenlei");
@@ -201,11 +218,27 @@ function xinzengshangpin(){
 										}
 									%>
 </select>
-	<div style="float: right;">
-		<input style="height:33px" id="key" class="input" type="text" float:right /> <input
-			type="button" value="查询" id="search" class="btn btn-primary" />
-		
+				</div>
+				
+				
+			
+		<div class="col-xs-2">	
+		<input id="key"  type="text"  class="form-control"/> 
+			</div>
+	
+			<div class="col-xs-1">	
+			<button type="button" id="search"  class="btn btn-default">查询</button>
+			</div>	
+	</div>			
+				
+</div>
 	</div>
+	</div>
+	
+
+	
+
+	
 	
 	
      <div data-spy="scroll"

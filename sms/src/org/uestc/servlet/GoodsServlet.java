@@ -487,9 +487,9 @@ public class GoodsServlet extends HttpServlet {
 			}
 
 			//设置上传单个文件的大小的最大值，目前是设置为1024*1024字节，也就是1MB
-			upload.setFileSizeMax(1024*1024);
+			upload.setFileSizeMax(1024*1024*10);
 			//设置上传文件总量的最大值，最大值=同时上传的多个文件的大小的最大值的和，目前设置为10MB
-			upload.setSizeMax(1024*1024*10);
+			upload.setSizeMax(1024*1024*50);
 			//4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
 			List<FileItem> list = upload.parseRequest(req);
 			for(FileItem item : list){
@@ -563,7 +563,7 @@ System.out.println("真是路径"+TruePath);
 		String m=req.getParameter("m");
 		if (m.equals("Shangchuanwenjian")) {
 			try {
-		           List<String> list=good.isRegular(TruePath);
+		           List<String> list=good.isRegular(TruePath,s_id);
 				    if (list.size()==0) {
 					   good.importExcel(req,resp,TruePath,s_id,s_name);
 				    }else {

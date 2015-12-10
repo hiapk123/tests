@@ -192,10 +192,13 @@ $("#daoru").click(function(){
 </head>
 <body>
 
-
+ <div data-spy="scroll"
+		style="width:1200px;height:auto; overflow: auto; position: relative;"
+		data-offset="10">
 <div id="1">
+
 	<label>进货门店:待输入</label>
-		<table style="width: 1200px; height: 30px; table-layout: fixed;"
+		<table style="width: 2000px; height: 30px; table-layout: fixed;"
 			border="1";>
 			<thead>
 				<tr>
@@ -221,7 +224,7 @@ $("#daoru").click(function(){
 	</div>	
 <div id="11">
 </div>
-
+</div>
 <div id="dr">
 </div>	
 	<div id="ly" style="position: relative; top: 400px;" class="row">
