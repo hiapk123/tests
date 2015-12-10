@@ -130,7 +130,22 @@
 			$('#if_content').attr('src','<%=basePath %>marketing?type='+type);
 		});
 		
+		$('#leftcity ul li a').click(function (){
+			leclick();
+		});
+		
 	});
+	
+	function leclick(){
+		setTimeout(function(){
+			var wholeft = $("#leftcity");
+			var whoright = $("#if_content");		
+			var heightL = wholeft.outerHeight(true);
+			whoright.height(heightL);
+			
+		},300);
+		
+	}
 	
 </script>
 <style type="text/css">
@@ -195,7 +210,7 @@
 		<div class="row">
 
 			<!-- left menu starts -->
-			<div class="col-sm-2 col-lg-2">
+			<div id="leftcity" class="col-sm-2 col-lg-2">
 				<div class="sidebar-nav">
 					
 					<div class="nav-canvas">
@@ -386,7 +401,7 @@
 
 
 			<div id="content" class="col-lg-10 col-sm-10">
-				<iframe src="" id="if_content" style="border: 0;margin: 0;width: 100%;height: 2000px;"></iframe>
+				<iframe src="" id="if_content" style="border: 0;margin: 0;width: 100%;"></iframe>
 			
 				<%-- <!--要添加的地方  -->
 				<!--销售  -->
