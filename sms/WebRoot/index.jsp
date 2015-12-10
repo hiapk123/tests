@@ -185,7 +185,7 @@
 			<!-- user dropdown ends -->
 
 			<!-- theme selector starts -->
-			<div class="btn-group pull-right theme-container animated tada">
+		<!-- 	<div class="btn-group pull-right theme-container animated tada">
 				<button class="btn btn-default dropdown-toggle"
 					data-toggle="dropdown">
 					<i class="glyphicon glyphicon-tint"></i><span
@@ -200,7 +200,7 @@
 							Slate</a></li>
 					
 				</ul>
-			</div>
+			</div> -->
 			
 
 		</div>
