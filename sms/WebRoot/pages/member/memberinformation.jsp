@@ -409,7 +409,7 @@ function shmsub() {
 		
 	
 	<!-- //展示表格的div -->
-	<div class="panel panel-default" style="width: 100%;height: 537px;padding-top: 1px">
+	<div class="panel panel-default" style="width: 100%;height: 537px;padding-top: 1px;clear: both;">
 	     
 		<div id="shmemtable">	
 		</div>
@@ -417,7 +417,7 @@ function shmsub() {
 	</div>
 	
 	<!-- //下面的显示会员数和总余额 -->
-	<div  class="pageList" style="display: block;height: 50%;padding-top: 10px">
+	<div  class="pageList" style="display: block;height: 50%;padding-top: 10px;float: left;width: 100%;clear:both;">
 	<div class="panel panel-default">
 		<div class="panel-footer">
 

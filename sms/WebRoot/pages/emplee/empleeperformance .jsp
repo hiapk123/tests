@@ -118,7 +118,20 @@ $(document).ready(function(){
 	var sspar1=$("#shempperformtstore").val();
 	//var sspar2=$("#").val();
 	//var sspar3=$("#").val();
+	//初始化绑定时间模态框作为默认值.
+	//将当前时间默认值直接绑定下拉框
+	var t=document.getElementsByName("shempendtimeq");
+	var d=new Date(); 
+	t.value=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes(); 
+	var s=t.value;
+	$("#shemperformtime1").val(s);
+	$("#shemperformtime2").val(s);
+	
+	var times1=$("#shemperformtime1").val();
+	var times2=$("#shemperformtime2").val();
 	$.post("<%=basePath%>emperformanceinit",{
+		"times1":times1,
+		"times2":times2,
 		"sspar1":sspar1
 	},function(date){
 		 $("#shemperformbodys").append(date);
@@ -128,14 +141,100 @@ $(document).ready(function(){
 })
 </script>
 <script type="text/javascript">
+//进行页面的刷新的工作。
+function sh_flashstorename()
+{
+	alert("商店刷新");
+	 var shempperform1=$("#shempperformtstore").val();
+	 var shempperform2=$("#shempperformemplee").val();
+	 var shempperform3=$("#shemppreformfenlei").val();
+	 var shempperformtime1=$("#shemperformtime1").val();
+	 var shempperformtime2=$("#shemperformtime2").val();
+	 $.post("<%=basePath%>emperfomancetable",{
+		 "shempperform1":shempperform1,
+		 "shempperform2":shempperform2,
+		 "shempperform3":shempperform3,
+		 "shempperformtime1":shempperformtime1,
+		 "shempperformtime2":shempperformtime2 
+		 
+	 },function(date){
+		 //alert("返回数据成功");
+		 //alert(date);
+		  $("#shemperformbodys").empty();
+		 $("#shemperformbodys").append(date);
+		 
+	 },"html");
+	
+}
+
+function sh_flashempname()
+{
+	alert("收银员刷新");
+	 var shempperform1=$("#shempperformtstore").val();
+	 var shempperform2=$("#shempperformemplee").val();
+	 var shempperform3=$("#shemppreformfenlei").val();
+	 var shempperformtime1=$("#shemperformtime1").val();
+	 var shempperformtime2=$("#shemperformtime2").val();
+	 $.post("<%=basePath%>emperfomancetable",{
+		 "shempperform1":shempperform1,
+		 "shempperform2":shempperform2,
+		 "shempperform3":shempperform3,
+		 "shempperformtime1":shempperformtime1,
+		 "shempperformtime2":shempperformtime2 
+		 
+	 },function(date){
+		 //alert("返回数据成功");
+		 //alert(date);
+		  $("#shemperformbodys").empty();
+		 $("#shemperformbodys").append(date);
+		 
+	 },"html");
+	
+}
+
+function sh_flashfenlei()
+{
+	alert("分类刷新");
+	 var shempperform1=$("#shempperformtstore").val();
+	 var shempperform2=$("#shempperformemplee").val();
+	 var shempperform3=$("#shemppreformfenlei").val();
+	 var shempperformtime1=$("#shemperformtime1").val();
+	 var shempperformtime2=$("#shemperformtime2").val();
+	 $.post("<%=basePath%>emperfomancetable",{
+		 "shempperform1":shempperform1,
+		 "shempperform2":shempperform2,
+		 "shempperform3":shempperform3,
+		 "shempperformtime1":shempperformtime1,
+		 "shempperformtime2":shempperformtime2 
+		 
+	 },function(date){
+		 //alert("返回数据成功");
+		 //alert(date);
+		  $("#shemperformbodys").empty();
+		 $("#shemperformbodys").append(date);
+		 
+	 },"html");
+	
+}
+
+</script>
+<script type="text/javascript">
  function shemppreformcheck() 
- {
+ {	 //初始化的默认查询
 	 //alert("sd");
 	 var shempperform1=$("#shempperformtstore").val();
 	 var shempperform2=$("#shempperformemplee").val();
 	 var shempperform3=$("#shemppreformfenlei").val();
 	 var shempperformtime1=$("#shemperformtime1").val();
 	 var shempperformtime2=$("#shemperformtime2").val();
+	 //表单验证时间的先后顺序
+	 var d1 = new Date(shempperformtime1.replace(/\-/g, "\/"));  
+	 var d2 = new Date(shempperformtime2.replace(/\-/g, "\/"));  
+	 if(d1>d2)
+		 {
+		 alert("开始时间不能大于结束时间，请重新选择：");
+		 return false;
+		 }
 	 //alert(shempperform1);
 	 //alert(shempperform2);
 	 //alert(shempperform3);
@@ -149,7 +248,7 @@ $(document).ready(function(){
 		 "shempperformtime2":shempperformtime2 
 		 
 	 },function(date){
-		 alert("返回数据成功");
+		 //alert("返回数据成功");
 		 //alert(date);
 		  $("#shemperformbodys").empty();
 		 $("#shemperformbodys").append(date);
@@ -169,7 +268,7 @@ $(document).ready(function(){
 		<div class="panel-footer">
 			<div class="row">
 			<div class="span3" style="float: left;">
-			<select class="form-control" id="shempperformtstore">
+			<select onchange="sh_flashstorename();" class="form-control" id="shempperformtstore">
 			<%
 			List<Object[]> shparameter1=(List<Object[]>)request.getAttribute("shperformstore");
 			if(shparameter1.size()!=0&&shparameter1!=null)
@@ -183,12 +282,11 @@ $(document).ready(function(){
 			<%
 				}
 			}
-			
 			%>
 			</select> 
 		</div>
 		<div class="span3" style="float: left;">
-			<select class="form-control" id="shempperformemplee">
+			<select onchange="sh_flashempname();" class="form-control" id="shempperformemplee">
 				<option value="-1">全部收银员</option>
 				<%
 				List<Object[]> shparameter2=(List<Object[]>)request.getAttribute("shperformempname");
@@ -209,7 +307,7 @@ $(document).ready(function(){
 			</select> 
 			</div>
 		<div class="span3" style="float: left;">
-			<select class="form-control" id="shemppreformfenlei">
+			<select onchange="sh_flashfenlei();" class="form-control" id="shemppreformfenlei">
 			<option value="-1">全部分类</option>
 			<%
 			List<Object[]> shparameter3=(List<Object[]>)request.getAttribute("shperformgoodstype");
@@ -233,7 +331,7 @@ $(document).ready(function(){
 			<div class="input-group date form_datetime" data-date=""
 						data-date-format="yyyy-mm-dd HH:mm:ss"
 						data-link-field="dtp_input1">
-						<input id="shemperformtime1" name="shempendtime" class="form-control" size="16" type="text"
+						<input id="shemperformtime1" name="shempendtimeq" class="form-control" size="16" type="text"
 							value="" readonly> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span

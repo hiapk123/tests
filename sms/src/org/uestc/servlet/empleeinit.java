@@ -28,8 +28,9 @@ public class empleeinit extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("员工资料初始�?");
+		System.out.println("员工资料初始�?");
 		String empleestore=request.getParameter("empleestore").toString();
+		//智力设定的是0位开启，1为关闭
 		String empleestate=request.getParameter("empleestate").toString();
 		System.out.println(empleestore);
 		System.out.println(empleestate);
