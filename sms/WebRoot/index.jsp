@@ -207,6 +207,10 @@
 		$('#auditOrder').click(function(){
 			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?method=initLoad');
 		});
+		
+		$('#addGood').click(function(){
+			$('iframe').attr('src','<%=basePath %>www/basic.jsp');
+		});
 		/****************************************************************************/
 		
 		$("li a").click(
@@ -417,17 +421,18 @@
 							<div class="panel panel-default">
 								<div class="panel-heading" data-toggle="collapse"
 									data-parent="#accordion2" href="#collapseSix">
-									<a class="accordion-toggle">货流</a>
+									<a class="accordion-toggle">订单</a>
 								</div>
 								<div id="collapseSix" class="panel-collapse collapse"
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="货流" id="ghs">供货商</a></li>
-											<!-- <li><a href="#" data-options="货流" id="mddh">门店订货</a></li> -->
-											<li><a href="#" data-options="货流" id="hlgl">货流管理</a></li>
-											<li><a href="#" data-options="货流" id="ghsjs">供货商结算</a></li>
-											<li><a href="#" data-options="货流" id="hkhz">货款汇总</a></li>
+											<li><a href="#" data-options="订单" id="ghs">供货商</a></li>
+											<!-- <li><a href="#" data-options="订单" id="mddh">门店订货</a></li> -->
+											<li><a href="#" data-options="订单" id="hlgl">订单管理</a></li>
+											<li><a href="#" data-options="订单" id="ghsjs">供货商结算</a></li>
+											<li><a href="#" data-options="订单" id="hkhz">货款汇总</a></li>
+											<li><a href="#" data-options="订单" id="addList">新增订单</a></li>
 										</ul>
 									</div>
 								</div>
@@ -444,6 +449,7 @@
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
 											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
+											<li><a href="#" data-options="管理员" id="addGood">商品添加模板</a></li>
 											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
@@ -482,7 +488,7 @@
 			<div id="content" class="col-lg-10 col-sm-10">
 				<div>
 					<iframe src="<%=basePath%>welcome.html" width="100%"
-						height="1500px" style="border: 5px; margin: 0; padding: 0;"></iframe>
+						height="530px;" style="border: 5px; margin: 0; padding: 0;"></iframe>
 				</div>
 			</div>
 			<!--/.fluid-container-->

@@ -49,7 +49,7 @@ public abstract class Page {
 		sBuilder.append(variablePage.split);
 		for (int i = 1; i <= variablePage.totalPage; i++) {
 			if (i == variablePage.pageNo) {
-				sBuilder.append("<li><a>"+i + variablePage.split+"</a></li>");
+				sBuilder.append("<li><a><font color=\'red\'>"+i + variablePage.split+"</font></a></li>");
 			} else {
 				sBuilder.append(buildA(variablePage, i) + variablePage.split);
 			}
