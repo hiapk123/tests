@@ -20,45 +20,48 @@ String sorted=request.getAttribute("sorted").toString();
 }
 %>
 
-<%-- <script>
+ <script>
 $(function(){
-		$("li a").click(function() {
-			alert(666);
-			var key=$("#key").val();
-			 var c_name=$("#fenlei").val();
-			 var g_del=$("#g_del").val();
-			var m=$("#method").val();
-			var sorted=$("#sorted").val();
-			var which = $(this).text();
-			var s_id=$("#s_id").val();
-			if (which === "首页") {
-				which="first";
-			} else if (which == "上一页") {
-				which="prev";
-			} else if (which === "下一页") {
-				which="next";
-			} else if (which === "尾页") {
-				which="last";
-			} 
-			$("#tableContent").empty();
-			var currentPage=<%=currentPage%>;
-		
-			$.post("<%=basePath%>goods", {
-				"which" : which,
-				"s_id" : s_id,
-				"key" : key,
-				"c_name" : c_name,
-				"g_del" : g_del,
-				"m" : m,
-				"sorted":sorted,
-				"currentPage" : currentPage,
-			}, function(data) {
-				$("#tableContent").html(data);
-			}, "html");
-		});
+$("li a").click(function() {
+	
+	 var key=$("#key").val();
+	 
+	 var c_name=$("#fenlei").val();
+	 
+	 var g_del=$("#g_del").val();
+	var m=$("#method").val();
+	var sorted=$("#sorted").val();
+	var which = $(this).text();
+	var s_id=$("#s_id").val();
+	if (which === "首页") {
+		which="first";
+	} else if (which == "上一页") {
+		which="prev";
+	} else if (which === "下一页") {
+		which="next";
+	} else if (which === "尾页") {
+		which="last";
+	} 
+	var currentPage=$("#currentPage").val();
+	
+	$("#goodsinfodiv").empty();
+	
+	$.post("<%=basePath%>goods", {
+		"which" : which,
+		"s_id" : s_id,
+		"key" : key,
+		"c_name" : c_name,
+		"g_del" : g_del,
+		"m" : m,
+		"sorted":sorted,
+		"currentPage" : currentPage,
+	}, function(data) {
+		$("#goodsinfodiv").html(data);
+	}, "html");
+});
 });
 		
-</script> --%>
+</script>
 
 
 	<table class="table table-bordered table-condensed table-hover table-striped ">
@@ -134,8 +137,8 @@ $(function(){
 <%-- <input type="hidden" id="method" value="${method}" />
 <input type="hidden" id="sorted" value="${sorted}" />
 <input type="hidden" id="currentPage" value="<%=currentPage%>" /> --%>
-<%-- <ul class="pagination" id="page" style="position: absolute; bottom: 0px;">
+<ul class="pagination" id="page" style="position: absolute; bottom: 70px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
 		totalSum="${totalSize }" showPage="10" pageSize="10" />
-</ul> --%>
+</ul>

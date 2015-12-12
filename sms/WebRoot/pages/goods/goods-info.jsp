@@ -439,7 +439,7 @@ String c_name=request.getAttribute("c_name").toString();
 
 String g_del=request.getAttribute("g_del").toString();
 String method=application.getAttribute("method").toString();
-    
+  
 %>
 		<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
@@ -512,12 +512,13 @@ String method=application.getAttribute("method").toString();
 <input type="hidden" id="method" value="${method }" />
 <input type="hidden" id="sorted" value="${sorted }" />
 <input type="hidden" id="currentPage" value="<%=currentPage%>" />
-		</div>
-<ul class="pagination" id="page" >
+<ul class="pagination" id="page" style="position: absolute; bottom: 70px;">
 	<page:htmlPage  pageNo="${currentPage}"
 		url=""
-		totalSum="${totalSize }" showPage="10" pageSize="10" />
+		totalSum="${totalSize}" showPage="10" pageSize="10" />
 </ul>
+		</div>
+
 </div>
 	</div>
 </div>
