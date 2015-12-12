@@ -11,6 +11,7 @@
 String s_id=request.getAttribute("s_id").toString();
 String type=request.getAttribute("type").toString();
 %>
+
  <script>
  
 	

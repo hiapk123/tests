@@ -232,6 +232,7 @@ function save(){
 	var g_unit=$("#g_unit :selected").text();
     var c_id=$("#c_name0").val();
 	
+    
 	var c_name=$("#c_name0 :selected").text();
 	$("#goodsinfodiv").empty();
 	$("#page").hide();

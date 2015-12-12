@@ -127,6 +127,7 @@ $("li a").click(function() {
 			%>
 		</tbody>
 	</table>
+	
 	<input type="hidden" id="s_id" value="<%=s_id%>" />
 <input type="hidden" id="key" value="<%=key%>" />
 <input type="hidden" id="fenlei" value="<%=c_name%>" />

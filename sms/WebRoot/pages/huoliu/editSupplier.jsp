@@ -8,6 +8,7 @@
 %>
 <%
 
+
 List <Object[]> x=(List <Object[]>)request.getAttribute("list");
 
 %>

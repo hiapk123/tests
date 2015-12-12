@@ -231,6 +231,7 @@ public class GoodsServiceImp implements GoodsService {
 				if (list1.get(i)[8].equals(list2.get(j)[0])) {
 					flag=1;
 
+					
 				}
 				//  String [][]a={{"0","1","2"},{"a","b","c"}};
 				//	sqls[i]="insert into goods(s_id,s_name,g_name,g_barcode)values(?,?,?,?)";

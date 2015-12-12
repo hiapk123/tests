@@ -10,6 +10,7 @@
 int n=0;
 %>
 <%
+
 //String s_id=request.getParameter("s_id");
 
 

@@ -15,6 +15,7 @@
 <body>
 
 
+
 	<%String s_id=request.getParameter("s_id");
 	String s_name_out=request.getParameter("s_name_out");
 	%>

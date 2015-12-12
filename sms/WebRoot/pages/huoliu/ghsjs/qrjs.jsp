@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <%
 String danshu=request.getAttribute("danshu").toString();
 String price=request.getAttribute("price").toString();

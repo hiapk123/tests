@@ -40,6 +40,7 @@ String status=request.getAttribute("status").toString();
 			$("#fenye").empty();
 			var currentPage=<%=currentPage%>;
 		
+			
 			$.post("<%=basePath%>huoliu", {
 				"which" : which,
 				"s_id" : s_id,

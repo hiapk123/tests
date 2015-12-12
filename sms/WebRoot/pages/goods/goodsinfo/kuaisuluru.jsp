@@ -73,6 +73,7 @@ function tijiao(){
 		"g_pur_price" : g_pur_price,
 		"g_sale_price" : g_sale_price,
 		"g_stock_num" : g_stock_num,
+	
 		
 	}, function(data) {
 		if(data!="buhege"){

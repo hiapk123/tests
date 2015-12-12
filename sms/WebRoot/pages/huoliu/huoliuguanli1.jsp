@@ -9,6 +9,7 @@
 %>
 
 
+
 	<button type="button" class="btn btn-success" name="submit"
 		onclick="jinhuo()">进货</button>
 	&nbsp;&nbsp;

@@ -8,6 +8,7 @@
 <%
 String s_id=request.getAttribute("s_id").toString();
 
+
 String s_name=request.getAttribute("s_name").toString();
 String su_name=request.getAttribute("su_name").toString();
 String su_phone=request.getAttribute("su_phone").toString();

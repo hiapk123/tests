@@ -23,6 +23,8 @@ public interface GoodsService {
 	
 	
 	
+	
+	
 	public List<Object[]> goodssearch(int sid, int currentPage,String key, String c_name,String g_del);
    public List<Object[]> toExcel(int s_id,int c_id);
    public void addgood(String s_id,String s_name, String g_name, String g_del, String g_stock_num, String g_sale_price,

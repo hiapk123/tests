@@ -6,6 +6,7 @@
 	path=new String(path.getBytes("gbk"));
 	//path=new String(path.getBytes("GBK"),"UTF-8"); 
 	File file = new File(path);
+	
 	InputStream in = new FileInputStream(file);
 	OutputStream os = response.getOutputStream();
 	response.addHeader("Content-Disposition", "attachment;filename="

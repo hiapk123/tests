@@ -10,6 +10,7 @@
 							<label for="firstname" class="col-sm-2 control-label">单位</label>
 							<div class="col-sm-3">
 								<select id="g_unit" class="form-control">
+				
 								
 								<%
 										List<Object[]> list00 = (List<Object[]>) request.getAttribute("danwei");

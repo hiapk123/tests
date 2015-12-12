@@ -46,6 +46,7 @@ function edit1(){
 	}, "html");
 }
 
+
 function detail1(node){
 	 var list=$("#list").val();
 	var s_id=$("#s_id").val();

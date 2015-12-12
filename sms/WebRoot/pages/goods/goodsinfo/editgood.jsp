@@ -284,6 +284,7 @@ function save1(){
 		
 	$.post("<%=basePath%>goods", {
 		"m" : "editGood2",
+	
 		
 		"g_id" :g_id,
 		 "s_name" :s_name ,

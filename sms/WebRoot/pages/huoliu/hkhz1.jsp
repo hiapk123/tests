@@ -7,6 +7,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+
 <%
 String sum=request.getAttribute("sum").toString();
 String sum1=request.getAttribute("sum1").toString();

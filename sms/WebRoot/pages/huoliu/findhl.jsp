@@ -7,6 +7,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+
 <%String currentPage=request.getAttribute("currentPage").toString(); 
 String s_id=request.getAttribute("s_id").toString();
 String type=request.getAttribute("type").toString();

@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <%String result=request.getAttribute("result").toString(); %>
 <p><%=result %></p>
 </body>

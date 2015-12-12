@@ -12,6 +12,7 @@ String as = "供货商资料导出表.xls";
 String fileName = as;
 
 
+
 fileName = new String(as.getBytes("utf8"), "ISO_8859_1");
 
 response.setHeader("Content-disposition", "attachment; filename="+fileName);

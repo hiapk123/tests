@@ -6,4 +6,5 @@ System.out.println(flag);
 
 %>
 
+
 <input type="text" id="flag" value="<%=flag%>">

@@ -10,6 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			request.setAttribute("s_id", s_id);
 			request.setAttribute("s_name", s_name);
 		%>
+		
 	<script language="javascript" src="<%=basePath%>js/ajaxfileupload.js" > </script>
 <script type="text/javascript">
 	function sb()

@@ -142,6 +142,7 @@
 		});  
 		$('#ghs').click(function(){
 			$('iframe').attr('src',"<%=basePath %>huoliu?m=supplierInfo&s_id=1&s_del=1&key=");
+		
 			
 		});  
 		$('#hlgl').click(function(){
