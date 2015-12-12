@@ -105,6 +105,7 @@ String s_name=request.getAttribute("s_name").toString();
       </div>
        <div class="col-md-1">
     
+    
       </div>
        <label for="secondname" class="col-md-2 control-label">是否授权:</label>
       <div class="col-md-2">

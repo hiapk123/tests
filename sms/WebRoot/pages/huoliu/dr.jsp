@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div id="MM">
 
+
 <div   style=" margin: 80px auto; width: 650px;  height: 400px; border: 5px solid #EE2C2C;">
 	<%
 			String s_id = request.getParameter("s_id");

@@ -29,25 +29,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input type="text" readonly= "true " value="<%=s_name%>"	 class="form-control">  
       </div>
    </div>
+ <form action="<%=basePath%>goods?m=toExcel&s_id=<%=s_id%>" method="post">
    <div class="form-group">
       <label for="firstname" class="col-sm-2 control-label">商品分类:</label>
       <div class="col-sm-3">
-         <select class="form-control">
-         <option>散装</option>
-         <option>水果</option>
-         <option>无</option>
-        
-      </select>
+        <select name="c_name" class="form-control">
+
+									<%
+										List<Object[]> list1 = (List<Object[]>) request.getAttribute("fenlei");
+										if (list1 != null && list1.size() != 0) {
+											for (Object[] obj : list1) {
+									%>
+									<option value='<%=obj[0]%>'><%=obj[1]%></option>
+									<%
+										}
+										}
+	
+										
+	
+										%>
+</select>
       </div>
    </div>
   <div class="form-group">
-     <div class="col-sm-2 "></div>
-      <div class="col-sm-3">
-      <form action="<%=basePath%>goods?m=toExcel&s_id=<%=s_id%>" method="post">
-   
-   <input type="submit"  value="导出数据到Excel" class="btn btn-success">
+    
+      <div class="col-sm-2"></div>
+      
+     
+    <div class="col-sm-3">
+   <input type="submit" onclick="" value="导出数据到Excel" class="btn btn-success">
+   </div>
 </form>
-      </div>
+      
    </div>
 </div>		
 

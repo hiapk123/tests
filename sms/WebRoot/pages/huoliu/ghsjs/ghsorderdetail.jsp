@@ -8,6 +8,7 @@
 	%>
 	
 
+
 <table id="mytable" class="table table-bordered table-condensed table-hover table-striped ">
 				<thead>
 					<tr >

@@ -12,6 +12,7 @@
 <style type="text/css">
 
 
+
 #Layer1{ display: block;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: white;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=80);}
 </style>
 

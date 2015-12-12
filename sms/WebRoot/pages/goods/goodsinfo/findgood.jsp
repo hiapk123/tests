@@ -327,6 +327,7 @@ $("li a").click(function() {
 		totalSum="${totalSize }" showPage="10" pageSize="10" />
 </ul>
 </div>
+
 <input type="hidden" id="s_id" value="<%=s_id%>" />
 
 <input type="hidden" id="key" value="<%=key%>" />

@@ -35,6 +35,7 @@ public class HuoliuServiceImp implements HuoliuService{
 	private QueryRunner queryRunner;
 
 
+	
 	/*	public HuoliuServiceImp() {
 		queryRunner = new QueryRunner(JdbcUtils.getInstance().getDataSource());
 	}*/

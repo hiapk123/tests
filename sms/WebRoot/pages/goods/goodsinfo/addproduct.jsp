@@ -32,6 +32,11 @@ $(document).ready(function () {
 	}
 	
 });
+function music(randomno)
+{
+
+$("#g_barcode").val(randomno);
+}
 </script>
 
 </head>
@@ -67,23 +72,28 @@ $(document).ready(function () {
       </div>
    </div>
 </form> 
-<form class="form-horizontal" role="form">
+<div class="form-horizontal" role="form">
    <div class="form-group">
       <label for="firstname" class="col-md-3 control-label">商品条码:</label>
       <div class="col-md-6">
       <input type="text" id="g_barcode" value=""	placeholder="请输入商品条码" class="form-control">  
+      
       </div>
    </div>
-</form> 
+</div> 
+  
+  
+  
   
   
 		<input type="hidden" value="<%=s_id%>" >
 					<input id="status" type="hidden" name="message" value="${message}">
 					<center>
+					 <button onclick="music(Math.floor(Math.random()*10000000+1))" class="  btn btn-primary ">随机生成</button>
 				<button type="submit" class="btn btn-success"  onclick="deliver()">确定</button>
               
-				<button type="submit" class="btn btn-default" >生成</button>
-				 
+				
+				
 	                </center>
 		
 

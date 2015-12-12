@@ -9,6 +9,7 @@
 <div style="width: 100%;height:400px;">
 		<table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
+		
 			<tr class="info">
 				<th>操作</th>
 				<th>编号</th>

@@ -8,6 +8,7 @@
 %>
 <%!
 int n=0;
+
 %> 
 
 <% 
@@ -19,7 +20,8 @@ int n=0;
 					if (List.size() > 0) {
 						for (int k = 0; k <ly.length/8 ; k++){
 					%>
-    <table style="width: 1200px; height: 30px; table-layout: fixed;"border="1"; class="table-bordered table-condensed table-hover table-striped">
+					<div  style="width:2000px;height:auto">
+    <table style="width: 2000px; height: 30px; table-layout: fixed;"border="1"; class="table-bordered table-condensed table-hover table-striped">
 				<tbody >
 					
 					

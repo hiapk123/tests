@@ -11,6 +11,7 @@
 
 
 
+
 <jsp:include page="goods/test.jsp"></jsp:include>
 <jsp:include page="goods/goods-info.jsp"></jsp:include>
 </div>
@@ -31,3 +32,4 @@
 <div id="spbs" class="myclass">商品报损</div>
 <div id="bsjl" class="myclass">报损记录</div>
 <div id="bstj" class="myclass">报损统计</div>
+

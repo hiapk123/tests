@@ -3,5 +3,6 @@ package org.uestc.dao;
 public interface GoodsDao {
 	public void save(String sql);
 	
+
 	
 }

@@ -58,6 +58,7 @@ String type=request.getAttribute("status").toString();
 </head>
 
 
+
 <div style="width:1400px;height:500px">
 <table class="table table-bordered table-condensed table-hover table-striped ">
 

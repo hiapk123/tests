@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 
 
+
 </head>
 <body>
 
@@ -20,7 +21,8 @@
 	String s_name=request.getParameter("s_name");
 	%>
 	<label>门店:<%=s_name %></label>
-		<table style="width: 1200px; height: 30px; table-layout: fixed;"
+	<div  style="width:2000px;height:auto">
+		<table style="width: 2000px; height: 30px; table-layout: fixed;"
 			border="1"; class="table-bordered table-condensed table-hover table-striped ">
 			<thead>
 				<tr>
@@ -41,6 +43,7 @@
 			<tbody>
 			</tbody>
 			</table>
+			</div>
   
 </body>
 </html>
