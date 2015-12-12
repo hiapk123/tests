@@ -128,7 +128,7 @@ a {
 <script type="text/javascript">
 function sh_memmoneyclick()
 {
-	alert("submit");
+	//alert("submit");
 	var shopname =$("#sh_shopname").val();
 	var time11=$("#sstartime").val();
 	var time22=$("#ssendtime").val();
@@ -155,7 +155,7 @@ function sh_memmoneyclick()
 			"sh_etime":time22,
 			"sh_fangshi":v_type	
 		},function(date){
-			alert(date);
+			//alert(date);
 			//可以直接实现页面的绑定
 			$("#sh_moneytable").empty();
 			$("#sh_moneytable").append(date);

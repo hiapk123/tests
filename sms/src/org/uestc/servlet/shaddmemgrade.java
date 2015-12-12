@@ -1,6 +1,8 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +38,14 @@ public class shaddmemgrade extends HttpServlet {
 		String shmgracesql="insert into vip_type(name,discount,time,integral) values ("+"'"+shmemdjmc+"'"+","+"'"+shmemyhzk+"'"+","+"'"+shmemyxq+"'"+","+shmemhyjf+")";
 		//进行插入操作
 		new MemInformServiceImp().normalupdate(shmgracesql);
+		
+		
+		//进行页面的刷新操作
+		String memgracesql="select * from vip_type";
+		List<Object[]> shmemgrace=(List<Object[]>)new MemInformServiceImp().normalfinad(memgracesql);
+		request.setAttribute("shmemgrace", shmemgrace);
+		request.getRequestDispatcher("pages/member/membergracetable.jsp").forward(request, response);
+		
 		
 	
 	}

@@ -29,7 +29,6 @@ public class shmembergracebath extends HttpServlet {
 		//进行页面的刷新
 		
 		// 
-		
 		request.setAttribute("shmemgrace", shmemgrace);
 		request.getRequestDispatcher("pages/member/membergracetable.jsp").forward(request, response);
 	}

@@ -1,3 +1,5 @@
+<%@page import="java.util.GregorianCalendar"%>
+<%@page import="java.util.Date"%>
 <%@page import="org.apache.el.lang.ELSupport"%>
 <%@page import="org.uestc.serviceImp.MemInformServiceImp"%>
 <%@page import="com.uestc.bean.batchgoods"%>
@@ -11,7 +13,7 @@
 	//request.getRequestDispatcher(action).forward(request, response);
 %>
 
-
+<%@ page import="java.text.SimpleDateFormat" %>
 <!-- 分页头部引用 -->
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 
@@ -32,6 +34,7 @@
 	<tbody>
 	<%
 	List<Object[]> deatailist=(List<Object[]>)request.getAttribute("detailslist");
+	String therealtiime="";
 	String storename="";	
 	String chongzhileixing ="";
 	double yue=0;
@@ -79,6 +82,15 @@
 				yue=Double.parseDouble(llh[0].toString());
 			}
 			
+			//将时间显示成对应的时间格式
+			String haomiaotime=obj[6].toString();
+			long hmtime=Long.parseLong(haomiaotime);
+			Date dat=new Date(hmtime);
+			GregorianCalendar gc = new GregorianCalendar();  
+			gc.setTime(dat);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			therealtiime=format.format(gc.getTime()); 
+			
 	%>
 		<tr>
 			<td><%=storename %></td>	
@@ -87,7 +99,7 @@
 			<td><%=obj[3] %></td>
 			<td><%=obj[4] %></td>
 			<td><%=obj[7] %></td>
-			<td><%=obj[6] %></td>
+			<td><%=therealtiime %></td>
 			<td><%=yue %></td>
 		</tr>
 	<% 

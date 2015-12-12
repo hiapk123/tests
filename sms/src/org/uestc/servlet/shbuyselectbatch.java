@@ -60,8 +60,9 @@ public class shbuyselectbatch extends HttpServlet {
 		//查询所需要的信息
 		String gettable="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'";
 		List<Object[]> cmaqsd=new MemInformServiceImp().normalfinad(gettable);
+		
 		request.setAttribute("cmaqsd", cmaqsd);
-		request.getRequestDispatcher("").forward(request,response);
+		request.getRequestDispatcher("/pages/member/sh_buyselecttable.jsp").forward(request,response);
 		
 	}
 	

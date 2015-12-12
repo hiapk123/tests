@@ -114,6 +114,8 @@ a {
 </head>
 <script type="text/javascript">
 function shmemsavepss(id){
+	//编辑的按钮
+	//alert("哈哈哈哈哈哈");
 	//alert("进行新的保存");
 	//alert(id);
 	var sskheid=id;
@@ -121,6 +123,27 @@ function shmemsavepss(id){
 	var sskgracediscount=$("#shmemyhzkss").val();
 	var sskgracetime=0;
 	var sskgraceintegra=0;
+	//alert(sskgracelevel);
+	//alert(sskgracediscount);
+	if(sskgracelevel=="")
+		{
+		alert("会员等级名称不能为空");
+		return false;
+		}
+	if(isNaN(sskgracediscount))
+		{
+		alert("折扣只能输入数字");
+		return false;
+		}
+	
+	var number2=parseInt(sskgracediscount);
+	if(number2>10||number2<0)
+	{
+		alert("折扣只能是0~10的数字");
+		return false;
+	}
+	
+	
 	if($("#shmemzdsjss").is(":checked"))
 		{
 		sskgracetime=$("input[name='shmemgdss'][type='radio']:checked").val();
@@ -225,6 +248,33 @@ function shmemsavep()
 	var shmemyhzk=$("#shmemyhzk").val();
 	var shmemhyjf=0;
 	var shmemyxq=0;
+	//进行变淡验证
+	if(shmemdjmc=="")
+	{
+		alert("等级名称不能为空");
+		return false;
+		
+		}
+	if(shmemyhzk=="")
+		{
+		alert("会员折扣不能为空");
+		return false;
+		}
+	//验证必须为数字
+	if(isNaN(shmemyhzk))
+		{
+		alert("会员折扣只能输入数字");
+		return false;
+		}
+	//验证必须是10以内的数字。
+	var number2=parseInt(shmemyhzk);
+	if(number2>10||number2<0)
+	{
+		alert("折扣只能是0~10的数字");
+		return false;
+	}
+	
+	
 	if($("#shmemzdsj").is(":checked"))
 		{
 		//单选按钮
@@ -251,16 +301,19 @@ function shmemsavep()
 	},function(date){
 		
 		//alert("插入成功");
-	},"html");
-	
+		$("#membergrapethebody").empty();
+		$("#membergrapethebody").append(date);
+		//alert(date)
+	},"html");	
 	//插入成功之后必须进行页面的刷新
-	$.post("<%=basePath%>shmemgradeupdate",{},function(date)
-			{
+<%-- $.post("<%=basePath%>shmemgradeupdate",{},
+			function(date){
+		alert("进行页面的刷新");
 		$("#membergrapethebody").empty();
 		$("#membergrapethebody").append(date);
 		
 		
-	},"html");
+	},"html"); --%>
 }
 
 function shselectchecks()
@@ -283,7 +336,9 @@ function shselectchecks()
 <script type="text/javascript">
 $(document).ready(function(){
 	//alert("页面加载");
-$.post("<%=basePath%>shmembergracebath",{},function(date){
+	//初始化的操作
+$.post("<%=basePath%>shmembergracebath",{},
+		function(date){
 	
 	//alert("返回数据");
 	//alert(date);
@@ -297,6 +352,7 @@ $.post("<%=basePath%>shmembergracebath",{},function(date){
 function addgrace()
 {
 	//alert("add");
+	//alert("新增会员等级");
 	$("#shgraceclick").click();
 	
 }
@@ -314,21 +370,7 @@ function addgrace()
 		</div>
 			</div>
 	</div>
-		<div>
-		<!-- //这里是所列的表格 -->
-		<table class="table table-bordered" name="numgettable">
-			<thred>
-			<tr>
-				<td>序号</td>
-				<td>操作</td>
-				<td>等级名称</td>
-				<td>优惠折扣</td>
-				<td>自动提升规则</td>
-			</tr>
-			</thred>
-			<tbody id="membergrapethebody">
-			</tbody>
-		</table>
+		<div id="membergrapethebody">
 	</div>
 	
 <!-- //进行新增等级模态框	 -->
@@ -392,7 +434,7 @@ function addgrace()
 					<table>
 					<tr>
 					<td>
-					1.当会员积分达到
+					1.当会员积分达到 
 					<input id="shmemhyjf" type="text" style="width: 30px">
 					时，自动升级到该等级
 					</td>

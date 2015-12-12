@@ -172,12 +172,15 @@ function sh_buyquery() {
 		return false;
 		}
 	// 表单提交
-	$.post("<%=basePath%>",{
+	$.post("<%=basePath%>shbuyselectbatch",{
 		"textfiled":textfiled,
 		"time1":time1,
 		"time2":time2
 	},function(date){
-		alert(date);
+		//alert(date);
+		//alert("提交成功");
+		$("#sh_sowthetable").empty();
+		$("#sh_sowthetable").append(date);
 		
 	},"html")
 }
@@ -229,8 +232,12 @@ function sh_buyquery() {
 	</div>
 	</form>
 </div>
-
-
+<!-- 	显示表格的部分	 -->
+	<div id="sh_sowthetable" class="panel panel-default" >
+		<!--start  -->
+		<div id="sh_buyselect" style="height: 550px"></div>
+		<!-- end -->
+	</div>
 
 </body>
 <script type="text/javascript">
