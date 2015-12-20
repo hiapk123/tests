@@ -15,7 +15,7 @@ import com.uestc.bean.Users;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = { "*.do" })
+@WebFilter(urlPatterns = { "/*" })
 public class LoginFilter implements Filter {
 
 	/**
@@ -42,10 +42,13 @@ public class LoginFilter implements Filter {
 
 		String path = req.getRequestURI();
 		// 登陆页面无需过滤
-		if (path.indexOf("/login.jsp") > -1) {
+		if (path.contains("login")||path.contains(".js")||path.contains(".css")||path.contains(".ico")||path.contains(".png")||path.contains(".jpg")||path.contains("UserServlet")) {
 			chain.doFilter(request, response);
 			return;
 		}
+		
+		System.out.println(path);
+		//System.out.println(req.getRequestURL().toString());
 		if (user == null) {
 			req.getRequestDispatcher("/login.jsp").forward(req, response);
 		} else {
