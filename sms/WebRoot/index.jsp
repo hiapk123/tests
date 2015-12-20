@@ -274,23 +274,23 @@
 				<button class="btn btn-default dropdown-toggle"
 					data-toggle="dropdown">
 					<i class="glyphicon glyphicon-user"></i><span
-						class="hidden-sm hidden-xs"> admin</span> <span class="caret"></span>
+						class="hidden-sm hidden-xs"> 系统</span> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
 					<li><a href="#">资料</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html">退出</a></li>
+					<li><a href="login.jsp">退出</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->
 
 			<!-- theme selector starts -->
 			<div class="btn-group pull-right theme-container animated tada">
-				<button class="btn btn-default dropdown-toggle"
+				<!-- <button class="btn btn-default dropdown-toggle"
 					data-toggle="dropdown">
 					<i class="glyphicon glyphicon-tint"></i><span
 						class="hidden-sm hidden-xs"> 更换主题 / 皮肤</span> <span class="caret"></span>
-				</button>
+				</button> -->
 				<ul class="dropdown-menu" id="themes">
 
 					<li><a data-value="cerulean" href="#"><i
@@ -501,7 +501,7 @@
 
 			<div id="content" class="col-lg-10 col-sm-10">
 				<div>
-					<iframe src="<%=basePath%>welcome.html" width="100%"
+					<iframe src="<%=basePath%>welcome.jsp" width="100%"
 						height="530px;" style="border: 5px; margin: 0; padding: 0;"></iframe>
 				</div>
 			</div>
