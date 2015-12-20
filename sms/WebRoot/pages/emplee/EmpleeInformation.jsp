@@ -137,24 +137,71 @@ $(document).ready(function(){
 })
 </script>
 <script type="text/javascript">
+//下拉框刷新2
+function sh_zhuangtaishuaxin()
+{
+	var empleestore=$("#shmemstore").val();
+	var empleestate=$("#shmemstate").val();
+	$.post("<%=basePath%>sh_xialakuangbath",
+			{
+			"type":"0",
+			"empleestore":empleestore,
+			"empleestate":empleestate
+			},function(data){
+			
+			alert("返回数据成功");
+			alert(data);
+			$("#shempleetable").empty();
+			$("#shempleetable").append(data);
+			},"html");
+	
+	
+}
+
+</script>
+<script type="text/javascript">
+//页面下拉框的刷新1
+function sh_clickstorename()
+{
+	//alert("下拉框刷新");
+	var empleestore=$("#shmemstore").val();
+	var empleestate=$("#shmemstate").val();
+	alert(empleestore);
+	$.post("<%=basePath%>sh_xialakuangbath",
+		{
+		"type":"0",
+		"empleestore":empleestore,
+		"empleestate":empleestate
+		},function(data){
+		
+		alert("返回数据成功");
+		alert(data);
+		$("#shempleetable").empty();
+		$("#shempleetable").append(data);
+		},"html");
+	
+}
+</script>
+<script type="text/javascript">
 //点击查询按钮
 function shcheckbutton()
 {
-	//alert("点击查询");
+	alert("点击查询");
 	var storeide=$("#shmemstore").val();
 	var statee=$("#shmemstate").val();
 	var shtext=$("#shcheckbox").val();
 	if(shtext=="")
-		{
+	{
 		//默认查询,没有文本框的情况
 		$.post("<%=basePath%>empleecheckbox",
-				{
+			{
 			"type":"1",
 			"storeide":storeide,
 			"statee":statee,
 			"shtext":shtext
 				},function(data){
 					//alert("返回数据成功");
+					//alert(data);
 					$("#shempleetable").empty();
 					$("#shempleetable").append(data);
 					
@@ -173,6 +220,7 @@ function shcheckbutton()
 			"shtext":shtext
 				},function(data){
 					//alert("返回数据成功");
+					//alert(data);
 					$("#shempleetable").empty();
 					$("#shempleetable").append(data);
 					
@@ -236,12 +284,18 @@ function addempleer(){
 </script>
 <body>
 	<!-- //会员按钮和资料 -->
+	<div class="panel panel-default">
+	<div class="panel-footer">
+	
 	<div class="conditionNav">
+
 		<!-- //左边的button按钮 -->
-		<input onclick="addempleer();" type="button" value="新增收银员">
+		<input class="btn btn-primary" onclick="addempleer();" type="button" value="新增收银员">
 		<!-- //右边的显示部分  -->
 		<div class="conditionNav" style="float: right;">
-			<select id="shmemstore">
+		<div class="row">
+			<div class="col-xs-3" >
+			<select onchange="sh_clickstorename();"  style="width: 122px" id="shmemstore" class="form-control">
 				<%
 					List<Object[]> listf = null;
 					List<Object[]> listg = null;
@@ -255,29 +309,43 @@ function addempleer(){
 					}
 					}
 				%>
-			</select> <select id="shmemstate">
+			</select> 
+			</div>
+			<div class="col-xs-3" >
+			<select onchange="sh_zhuangtaishuaxin();" class="form-control" id="shmemstate">
 				<option value="0" selected="selected">启用</option>
 				<option value="1">禁用</option>
-			</select> <input id="shcheckbox" type="text" placeholder="卡号/姓名/电话" /> <input
-				onclick="shcheckbutton();" type="button" value="查询">
+			</select> 
+			</div>
+			<div class="col-xs-4">
+			<input class="search-query form-control col-md-10" id="shcheckbox" type="text" placeholder="卡号/姓名/电话" /> 
+			</div>	
+			<div class="col-xs-1">
+			<input class="btn btn-primary" onclick="shcheckbutton();" type="button" value="查询">
+			</div>
+			</div>
+		<!-- end -->
 		</div>
 	</div>
+	
+</div>
+</div>
 
-	<div style="overflow-y: scoll;height:50px" >
+	<div class="panel panel-default" >
 		<!-- //这里是所列的表格 -->
-		<table class="table table-bordered" name="numgettable" style="height: 70px;overflow-y: scroll;">
+		<table style="height: 100%" class="table table-bordered" name="numgettable">
 			<thred>
 			<tr>
-				<td>序号</td>
-				<td>操作</td>
-				<td>所属门店</td>
-				<td>工号</td>
-				<td>姓名</td>
-				<td>电话</td>
-				<td>状态</td>
+				<td><font size="3" >序号</font></td>
+				<td><font size="3" >操作</font></td>
+				<td><font size="3" >所属门店</font></td>
+				<td><font size="3" >工号</font></td>
+				<td><font size="3" >姓名</font></td>
+				<td><font size="3" >电话</font></td>
+				<td><font size="3" >状态</font></td>
 			</tr>
 			</thred>
-			<tbody id="shempleetable" style="overflow: scroll;">
+			<tbody id="shempleetable">
 			</tbody>
 		</table>
 	</div>
@@ -420,6 +488,8 @@ function shempeditd(){
 <script type="text/javascript">
 function shempsave()
 {
+	//进行表单验证（验证员工工号和姓名不能为空）
+	
 	//alert("save");
 	var shempstore=$("#shempshore").val();
 	var shempbh=$("#shempbh").val();
@@ -437,10 +507,11 @@ function shempsave()
 	if(shempbh=="")
 		{
 		alert("请输入收银员编号");
+		return false;
 		}
 	else
 		{
-		if(shempxm==""){alert("请输入姓名");}
+		if(shempxm==""){alert("请输入姓名");return false;}
 		else {
 			//进行表单的提交
 			$.post("<%=basePath%>addempinform", {

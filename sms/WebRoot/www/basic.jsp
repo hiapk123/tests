@@ -228,7 +228,7 @@
 			}catch (e) {
 				
 			}
-			var tableStr=" <table class=\"mytable table\">";
+			var tableStr=" <table class=\"mytable\">";
 			tableStr+="<thead><tr><th><input type=\"checkbox\" id=\"checkAll\" onclick='checkAll();'></th>"+
 					
 				     "<th>名称</th>"+
@@ -244,7 +244,7 @@
 				var id="text"+i;
 				tableStr+="<tr>";
 				tableStr+="<td><input type=\"checkbox\" value=\""+goods[i].barcode+"\" name='mycheckbox' onclick='uncheck();' ></td>";
-				tableStr+="<td style=\"width:200px;\">"+goods[i].name+"</td>";
+				tableStr+="<td>"+goods[i].name+"</td>";
 				tableStr+="<td>"+goods[i].barcode+"</td>";
 				tableStr+="<td>"+goods[i].price+"</td>";
 				tableStr+="<td>"+goods[i].date+"</td>";
@@ -334,7 +334,7 @@
 </HEAD>
 
 <BODY>
-<div class="panel panel-default">
+<div class="panel-default">
    <div class="panel-heading">
       <h3 class="panel-title">商品列表</h3>
    </div>

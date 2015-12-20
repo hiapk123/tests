@@ -11,26 +11,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
 
-
-@WebServlet(urlPatterns="/shmembergracebath",name="shmembergracebathServlet")
-public class shmembergracebath extends HttpServlet {
+@WebServlet(urlPatterns="/shmem_jiaojieban",
+name="shmem_jiaojiebanServlet")
+public class shmem_jiaojieban extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
 		this.doPost(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("会员等级处理页面");
-		String memgracesql="select * from vip_type";
-		List<Object[]> shmemgrace=(List<Object[]>)new MemInformServiceImp().normalfinad(memgracesql);
-		//进行页面的刷新
+		System.out.println("交接班记录Servlet");
+		String newsql="select s_name from store";
+		List<Object[]> shjiaojielist=new MemInformServiceImp().normalfinad(newsql);
+		request.setAttribute("shjiaojielist", shjiaojielist);
+		request.getRequestDispatcher("/pages/emplee/empleelog.jsp").forward(request, response);
 		
-		// 
-		request.setAttribute("shmemgrace", shmemgrace);
-		request.getRequestDispatcher("pages/member/membergracetable.jsp").forward(request, response);
 	}
 
 }

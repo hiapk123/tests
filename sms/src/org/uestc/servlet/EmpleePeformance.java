@@ -33,7 +33,7 @@ public class EmpleePeformance extends HttpServlet {
 		List<Object[]> shperformstore=(List<Object[]>)new MemInformServiceImp().normalfinad(storesql);
 		request.setAttribute("shperformstore", shperformstore);
 		//绑定全部的收银员
-		String empleesql="SELECT emp_name from employee WHERE emp_status=0";
+		String empleesql="SELECT emp_name from employee WHERE emp_status=1";
 		List<Object[]> shperformempname=(List<Object[]>)new MemInformServiceImp().normalfinad(empleesql);
 		request.setAttribute("shperformempname", shperformempname);
 		

@@ -1,6 +1,8 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
 @WebServlet(urlPatterns="/emperfomancetable",name="emperfomancetableServlet")
@@ -24,13 +28,26 @@ public class emperfomancetable extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		System.out.println("进入收银员处理表格servlet");
-		//接受前台的参�?
+		//接受前台的参�?
 		String shempperform1=request.getParameter("shempperform1");
 		String shempperform2=request.getParameter("shempperform2");
 		String shempperform3=request.getParameter("shempperform3");
 		String shempperformtime1=request.getParameter("shempperformtime1");
 		String shempperformtime2=request.getParameter("shempperformtime2");	
-		//进行表格的处理操�?
+		try {
+			shempperformtime1=StrToDate(shempperformtime1);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			shempperformtime2=StrToDate(shempperformtime2);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//进行表格的处理操�?
 		int shfenleimid=0;
 		int shshouyinyuanid=0;
 		//1.用收银员名字查找收银员id.***************		
@@ -59,8 +76,8 @@ public class emperfomancetable extends HttpServlet {
 		shfenleimid=Integer.parseInt(shobj2[0].toString());//分类名id
 		
 		}
-		//查询返回表格的操�?
-		//1.这里进行返回表格的查�?
+		//查询返回表格的操�?
+		//1.这里进行返回表格的查�?
 		
 		String shobj3="";
 		if("-1".equals(shempperform2))
@@ -94,6 +111,18 @@ public class emperfomancetable extends HttpServlet {
 		
 		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);
 		
+	}	
+	//字符串转化函数
+	private String StrToDate(String str) throws java.text.ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "" + date.getTime();
 	}
 
 }

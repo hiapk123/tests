@@ -283,6 +283,9 @@ $(document).ready(function(){
 
 //页面查询的按钮。
 function shmsub() {
+	//进行表单验证：
+	//var mems=document.memkkk.memshtextx.value;
+	//alert(mems);
 	//alert("点击提交");//在后台进行sql的值传递进行判断
 	var mshopname=$("#shmdm").val(); 
 	var mshopdj=$("#shdjm").val();
@@ -333,6 +336,7 @@ function shmsub() {
 		<div class="col-xs-2"><a href="#" onclick="sqclick3();" id="shlpldc">批量导出</a></div>	
 		</div>
 		<!-- //嵌套div想让它对齐的作用 -->
+		<form name="memkkk">
 		<div class="conditionNav" style="float: left;padding-top: 20px">
 		<!-- //门店下拉 -->
 		<div class="col-xs-3">
@@ -389,13 +393,15 @@ function shmsub() {
 		</select>
 		</div>
 		<div class="col-xs-3">
-		<input class="search-query form-control col-md-10" id="shminput" type="text" placeholder="卡号/姓名/电话" />
+		<input name="memshtextx" class="search-query form-control col-md-10" id="shminput" type="text" placeholder="卡号/姓名/电话" />
 		</div>
 	<!-- 	//查询按钮 -->
 	<div class="col-xs-1">
 		<input class="btn btn-primary" onclick="shmsub();" type="submit" value="查询">
 		</div>
 		</div>
+		</form>
+		<!-- //新增 -->
 			</div>
 				</div>	
 	</div>
@@ -403,7 +409,7 @@ function shmsub() {
 		
 	
 	<!-- //展示表格的div -->
-	<div class="panel panel-default" style="width: 100%;height: 500px;padding-top: 1px">
+	<div class="panel panel-default" style="width: 100%;height: 537px;padding-top: 1px;clear: both;">
 	     
 		<div id="shmemtable">	
 		</div>
@@ -411,7 +417,7 @@ function shmsub() {
 	</div>
 	
 	<!-- //下面的显示会员数和总余额 -->
-	<div  class="pageList" style="display: block;height: 50%;padding-top: 10px">
+	<div  class="pageList" style="display: block;height: 50%;padding-top: 10px;float: left;width: 100%;clear:both;">
 	<div class="panel panel-default">
 		<div class="panel-footer">
 
@@ -433,12 +439,12 @@ function shmsub() {
 	}
 			
 %>
-	<span>会员数：</span>
-	<span><input type="text" id="sjmountd1" style=" background: transparent;border: 0"  /></span>
-	<span>总余额：</span>
-	<span><input type="text" id="sjmountd2" style=" background: transparent;border: 0" /></span>
-	<span>总积分：</span>
-	<span><input type="text" id="sjmountd3" style=" background: transparent;border: 0" /></span>
+	<span><font size="3px" style="text-align: center;">会员数：</font></span>
+	<span><input size="3px" type="text" id="sjmountd1" style="text-align:center; background: transparent;border: 0"  /></span>
+	<span><font  size="3px" style="text-align: center;">总余额：</font></span>
+	<span><input size="3px" type="text" id="sjmountd2" style=" text-align:center;background: transparent;border: 0" /></span>
+	<span><font size="3px" style="text-align: center;">总积分：</font></span>
+	<span><input size="3px" type="text" id="sjmountd3" style=" text-align:center; background: transparent;border: 0" /></span>
 
 </div>
 </div>
@@ -584,7 +590,7 @@ function shmsub() {
       </div>  <!-- //主体部分的结束-->
       <div class="modal-footer">  
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-        <button onclick="shaddmem();" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>  
+        <button id="shsavebutton"  onclick="shaddmem();" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>  
       </div>  
     </div><!-- /.modal-content -->  
   </div><!-- /.modal-dialog -->  
@@ -685,6 +691,7 @@ function shmsub() {
 //编辑的模态框的触发
 function shbianji(id){
 	//alert("编辑");
+	//alert(id);
 	var shvid=id;
 	//alert(shvid);
 	//开始进行新的页面的查询并绑定列表框
@@ -694,6 +701,7 @@ function shbianji(id){
 	},function(date){
 		//alert(date)
 		//先进行绑定
+		$("#ldfucl").empty();
 		$("#ldfucl").append(date);
 		$("#shyhbj").click();
 		
@@ -768,15 +776,19 @@ function shaddmem()
 	if(v_card_no=="")
 		{
 		alert("请填写会员编号");
+		
 		}
 	else if (vip_name=="") {
 		alert("填写会员姓名");	
+	
 	}
 	else if (sshhydj=="-1") {
 		alert("请选择会员等级");
+		
 	}
 	else if (shlxdh=="") {
 		alert("请填写会员电话");
+	
 	}
 	else
 		{
@@ -788,6 +800,7 @@ function shaddmem()
 			"shyouxiang":shyouxiang,"shdizhi":shdizhi,"shbeizhu":shbeizhu},
 				function(data)
 				{
+			//document.getElementById("shsavebutton").disabled ="";
 			//alert("页面添加成功");
 			//alert(data)
 			$("#shmemtable").empty();

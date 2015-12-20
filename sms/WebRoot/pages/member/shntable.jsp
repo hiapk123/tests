@@ -1,9 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
-<table class="table table-bordered" name="numgettable">
+<head>
+   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <script src="/scripts/jquery.min.js"></script>
+   <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" name="numgettable">
 <thead>
 	<tr>
-		<th>会员序号</th>
+		<th><font size="100px">会员序号</font></th>
 		<th>操作</th>
 		<th>会员号</th>
 		<th>姓名</th>

@@ -563,6 +563,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   //查询条件显示页面
   function shsubmit()
   {
+	  //首先获取表单元素的值
+	  var memtext=document.shmemyanzheng.shmemtext.value;
+	  if(memtext.match(/^[0-9]*$/))
+		  {
+		  
+		  }
+	  else
+		  {
+		  //清空文本的内容
+		  document.shmemyanzheng.shmemtext.value="";
+		  //document.shmemyanzheng.shmemtext.style.background="red";
+		  document.shmemyanzheng.shmemtext.focus();
+		  alert("条码只能是数字");
+		  return false;
+		  }
+	  //alert(memtext)
 	  //alert("查询按钮");
 	  var shopname=$("#shselectstore").val();
 	  var shzhuangtai=$("#shleibie").val();
@@ -914,7 +930,8 @@ $(function(){
 	<div class="panel panel-default">
 		<div class="panel-footer">
 		<!-- onchange="shstore();" -->
-		
+	
+<form  name="shmemyanzheng">
 	<div class="row">	
 	<div class="col-xs-2">
 		<select id="shselectstore" class="form-control" >
@@ -948,16 +965,15 @@ $(function(){
 		<select id="shfenlei" class="form-control" >
 		<!-- <option value="-1"  disabled="disabled">全部分类</option> -->
 		<%
-		List<batchgoods> shselect1=null;
-		shselect1=(List<batchgoods>)request.getAttribute("list1");
-		
-			if(shselect1!=null&&shselect1.size()!=0){
+		List<Object[]> shselect1=null;
+		shselect1=(List<Object[]>)request.getAttribute("list1");		
+		if(shselect1!=null&&shselect1.size()!=0){
 				
-				for(batchgoods obj:shselect1){
+				for(Object[] obj:shselect1){
 			
 		%>
 		<!--这里还是要进行绑定  -->
-		<option value="<%= obj.getC_name() %>"><%=obj.getC_name() %></option>
+		<option value="<%= obj[0] %>"><%=obj[0] %></option>
 		
 		<%
 				}
@@ -987,12 +1003,13 @@ $(function(){
 	
 	
 	<div class="col-xs-2">
-	<input class="search-query form-control col-md-10" type="text" id="shshangpin" placeholder="输入商品条码">
+	<input name="shmemtext" class="search-query form-control col-md-10" type="text" id="shshangpin" placeholder="输入商品条码" >
 	</div>
 		<div class="col-xs-1">
 		<input type="button" value="查询" id="shsearch" class="btn btn-primary" onclick="shsubmit();" />
 		</div>
 		</div><!-- //新增 -->
+	</form>
 	</div>
 	</div>
 	</div>
@@ -1198,9 +1215,9 @@ $(function(){
         <%
  	if(shselect1!=null&&shselect1.size()!=0){
 		
-		for(batchgoods obj:shselect1){
+		for(Object[] obj:shselect1){
      %>
-     <option value="<%=obj.getC_name()%>"> <%=obj.getC_name() %></option>
+     <option value="<%=obj[0]%>"> <%=obj[0] %></option>
   <%
 		}
  	}

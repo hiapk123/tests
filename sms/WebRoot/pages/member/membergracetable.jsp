@@ -1,6 +1,18 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
 <%@page import="java.util.List"%>
+
+<table class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" name="numgettable">
+		<thred>
+			<tr>
+				<th><font size="3" style="text-align: center;">序号</font></th>
+				<th><font size="3" style="text-align: center;">操作</font></th>
+				<th><font size="3" style="text-align: center;">等级名称</font></th>
+				<th><font size="3" style="text-align: center;">优惠折扣</font></th>
+				<th><font size="3" style="text-align: center;">自动提升规则</font></th>
+			</tr>
+		</thred>
+<tbody>
 <%
 List<Object[]> memgraceaccept=(List<Object[]>)request.getAttribute("shmemgrace");
 if(memgraceaccept!=null&&memgraceaccept.size()!=0)
@@ -13,10 +25,10 @@ if(memgraceaccept!=null&&memgraceaccept.size()!=0)
 %>
 <tr>
 <td><%=sssk %></td>
-<td><a class="shabiaoqian" id="<%=osj[0]%>" onclick="shmemgraceedit(<%=osj[0]%>);" >编辑</a></td>
-<td><%=osj[1]%></td>
-<td><%=osj[2]%>折</td>
-<td><%=osj[4]%>积分提升一级</td>
+<td><a class="shabiaoqian" id="<%=osj[0]%>" onclick="shmemgraceedit(<%=osj[0]%>);" ><font size="3" style="text-align: center;">编辑</font></a></td>
+<td><font size="3" style="text-align: center;"><%=osj[1]%></font></td>
+<td><font size="3" style="text-align: center;"><%=osj[2]%>折</font></td>
+<td><font size="3" style="text-align: center;"><%=osj[4]%>积分提升一级</font></td>
 </tr>
 <%
 	}
@@ -24,3 +36,5 @@ if(memgraceaccept!=null&&memgraceaccept.size()!=0)
 }
 
 %>
+</tbody>
+</table>

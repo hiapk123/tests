@@ -16,16 +16,13 @@ import org.uestc.serviceImp.MemInformServiceImp;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 /**
- * Servlet implementation class emperformanceinit
+ * Servlet implementation class shempleelogquery
  */
-@WebServlet(urlPatterns="/emperformanceinit",
-			name="emperformanceinitServlet")
-public class emperformanceinit extends HttpServlet {
+@WebServlet(urlPatterns="/shempleelogquery",name="shempleelogqueryServlet")
+public class shempleelogquery extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-
+ 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		this.doPost(request, response);
 	}
 
@@ -33,44 +30,53 @@ public class emperformanceinit extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		String sspar1=request.getParameter("sspar1").toString();
-		System.out.println("页面加载");
-		String times1=request.getParameter("times1").toString();
-		String times2=request.getParameter("times2").toString();
+		System.out.println("交接班查询的按钮");
+		String shshopname=request.getParameter("shshopname").toString();
+		String time1=request.getParameter("time1").toString();
+		String time2=request.getParameter("time2").toString();
 		try {
-			times1=StrToDate(times1);
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		try {
-			times2=StrToDate(times2);
+			time1=StrToDate(time1);
 		} catch (java.text.ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String ssknsql="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+ sspar1 +"'"+"AND t1.sa_date<="+"'"+times2+"'"+ "AND t1.sa_date>="+"'"+times1+"'"+"ORDER  BY t1.sa_id ";
-		List<Object[]> shempperformthetable=(List<Object[]>)new MemInformServiceImp().normalfinad(ssknsql);
-		request.setAttribute("shempperformthetable", shempperformthetable);
+		try {
+			time2=StrToDate(time2);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//查询所属的门店名对应的Id号码
+		String sql1="select s_id from store where s_name="+"'"+shshopname+"'";
+		List<Object[]> longlist1=new MemInformServiceImp().normalfinad(sql1);
+		int memdtoreid=0;
+		if(longlist1!=null&&longlist1.size()!=0)
+		{
+			Object[] ss=longlist1.get(0);
+			
+			memdtoreid=Integer.parseInt(ss[0].toString());
+		}
 		
-		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);
+		String longlist2="select start_time,end_time,emp_no,emp_name,total,total_all,total_money,bank_pay from employee a left join jiaojieban b on a.emp_id=b.saler_id where a.store_id="+memdtoreid+" and start_time>="+"'"+time1+"'"+" and end_time<="+"'"+time2+"'";
+		List<Object[]> longlist3=new MemInformServiceImp().normalfinad(longlist2);
+		request.setAttribute("longlist3", longlist3);
+		request.getRequestDispatcher("/pages/member/empleelogtable.jsp").forward(request, response);
 		
+	//---end---
 	}
 	
-	//字符串的转化类
+	
+	//将时间转化为毫秒级
 	private String StrToDate(String str) throws java.text.ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 //		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
 		try {
-			date = format.parse(str);
+			date =format.parse(str);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return "" + date.getTime();
 	}
-
 
 }
