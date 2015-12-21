@@ -164,6 +164,9 @@
 		$('#hkhz').click(function(){
 			$('iframe').attr('src','<%=basePath %>huoliu?m=hkhz');
 		});
+		$('#addList').click(function(){
+			$('iframe').attr('src','<%=basePath %>addOrder?m=all');
+		});
 		/* end */
 		/*start*/
 		//营销

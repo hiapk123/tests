@@ -11,14 +11,14 @@
 <HEAD>
 	<TITLE> ZTREE DEMO - beforeClick / onClick</TITLE>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" href="css/demo.css" type="text/css">
-	<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<link rel="stylesheet" href="www/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="www/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="www/js/jquery.ztree.core-3.5.js"></script>
 	<!-- 新 Bootstrap 核心 CSS 文件 -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="www/css/bootstrap.min.css">
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="www/js/bootstrap.min.js"></script>
 	
 	<style type="text/css">
 		.mytable{
@@ -95,6 +95,8 @@
 			document.getElementById("checkAll").checked=false;
 		}
 		//添加商品按钮，成功之后返回商品条形码的数组。
+		idsList=new Array();
+		numsList=new Array();
 		function addGoods(){
 			var checkbox=document.getElementsByName("mycheckbox");
 			var barcodes=new Array();
@@ -110,18 +112,19 @@
 			}
 			//添加到后台
 			ajaxSubmit(barcodes,nums);
+			idsList=idsList.concat(barcodes);
+			numsList=numsList.concat(nums);
+			console.info(idsList);
+			console.info(numsList);
 		}
 		
 		//ajax提交按钮
 		function ajaxSubmit(array1,array2){
 			//实现你的方法
-			alert("实现你的提交函数！");
-
-			
-			
+			//$('#content').empty();
+			//alert("实现你的提交函数！");
 			for(var i=0;i<array1.length;i++){
-				console.info(array1[i]);
-				console.info(array2[i]);
+				$('#content').append("<span>("+array1[i]+"&nbsp,&nbsp;"+array2[i]+")</span>");
 			}
 		}
 
@@ -249,12 +252,12 @@
 				tableStr+="<td>"+goods[i].price+"</td>";
 				tableStr+="<td>"+goods[i].date+"</td>";
 				tableStr+="<td>"+
-				"<a href=\"#\" onclick=\"sub("+i+");\" >"+
+				"<a onclick=\"sub("+i+");\" >"+
 		        "<span class=\"glyphicon glyphicon-minus\"></span>"+
 		        "</a>"+
 				"<input id=\""+id+"\" "+
 				"type=\"text\" class=\"input-small\" placeholder='number' size='3' value='1' style='margin:2px;' />"+
-				"<a href=\"#\" onclick=\"add("+i+");\">"+
+				"<a onclick=\"add("+i+");\">"+
 		        "<span class=\"glyphicon glyphicon-plus\"></span>"+
 		        "</a>"+
 				"</td>";
@@ -327,7 +330,25 @@
 				},"json");
 			});
 
+			$('#submit').click(function(){
 			
+				if(idsList.length==0||numsList.length==0||(idsList.length!=numsList.length)){
+					return;
+				}
+			
+				$.post("<%=basePath%>addOrder?m=add",{"ids":idsList.toString(),"nums":numsList.toString(),'store':$('#store').val()},function(result){
+						if(result.flag==='ok'){
+							alert("已提交！");
+							
+						}else{
+							alert("选择错误！");
+							
+						}
+						idsList=new Array();
+						numsList=new Array();
+						$('#content').empty();
+				},"json");
+			});
 		});
 
 	</SCRIPT>
@@ -336,7 +357,7 @@
 <BODY>
 <div class="panel-default">
    <div class="panel-heading">
-      <h3 class="panel-title">商品列表</h3>
+      <input type="button" class="btn btn-primary" value="提交订单" id='submit'/>
    </div>
    <div class="panel-body">
 
