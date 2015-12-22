@@ -13,7 +13,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" href="www/css/demo.css" type="text/css">
 	<link rel="stylesheet" href="www/css/zTreeStyle/zTreeStyle.css" type="text/css">
-	<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="www/jquery.min.js"></script>
 	<script type="text/javascript" src="www/js/jquery.ztree.core-3.5.js"></script>
 	<!-- 新 Bootstrap 核心 CSS 文件 -->
 	<link rel="stylesheet" href="www/css/bootstrap.min.css">

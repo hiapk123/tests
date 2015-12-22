@@ -11,9 +11,14 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.swing.JDialog;
 
 /**
@@ -31,6 +36,22 @@ public class Utils {
         saleNo = new AtomicInteger(1);
         orderNo = new AtomicInteger(1);
     }
+    
+    //获取用户类型
+    public static int  findUTypeByUId(Object uid){
+    	String sql="select u_type from users where u_id=?";
+    	
+    	List<Map> list=SqlHelper.findAll(sql, uid);
+    	
+    	if(!list.isEmpty()&&1==list.size()){
+    		if(null!=list.get(0).get("u_type")){
+    			return Integer.valueOf(list.get(0).get("u_type").toString());
+    		}
+    	}
+    	
+    	return -1;
+    }
+    
 
     public static String formatDateFromStr(String longStr) {
         Date date = new Date();

@@ -1,3 +1,5 @@
+<%@page import="org.uestc.util.Utils"%>
+<%@page import="com.mysql.jdbc.Util"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
 <%
@@ -228,6 +230,10 @@
 		$('#addGood').click(function(){
 			$('iframe').attr('src','<%=basePath %>www/basic.jsp');
 		});
+		
+		$('#addGoodInfo').click(function(){
+			$('iframe').attr('src','<%=basePath %>www/good-base.jsp');
+		});
 		/****************************************************************************/
 		
 		$("li a").click(
@@ -455,7 +461,7 @@
 								</div>
 							</div>
 
-
+							<%if(1==Utils.findUTypeByUId(session.getAttribute("uid"))) {%>
 							<div class="panel panel-default">
 								<div class="panel-heading" data-toggle="collapse"
 									data-parent="#accordion2" href="#collapseEight">
@@ -466,7 +472,8 @@
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
 											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
-											<li><a href="#" data-options="管理员" id="addGood">商品添加模板</a></li>
+											<!-- <li><a href="#" data-options="管理员" id="addGood">商品添加模板</a></li> -->
+											<li><a href="#" data-options="管理员" id="addGoodInfo">商品资料</a></li>
 											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
@@ -475,7 +482,7 @@
 									</div>
 								</div>
 							</div>
-
+							<%} %>
 						</div>
 					</div>
 

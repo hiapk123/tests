@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.uestc.util.SqlHelper;
 import org.uestc.util.Utils;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 @WebServlet(urlPatterns = { "/addOrder" }, description = "新增订单")
@@ -36,12 +37,63 @@ public class AddOrderServlet extends HttpServlet {
 		if ("all".equals(m)) {
 			// this.getAll(req,resp);
 			req.getRequestDispatcher("/www/add_order.jsp").forward(req, resp);
-		} else if ("one".equals(m)) {
-			// 查看固定订单
+		} else if ("initGood".equals(m)) {
+			this.initGood(resp,1);
 		} else if ("initTable".equals(m)) {
 			this.initTable(req, resp);
 			req.getRequestDispatcher("/www/content.jsp").forward(req, resp);
 		}
+	}
+
+	private void initGood(HttpServletResponse resp,int pageNum) {
+		String sql="SELECT * FROM good_base WHERE s_del=1 LIMIT ?,?";
+		//System.out.println(pageNum);
+		List<Map> list=SqlHelper.findAll(sql,(pageNum-1)*10,10);
+		
+		//JSONArray root=new JSONArray();
+		
+		JSONObject root=new JSONObject();
+		root.accumulate("total", this.getCount());
+		
+		JSONArray rows=new JSONArray();
+		
+		for (int i = 0; i < list.size(); i++) {
+			JSONObject item=new JSONObject();
+			//System.out.println(list.get(i));
+			item.accumulate("itemid", list.get(i).get("gno"));
+			item.accumulate("itemname", list.get(i).get("gname"));
+			item.accumulate("itemprice1", list.get(i).get("gprice1"));
+			item.accumulate("itemprice2", list.get(i).get("gprice2"));
+			item.accumulate("itemscale", list.get(i).get("gscale"));
+			
+			//System.out.println(item.toString());
+			rows.put(item);
+		}
+		//System.out.println(rows.toString());
+		root.accumulate("rows", rows.toString());
+		
+		//System.out.println(root.toString());
+		
+		try {
+			resp.setCharacterEncoding("utf-8");
+			resp.getWriter().write(root.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	public int getCount(){
+		String sql="SELECT COUNT(id) FROM good_base WHERE s_del=1";
+		
+		List<Object[]> list=SqlHelper.executeQuery(sql, null);
+		
+		if(null!=list&&1==list.size()){
+			return Integer.valueOf(list.get(0)[0].toString());
+		}
+		
+		return 0;
 	}
 
 	private void initTable(HttpServletRequest req, HttpServletResponse resp) {
@@ -85,6 +137,26 @@ public class AddOrderServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if("add".equals(req.getParameter("m"))){
 			this.add(req, resp);
+		}else if("initGood".equals(req.getParameter("m"))){
+			this.initGood(resp,1);
+		}else if("findByPage".equals(req.getParameter("m"))){
+			this.findByPage(req,resp);
+		}
+	}
+
+	private void findByPage(HttpServletRequest req,HttpServletResponse resp) {
+		
+		String pageNum=req.getParameter("number");
+		
+		if(null==pageNum){
+			return;
+		}
+		
+		try {
+			this.initGood(resp, Integer.parseInt(pageNum));
+		} catch (NumberFormatException e) {
+			
+			e.printStackTrace();
 		}
 	}
 
@@ -146,7 +218,7 @@ public class AddOrderServlet extends HttpServlet {
 		}
 
 		String sql = "insert into booking(b_no,g_id,b_num,s_id,b_status,b_info,b_date,s_del) VALUE(?,?,?,?,?,?,?,?)";
-		SqlHelper.executeUpdate(sql, new String[] { Utils.generateOrderNo(), ids1, nums1, store, "未审核", info,
+		SqlHelper.executeUpdate(sql, new String[] { Utils.generateOrderNo(), ids1, nums1, store, "待审核", info,
 				System.currentTimeMillis() + "", "1" });
 		JSONObject object=new JSONObject();
 		object.accumulate("flag", "ok");
