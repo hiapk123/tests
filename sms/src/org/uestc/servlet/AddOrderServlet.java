@@ -1,6 +1,7 @@
 package org.uestc.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.uestc.util.SqlHelper;
 import org.uestc.util.Utils;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
@@ -141,7 +144,71 @@ public class AddOrderServlet extends HttpServlet {
 			this.initGood(resp,1);
 		}else if("findByPage".equals(req.getParameter("m"))){
 			this.findByPage(req,resp);
+		}else if("PUT".equals(req.getParameter("m"))){
+			this.put(req, resp);
+		}else if("del".equals(req.getParameter("m"))){
+			this.del(req, resp);
+		}else if("addGoods".equals(req.getParameter("m"))){
+			this.addGoods(req,resp);
 		}
+	}
+
+	private void addGoods(HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		try {
+			String gno=req.getParameter("gno");
+			String gname=req.getParameter("gname");
+			String gprice1=req.getParameter("gprice1");
+			String gprice2=req.getParameter("gprice2");
+			String sql="insert into good_base(gno,gname,gprice1,gprice2,gscale) value(?,?,?,?,?)";
+			
+			SqlHelper.executeUpdate(sql, new String[]{gno,gname,gprice1,gprice2,"无"});
+			org.json.JSONObject ret=new org.json.JSONObject();
+			ret.accumulate("msg", "ok");
+			resp.getWriter().write(ret.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void del(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			String ids=req.getParameter("itemids").substring(0, req.getParameter("itemids").length()-1);
+			String sql="delete from good_base where gno in (?)";
+			SqlHelper.executeUpdate(sql, new String[]{ids});
+			
+			org.json.JSONObject ret=new org.json.JSONObject();
+			ret.accumulate("msg", "ok");
+			resp.getWriter().write(ret.toString());
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void put(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			String gno=req.getParameter("gno");
+			String gname=req.getParameter("gname");
+			String gprice1=req.getParameter("gprice1");
+			String gprice2=req.getParameter("gprice2");
+			String sql="update good_base set gname=?,gprice1=?,gprice2=? where gno=?";
+			
+			SqlHelper.executeUpdate(sql, new String[]{gname,gprice1,gprice2,gno});
+			org.json.JSONObject ret=new org.json.JSONObject();
+			ret.accumulate("msg", "ok");
+			resp.getWriter().write(ret.toString());
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void findByPage(HttpServletRequest req,HttpServletResponse resp) {
@@ -163,7 +230,7 @@ public class AddOrderServlet extends HttpServlet {
 	// 更新或者创建订单
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
 	}
 
 	// 删除订单
