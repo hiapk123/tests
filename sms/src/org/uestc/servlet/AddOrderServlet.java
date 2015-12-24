@@ -41,42 +41,82 @@ public class AddOrderServlet extends HttpServlet {
 			// this.getAll(req,resp);
 			req.getRequestDispatcher("/www/add_order.jsp").forward(req, resp);
 		} else if ("initGood".equals(m)) {
-			this.initGood(resp,1);
+			this.initGood(resp, 1);
 		} else if ("initTable".equals(m)) {
 			this.initTable(req, resp);
 			req.getRequestDispatcher("/www/content.jsp").forward(req, resp);
+		} else if ("addOrderRemote".equals(m)) {
+			req.getRequestDispatcher("/www/add_order_from_remote.jsp").forward(req, resp);
 		}
 	}
 
-	private void initGood(HttpServletResponse resp,int pageNum) {
-		String sql="SELECT * FROM good_base WHERE s_del=1 LIMIT ?,?";
-		//System.out.println(pageNum);
-		List<Map> list=SqlHelper.findAll(sql,(pageNum-1)*10,10);
-		
-		//JSONArray root=new JSONArray();
-		
-		JSONObject root=new JSONObject();
-		root.accumulate("total", this.getCount());
-		
-		JSONArray rows=new JSONArray();
-		
-		for (int i = 0; i < list.size(); i++) {
-			JSONObject item=new JSONObject();
-			//System.out.println(list.get(i));
-			item.accumulate("itemid", list.get(i).get("gno"));
-			item.accumulate("itemname", list.get(i).get("gname"));
-			item.accumulate("itemprice1", list.get(i).get("gprice1"));
-			item.accumulate("itemprice2", list.get(i).get("gprice2"));
-			item.accumulate("itemscale", list.get(i).get("gscale"));
-			
-			//System.out.println(item.toString());
-			rows.put(item);
+	private void getGoodsByCategory(HttpServletRequest req, HttpServletResponse resp) {
+		String c = req.getParameter("c");
+
+		String pageNum = req.getParameter("number");
+
+		if (null == pageNum || null == c) {
+			return;
 		}
-		//System.out.println(rows.toString());
+
+		try {
+			this.initGoodByWhere(resp, c, Integer.parseInt(pageNum));
+		} catch (NumberFormatException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	public void initGoodByWhere(HttpServletResponse resp, String category, int pageNum) {
+		boolean flag = false;
+		if (null != category)
+			flag = true;
+		// System.out.println(pageNum);
+		List<Map> list = null;
+		if (null == category)
+			list = SqlHelper.findAll("SELECT * FROM good_base WHERE s_del=1 LIMIT ?,?", (pageNum - 1) * 10, 10);
+		else
+			list = SqlHelper.findAll("SELECT * FROM good_base WHERE s_del=1 AND gcategory=? LIMIT ?,?", category,
+					(pageNum - 1) * 10, 10);
+
+		// JSONArray root=new JSONArray();
+
+		JSONObject root = new JSONObject();
+		root.accumulate("total", this.getCount(category));
+
+		JSONArray rows = new JSONArray();
+		if (flag) {
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject item = new JSONObject();
+				// System.out.println(list.get(i));
+				item.accumulate("itemid", list.get(i).get("gno"));
+				item.accumulate("itemname", list.get(i).get("gname"));
+				item.accumulate("itemprice1", list.get(i).get("gprice1"));
+				item.accumulate("itemprice2", list.get(i).get("gprice2"));
+				item.accumulate("itemcategory", list.get(i).get("gcategory"));
+				item.accumulate("itemnum", 1);
+				// System.out.println(item.toString());
+				rows.put(item);
+			}
+		} else {
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject item = new JSONObject();
+				// System.out.println(list.get(i));
+				item.accumulate("itemid", list.get(i).get("gno"));
+				item.accumulate("itemname", list.get(i).get("gname"));
+				item.accumulate("itemprice1", list.get(i).get("gprice1"));
+				item.accumulate("itemprice2", list.get(i).get("gprice2"));
+				item.accumulate("itemcategory", list.get(i).get("gcategory"));
+				// item.accumulate("itemnum", 1);
+				// System.out.println(item.toString());
+				rows.put(item);
+			}
+		}
+		// System.out.println(rows.toString());
 		root.accumulate("rows", rows.toString());
-		
-		//System.out.println(root.toString());
-		
+
+		// System.out.println(root.toString());
+
 		try {
 			resp.setCharacterEncoding("utf-8");
 			resp.getWriter().write(root.toString());
@@ -85,17 +125,26 @@ public class AddOrderServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
 
-	public int getCount(){
-		String sql="SELECT COUNT(id) FROM good_base WHERE s_del=1";
-		
-		List<Object[]> list=SqlHelper.executeQuery(sql, null);
-		
-		if(null!=list&&1==list.size()){
+	private void initGood(HttpServletResponse resp, int pageNum) {
+		// String sql = "SELECT * FROM good_base WHERE s_del=1 LIMIT ?,?";
+		initGoodByWhere(resp, null, pageNum);
+	}
+
+	@SuppressWarnings("unchecked")
+	public int getCount(String c) {
+		// String sql = "SELECT COUNT(id) FROM good_base WHERE s_del=1";
+		List<Object[]> list = null;
+		if (null == c)
+			list = SqlHelper.executeQuery("SELECT COUNT(id) FROM good_base WHERE s_del=1", null);
+		else
+			list = SqlHelper.executeQuery("SELECT COUNT(id) FROM good_base WHERE s_del=1 AND gcategory=?",
+					new String[] { c });
+
+		if (null != list && 1 == list.size()) {
 			return Integer.valueOf(list.get(0)[0].toString());
 		}
-		
+
 		return 0;
 	}
 
@@ -138,32 +187,37 @@ public class AddOrderServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if("add".equals(req.getParameter("m"))){
+		if ("add".equals(req.getParameter("m"))) {
 			this.add(req, resp);
-		}else if("initGood".equals(req.getParameter("m"))){
-			this.initGood(resp,1);
-		}else if("findByPage".equals(req.getParameter("m"))){
-			this.findByPage(req,resp);
-		}else if("PUT".equals(req.getParameter("m"))){
+		} else if ("initGood".equals(req.getParameter("m"))) {
+			this.initGood(resp, 1);
+		} else if ("findByPage".equals(req.getParameter("m"))) {
+			this.findByPage(req, resp);
+		} else if ("PUT".equals(req.getParameter("m"))) {
 			this.put(req, resp);
-		}else if("del".equals(req.getParameter("m"))){
+		} else if ("del".equals(req.getParameter("m"))) {
 			this.del(req, resp);
-		}else if("addGoods".equals(req.getParameter("m"))){
-			this.addGoods(req,resp);
+		} else if ("addGoods".equals(req.getParameter("m"))) {
+			this.addGoods(req, resp);
+		} else if ("getGoodsByCategory".equals(req.getParameter("m"))) {
+			this.getGoodsByCategory(req, resp);
 		}
 	}
+
+
 
 	private void addGoods(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		try {
-			String gno=req.getParameter("gno");
-			String gname=req.getParameter("gname");
-			String gprice1=req.getParameter("gprice1");
-			String gprice2=req.getParameter("gprice2");
-			String sql="insert into good_base(gno,gname,gprice1,gprice2,gscale) value(?,?,?,?,?)";
-			
-			SqlHelper.executeUpdate(sql, new String[]{gno,gname,gprice1,gprice2,"无"});
-			org.json.JSONObject ret=new org.json.JSONObject();
+			String gno = req.getParameter("gno");
+			String gname = req.getParameter("gname");
+			String gprice1 = req.getParameter("gprice1");
+			String gprice2 = req.getParameter("gprice2");
+			String gcategory = req.getParameter("gcategory");
+			String sql = "insert into good_base(gno,gname,gprice1,gprice2,gcategory,gscale) value(?,?,?,?,?,?)";
+
+			SqlHelper.executeUpdate(sql, new String[] { gno, gname, gprice1, gprice2, gcategory, "无" });
+			org.json.JSONObject ret = new org.json.JSONObject();
 			ret.accumulate("msg", "ok");
 			resp.getWriter().write(ret.toString());
 		} catch (JSONException e) {
@@ -177,52 +231,53 @@ public class AddOrderServlet extends HttpServlet {
 
 	private void del(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			String ids=req.getParameter("itemids").substring(0, req.getParameter("itemids").length()-1);
-			String sql="delete from good_base where gno in (?)";
-			SqlHelper.executeUpdate(sql, new String[]{ids});
-			
-			org.json.JSONObject ret=new org.json.JSONObject();
+			String ids = req.getParameter("itemids").substring(0, req.getParameter("itemids").length() - 1);
+			String sql = "delete from good_base where gno in (?)";
+			SqlHelper.executeUpdate(sql, new String[] { ids });
+
+			org.json.JSONObject ret = new org.json.JSONObject();
 			ret.accumulate("msg", "ok");
 			resp.getWriter().write(ret.toString());
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void put(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			String gno=req.getParameter("gno");
-			String gname=req.getParameter("gname");
-			String gprice1=req.getParameter("gprice1");
-			String gprice2=req.getParameter("gprice2");
-			String sql="update good_base set gname=?,gprice1=?,gprice2=? where gno=?";
-			
-			SqlHelper.executeUpdate(sql, new String[]{gname,gprice1,gprice2,gno});
-			org.json.JSONObject ret=new org.json.JSONObject();
+			String gno = req.getParameter("gno");
+			String gname = req.getParameter("gname");
+			String gprice1 = req.getParameter("gprice1");
+			String gprice2 = req.getParameter("gprice2");
+			String gcategory = req.getParameter("gcategory");
+			String sql = "update good_base set gname=?,gprice1=?,gprice2=?,gcategory=? where gno=?";
+
+			SqlHelper.executeUpdate(sql, new String[] { gname, gprice1, gprice2, gcategory, gno });
+			org.json.JSONObject ret = new org.json.JSONObject();
 			ret.accumulate("msg", "ok");
 			resp.getWriter().write(ret.toString());
-			
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	private void findByPage(HttpServletRequest req,HttpServletResponse resp) {
-		
-		String pageNum=req.getParameter("number");
-		
-		if(null==pageNum){
+	private void findByPage(HttpServletRequest req, HttpServletResponse resp) {
+
+		String pageNum = req.getParameter("number");
+
+		if (null == pageNum) {
 			return;
 		}
-		
+
 		try {
 			this.initGood(resp, Integer.parseInt(pageNum));
 		} catch (NumberFormatException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
@@ -230,7 +285,7 @@ public class AddOrderServlet extends HttpServlet {
 	// 更新或者创建订单
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 	}
 
 	// 删除订单
@@ -238,15 +293,15 @@ public class AddOrderServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void add(HttpServletRequest req, HttpServletResponse resp)throws IOException{
+	private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String ids = req.getParameter("ids");
 		String nums = req.getParameter("nums");
 		String store = req.getParameter("store");
-		
-		if(ids.length()==0){
-			JSONObject object=new JSONObject();
+
+		if (ids.length() == 0) {
+			JSONObject object = new JSONObject();
 			object.accumulate("flag", "error");
 			resp.getWriter().write(object.toString());
 			return;
@@ -276,19 +331,31 @@ public class AddOrderServlet extends HttpServlet {
 		Iterator<Entry<String, Object>> it = keySet.iterator();
 		String ids1 = "";
 		String nums1 = "";
-		String info="";
+		String info = "";
 		while (it.hasNext()) {
 			Entry<String, Object> entry = it.next();
 			ids1 += entry.getKey() + ";";
 			nums1 += entry.getValue() + ";";
-			info+="无;";
+			info += "无;";
 		}
 
 		String sql = "insert into booking(b_no,g_id,b_num,s_id,b_status,b_info,b_date,s_del) VALUE(?,?,?,?,?,?,?,?)";
 		SqlHelper.executeUpdate(sql, new String[] { Utils.generateOrderNo(), ids1, nums1, store, "待审核", info,
 				System.currentTimeMillis() + "", "1" });
-		JSONObject object=new JSONObject();
+		JSONObject object = new JSONObject();
 		object.accumulate("flag", "ok");
 		resp.getWriter().write(object.toString());
+	}
+
+	public static void main(String[] args) {
+		JSONArray array = new JSONArray();
+		for (int i = 0; i < 100; i++) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.accumulate("numId", i + 1);
+			jsonObject.accumulate("numValue", i + 1);
+			array.put(jsonObject);
+		}
+		
+		System.out.println(array.toString());
 	}
 }

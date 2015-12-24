@@ -169,6 +169,9 @@
 		$('#addList').click(function(){
 			$('iframe').attr('src','<%=basePath %>addOrder?m=all');
 		});
+		$('#addOrderRemote').click(function(){
+			$('iframe').attr('src','<%=basePath %>addOrder?m=addOrderRemote');
+		});
 		/* end */
 		/*start*/
 		//营销
@@ -455,7 +458,8 @@
 											<li><a href="#" data-options="订单" id="hlgl">订单管理</a></li>
 											<li><a href="#" data-options="订单" id="ghsjs">供货商结算</a></li>
 											<li><a href="#" data-options="订单" id="hkhz">货款汇总</a></li>
-											<li><a href="#" data-options="订单" id="addList">新增订单</a></li>
+											<li><a href="#" data-options="订单" id="addList">新增订单（从本地仓库选择）</a></li>
+											<li><a href="#" data-options="订单" id="addOrderRemote">新增订单（从远程仓库选择）</a></li>
 										</ul>
 									</div>
 								</div>

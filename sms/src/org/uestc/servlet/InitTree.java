@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
 import org.uestc.util.SqlHelper;
 
 import com.uestc.bean.Users;
@@ -47,6 +48,9 @@ public class InitTree extends HttpServlet {
 			result = getGoods(req, req.getParameter("id"), req.getParameter("sid"));
 		} else if ("findByPage".equals(m)) {
 			result = findByPage(req);
+		}else if("getTreeData".equals(m)){
+			this.getTreeData(req,resp);
+			return;
 		}
 		resp.setCharacterEncoding("utf-8");
 		if (null != result && !"".equals(result))
@@ -54,6 +58,42 @@ public class InitTree extends HttpServlet {
 		else
 			resp.getWriter().write("{\"flag\":\"0\"}");
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getTreeData(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			String sql="SELECT DISTINCT(gcategory) FROM good_base";
+			
+			List<Object[]> list=SqlHelper.executeQuery(sql, null);
+			org.json.JSONArray root =new org.json.JSONArray();
+			
+			if(list!=null){
+				for (int i = 0; i < list.size(); i++) {
+					org.json.JSONObject node=new org.json.JSONObject();
+					node.accumulate("id", i+1);
+					node.accumulate("text", list.get(i)[0]);
+					node.accumulate("state", "open");
+					root.put(node);
+				}
+			}else{
+				org.json.JSONObject node=new org.json.JSONObject();
+				node.accumulate("id",1);
+				node.accumulate("text", "无数据");
+				node.accumulate("state", "open");
+				root.put(node);
+			}
+			//System.out.println(root.toString());
+			resp.setCharacterEncoding("utf-8");
+			resp.getWriter().write(root.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private String findByPage(HttpServletRequest req) {

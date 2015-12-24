@@ -65,6 +65,7 @@
 							$('#edit_name').val(row.itemname);
 							$('#edit_price1').val(row.itemprice1);
 							$('#edit_price2').val(row.itemprice2);
+							$('#edit_category').val(row.itemcategory);
 							$('#myEditModal').modal({keyboard: false});
 			                
 		                } 
@@ -97,7 +98,7 @@
 					 {field:'itemname',title:'商品名称',width:450,sortable:true},
 					 {field:'itemprice1',title:'商品进价',width:150,sortable:true},
 					 {field:'itemprice2',title:'商品售价',width:150,sortable:true},
-					 {field:'itemscale',title:'商品规格',width:150,sortable:true}
+					 {field:'itemcategory',title:'商品分类',width:150,sortable:true}
 					 ]
 				],
 				onClickCell: function(rowIndex, field, value){
@@ -151,7 +152,7 @@
             		type:"POST",
             		url:"<%=basePath%>addOrder",
             		//PUT方法不支持这种方式传值
-            		data:{"gno":$('#edit_no').val(),"gname":$('#edit_name').val(),gprice1:$('#edit_price1').val(),"gprice2":$('#edit_price2').val(),"m":"PUT"},
+            		data:{"gno":$('#edit_no').val(),"gname":$('#edit_name').val(),gprice1:$('#edit_price1').val(),"gprice2":$('#edit_price2').val(),"gcategory":$('#edit_category').val(),"m":"PUT"},
             		dataType:'json',
             		error:function(data){
 
@@ -171,7 +172,7 @@
 			});
 
 		    $('#add_btn').click(function(){
-				$.post('<%=basePath%>addOrder',{"gno":$('#add_no').val(),"gname":$('#add_name').val(),gprice1:$('#add_price1').val(),"gprice2":$('#add_price2').val(),"m":"addGoods"},function(data){
+				$.post('<%=basePath%>addOrder',{"gno":$('#add_no').val(),"gname":$('#add_name').val(),gprice1:$('#add_price1').val(),"gprice2":$('#add_price2').val(),"gcategory":$('#add_category').val(),"m":"addGoods"},function(data){
 					if(data.msg=='ok'){
 						$('#myModal').modal('hide')
 						$('#dg').datagrid('reload');
@@ -234,6 +235,14 @@
       </div>
    </div>
    
+   <div class="form-group">
+      <label for="lastname" class="col-sm-2 control-label">分类</label>
+      <div class="col-sm-10">
+         <input type="text" class="form-control" id="add_category"
+            placeholder="请输入售价">
+      </div>
+   </div>
+   
 </form>
          </div>
          <div class="modal-footer">
@@ -289,6 +298,14 @@
       <div class="col-sm-10">
          <input type="text" class="form-control" id="edit_price2" name="edit_price2"
             placeholder="请输入售价">
+      </div>
+   </div>
+   
+   <div class="form-group">
+      <label for="lastname" class="col-sm-2 control-label">分类</label>
+      <div class="col-sm-10">
+         <input type="text" class="form-control" id="edit_category" name="edit_category"
+            placeholder="请输入商品分类">
       </div>
    </div>
    
