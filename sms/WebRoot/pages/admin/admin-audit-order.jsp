@@ -199,6 +199,16 @@
 		});
 	}
 </script>
+<!-- 打印控件资源（前面日期控件引入了jquery.min.js，此处不用引入jquery-1.4.4.min.js，一样可以使用，可能只有1.9.1版本的jquery不能用） -->
+<script type="text/javascript"
+	src="<c:url value='/js/jquery-1.4.4.min.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/js/jquery.jqprint-0.3.js'/>"></script>
+<script type="text/javascript">
+	function print() {
+		$("#printDiv").jqprint();
+	}
+</script>
 </head>
 
 <body>
@@ -233,9 +243,12 @@
 			</select>
 
 			<button type="submit" class="btn btn-primary">查找订单</button>
+			<!-- <div class="col-xs-1"> -->
+				<button type="button" class="btn btn-primary" onclick="print()">打印</button>
+			<!-- </div> -->
 		</form>
 		</div>
-		<div class="box-content">
+		<div class="box-content" id="printDiv">
 			<table
 				class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 				<thead>
