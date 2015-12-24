@@ -291,7 +291,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="#">资料</a></li>
 					<li class="divider"></li>
-					<li><a href="login.jsp">退出</a></li>
+					<li><a href="<%=basePath%>login">退出</a></li>
 				</ul>
 			</div>
 			<!-- user dropdown ends -->

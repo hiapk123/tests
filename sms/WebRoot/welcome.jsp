@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8" import="com.uestc.bean.Users"%>
+   
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -184,7 +186,9 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
       <div class="contents-stack">
         <h2 class="title">欢迎登录</h2>
         <div class="separator"></div>
-        <p class="text">您好！<%=((Users)session.getAttribute("sessionUser")).getUName() %></p>
+        <c:catch var="e">
+         <p class="text">您好！<%=((Users)session.getAttribute("sessionUser")).getUName() %></p>
+        </c:catch>
       </div>
     </div>
   </figcaption>

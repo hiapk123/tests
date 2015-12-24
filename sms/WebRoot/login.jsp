@@ -154,7 +154,7 @@
 								</div>
 								<div class="col-xs-6">
 									<a type="button" class="btn btn-primary"
-										href="<c:url value='/regist.jsp'/>">注册新用户</a>
+										href="<c:url value='/regist.html'/>">注册新用户</a>
 								</div>
 							</div>
 						</fieldset>

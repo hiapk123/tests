@@ -114,18 +114,17 @@
 			ajaxSubmit(barcodes,nums);
 			idsList=idsList.concat(barcodes);
 			numsList=numsList.concat(nums);
-			console.info(idsList);
-			console.info(numsList);
+		
 		}
 		
 		//ajax提交按钮
 		function ajaxSubmit(array1,array2){
 			//实现你的方法
-			//$('#content').empty();
-			//alert("实现你的提交函数！");
-			for(var i=0;i<array1.length;i++){
+			/* for(var i=0;i<array1.length;i++){
 				$('#content').append("<span>("+array1[i]+"&nbsp,&nbsp;"+array2[i]+")</span>");
-			}
+			} */
+
+			$('#content').html('<h4>成功添加'+array1.length+'中商品！</h4>');
 		}
 
 		function sub(s){

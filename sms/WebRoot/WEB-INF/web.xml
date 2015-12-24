@@ -6,19 +6,20 @@
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
-<!-- 	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>JSPs</web-resource-name>
-			<url-pattern>/www/*</url-pattern>拒绝直接访问web文件夹下的所有页面
-		</web-resource-collection>
-		<auth-constraint />
-	</security-constraint> -->
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-	<login-config>
-		<auth-method>BASIC</auth-method><!-- 验证方式(BASIC/FORM) -->
-	</login-config>
 
 
-	
 
 </web-app>

@@ -69,7 +69,7 @@ public class UserServlet extends BaseServlet {
 			Cookie cookie = new Cookie("loginname", loginname);
 			cookie.setMaxAge(60 * 60 * 24 * 10); // 保存10天
 			response.addCookie(cookie);
-			return "r:/index.jsp"; // 重定向到主页
+			return "r:/index.html"; // 重定向到主页
 		}
 	}
 
