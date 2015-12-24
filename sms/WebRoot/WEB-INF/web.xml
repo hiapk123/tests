@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+<!-- 	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>JSPs</web-resource-name>
+			<url-pattern>/www/*</url-pattern>拒绝直接访问web文件夹下的所有页面
+		</web-resource-collection>
+		<auth-constraint />
+	</security-constraint> -->
+
+	<login-config>
+		<auth-method>BASIC</auth-method><!-- 验证方式(BASIC/FORM) -->
+	</login-config>
+
+
+	
+
 </web-app>
