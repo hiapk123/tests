@@ -130,6 +130,7 @@ public class UserServlet extends BaseServlet {
 		String md5DigestRepass = DigestUtils.md5Hex(reloginpass);
 		formUser.setReloginpass(md5DigestRepass);
 		formUser.setUEmail(email);
+		formUser.setUType(2); // 只能注册用户普通用户 u_type取值：1 代表管理员; 2 代表普通店铺
 
 		/*
 		 * 2.校验参数
