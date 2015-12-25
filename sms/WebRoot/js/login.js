@@ -36,9 +36,12 @@ $(document).ready(
 				if (!validateLoginpass()) {
 					bool = false;
 				}
+				//alert("submit判断验证码是否正确? " + validateVerifyCode());
 				if (!validateVerifyCode()) {
+					alert("提交判断验证码是否正确? " + validateVerifyCode());
 					bool = false;
 				}
+				//alert("submit执行的bool为： " + bool);
 				return bool;
 			});
 		});
@@ -108,12 +111,14 @@ function validateVerifyCode() {
 		data: {method: "ajaxValidateVerifyCode", verifyCode: value},
 		type: "POST",
 		dataType: "json",
-		asyn: false,
+		async: false,
 		cache: false,
 		success: function(result) {
+			//alert("ajax的success方法收到的结果： " + result);
 			if (!result) {
 				$("#" + id + "Error").text("验证码错误！");
 				showError($("#" + id + "Error"));
+				//alert("给submit返回的结果：false");
 				return false;
 			}
 		}

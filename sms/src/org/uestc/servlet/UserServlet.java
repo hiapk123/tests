@@ -37,10 +37,12 @@ public class UserServlet extends BaseServlet {
 		String loginname = request.getParameter("loginname");
 		String loginpass = request.getParameter("loginpass");
 		String verifyCode = request.getParameter("verifyCode");
-
+		
+		String md5Hex = DigestUtils.md5Hex(loginpass);
+		
 		Users formUser = new Users();
 		formUser.setUName(loginname);
-		formUser.setUPassword(loginpass);
+		formUser.setUPassword(md5Hex);
 		formUser.setVerifyCode(verifyCode);
 
 		/*
@@ -49,6 +51,7 @@ public class UserServlet extends BaseServlet {
 		Map<String, String> errors = validateLogin(formUser, request.getSession());
 		if (errors.size() > 0) {
 			request.setAttribute("errors", errors);
+			formUser.setUPassword(loginpass);
 			request.setAttribute("formUser", formUser);
 			return "f:/login.jsp";
 		}
@@ -60,6 +63,7 @@ public class UserServlet extends BaseServlet {
 
 		if (user == null) {
 			request.setAttribute("msg", "用户名或密码错误");
+			formUser.setUPassword(loginpass);
 			request.setAttribute("formUser", formUser);
 			return "f:/login.jsp";
 		} else {
@@ -95,9 +99,9 @@ public class UserServlet extends BaseServlet {
 		String loginpass = formUser.getUPassword();
 		if (loginpass == null || loginpass.trim().isEmpty()) {
 			errors.put("loginpass", "密码不能为空");
-		} else if (loginpass.length() < 3 || loginpass.length() > 20) {
+		} /*else if (loginpass.length() < 3 || loginpass.length() > 20) {
 			errors.put("loginpass", "密码长度必须在3~20之间");
-		}
+		}*/
 		
 		/*
 		 * 验证码校验
