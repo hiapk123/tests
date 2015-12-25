@@ -33,7 +33,12 @@ public class SPXSServlet extends BaseServlet {
 
 	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		String storeName = request.getParameter("hp_store");
@@ -50,7 +55,11 @@ public class SPXSServlet extends BaseServlet {
 		String url = getUrl(request);
 		
 		PageBean<SPXSBean> pb = null;
-		pb = spxsService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		if (user.getUType() == 1) {
+			pb = spxsService.findAllByCombination(storeName, beginTime, endTime, condition, pc);
+		} else {
+			pb = spxsService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		}
 		
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
@@ -60,13 +69,23 @@ public class SPXSServlet extends BaseServlet {
 	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+//		System.out.println(user.getUType());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		int pc = getPc(request);
 		String url = getUrl(request);
-		
-		PageBean<SPXSBean> pb = spxsService.findAllByUid(user.getUId(), pc);
+		PageBean<SPXSBean> pb = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			pb = spxsService.findAll(pc);
+		} else {
+			pb = spxsService.findAllByUid(user.getUId(), pc);
+		}
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
 		return "f:/pages/sales/spxs.jsp";

@@ -44,7 +44,7 @@ public class UserDaoImp implements UserDao {
 
 	@Override
 	public Users findByLoginnameAndLoginpass(String loginname, String loginpass) throws SQLException {
-		String sql = "select u_name,u_password,u_id from users where u_name=? and u_password=?";
+		String sql = "select u_name,u_password,u_id,u_type from users where u_name=? and u_password=?";
 		List<Object[]> list = qr.query(sql, new ArrayListHandler(), loginname, loginpass);
 //		System.out.println("list为空：" + list == null);
 //		System.out.println("list.size() = " + list.size());
@@ -54,6 +54,7 @@ public class UserDaoImp implements UserDao {
 			user.setUName(obj[0].toString());
 			user.setUPassword(obj[1].toString());
 			user.setUId(Long.valueOf(obj[2].toString()));
+			user.setUType(Integer.valueOf(obj[3].toString()));
 			return user;
 		}
 		return null;
