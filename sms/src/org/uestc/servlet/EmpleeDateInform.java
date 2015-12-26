@@ -25,7 +25,7 @@ public class EmpleeDateInform extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		System.out.println("收银员资料servlet");
+		//("收银员资料servlet");
 		String leixing=request.getParameter("type");
 		
 		//绑定门店ID

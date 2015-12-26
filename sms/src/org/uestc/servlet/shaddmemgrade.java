@@ -25,7 +25,7 @@ public class shaddmemgrade extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//增加会员等级
-		System.out.println("增加会员等级");
+		//("增加会员等级");
 		//会员名称
 		String shmemdjmc=request.getParameter("shmemdjmc");
 		//优惠折扣

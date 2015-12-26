@@ -50,12 +50,12 @@ public class InventoryWarningServlet extends BaseServlet {
 		String supplierName = request.getParameter("hp_supplier");
 		String inventoryStatus = request.getParameter("hp_inventoryStatus");
 		
-		System.out.println("-----------------------------------------");
-		System.out.println("storeName:\t"+storeName);
-		System.out.println("categoryName:\t"+categoryName);
-		System.out.println("supplierName:\t"+supplierName);
-		System.out.println("inventoryStatus:\t"+inventoryStatus);
-		System.out.println("-----------------------------------------");
+		//("-----------------------------------------");
+		//("storeName:\t"+storeName);
+		//("categoryName:\t"+categoryName);
+		//("supplierName:\t"+supplierName);
+		//("inventoryStatus:\t"+inventoryStatus);
+		//("-----------------------------------------");
 		
 		request.setAttribute("storeName", storeName);
 		request.setAttribute("categoryName", categoryName);
@@ -87,7 +87,7 @@ public class InventoryWarningServlet extends BaseServlet {
 		
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		
-//		System.out.println("该用户名为："+user.getUName()+"\t"+"id为："+user.getUId());
+//		//("该用户名为："+user.getUName()+"\t"+"id为："+user.getUId());
 		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
 		request.setAttribute("storeList", storeList);
 //		List<Store> storeList = inventoryWarningService.findAllStore();

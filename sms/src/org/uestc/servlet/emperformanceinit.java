@@ -35,7 +35,7 @@ public class emperformanceinit extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		String sspar1=request.getParameter("sspar1").toString();
-		System.out.println("页面加载");
+		//("页面加载");
 		String times1=request.getParameter("times1").toString();
 		String times2=request.getParameter("times2").toString();
 		try {

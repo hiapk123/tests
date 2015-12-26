@@ -20,7 +20,7 @@ public class SellerDetails extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("导购员明�?");
+		//("导购员明�?");
 		request.getRequestDispatcher("/pages/emplee/sellerdetails.jsp").forward(request,response);
 	}
 

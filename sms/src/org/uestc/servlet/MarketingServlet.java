@@ -32,7 +32,7 @@ public class MarketingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		System.out.println("MarketingServlet-------doGet()");
+		//("MarketingServlet-------doGet()");
 		
 	//	response.setCharacterEncoding("GBK");
 		response.setHeader("Content-Type", "text/html;charset=UTF-8");
@@ -40,10 +40,10 @@ public class MarketingServlet extends HttpServlet {
 		//response.setHeader("Content-Type", "text/html;charset=UTF-8");
 		//
 		String encodeType = response.getCharacterEncoding();
-		System.out.println(encodeType);
+		//(encodeType);
 		RequestDispatcher rd ;
 		String type  = request.getParameter("type");
-		System.out.println("MarketingServlet---doGet()---type:"+type);
+		//("MarketingServlet---doGet()---type:"+type);
 		switch (type) {
 		case "dzytj":
 			dzytj(request,response);
@@ -82,7 +82,7 @@ public class MarketingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		System.out.println("MarketingServlet-------doPost()");
+		//("MarketingServlet-------doPost()");
 	}
 	/**
 	 * 打折与特价页面功能处理

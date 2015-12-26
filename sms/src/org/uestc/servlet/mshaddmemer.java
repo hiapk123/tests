@@ -27,7 +27,7 @@ public class mshaddmemer extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		System.out.println("新增会员的servlet");
+		//("新增会员的servlet");
 		//接受前台传�?�的参数�?	
 		String v_level=request.getParameter("sh_v_level").toString();
 		String v_card_no=request.getParameter("v_card_no").toString();
@@ -51,7 +51,7 @@ public class mshaddmemer extends HttpServlet {
 				"'"+v_level+"'"+","+"'"+v_card_no+"'"+","+"'"+vip_name+"'"+","+"'"+sshhydj+"'"+","+"'"+shhyzk+"'"+","+"'"+shhyye+"'"+","+"'"+shhyjf+"'"+","+
 				"'"+shlxdh+"'"+","+"'"+shhymm+"'"+","+"'"+shhysr+"'"+","+"'"+shkaika+"'"+","+"'"+shdaoqi+"'"+","+shyxsz+","+"'"+shqqhao+"'"+","+
 				"'"+shyouxiang+"'"+","+"'"+shdizhi+"'"+","+"'"+shbeizhu+"'"+")";
-		System.out.println(newqsql);
+		//(newqsql);
 		//进行sql的执行操作�??
 		new TableBatchServiceImp().shaddmeminsert(newqsql);
 		//有返回�?�得话就说明添加成功�?
@@ -81,9 +81,9 @@ public class mshaddmemer extends HttpServlet {
 			shshoejifen=shshoejifen+Integer.parseInt(obj[6].toString());
 		}
 		}
-		System.out.println(shshoenum);
-		System.out.println(shshoeyue);
-		System.out.println(shshoejifen);
+		//(shshoenum);
+		//(shshoeyue);
+		//(shshoejifen);
 		int totalPage=0;
 		int currentpage=1;
 		if(shshoenum%10==0)

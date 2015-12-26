@@ -38,8 +38,8 @@ public class DzcxServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		
 		String subType =  request.getParameter("subType");
-		System.out.println("DejdzServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("DejdzServlet : doget()");
+		//("subType = "+subType);
 		MarketingDzcxService mDzcxService = new MarketingDzcxServiceImp();
 		if(subType==null||subType.equals("page_init")){
 			mDzcxService.getPageInit(request, response);

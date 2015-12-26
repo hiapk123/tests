@@ -44,7 +44,7 @@ public class AnalyzeGoodsServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("商品分析Servlet!");
+		//("商品分析Servlet!");
 		String m = req.getParameter("m");// 获取类型
 
 		goodService = new AnalyseGoodsServiceImp();

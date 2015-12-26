@@ -27,15 +27,15 @@ public class shshowedit extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("历史编辑显示页面");
+		//("历史编辑显示页面");
 		int shemptheidd=Integer.parseInt(request.getParameter("shemptheidd").toString());
 		List<Object[]> shempshowenditinfom=null;
 		String sqlsh="SELECT emp_name,emp_no,emp_tel,emp_status,s_name FROM employee LEFT JOIN store on s_id=store_id WHERE emp_id="+shemptheidd;
 		shempshowenditinfom=new MemInformServiceImp().normalfinad(sqlsh);
-		//将获取到的列表写入域，这样前台就可以显示�?
+		//将获取到的列表写入域，这样前台就可以显示�?
 		request.setAttribute("shempshowenditinfom", shempshowenditinfom);
 		
-		//绑定门店名的下拉�?
+		//绑定门店名的下拉�?
 		String storesql="select s_name from store";
 		List<Object[]> storelist=(List<Object[]>)new MemInformServiceImp().normalfinad(storesql);
 		request.setAttribute("storelist", storelist);

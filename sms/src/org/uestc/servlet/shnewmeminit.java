@@ -26,8 +26,8 @@ public class shnewmeminit extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("会员页面的刷新");
-		//System.out.println("初始化页面servlet");
+		//("会员页面的刷新");
+		////("初始化页面servlet");
 		//初始化查询所有的页面数据，页面函数meminfoinit();
 		List<Object[]> nlist=null;
 		nlist=new MemInformServiceImp().meminfoinit();
@@ -52,9 +52,9 @@ public class shnewmeminit extends HttpServlet {
 			shshoejifen=shshoejifen+Integer.parseInt(obj[6].toString());
 		}
 		}
-		System.out.println(shshoenum);
-		System.out.println(shshoeyue);
-		System.out.println(shshoejifen);
+		//(shshoenum);
+		//(shshoeyue);
+		//(shshoejifen);
 		int totalPage=0;
 		int currentpage=1;
 		if(shshoenum%10==0)

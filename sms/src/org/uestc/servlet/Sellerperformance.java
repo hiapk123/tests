@@ -18,7 +18,7 @@ public class Sellerperformance extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("收银员业�?");
+		//("收银员业�?");
 		request.getRequestDispatcher("/pages/emplee/sellerperformance.jsp").forward(request,response);
 	}
 

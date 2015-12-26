@@ -36,8 +36,8 @@ public class TccxServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		PrintWriter out = response.getWriter();
 		String subType =  request.getParameter("subType");
-		System.out.println("TccxServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("TccxServlet : doget()");
+		//("subType = "+subType);
 		MarketingTccxService mTccxService = new MarketingTccxServiceImp();
 		if(subType==null||subType.equals("page_init")){
 			mTccxService.getPageInit(request, response);

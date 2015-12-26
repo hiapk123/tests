@@ -27,7 +27,7 @@ public class shmeminforminitpaging extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("会员初始化分页");
+		//("会员初始化分页");
 		String which=request.getParameter("which");//所进行的操作
 		int pageno=Integer.parseInt(request.getParameter("pageno").toString());//当前的页数
 		int nowpage=0;

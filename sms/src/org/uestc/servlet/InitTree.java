@@ -83,7 +83,7 @@ public class InitTree extends HttpServlet {
 				node.accumulate("state", "open");
 				root.put(node);
 			}
-			//System.out.println(root.toString());
+			////(root.toString());
 			resp.setCharacterEncoding("utf-8");
 			resp.getWriter().write(root.toString());
 		} catch (JSONException e) {
@@ -210,7 +210,7 @@ public class InitTree extends HttpServlet {
 
 	private String getTree(String sid) {
 		String sql = "SELECT c_id,c_name,c_parent_id FROM category where s_del=1 and s_id=? order by c_id asc";
-		// System.out.println(sql);
+		// //(sql);
 		@SuppressWarnings({ "rawtypes" })
 		ArrayList<Map> c = SqlHelper.findAll(sql, sid);
 

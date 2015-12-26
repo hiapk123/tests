@@ -40,7 +40,7 @@ public class shfenye extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		System.out.println("分页函数的实�?");
+		//("分页函数的实�?");
 		//接受前台传过来的参数
 		String shopname=request.getParameter("shopname");
 		int shzhuangtai=Integer.parseInt(request.getParameter("shzhuangtai"));
@@ -50,13 +50,13 @@ public class shfenye extends HttpServlet {
 		//当前页面
 		int pageno=Integer.parseInt(request.getParameter("pageno").toString());
 		String which=request.getParameter("which").toString();
-		System.out.println(shopname);
-		System.out.println(shzhuangtai);
-		System.out.println(shfenlei);
-		System.out.println(shgonghuoshang);
-		System.out.println(shnameofshangpin);
-		System.out.println(pageno);//当前页面
-		System.out.println(which);//点击的�??
+		//(shopname);
+		//(shzhuangtai);
+		//(shfenlei);
+		//(shgonghuoshang);
+		//(shnameofshangpin);
+		//(pageno);//当前页面
+		//(which);//点击的�??
 		//这里应该重新查询获取记录的条�?
 		List<batchgoods> shlist=null;
 		int sqlshuliang;
@@ -72,7 +72,7 @@ public class shfenye extends HttpServlet {
 			sqlshuliang=new TableBatchServiceImp().yshcount(shopname, shzhuangtai, shfenlei, shgonghuoshang, shnameofshangpin);
 		}
 	//获取数量结束
-		System.out.println("记录的条�?"+sqlshuliang);
+		//("记录的条�?"+sqlshuliang);
 		int thetotal;//定义的是总共的页�?
 		if(sqlshuliang%10==0)
 		{

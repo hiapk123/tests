@@ -25,7 +25,7 @@ public class addempinform extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		System.out.println("娣诲姞鏀堕摱鍛?");
+		//("娣诲姞鏀堕摱鍛?");
 		//鎺ュ彈鍓嶅彴鐨勫弬鏁?
 		int shempstatus=Integer.parseInt(request.getParameter("shempstatus").toString());
 		String shempstore=request.getParameter("shempstore").toString();
@@ -40,21 +40,21 @@ public class addempinform extends HttpServlet {
 		sholist=new MemInformServiceImp().normalfinad(sqlid);
 		Object[] ob1= sholist.get(0);
 		shstidg=Integer.parseInt(ob1[0].toString());
-		//System.out.println("zhendeshi"+shstidg);
+		////("zhendeshi"+shstidg);
 		
 		//杩涜鎻掑叆鎿嶄綔
 		String shsql="insert into employee(emp_name,emp_no,store_id,emp_tel,emp_status) values ("+"'"+shempxm+"'"+","+"'"+shempbh+"'"+","+shstidg+","+"'"+shempdh+"'"+","+shempstatus+")";
 		//鎻掑叆鐨勮鍙?
 		new MemInformServiceImp().normalupdate(shsql);
-		System.out.println("鎻掑叆鎴愬姛");
+		//("鎻掑叆鎴愬姛");
 		//进行更新的操作
-		System.out.println("更新会员资料页面的servlet");
+		//("更新会员资料页面的servlet");
 		String shkksql="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id";
 		List<Object[]> shlistd=null;
 		shlistd=new MemInformServiceImp().normalfinad(shkksql);
 		request.setAttribute("shlistd", shlistd);
 		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
-		System.out.println("sasf");
+		//("sasf");
 		
 	}
 

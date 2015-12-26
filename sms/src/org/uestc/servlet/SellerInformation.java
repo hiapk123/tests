@@ -22,8 +22,8 @@ public class SellerInformation extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("导购员资料Servlet");
-		//绑定商品的id的名�?
+		//("导购员资料Servlet");
+		//绑定商品的id的名�?
 		//绑定门店ID
 		String storesql="select s_name from store";
 		List<Object[]> shpsellerinform=(List<Object[]>)new MemInformServiceImp().normalfinad(storesql);

@@ -51,7 +51,7 @@ public class LscxbServlet extends HttpServlet {
 		}
 		if("table".equals(subType)){
 			String strjson = mHgcxService.profenye(request, response);
-			System.out.println("AJAX Page"+strjson);
+			//("AJAX Page"+strjson);
 			PrintWriter out = response.getWriter();
 			out.write(strjson);
 			out.flush();

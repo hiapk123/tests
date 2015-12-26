@@ -71,7 +71,7 @@ public class AddOrderServlet extends HttpServlet {
 		boolean flag = false;
 		if (null != category)
 			flag = true;
-		// System.out.println(pageNum);
+		// //(pageNum);
 		List<Map> list = null;
 		if (null == category)
 			list = SqlHelper.findAll("SELECT * FROM good_base WHERE s_del=1 LIMIT ?,?", (pageNum - 1) * 10, 10);
@@ -88,34 +88,34 @@ public class AddOrderServlet extends HttpServlet {
 		if (flag) {
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject item = new JSONObject();
-				// System.out.println(list.get(i));
+				// //(list.get(i));
 				item.accumulate("itemid", list.get(i).get("gno"));
 				item.accumulate("itemname", list.get(i).get("gname"));
 				item.accumulate("itemprice1", list.get(i).get("gprice1"));
 				item.accumulate("itemprice2", list.get(i).get("gprice2"));
 				item.accumulate("itemcategory", list.get(i).get("gcategory"));
 				item.accumulate("itemnum", 1);
-				// System.out.println(item.toString());
+				// //(item.toString());
 				rows.put(item);
 			}
 		} else {
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject item = new JSONObject();
-				// System.out.println(list.get(i));
+				// //(list.get(i));
 				item.accumulate("itemid", list.get(i).get("gno"));
 				item.accumulate("itemname", list.get(i).get("gname"));
 				item.accumulate("itemprice1", list.get(i).get("gprice1"));
 				item.accumulate("itemprice2", list.get(i).get("gprice2"));
 				item.accumulate("itemcategory", list.get(i).get("gcategory"));
 				// item.accumulate("itemnum", 1);
-				// System.out.println(item.toString());
+				// //(item.toString());
 				rows.put(item);
 			}
 		}
-		// System.out.println(rows.toString());
+		// //(rows.toString());
 		root.accumulate("rows", rows.toString());
 
-		// System.out.println(root.toString());
+		// //(root.toString());
 
 		try {
 			resp.setCharacterEncoding("utf-8");
@@ -356,6 +356,6 @@ public class AddOrderServlet extends HttpServlet {
 			array.put(jsonObject);
 		}
 		
-		System.out.println(array.toString());
+		//(array.toString());
 	}
 }

@@ -37,8 +37,8 @@ public class CxspbServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		
 		String subType =  request.getParameter("subType");
-		System.out.println("HgcxServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("HgcxServlet : doget()");
+		//("subType = "+subType);
 		MarketingCxspbService mHgcxService = new MarketingCxspbServiceImp();
 		if(subType==null||subType.equals("page_init")){
 			mHgcxService.getPageInit(request, response);

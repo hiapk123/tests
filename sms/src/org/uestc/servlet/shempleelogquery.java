@@ -30,7 +30,7 @@ public class shempleelogquery extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("交接班查询的按钮");
+		//("交接班查询的按钮");
 		String shshopname=request.getParameter("shshopname").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();

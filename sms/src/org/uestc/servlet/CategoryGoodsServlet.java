@@ -67,7 +67,7 @@ public class CategoryGoodsServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("商品分类Servlet!");
+		//("商品分类Servlet!");
 		String type = req.getParameter("type");// 获取类型
 
 		CateService = new CategoryGoodsServiceImp();
@@ -133,7 +133,7 @@ public class CategoryGoodsServlet extends HttpServlet {
 		String idstr = req.getParameter("id");
 		int storeID  = Integer.parseInt(idstr);
 	   String str=	CateService.getCategoryTree(storeID);
-	   System.out.println(str);
+	   //(str);
 		resp.setContentType("text/html");
 		resp.setCharacterEncoding("utf8");
 		PrintWriter out = resp.getWriter();
@@ -152,7 +152,7 @@ public class CategoryGoodsServlet extends HttpServlet {
 			JSONArray array = new JSONArray();
 			HttpSession session = req.getSession();
 			int uid = Integer.valueOf(session.getAttribute("uid").toString());
-			System.out.println(uid);
+			//(uid);
 			List<Object[]> list = CateService.findStoreByUserId(uid);// 查询所有分类，父ID为-1
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject jsonObject = new JSONObject();

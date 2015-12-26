@@ -28,12 +28,12 @@ public class empleeinit extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("员工资料初始�?");
+		//("员工资料初始�?");
 		String empleestore=request.getParameter("empleestore").toString();
 		//智力设定的是0位开启，1为关闭
 		String empleestate=request.getParameter("empleestate").toString();
-		System.out.println(empleestore);
-		System.out.println(empleestate);
+		//(empleestore);
+		//(empleestate);
 		String sqla="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id";
 		List<Object[]> shlistd=new MemInformServiceImp().normalfinad(sqla);
 		request.setAttribute("shlistd", shlistd);

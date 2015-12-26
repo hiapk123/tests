@@ -22,28 +22,28 @@ public class Sellerinformmanager extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("导购员资料查询的按钮");
+		//("导购员资料查询的按钮");
 		//接受参数
 		String shsellerinformstore=request.getParameter("shsellerinformstore");
 		int shsellerinformstatus=Integer.parseInt(request.getParameter("shsellerinformstatus").toString()); 
 		String shsellerinformtext=request.getParameter("shsellerinformtext");
 		
-		//查询获取table的数�?
+		//查询获取table的数�?
 		if("".equals(shsellerinformtext))
 		{
 			//没有文本框时候的查询
 		}
 		else {
 			//分类判断
-			Pattern p= Pattern.compile("[\\u4e00-\\u9fa5]+");
+			Pattern p= Pattern.compile("[//u4e00-//u9fa5]+");
 			Matcher m=p.matcher(shsellerinformtext);
 			if(m.matches()==true)
 			{
-				//说明是汉�?
+				//说明是汉�?
 			}
 			else if (shsellerinformtext.length()==11) {
 				
-				//说明是按照电话号码进行查�?
+				//说明是按照电话号码进行查�?
 			}
 			else {
 				//说明是按照工号来进行查询

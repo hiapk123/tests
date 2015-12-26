@@ -32,7 +32,7 @@ public class shbuyselectbatch extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("会员处理查询");
+		//("会员处理查询");
 		String textfiled=request.getParameter("textfiled").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();

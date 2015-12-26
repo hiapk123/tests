@@ -24,13 +24,13 @@ public class empinformupdatetable extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("更新会员资料页面的servlet");
+		//("更新会员资料页面的servlet");
 		String shkksql="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id";
 		List<Object[]> shlistd=null;
 		shlistd=new MemInformServiceImp().normalfinad(shkksql);
 		request.setAttribute("shlistd", shlistd);
 		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
-		System.out.println("sasf");
+		//("sasf");
 		
 	}
 

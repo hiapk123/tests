@@ -30,7 +30,7 @@ public class shloginit extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("交接班记录初始化的Servlet");
+		//("交接班记录初始化的Servlet");
 		String lonname=request.getParameter("lonname").toString();
 		String timestart=request.getParameter("timestart").toString();
 		String timeend=request.getParameter("timeend").toString();

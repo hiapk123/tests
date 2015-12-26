@@ -42,7 +42,7 @@ public class SystemServlet extends HttpServlet {
 	 * @param resp
 	 */
 	private void findAll(HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("findAll Servlet被调用！");	
+		//("findAll Servlet被调用！");	
 		try {
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		} catch (ServletException e) {
@@ -59,7 +59,7 @@ public class SystemServlet extends HttpServlet {
 	 * @param resp
 	 */
 	private void add(HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("add Servlet被调用！");
+		//("add Servlet被调用！");
 		try {
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		} catch (ServletException e) {

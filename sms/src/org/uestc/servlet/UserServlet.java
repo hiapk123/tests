@@ -157,7 +157,7 @@ public class UserServlet extends BaseServlet {
 			errors.put("loginpass", "密码不能为空");
 		} /*else if (loginpass.length() < 3 || loginpass.length() > 20) {
 			errors.put("loginpass", "密码长度必须在3~20之间");
-			System.out.println("密码的长度: " + loginpass.length());
+			//("密码的长度: " + loginpass.length());
 		}*/
 		/*
 		 * 确认密码校验
@@ -168,8 +168,8 @@ public class UserServlet extends BaseServlet {
 			errors.put("reloginpass", "确认密码不能为空");
 		} else if (!reloginpass.equals(loginpass)) {
 			errors.put("reloginpass", "两次输入不一致");
-			System.out.println("原密码： " + loginpass);
-			System.out.println("确认密码： " + reloginpass);
+			//("原密码： " + loginpass);
+			//("确认密码： " + reloginpass);
 		}
 		/*
 		 * Email校验
@@ -177,7 +177,7 @@ public class UserServlet extends BaseServlet {
 		String email = formUser.getUEmail();
 		if (email == null || email.trim().isEmpty()) {
 			errors.put("email", "Email不能为空");
-		} else if (!email.matches("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$")) {
+		} else if (!email.matches("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((//.[a-zA-Z0-9_-]{2,3}){1,2})$")) {
 			errors.put("email", "Email格式错误");
 		}
 

@@ -32,7 +32,7 @@ public class AuditOrderServlet extends BaseServlet {
 	public String delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bno = request.getParameter("bno");
 		auditOrderService.delete(bno);
-		System.out.println(bno);
+		//(bno);
 		return initLoad(request, response);
 	}
 	
@@ -44,11 +44,11 @@ public class AuditOrderServlet extends BaseServlet {
 		String gIndex = request.getParameter("gIndex");
 		// URL 传递过来的订单编号参数
 		String bno = request.getParameter("bno"); 
-//		System.out.println("status: " + status);
-//		System.out.println("quantity: " + quantity);
-//		System.out.println("description: " + description);
-//		System.out.println("bno: " + bno);
-//		System.out.println("gIndex: " + gIndex);
+//		//("status: " + status);
+//		//("quantity: " + quantity);
+//		//("description: " + description);
+//		//("bno: " + bno);
+//		//("gIndex: " + gIndex);
 		
 		auditOrderService.updateBookingByBNo(status, quantity, description, gIndex, bno);
 		
@@ -67,10 +67,10 @@ public class AuditOrderServlet extends BaseServlet {
 		String storeName = request.getParameter("storeName");
 		String status = request.getParameter("status");
 		
-//		System.out.println("bookingNo: " + bookingNo);
-//		System.out.println("date: " + date);
-//		System.out.println("storeName: " + storeName);
-//		System.out.println("status: " + status);
+//		//("bookingNo: " + bookingNo);
+//		//("date: " + date);
+//		//("storeName: " + storeName);
+//		//("status: " + status);
 		
 		request.setAttribute("bookingNo", bookingNo);
 		request.setAttribute("date", date);
@@ -91,7 +91,7 @@ public class AuditOrderServlet extends BaseServlet {
 	
 	public String getBookingDetailByBNo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bno = request.getParameter("bno");
-//		System.out.println("当前订单号： " + bno);
+//		//("当前订单号： " + bno);
 		
 		List<OrderItem> orderItemList = auditOrderService.findByBNo(bno);
 		// 思路：1.构造json数组，页面遍历json数组

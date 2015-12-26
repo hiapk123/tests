@@ -37,8 +37,8 @@ public class DzytjServletbk extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		PrintWriter out = response.getWriter();
 		String subType =  request.getParameter("subType");
-		System.out.println("DzytjServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("DzytjServlet : doget()");
+		//("subType = "+subType);
 		 MarketingDzytjServicebk mDzytjService = new MarketingDzytjServiceImpbk();
 		if(subType==null||subType.equals("page_init")){
 			request.setAttribute("pageType", "添加");
@@ -54,7 +54,7 @@ public class DzytjServletbk extends HttpServlet {
 			
 			request.setAttribute("pageType", "返回列表");
 			String subpage =request.getParameter("add_update_search");
-			System.out.println(subpage);
+			//(subpage);
 			String d_name = request.getParameter("d_name");
 			String d_start_date = request.getParameter("d_start_date");
 			String str = mDzytjService.getAddPage(subpage,d_name,d_start_date);
@@ -105,7 +105,7 @@ public class DzytjServletbk extends HttpServlet {
 	 * @throws ServletException 
 	 */
 /*	protected void init_add_active(HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException{
-		System.out.println("void  init_add_active()");
+		//("void  init_add_active()");
 		//req.getRequestDispatcher("/pages/marketing/dzyt-add-active.jsp").forward(req, res);
 		res.sendRedirect("pages/marketing/dzyt-add-active.jsp");
 	}

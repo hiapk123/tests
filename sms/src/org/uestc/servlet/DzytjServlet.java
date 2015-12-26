@@ -36,8 +36,8 @@ public class DzytjServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		
 		String subType =  request.getParameter("subType");
-		System.out.println("DzytjServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("DzytjServlet : doget()");
+		//("subType = "+subType);
 		MarketingDzytjService mDzytjService = new MarketingDzytjServiceImp();
 		if(subType==null||subType.equals("page_init")){
 			mDzytjService.getPageInit(request, response);

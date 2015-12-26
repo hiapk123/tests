@@ -36,8 +36,8 @@ public class DejdzServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		
 		String subType =  request.getParameter("subType");
-		System.out.println("DejdzServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("DejdzServlet : doget()");
+		//("subType = "+subType);
 		MarketingDejdzService mDejdzService = new MarketingDejdzServiceImp();
 		if(subType==null||subType.equals("page_init")){
 			mDejdzService.getPageInit(request, response);

@@ -27,9 +27,9 @@ public class empleecheckbox extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("会员查询按钮");
+		//("会员查询按钮");
 		String type=request.getParameter("type");
-		System.out.println(type);
+		//(type);
 		String storeide=request.getParameter("storeide");
 		String statee=request.getParameter("statee");
 		String shtext=request.getParameter("shtext");
@@ -44,18 +44,18 @@ public class empleecheckbox extends HttpServlet {
 		}
 		
 		else {
-			//判断是会员，姓名还是电话查询�?
-			//1.判断是否是汉字�??
-			Pattern p= Pattern.compile("[\\u4e00-\\u9fa5]+");
+			//判断是会员，姓名还是电话查询�?
+			//1.判断是否是汉字�??
+			Pattern p= Pattern.compile("[//u4e00-//u9fa5]+");
 			Matcher m=p.matcher(shtext);
 			if(m.matches()==true)
 			{
-				//说明是汉�?
+				//说明是汉�?
 				sqlb="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_name="+"'"+shtext+"'";
 				shlistd=new MemInformServiceImp().normalfinad(sqlb);
 			}
 			else if (shtext.length()==11) {
-				//说明是电话号�?
+				//说明是电话号�?
 				sqlb="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_tel="+"'"+shtext+"'";
 				shlistd=new MemInformServiceImp().normalfinad(sqlb);
 				
@@ -71,7 +71,7 @@ public class empleecheckbox extends HttpServlet {
 			
 		}
 		
-		//页面进行跳转，返回数据页面进行绑�?
+		//页面进行跳转，返回数据页面进行绑�?
 		request.setAttribute("shlistd", shlistd);
 		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
 		

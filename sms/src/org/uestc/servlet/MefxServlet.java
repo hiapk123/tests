@@ -36,8 +36,8 @@ public class MefxServlet extends HttpServlet {
 		response.setCharacterEncoding("utf8");
 		PrintWriter out = response.getWriter();
 		String subType =  request.getParameter("subType");
-		System.out.println("MefxServlet : doget()");
-		System.out.println("subType = "+subType);
+		//("MefxServlet : doget()");
+		//("subType = "+subType);
 		MarketingMefxService mMefxService = new MarketingMefxServiceImp();
 		if(subType==null||subType.equals("page_init")){
 			mMefxService.getPageInit(request, response);
