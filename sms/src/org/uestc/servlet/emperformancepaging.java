@@ -1,0 +1,176 @@
+package org.uestc.servlet;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.uestc.serviceImp.MemInformServiceImp;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
+@WebServlet(urlPatterns="/emperformancepaging",name="emperformancepagingServlet")
+public class emperformancepaging extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		this.doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		System.out.println("收银员业绩分页处理");
+		//接受前台的参�?
+		String shempperform1=request.getParameter("shempperform1");
+		String shempperform2=request.getParameter("shempperform2");
+		String shempperform3=request.getParameter("shempperform3");
+		String shempperformtime1=request.getParameter("shempperformtime1");
+		String shempperformtime2=request.getParameter("shempperformtime2");	
+		
+		String which=request.getParameter("which").toString();
+		int pageno=Integer.parseInt(request.getParameter("pageno").toString());
+		try {
+			shempperformtime1=StrToDate(shempperformtime1);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			shempperformtime2=StrToDate(shempperformtime2);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//进行表格的处理操�?
+		int shfenleimid=0;
+		int shshouyinyuanid=0;
+		//1.用收银员名字查找收银员id.***************		
+		if("-1".equals(shempperform2))
+		{
+			
+		}
+		else {
+		
+		String shsql1="SELECT emp_id FROM employee WHERE  emp_name="+"'"+shempperform2+"'";
+		List<Object[]> empid=(List<Object[]>)new MemInformServiceImp().normalfinad(shsql1);
+		Object[] shobj1=empid.get(0);
+		shshouyinyuanid=Integer.parseInt(shobj1[0].toString());//收银员id
+		}
+		//2.通过分类名字查找分类的id.
+		if("-1".equals(shempperform3))
+		{
+			
+		}
+		else {
+			
+		
+		String shsql2="SELECT c_id FROM category WHERE  c_name="+"'"+shempperform3+"'";
+		List<Object[]> shfenleiid=(List<Object[]>)new MemInformServiceImp().normalfinad(shsql2);
+		Object[] shobj2=shfenleiid.get(0);
+		shfenleimid=Integer.parseInt(shobj2[0].toString());//分类名id
+		
+		}
+		//查询返回表格的操�?
+		//1.这里进行返回表格的查�?
+		
+		String shobj3="";
+		if("-1".equals(shempperform2))
+		{
+			if("-1".equals(shempperform3))
+			{
+				shobj3="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+shempperform1+"'"+" AND t1.sa_date<="+"'"+shempperformtime2+"'"+" AND t1.sa_date>="+"'"+shempperformtime1+"'"+"  ORDER  BY t1.sa_id ";
+			}
+			else
+			{
+				shobj3="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+shempperform1+"'"+" AND t2.c_id="+shfenleimid+" AND t1.sa_date<="+"'"+shempperformtime2+"'"+" AND t1.sa_date>="+"'"+shempperformtime1+"'"+"  ORDER  BY t1.sa_id ";
+			}
+			
+		}
+		else 
+		{
+			if("-1".equals(shempperform3))
+			{
+				shobj3="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+shempperform1+"'"+" and t1.sa_saler_id="+shshouyinyuanid+" AND t1.sa_date<="+"'"+shempperformtime2+"'"+" AND t1.sa_date>="+"'"+shempperformtime1+"'"+"  ORDER  BY t1.sa_id ";
+			}
+			else
+			{
+				shobj3="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+shempperform1+"'"+" AND t2.c_id="+shfenleimid+" and t1.sa_saler_id="+shshouyinyuanid+" AND t1.sa_date<="+"'"+shempperformtime2+"'"+" AND t1.sa_date>="+"'"+shempperformtime1+"'"+"  ORDER  BY t1.sa_id ";
+				
+			}
+				
+		}
+		String shobj4=shobj3;
+		List<Object[]> shempperformthetablell=(List<Object[]>)new MemInformServiceImp().normalfinad(shobj4);
+		int totalPage=shempperformthetablell.size();
+		int currentpage=1;
+		//#分页
+		int yeshu=0;
+		if(totalPage%10==0)
+		{
+			yeshu=totalPage/10;
+			
+		}
+		else {
+			yeshu=totalPage/10 +1;
+		}
+		if("last".equals(which))
+		{
+			currentpage=yeshu;
+		}
+		else if ("next".equals(which)) {
+			
+			currentpage=pageno+1;
+			
+		}
+		else if ("prev".equals(which)) {
+			
+			currentpage=pageno-1;
+			
+		}
+		else if ("first".equals(which)) {
+			
+			currentpage=1;
+			
+		}
+		else {
+			currentpage=Integer.parseInt(which);
+			
+		}
+		//#
+		int current=10*(currentpage-1);
+	
+		shobj3 +="limit "+current+" ,10";
+		List<Object[]> shempperformthetable=(List<Object[]>)new MemInformServiceImp().normalfinad(shobj3);
+		request.setAttribute("shempperformthetable", shempperformthetable);
+		request.setAttribute("currentPage", currentpage);
+		request.setAttribute("totalPage", totalPage);
+		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);
+		
+	}
+	
+	//字符串转化函数
+	private String StrToDate(String str) throws java.text.ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "" + date.getTime();
+	}
+
+}
