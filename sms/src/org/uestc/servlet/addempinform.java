@@ -23,15 +23,16 @@ public class addempinform extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		System.out.println("娣诲姞鏀堕摱鍛?");
+				
+		//System.out.println("娣诲姞鏀堕摱鍛?");
 		//鎺ュ彈鍓嶅彴鐨勫弬鏁?
 		int shempstatus=Integer.parseInt(request.getParameter("shempstatus").toString());
 		String shempstore=request.getParameter("shempstore").toString();
 		String shempbh=request.getParameter("shempbh").toString();
 		String shempxm=request.getParameter("shempxm").toString();
 		String shempdh=request.getParameter("shempdh").toString();
+		String empleestore=request.getParameter("empleestore").toString();
+		String empleestate=request.getParameter("empleestate").toString();
 		int shstidg=0;
 		//鍐欏ソsql骞朵笖鎻掑叆閫氱敤绫?
 		//1銆佸厛鏍规嵁闂ㄥ簵鍚嶆煡璇㈠嚭闂ㄥ簵鐨刬d
@@ -49,9 +50,16 @@ public class addempinform extends HttpServlet {
 		System.out.println("鎻掑叆鎴愬姛");
 		//进行更新的操作
 		System.out.println("更新会员资料页面的servlet");
-		String shkksql="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id";
+		String shkksql="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id where s_name="+"'"+empleestore+"'"+" and emp_status="+empleestate+" limit 0,10";
 		List<Object[]> shlistd=null;
 		shlistd=new MemInformServiceImp().normalfinad(shkksql);
+		int currentPage=1;
+		int totalPage=0;
+		String spdwl="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id where s_name="+"'"+empleestore+"'"+" and emp_status="+empleestate;
+		List<Object[]> numlista=new MemInformServiceImp().normalfinad(spdwl);
+		totalPage=numlista.size();
+		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("shlistd", shlistd);
 		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
 		System.out.println("sasf");

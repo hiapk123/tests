@@ -41,7 +41,7 @@ public class shexcelutil {
 		List<Object[]> nlistsp=null;
 		//nlistsp=new MemInformServiceImp().meminfoinit();
 		//但是为空数据的时候导出的时候是会报错的
-		String ssl="select a.v_id,a.v_card_no,a.vip_name,a.vip_tel,a.v_level,a.v_balance,a.v_commodityintegral,b.s_name,a.vip_startdate, a.v_status FROM vip a LEFT JOIN store b ON a.s_id=b.s_id ";
+		String ssl="select a.v_id,a.v_card_no,a.vip_name,a.vip_tel,a.v_level,a.v_balance,a.v_commodity_integral,b.s_name,a.vip_startdate, a.v_status FROM vip a LEFT JOIN store b ON a.s_id=b.s_id ";
 		nlistsp=new MemInformServiceImp().normalfinad(ssl);
 		
 		

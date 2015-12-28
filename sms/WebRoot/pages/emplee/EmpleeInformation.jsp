@@ -149,8 +149,8 @@ function sh_zhuangtaishuaxin()
 			"empleestate":empleestate
 			},function(data){
 			
-			alert("返回数据成功");
-			alert(data);
+			//alert("返回数据成功");
+			//alert(data);
 			$("#shempleetable").empty();
 			$("#shempleetable").append(data);
 			},"html");
@@ -166,7 +166,7 @@ function sh_clickstorename()
 	//alert("下拉框刷新");
 	var empleestore=$("#shmemstore").val();
 	var empleestate=$("#shmemstate").val();
-	alert(empleestore);
+	//alert(empleestore);
 	$.post("<%=basePath%>sh_xialakuangbath",
 		{
 		"type":"0",
@@ -174,8 +174,8 @@ function sh_clickstorename()
 		"empleestate":empleestate
 		},function(data){
 		
-		alert("返回数据成功");
-		alert(data);
+		//alert("返回数据成功");
+		//alert(data);
 		$("#shempleetable").empty();
 		$("#shempleetable").append(data);
 		},"html");
@@ -186,7 +186,7 @@ function sh_clickstorename()
 //点击查询按钮
 function shcheckbutton()
 {
-	alert("点击查询");
+	//alert("点击查询");
 	var storeide=$("#shmemstore").val();
 	var statee=$("#shmemstate").val();
 	var shtext=$("#shcheckbox").val();
@@ -331,23 +331,8 @@ function addempleer(){
 </div>
 </div>
 
-	<div class="panel panel-default" >
-		<!-- //这里是所列的表格 -->
-		<table style="height: 100%" class="table table-bordered" name="numgettable">
-			<thred>
-			<tr>
-				<td><font size="3" >序号</font></td>
-				<td><font size="3" >操作</font></td>
-				<td><font size="3" >所属门店</font></td>
-				<td><font size="3" >工号</font></td>
-				<td><font size="3" >姓名</font></td>
-				<td><font size="3" >电话</font></td>
-				<td><font size="3" >状态</font></td>
-			</tr>
-			</thred>
-			<tbody id="shempleetable">
-			</tbody>
-		</table>
+	<div style="height: 450px" class="panel panel-default"  id="shempleetable">
+		
 	</div>
 
 	<!-- //这里是激发模态框的按钮 -->
@@ -513,13 +498,20 @@ function shempsave()
 		{
 		if(shempxm==""){alert("请输入姓名");return false;}
 		else {
+			//传递当前的页面的值
+			var empleestore=$("#shmemstore").val();
+			var empleestate=$("#shmemstate").val();
+			//alert(empleestore);
+			//alert(empleestate);
 			//进行表单的提交
 			$.post("<%=basePath%>addempinform", {
 					"shempstatus" : shempstatus,
 					"shempstore" : shempstore,
 					"shempbh" : shempbh,
 					"shempxm" : shempxm,
-					"shempdh" : shempdh
+					"shempdh" : shempdh,
+					"empleestore":empleestore,
+					"empleestate":empleestate
 				}, function(data) {
 					//alert(插入成功);
 					$("#shempleetable").empty();

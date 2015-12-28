@@ -50,9 +50,19 @@ public class emperformanceinit extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
-		String ssknsql="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+ sspar1 +"'"+"AND t1.sa_date<="+"'"+times2+"'"+ "AND t1.sa_date>="+"'"+times1+"'"+"ORDER  BY t1.sa_id ";
+		int currentpage=1;
+		int current=10*(currentpage-1);
+		String ssknsql="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+ sspar1 +"'"+"AND t1.sa_date<="+"'"+times2+"'"+ "AND t1.sa_date>="+"'"+times1+"'"+"ORDER  BY t1.sa_id "+" limit " +  current+" ,10";
 		List<Object[]> shempperformthetable=(List<Object[]>)new MemInformServiceImp().normalfinad(ssknsql);
+		
+		String sskmsql="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+ sspar1 +"'"+"AND t1.sa_date<="+"'"+times2+"'"+ "AND t1.sa_date>="+"'"+times1+"'"+"ORDER  BY t1.sa_id ";
+		List<Object[]> shempperformthetablekkk=(List<Object[]>)new MemInformServiceImp().normalfinad(sskmsql);
+		int totalPage=shempperformthetablekkk.size();
+		
+		request.setAttribute("currentPage", currentpage);
+		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("shempperformthetable", shempperformthetable);
 		
 		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);

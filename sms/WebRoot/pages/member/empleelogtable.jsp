@@ -1,5 +1,6 @@
 <%@page import="com.uestc.bean.batchgoods"%>
 <%@page import="java.util.List"%>
+<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%
@@ -12,6 +13,60 @@
 
 <!-- 分页头部引用 -->
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+<script>
+$(function(){
+	$("#shligofjiaojieban").children('li').children('a').click(function(){
+		var which=$(this).text();
+		if(which=="首页")
+	  	{
+	  	    which="first";	
+	  		
+	  	}
+	  	else if(which=="上一页")
+	  	{
+	  		
+	  		which="prev";	
+	  	}
+	  	else if(which=="下一页")
+	  	{
+	  		which="next"
+	  		
+	  	}
+	  	else if (which=="尾页") 
+	  	{
+	  		which="last"	
+	  	}
+	  	else{
+	  		
+	  	
+	  	} 	
+		var pageno=$("#page").val();//当前的页数
+		//提交进行分页的处理
+		var shshopname=$("#emplogshopname").val();
+		var time1=$("#logfirstname").val();
+		var time2=$("#shlogthestime").val();
+		
+		$.post("<%=basePath%>shlogpaging",{
+			"shshopname":shshopname,
+			"time1":time1,
+			"time2":time2,
+			"which":which,
+			"pageno":pageno
+		}
+		,function(date){
+			//alert(date);
+			$("#shshshoewtabled").empty();
+			$("#shshshoewtabled").append(date);
+			
+			
+		},"html")
+		
+	})
+	
+	
+})
+
+</script>
 
 <table class="table table-bordered" >
 <thead>
@@ -57,3 +112,15 @@
 	</tbody>
 
 </table>
+
+<!-- //分页标签的属性 -->
+<div style="text-align: center;">
+	<!-- //分页的标签属性 -->
+	<input type="hidden" id="page" value="${currentPage}" />
+<ul class="pagination" id="shligofjiaojieban">
+	<page:htmlPage pageNo="${currentPage}"
+		url="http://www.baidu.com"
+		totalSum="${totalPage}" showPage="10" pageSize="10" />
+</ul>
+
+</div>
