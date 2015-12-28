@@ -114,6 +114,7 @@
 				
 				if (result.length > 0) { // 该订单有数据
 					var detailHtml = "";
+					$("#tip").html(""); // 如果订单有数据，清空之前点击没有数据的预览项填充的提示(tip)信息
 					for (var i = 0; i < result.length; i++) {
 						detailHtml += "<tr>";
 						detailHtml += "<td>" + (i+1) + "</td>";
@@ -209,6 +210,28 @@
 		$("#printDiv").jqprint();
 	}
 </script>
+
+<!-- 处理复选框的js片段 -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#selectAll").click(function() {
+			var bool = $("#selectAll").attr("checked");
+			$(":checkbox[name=checkboxBtn][disabled=false]").attr("checked", bool);
+		});
+		
+		$(":checkbox[name=checkboxBtn]").click(function(){
+			var all = $(":checkbox[name=checkboxBtn][disabled=false]").length;
+			var select = $(":checkbox[name=checkboxBtn][disabled=false][checked=true]").length;
+			if (all == select) {
+				$("#selectAll").attr("checked", true);
+			} else if (select == 0) {
+				$("#selectAll").attr("checked", false);
+			} else {
+				$("#selectAll").attr("checked", false);
+			}
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -253,6 +276,7 @@
 				class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 				<thead>
 					<tr>
+						<th><input type="checkbox" id="selectAll" name="selectAll" checked="checked"><label for="selectAll">&nbsp;全选</label></th>
 						<th>订单编号</th>
 						<th>订货门店</th>
 						<th>日期</th>
@@ -263,6 +287,18 @@
 				<tbody>
 				<c:forEach items="${pb.beanList }" var="booking" varStatus="status">
 					<tr>
+						<td>
+							<input value="${booking.BNo }" type="checkbox" name="checkboxBtn"
+							<c:choose>
+								<c:when test="${booking.BStatus ne '已审核通过' }">
+									disabled="disabled"
+								</c:when>
+								<c:otherwise>
+									checked="checked"
+								</c:otherwise>
+							</c:choose>
+							>
+						</td>
 						<td id="bnoTd">${booking.BNo }</td>
 						<td class="center">${booking.store.SName }</td>
 						<td class="center">${booking.BDate }</td>
