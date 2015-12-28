@@ -26,4 +26,6 @@ public interface AuditOrderService {
 
 	void delete(String bno);
 
+	List<OrderItem> findByBNos(String bnos);
+
 }
