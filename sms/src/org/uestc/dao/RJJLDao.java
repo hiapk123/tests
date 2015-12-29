@@ -16,4 +16,8 @@ public interface RJJLDao {
 	PageBean<Sale> findAllSalesByUid(Long uId, int pc) throws SQLException;
 	
 	PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, Long uId, int pc) throws SQLException, ParseException;
+
+	PageBean<Sale> findAll(int pc) throws SQLException;
+
+	PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, int pc) throws SQLException;
 }

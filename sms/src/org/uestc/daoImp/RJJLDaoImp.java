@@ -254,6 +254,17 @@ public class RJJLDaoImp implements RJJLDao {
 		}
 		return 0;
 	}
+	private double getAllMoney(Long saler_id, String sa_type) throws SQLException {
+		String sql = "select sum(t.sa_real_price) from sale t where t.sa_saler_id=? and t.sa_type=? ";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), saler_id, sa_type);
+		if (list.size() == 1) {
+			if (list.get(0)[0] != null) {
+				double sum = (double) list.get(0)[0];
+				return Double.valueOf(sum);
+			}
+		}
+		return 0;
+	}
 	// (增加门店id条件)
 	private double getMoney1(Long saler_id, String sa_type, Long uId, Long store_id) throws SQLException {
 		String sql = "select sum(t.sa_real_price) from sale t where t.sa_saler_id=? and t.sa_type=?  AND store_id IN (SELECT s_id FROM store WHERE u_id=?) AND store_id=?";
@@ -271,13 +282,22 @@ public class RJJLDaoImp implements RJJLDao {
 	private double getCashMoney(Long saler_id, Long uId) throws SQLException {
 		return getMoney(saler_id, "1", uId);
 	}
+	private double getAllCashMoney(Long saler_id) throws SQLException {
+		return getAllMoney(saler_id, "1");
+	}
 	// 银联卡
 	private double getCupCardMoney(Long saler_id, Long uId) throws SQLException {
 		return getMoney(saler_id, "2", uId);
 	}
+	private double getAllCupCardMoney(Long saler_id) throws SQLException {
+		return getAllMoney(saler_id, "2");
+	}
 	// 在线
 	private double getOnlineMoney(Long saler_id, Long uId) throws SQLException {
 		return getMoney(saler_id, "3", uId);
+	}
+	private double getAllOnlineMoney(Long saler_id) throws SQLException {
+		return getAllMoney(saler_id, "3");
 	}
 	// 现金1(增加门店id条件)
 	private double getCashMoney1(Long saler_id, Long uId, Long store_id) throws SQLException {
@@ -322,6 +342,159 @@ public class RJJLDaoImp implements RJJLDao {
 			return Long.valueOf(obj[0].toString());
 		}
 		return null;
+	}
+
+	@Override
+	public PageBean<Sale> findAll(int pc) throws SQLException {
+		int ps = PageConstants.SALE_PAGE_SIZE;
+
+		String sql = "SELECT COUNT(DISTINCT(sa_saler_id)) FROM sale";
+		Number number = qr.query(sql, new ScalarHandler());
+		int tr = number.intValue();
+
+		// 一次性查询到开始时间、结束时间、收银员和收银总额，（现金，银联卡，在线后续单独查询之后拼接起来）
+		sql = "SELECT MIN(FROM_UNIXTIME(sa_date/1000,'%Y-%m-%d %h:%i:%s')),MAX(FROM_UNIXTIME(sa_date/1000,'%Y-%m-%d %h:%i:%s')), sa_saler_id, SUM(sa_real_price) FROM sale GROUP BY sa_saler_id LIMIT ?,?";
+		
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), (pc - 1) * ps, ps);
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			Employee employee = new Employee();
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaSerialNum(obj[1].toString()); //将其看作“结束时间”
+			}
+			if (obj[2] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
+				sale.setEmployee(employee); // 收银员
+			}
+			if (obj[3] != null) {
+				sale.setSaRealPrice(obj[3].toString()); // 将其看作“收银总额”
+			}
+			
+			if (obj[2] != null) {
+				sale.setSaGoodsPrice(Double.toString(getAllCashMoney(Long.valueOf(obj[2].toString())))); // 将其看作“现金”
+				sale.setSaProfit(Double.toString(getAllCupCardMoney(Long.valueOf(obj[2].toString())))); // 将其看作“银联卡”
+				sale.setSaGoodsNum(Double.toString(getAllOnlineMoney(Long.valueOf(obj[2].toString())))); // 在线  将其看作“在线”
+			}
+			
+			saleList.add(sale);
+		}
+
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+
+		return pb;
+	}
+
+	@Override
+	public PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, int pc)
+			throws SQLException {
+
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+
+		int ps = PageConstants.SALE_PAGE_SIZE;
+
+		StringBuilder cntSql = new StringBuilder("SELECT COUNT(DISTINCT(sa_saler_id)) FROM sale");
+		StringBuilder whereSql = new StringBuilder(" where 1=1");
+		StringBuilder selectSql = new StringBuilder("SELECT MIN(FROM_UNIXTIME(sa_date/1000,'%Y-%m-%d %h:%i:%s')),MAX(FROM_UNIXTIME(sa_date/1000,'%Y-%m-%d %h:%i:%s')), sa_saler_id, SUM(sa_real_price) FROM sale");
+		List<Object> params = new ArrayList<Object>();
+		
+		if (!storeName.equals("全部门店")) {
+			whereSql.append(" and store_id=?");
+			params.add(findStoreIdByStoreName(storeName));
+		}
+		if (beginTime != null && !beginTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date>=?");
+			params.add(beginTime);
+		}
+		if (endTime != null && !endTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date<=?");
+			params.add(endTime);
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		
+		String sql = selectSql.toString()+whereSql.toString() + " GROUP BY sa_saler_id LIMIT ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+		
+//		String sql = "";
+//		Number number = null;
+//		int tr = 0;
+//
+//		// 0 0 0
+//		sql = "SELECT COUNT(DISTINCT(sa_saler_id)) FROM sale WHERE store_id=? and sa_date>=? and sa_date<=?)";
+//		number = qr.query(sql, new ScalarHandler(), findStoreIdByStoreName(storeName), beginTime, endTime);
+//		tr = number.intValue();
+//
+//		List<Object[]> list = null;
+//
+//		// 0 0 0
+//		sql = "SELECT MIN(FROM_UNIXTIME(sa_date/1000,'%Y-%m-%d %h:%i:%s')),MAX(FROM_UNIXTIME(sa_date/1000,'%Y-%m-%d %h:%i:%s')), sa_saler_id, SUM(sa_real_price) FROM sale WHERE store_id=? and sa_date>=? and sa_date<=? GROUP BY sa_saler_id LIMIT ?,?";
+//		list = qr.query(sql, new ArrayListHandler(), findStoreIdByStoreName(storeName), beginTime, endTime,
+//				(pc - 1) * ps, ps);
+		
+		
+		
+
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			Employee employee = new Employee();
+			if (obj[0] != null) {
+				sale.setSaDate(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				sale.setSaSerialNum(obj[1].toString()); //将其看作“结束时间”
+			}
+			if (obj[2] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[2].toString())));
+				sale.setEmployee(employee); // 收银员
+			}
+			if (obj[3] != null) {
+				sale.setSaRealPrice(obj[3].toString()); // 将其看作“收银总额”
+			}
+			
+			if (storeName.equals("全部门店")) {
+				if (obj[2] != null) {
+					sale.setSaGoodsPrice(Double.toString(getAllCashMoney(Long.valueOf(obj[2].toString())))); // 将其看作“现金”
+					sale.setSaProfit(Double.toString(getAllCupCardMoney(Long.valueOf(obj[2].toString())))); // 将其看作“银联卡”
+					sale.setSaGoodsNum(Double.toString(getAllOnlineMoney(Long.valueOf(obj[2].toString())))); // 在线  将其看作“在线”
+				}
+			} else {
+				if (obj[2] != null) {
+					sale.setSaGoodsPrice(Double.toString(getAllCashMoney(Long.valueOf(obj[2].toString())))); // 将其看作“现金”
+					sale.setSaProfit(Double.toString(getAllCupCardMoney(Long.valueOf(obj[2].toString())))); // 将其看作“银联卡”
+					sale.setSaGoodsNum(Double.toString(getAllOnlineMoney(Long.valueOf(obj[2].toString())))); // 在线  将其看作“在线”
+				}
+			}
+			saleList.add(sale);
+		}
+
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+
+		return pb;
 	}
 }
 

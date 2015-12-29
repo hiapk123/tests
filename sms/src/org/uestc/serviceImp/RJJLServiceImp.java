@@ -28,4 +28,22 @@ public class RJJLServiceImp implements RJJLService {
 		}
 	}
 
+	@Override
+	public PageBean<Sale> findAll(int pc) {
+		try {
+			return rjjlDao.findAll(pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, int pc) {
+		try {
+			return rjjlDao.findAllByCombination(storeName, beginTime, endTime, pc);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

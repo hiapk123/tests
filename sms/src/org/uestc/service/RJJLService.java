@@ -13,4 +13,8 @@ public interface RJJLService {
 	PageBean<Sale> findAllSalesByUid(Long uId, int pc);
 
 	PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, Long uId, int pc);
+
+	PageBean<Sale> findAll(int pc);
+
+	PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, int pc);
 }
