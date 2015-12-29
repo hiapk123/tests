@@ -579,5 +579,167 @@ public class XSDJDaoImp implements XSDJDao {
 		return null;
 	}
 
+	@Override
+	public PageBean<XSDJBean> findAll(int pc) throws SQLException {
+		int ps = PageConstants.SALE_PAGE_SIZE;
+
+		String sql = "SELECT COUNT(*) FROM goods g,sale sa WHERE g.g_barcode=sa.g_barcode";
+		Number number = qr.query(sql, new ScalarHandler());
+		int tr = number.intValue();
+
+		sql = "SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g WHERE g.g_barcode=sa.g_barcode limit ?,?";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), (pc - 1) * ps, ps);
+		List<XSDJBean> xsdjBeanList = new ArrayList<XSDJBean>();
+		for (Object[] obj : list) {
+			XSDJBean xsdjBean = new XSDJBean();
+
+			if (obj[0] != null) {
+				xsdjBean.setSaSeriNum(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				xsdjBean.setSaDate(msecToDateTimeStr(obj[1].toString()));
+			}
+			if (obj[2] != null) {
+				xsdjBean.setSaType(numericToChinese(obj[2].toString()));
+			}
+			if (obj[3] != null) {
+				xsdjBean.setSaCashier(findEmpNameByEmpId(Long.valueOf(obj[3].toString())));
+			}
+			if (obj[4] != null) {
+				xsdjBean.setSaVipName(findVipNameByVipId(Long.valueOf(obj[4].toString())));
+			}
+			if (obj[5] != null) {
+				xsdjBean.setSaGoodsQuantity(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				xsdjBean.setgPurPrice(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				xsdjBean.setSaRealPrice(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				xsdjBean.setSaProfit(obj[8].toString());
+			}
+			xsdjBeanList.add(xsdjBean);
+			
+		}
+
+		PageBean<XSDJBean> pb = new PageBean<XSDJBean>();
+		pb.setBeanList(xsdjBeanList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+
+		return pb;
+	}
+
+	@Override
+	public PageBean<XSDJBean> findAllByCombination(String storeName, String receiptType, String beginTime,
+			String endTime, String seriNum, int pc) throws SQLException, ParseException {
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+		if (receiptType.equals("有效单据")) {
+			receiptType = "1";
+		} else if (receiptType.equals("无效单据")) {
+			receiptType = "0";
+		} else if (receiptType.equals("会员单据")) {
+			receiptType = "2";
+		}
+
+		int ps = PageConstants.SALE_PAGE_SIZE;
+
+		StringBuilder cntSql = new StringBuilder("SELECT COUNT(*) FROM goods g,sale sa");
+		StringBuilder whereSql = new StringBuilder(" where 1=1 and g.g_barcode=sa.g_barcode");
+		StringBuilder selectSql = new StringBuilder("SELECT sa.sa_serial_num,sa.sa_date,sa.sa_type,sa.sa_saler_id,sa.sa_buyer_id,sa.sa_goods_num,g.g_pur_price,sa.sa_real_price,sa.sa_profit FROM sale sa, goods g");
+		List<Object> params = new ArrayList<Object>();
+		
+//		两者sql之间的差距
+//		AND sa.s_del=?
+//		AND sa.sa_buyer_id in (select v_id from vip where v_id <> 10000)
+		if (!storeName.equals("全部门店")) {
+			whereSql.append(" and sa.store_id=?");
+			params.add(findStoreIdByStoreName(storeName));
+		}
+		if (beginTime != null && !beginTime.trim().isEmpty()) {
+			whereSql.append(" and sa.sa_date>=?");
+			params.add(beginTime);
+		}
+		if (endTime != null && !endTime.trim().isEmpty()) {
+			whereSql.append(" and sa.sa_date<=?");
+			params.add(endTime);
+		}
+		if (seriNum != null && !seriNum.trim().isEmpty()) {
+			whereSql.append(" and sa.sa_serial_num like ?");
+			params.add("%" + seriNum + "%");
+		}
+		if (receiptType != null && !receiptType.trim().isEmpty()) {
+			if (receiptType.equals("1") || receiptType.equals("0")) { // 有效单据、无效单据
+				whereSql.append(" and sa.s_del=?");
+				params.add(receiptType);
+			} else if (receiptType.equals("2")) { // 会员单据
+				whereSql.append(" and sa.sa_buyer_id in (select v_id from vip where v_id <> 10000)");
+			}
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		String sql = selectSql.toString()+whereSql.toString() + " limit ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+
+		List<XSDJBean> xsdjBeanList = new ArrayList<XSDJBean>();
+		for (Object[] obj : list) {
+			XSDJBean xsdjBean = new XSDJBean();
+
+
+			if (obj[0] != null) {
+				xsdjBean.setSaSeriNum(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				xsdjBean.setSaDate(msecToDateTimeStr(obj[1].toString()));
+			}
+			if (obj[2] != null) {
+				xsdjBean.setSaType(numericToChinese(obj[2].toString()));
+			}
+			if (obj[3] != null) {
+				xsdjBean.setSaCashier(findEmpNameByEmpId(Long.valueOf(obj[3].toString())));
+			}
+			if (obj[4] != null) {
+				xsdjBean.setSaVipName(findVipNameByVipId(Long.valueOf(obj[4].toString())));
+			}
+			if (obj[5] != null) {
+				xsdjBean.setSaGoodsQuantity(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				xsdjBean.setgPurPrice(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				xsdjBean.setSaRealPrice(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				xsdjBean.setSaProfit(obj[8].toString());
+			}
+			
+			xsdjBeanList.add(xsdjBean);
+		}
+
+		PageBean<XSDJBean> pb = new PageBean<XSDJBean>();
+		pb.setBeanList(xsdjBeanList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+
+		return pb;
+	}
+
 }
 

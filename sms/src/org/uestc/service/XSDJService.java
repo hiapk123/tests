@@ -13,4 +13,9 @@ public interface XSDJService {
 
 	PageBean<XSDJBean> findByCombination(String storeName, String receiptType, String beginTime, String endTime,
 			String seriNum, Long uId, int pc);
+
+	PageBean<XSDJBean> findAll(int pc);
+
+	PageBean<XSDJBean> findAllByCombination(String storeName, String receiptType, String beginTime, String endTime,
+			String seriNum, int pc);
 }
