@@ -31,4 +31,8 @@ public interface InventoryWarningService {
 	
 	public PageBean<Goods> findByUid(Long uid, int pc);
 
+	public PageBean<Goods> findAll(int pc);
+
+	public PageBean<Goods> findAllByCombination(String sName, String cName, String suName, String inventoryStatus, int pc);
+
 }

@@ -29,13 +29,14 @@ public class InventoryWarningServlet extends BaseServlet {
 	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 
-		///--------------------------------------------------------------------------------
-		///--------------------------------------------------------------------------------
-		///--------------------------------------------------------------------------------
-		///--------------------------------------------------------------------------------
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 
 		List<Category> categoryList = inventoryWarningService.findAllCategory();
@@ -68,7 +69,12 @@ public class InventoryWarningServlet extends BaseServlet {
 
 		String url = getUrl(request);
 
-		PageBean<Goods> pb = inventoryWarningService.findByCombination(storeName, categoryName, supplierName, inventoryStatus, user.getUId(), pc);
+		PageBean<Goods> pb = null;
+		if (user.getUType() == 1) {
+			pb = inventoryWarningService.findAllByCombination(storeName, categoryName, supplierName, inventoryStatus, pc);
+		} else {
+			pb = inventoryWarningService.findByCombination(storeName, categoryName, supplierName, inventoryStatus, user.getUId(), pc);
+		}
 
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
@@ -77,47 +83,6 @@ public class InventoryWarningServlet extends BaseServlet {
 		
 	}
 
-	public String loadBaseMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// List<Object[]> storeList = inventoryWarningService.findAllStore();
-		// request.setAttribute("storeList", storeList);
-		/*
-		 * 1.加载门店下拉框
-		 */
-		
-		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		
-//		System.out.println("该用户名为："+user.getUName()+"\t"+"id为："+user.getUId());
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
-		request.setAttribute("storeList", storeList);
-//		List<Store> storeList = inventoryWarningService.findAllStore();
-//		request.setAttribute("storeList", storeList);
-		/*
-		 * 2.加载分类下拉框
-		 */
-		List<Category> categoryList = inventoryWarningService.findAllCategory();
-		request.setAttribute("categoryList", categoryList);
-		/*
-		 * 3.加载供货商下拉框
-		 */
-		List<Supplier> supplierList = inventoryWarningService.findAllSuppliers();
-		request.setAttribute("supplierList", supplierList);
-
-//		String sName = "王二小食品店";
-//		String cName = "散装";
-//		String suName = "张飞";
-//		String inventoryStatus = "";
-		/*
-		 * 4.预加载所有的商品信息
-		 */
-		List<Goods> goodsList = inventoryWarningService.findAllGoods(user.getUId());
-		request.setAttribute("goodsList", goodsList);
-//		List<Goods> goodsList = inventoryWarningService.findByCriteria(sName, cName, suName, inventoryStatus);
-//		request.setAttribute("goodsList", goodsList);
-
-		return "f:/pages/goods/inventoryWarning.jsp";
-	}
-	
 	private int getPc(HttpServletRequest request) {
 		int pc = 1;
 		String pcParam = request.getParameter("pc");
@@ -159,7 +124,12 @@ public class InventoryWarningServlet extends BaseServlet {
 		
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
 		
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		/*
 		 * 2.加载分类下拉框
@@ -188,7 +158,12 @@ public class InventoryWarningServlet extends BaseServlet {
 		/*
 		 * 4.使用pc和uid调用service得到pb
 		 */
-		PageBean<Goods> pb = inventoryWarningService.findByUid(user.getUId(), pc);
+		PageBean<Goods> pb = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			pb = inventoryWarningService.findAll(pc);
+		} else {
+			pb = inventoryWarningService.findByUid(user.getUId(), pc);
+		}
 		/*
 		 * 5.给PageBean设置url，保存pb
 		 */

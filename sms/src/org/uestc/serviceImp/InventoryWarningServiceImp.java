@@ -96,4 +96,22 @@ public class InventoryWarningServiceImp implements InventoryWarningService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public PageBean<Goods> findAll(int pc) {
+		try {
+			return inventoryWarningDao.findAll(pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<Goods> findAllByCombination(String sName, String cName, String suName, String inventoryStatus, int pc) {
+		try {
+			return inventoryWarningDao.findAllByCombination(sName, cName, suName, inventoryStatus, pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
