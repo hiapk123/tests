@@ -14,6 +14,7 @@ import org.uestc.serviceImp.InventoryWarningServiceImp;
 import org.uestc.serviceImp.QSFXServiceImp;
 import org.uestc.util.PageBean;
 
+import com.uestc.bean.SPXSBean;
 import com.uestc.bean.Sale;
 import com.uestc.bean.Store;
 import com.uestc.bean.Users;
@@ -31,7 +32,12 @@ public class QSFXServlet extends BaseServlet {
 
 	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		String storeName = request.getParameter("hp_store");
@@ -48,7 +54,11 @@ public class QSFXServlet extends BaseServlet {
 		String url = getUrl(request);
 		
 		PageBean<Sale> pb = null;
-		pb = qsfxService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		if (user.getUType() == 1) {
+			pb = qsfxService.findAllByCombination(storeName, beginTime, endTime, condition, pc);
+		} else {
+			pb = qsfxService.findByCombination(storeName, beginTime, endTime, condition, user.getUId() ,pc);
+		}
 		
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
@@ -58,13 +68,23 @@ public class QSFXServlet extends BaseServlet {
 	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		int pc = getPc(request);
 		String url = getUrl(request);
 		
-		PageBean<Sale> pb = qsfxService.findAllSalesByUid(user.getUId(), pc);
+		PageBean<Sale> pb = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			pb = qsfxService.findAll(pc);
+		} else {
+			pb = qsfxService.findAllSalesByUid(user.getUId(), pc);
+		}
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
 		

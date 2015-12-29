@@ -29,4 +29,23 @@ public class QSFXServiceImp implements QSFXService {
 		}
 	}
 
+	@Override
+	public PageBean<Sale> findAll(int pc) {
+		try {
+			return qsfxDao.findAll(pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, String condition,
+			int pc) {
+		try {
+			return qsfxDao.findAllByCombination(storeName, beginTime, endTime, condition, pc);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
