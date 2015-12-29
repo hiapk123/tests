@@ -16,4 +16,8 @@ public interface ZBTJService {
 
 	PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, String condition, Long uId,
 			int pc);
+
+	PageBean<Sale> findAll(int pc);
+
+	PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, String condition, int pc);
 }
