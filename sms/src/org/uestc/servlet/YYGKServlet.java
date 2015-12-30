@@ -31,10 +31,20 @@ public class YYGKServlet extends BaseServlet {
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
-		SalesSummaryBean ssb = yygkService.getSalesSummary(user.getUId());
+		SalesSummaryBean ssb = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			ssb = yygkService.getAllSalesSummary();
+		} else {
+			ssb = yygkService.getSalesSummary(user.getUId());
+		}
 		request.setAttribute("ssb", ssb);
 		
 		return "f:/pages/sales/yygk.jsp";
@@ -42,7 +52,12 @@ public class YYGKServlet extends BaseServlet {
 	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		String storeName = request.getParameter("hp_store");
@@ -56,7 +71,12 @@ public class YYGKServlet extends BaseServlet {
 		request.setAttribute("condition", condition);
 		
 		if (condition.equals("销售汇总分析")) {
-			SalesSummaryBean ssb = yygkService.getSalesSummaryByCombination(storeName, beginTime, endTime, user.getUId());
+			SalesSummaryBean ssb = null;
+			if (user.getUType() == 1) {
+				ssb = yygkService.getAllSalesSummaryByCombination(storeName, beginTime, endTime, condition);
+			} else {
+				ssb = yygkService.getSalesSummaryByCombination(storeName, beginTime, endTime, user.getUId());
+			}
 			request.setAttribute("ssb", ssb);
 		}
 		
@@ -65,7 +85,11 @@ public class YYGKServlet extends BaseServlet {
 			String url = getUrl(request);
 			
 			PageBean<JiaoJieBan_HP> pb = null;
-			pb = yygkService.findShiftingDutyRecordByCombination(storeName, beginTime, endTime, user.getUId() ,pc);
+			if (user.getUType() == 1) {
+				pb = yygkService.findAllShiftingDutyRecordByCombination(storeName, beginTime, endTime ,pc);
+			} else {
+				pb = yygkService.findShiftingDutyRecordByCombination(storeName, beginTime, endTime, user.getUId() ,pc);
+			}
 			
 			pb.setUrl(url);
 			request.setAttribute("pb", pb);
@@ -76,8 +100,11 @@ public class YYGKServlet extends BaseServlet {
 			String url = getUrl(request);
 			
 			PageBean<XJSZBean> pb = null;
-			
-			pb = yygkService.findCashDetailsByCombination(storeName, beginTime, endTime, user.getUId(), pc);
+			if (user.getUType() == 1) {
+				pb = yygkService.findAllCashDetailsByCombination(storeName, beginTime, endTime ,pc);
+			} else {
+				pb = yygkService.findCashDetailsByCombination(storeName, beginTime, endTime, user.getUId(), pc);
+			}
 			pb.setUrl(url);
 			request.setAttribute("pb", pb);
 		}

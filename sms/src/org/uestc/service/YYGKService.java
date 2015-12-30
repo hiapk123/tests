@@ -21,4 +21,14 @@ public interface YYGKService {
 
 	PageBean<XJSZBean> findCashDetailsByCombination(String storeName, String beginTime, String endTime, Long uId,
 			int pc);
+
+	SalesSummaryBean getAllSalesSummary();
+
+	SalesSummaryBean getAllSalesSummaryByCombination(String storeName, String beginTime, String endTime,
+			String condition);
+
+	PageBean<JiaoJieBan_HP> findAllShiftingDutyRecordByCombination(String storeName, String beginTime, String endTime,
+			int pc);
+
+	PageBean<XJSZBean> findAllCashDetailsByCombination(String storeName, String beginTime, String endTime, int pc);
 }

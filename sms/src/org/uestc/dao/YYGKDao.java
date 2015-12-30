@@ -23,5 +23,14 @@ public interface YYGKDao {
 
 	PageBean<XJSZBean> findCashDetailsByCombination(String storeName, String beginTime, String endTime, Long uId,
 			int pc) throws SQLException;
+
+	SalesSummaryBean getAllSalesSummary() throws SQLException;
+
+	SalesSummaryBean getAllSalesSummaryByCombination(String storeName, String beginTime, String endTime) throws SQLException;
+
+	PageBean<JiaoJieBan_HP> findAllShiftingDutyRecordByCombination(String storeName, String beginTime, String endTime,
+			int pc) throws SQLException;
+
+	PageBean<XJSZBean> findAllCashDetailsByCombination(String storeName, String beginTime, String endTime, int pc) throws SQLException;
 	
 }
