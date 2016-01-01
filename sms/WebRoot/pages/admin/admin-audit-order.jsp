@@ -99,6 +99,52 @@
 	});
 	
 	/* 预览页面 */
+	function merge() {
+		
+		var bnos = new Array();
+		var ckd = $(":checkbox[name=checkboxBtn][disabled=false][checked=true]");
+		ckd.each(function() {
+			bnos.push(($(this).val()));
+		});
+		//alert("ajax传递传递参数之前： " + bnos);
+		
+		$.ajax({
+			url : "/sms/AuditOrderServlet",
+			data : {
+				method : "getBookingDetailByBNos",
+				bnos : bnos+"" // 将数组转换成字符串传递到Servlet中，不然接收的字符串为null
+			},
+			type : "POST",
+			dataType : "json",
+			asyn : false,
+			cache : false,
+			success : function(result) {
+				//alert("合并success");
+				if (result.length > 0) { // 该合并订单有数据
+					var detailHtml = "";
+					$("#mergeTip").html("");
+					for (var i = 0; i < result.length; i++) {
+						detailHtml += "<tr>";
+						detailHtml += "<td>" + (i+1) + "</td>";
+						detailHtml += "<td>" + result[i].barcode + "</td>";
+						detailHtml += "<td>" + result[i].gName + "</td>";
+						detailHtml += "<td>" + result[i].gNum + "</td>";
+						detailHtml += "<td>" + result[i].price + "</td>";
+						detailHtml += "<td>" + (result[i].gNum * result[i].price).toFixed(1) + "</td>";
+						detailHtml += "<td>" + result[i].gInfo + "</td>";
+						//detailHtml += "<td><a class=\"btn btn-info\" href=\"#\"> <i	class=\"glyphicon glyphicon-edit icon-white\"></i>编辑</a></td>";
+						detailHtml += "</tr>";
+					}
+					$("#mergeDetail").html(detailHtml);
+				} else { // 该订单没有数据
+					$("#mergeDetail").html("");
+					$("#mergeTip").html("<center><span>该合并订单没有数据！</span></center>");
+				}
+				
+			}
+		});
+	}
+	/* 预览页面 */
 	function show(bno) {
 		$.ajax({
 			url : "/sms/AuditOrderServlet",
@@ -114,6 +160,7 @@
 				
 				if (result.length > 0) { // 该订单有数据
 					var detailHtml = "";
+					$("#tip").html(""); // 如果订单有数据，清空之前点击没有数据的预览项填充的提示(tip)信息
 					for (var i = 0; i < result.length; i++) {
 						detailHtml += "<tr>";
 						detailHtml += "<td>" + (i+1) + "</td>";
@@ -121,7 +168,7 @@
 						detailHtml += "<td>" + result[i].gName + "</td>";
 						detailHtml += "<td>" + result[i].gNum + "</td>";
 						detailHtml += "<td>" + result[i].price + "</td>";
-						detailHtml += "<td>" + (result[i].gNum * result[i].price) + "</td>";
+						detailHtml += "<td>" + (result[i].gNum * result[i].price).toFixed(1) + "</td>";
 						detailHtml += "<td>" + result[i].gInfo + "</td>";
 						detailHtml += "<td><a class=\"btn btn-info\" href=\"#\"> <i	class=\"glyphicon glyphicon-edit icon-white\"></i>编辑</a></td>";
 						detailHtml += "</tr>";
@@ -199,6 +246,52 @@
 		});
 	}
 </script>
+<!-- 打印控件资源（前面日期控件引入了jquery.min.js，此处不用引入jquery-1.4.4.min.js，一样可以使用，可能只有1.9.1版本的jquery不能用） -->
+<script type="text/javascript"
+	src="<c:url value='/js/jquery-1.4.4.min.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/js/jquery.jqprint-0.3.js'/>"></script>
+<script type="text/javascript">
+	function print() {
+		$("#printDiv").jqprint();
+	}
+	function exportBooking() {
+		$("#exportDiv").jqprint();
+	}
+</script>
+
+<!-- 处理复选框的js片段 -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#selectAll").click(function() {
+			var bool = $("#selectAll").attr("checked");
+			$(":checkbox[name=checkboxBtn][disabled=false]").attr("checked", bool);
+		});
+		
+		$(":checkbox[name=checkboxBtn]").click(function(){
+			var all = $(":checkbox[name=checkboxBtn][disabled=false]").length;
+			var select = $(":checkbox[name=checkboxBtn][disabled=false][checked=true]").length;
+			if (all == select) {
+				$("#selectAll").attr("checked", true);
+			} else if (select == 0) {
+				$("#selectAll").attr("checked", false);
+			} else {
+				$("#selectAll").attr("checked", false);
+			}
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	/* function getBNos() {
+		var bnos = new Array();
+		var ckd = $(":checkbox[name=checkboxBtn][disabled=false][checked=true]");
+		ckd.each(function() {
+			bnos.push(($(this).val()));
+		});
+		alert(bnos);
+	} */
+</script>
 </head>
 
 <body>
@@ -233,13 +326,22 @@
 			</select>
 
 			<button type="submit" class="btn btn-primary">查找订单</button>
+			<!-- <div class="col-xs-1"> -->
+				<button type="button" class="btn btn-primary" onclick="print()">打印</button>
+			<!-- </div> -->
+			<!-- javascript:show('${booking.BNo }'); -->
+			<a onclick="merge()" id="mergeOrder" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal3"
+				href="#"> 
+				<i class="glyphicon glyphicon-zoom-in icon-white"></i>合并订单
+			</a>
 		</form>
 		</div>
-		<div class="box-content">
+		<div class="box-content" id="printDiv">
 			<table
 				class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 				<thead>
 					<tr>
+						<th><input type="checkbox" id="selectAll" name="selectAll" checked="checked"><label for="selectAll">&nbsp;全选</label></th>
 						<th>订单编号</th>
 						<th>订货门店</th>
 						<th>日期</th>
@@ -250,6 +352,18 @@
 				<tbody>
 				<c:forEach items="${pb.beanList }" var="booking" varStatus="status">
 					<tr>
+						<td>
+							<input value="${booking.BNo }" type="checkbox" name="checkboxBtn"
+							<c:choose>
+								<c:when test="${booking.BStatus ne '已审核通过' }">
+									disabled="disabled"
+								</c:when>
+								<c:otherwise>
+									checked="checked"
+								</c:otherwise>
+							</c:choose>
+							>
+						</td>
 						<td id="bnoTd">${booking.BNo }</td>
 						<td class="center">${booking.store.SName }</td>
 						<td class="center">${booking.BDate }</td>
@@ -267,7 +381,7 @@
 								</a> 
 							</c:when>
 							<c:otherwise>
-								<a class="btn" href="#" disabled> <!-- class="btn btn-primary" -->
+								<a class="btn btn-default" href="#" disabled> <!-- class="btn btn-primary" -->
 									<i class="glyphicon glyphicon-edit icon-white"></i> 编辑
 								</a>
 							</c:otherwise>
@@ -279,7 +393,7 @@
 								</a> 
 							</c:when>
 							<c:otherwise>
-								<a disabled class="btn" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
+								<a disabled class="btn btn-default" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
 									<i class="glyphicon glyphicon-trash icon-white"></i> 删除
 								</a>
 							</c:otherwise>
@@ -289,6 +403,46 @@
 				</c:forEach>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<!-- 合并订单模态框 -->
+	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<h3>合并订单明细</h3>
+					<div align="right"> 
+						<button type="button" class="btn btn-primary" onclick="exportBooking()">导出</button>
+					</div> 
+				</div>
+				<div class="modal-body" id="exportDiv">
+					<table
+						class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>商品条码</th>
+								<th>商品名称</th>
+								<th>商品数量</th>
+								<th>进货价</th>
+								<th>小计</th>
+								<th>备注</th>
+								<!-- <th>操作</th> -->
+							</tr>
+						</thead>
+						<tbody id="mergeDetail">
+						</tbody>
+					</table>
+					<div id="mergeTip"></div>
+
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-default" data-dismiss="modal">关闭对话框</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- 预览模态框 -->

@@ -119,7 +119,12 @@
 				<c:forEach items="${pb.beanList }" var="sale" varStatus="status">
 					<tr>
 						<td>${status.index + 1 }</td>
-						<td>${sale.saDate }</td>
+						<td>
+							<c:if test="${empty condition}">${sale.saDate } 时</c:if>
+							<c:if test="${condition eq '按小时'}">${sale.saDate } 时</c:if>
+							<c:if test="${condition eq '按天'}">${sale.saDate } 号</c:if>
+							<c:if test="${condition eq '按月'}">${sale.saDate } 月</c:if>
+						</td>
 						<td>${sale.saGoodsNum }</td>
 						<td>${sale.saRealPrice }</td>
 						<td>${sale.saProfit }</td>

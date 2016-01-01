@@ -29,4 +29,24 @@ public class XSDJServiceImp implements XSDJService {
 		}
 	}
 
+	@Override
+	public PageBean<XSDJBean> findAll(int pc) {
+		try {
+			return xsdjDao.findAll(pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<XSDJBean> findAllByCombination(String storeName, String receiptType, String beginTime,
+			String endTime, String seriNum, int pc) {
+		try {
+			return xsdjDao.findAllByCombination(storeName, receiptType, beginTime, endTime, seriNum, pc);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
+

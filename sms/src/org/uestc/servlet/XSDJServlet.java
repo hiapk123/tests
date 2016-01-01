@@ -31,7 +31,12 @@ public class XSDJServlet extends BaseServlet {
 
 	public String findByCombination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		String storeName = request.getParameter("hp_store");
@@ -50,7 +55,11 @@ public class XSDJServlet extends BaseServlet {
 		String url = getUrl(request);
 		
 		PageBean<XSDJBean> pb = null;
-		pb = xsdjService.findByCombination(storeName, receiptType, beginTime, endTime, seriNum, user.getUId() ,pc);
+		if (user.getUType() == 1) {
+			pb = xsdjService.findAllByCombination(storeName, receiptType, beginTime, endTime, seriNum, pc);
+		} else {
+			pb = xsdjService.findByCombination(storeName, receiptType, beginTime, endTime, seriNum, user.getUId() , pc);
+		}
 		
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
@@ -61,13 +70,23 @@ public class XSDJServlet extends BaseServlet {
 	
 	public String initLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Users user = (Users) request.getSession().getAttribute("sessionUser");
-		List<Store> storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		List<Store> storeList = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			storeList = inventoryWarningService.findAllStore();
+		} else {
+			storeList = inventoryWarningService.findAllStoresByUid(user.getUId());
+		}
 		request.setAttribute("storeList", storeList);
 		
 		int pc = getPc(request);
 		String url = getUrl(request);
 		
-		PageBean<XSDJBean> pb = xsdjService.findAllByUid(user.getUId(), pc);
+		PageBean<XSDJBean> pb = null;
+		if (user.getUType() == 1) { // 该用户为管理员
+			pb = xsdjService.findAll(pc);
+		} else {
+			pb = xsdjService.findAllByUid(user.getUId(), pc);
+		}
 		pb.setUrl(url);
 		request.setAttribute("pb", pb);
 		
@@ -99,3 +118,4 @@ public class XSDJServlet extends BaseServlet {
 	}
 
 }
+

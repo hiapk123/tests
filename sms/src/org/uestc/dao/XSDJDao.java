@@ -15,4 +15,10 @@ public interface XSDJDao {
 	PageBean<XSDJBean> findAllByUid(Long uId, int pc) throws SQLException;
 	
 	PageBean<XSDJBean> findByCombination(String storeName,String receiptType, String beginTime, String endTime, String seriNum, Long uId, int pc) throws SQLException, ParseException;
+
+	PageBean<XSDJBean> findAll(int pc) throws SQLException;
+
+	PageBean<XSDJBean> findAllByCombination(String storeName, String receiptType, String beginTime, String endTime,
+			String seriNum, int pc) throws SQLException, ParseException;
 }
+

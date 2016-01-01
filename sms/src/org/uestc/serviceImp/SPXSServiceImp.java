@@ -29,4 +29,24 @@ public class SPXSServiceImp implements SPXSService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public PageBean<SPXSBean> findAll(int pc) {
+		try {
+			return spxsDao.findAll(pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<SPXSBean> findAllByCombination(String storeName, String beginTime, String endTime, String condition,
+			int pc) {
+		try {
+			return spxsDao.findAllByCombination(storeName, beginTime, endTime, condition, pc);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
+

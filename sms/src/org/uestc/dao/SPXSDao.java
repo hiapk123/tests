@@ -16,4 +16,10 @@ public interface SPXSDao {
 	PageBean<SPXSBean> findAllByUid(Long uId, int pc) throws SQLException;
 	
 	PageBean<SPXSBean> findByCombination(String storeName, String beginTime, String endTime, String condition, Long uId, int pc) throws SQLException, ParseException;
+
+	PageBean<SPXSBean> findAll(int pc) throws SQLException;
+
+	PageBean<SPXSBean> findAllByCombination(String storeName, String beginTime, String endTime, String condition,
+			int pc) throws SQLException, ParseException;
 }
+

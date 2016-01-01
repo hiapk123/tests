@@ -13,4 +13,10 @@ public interface SPXSService {
 
 	PageBean<SPXSBean> findByCombination(String storeName, String beginTime, String endTime, String condition, Long uId,
 			int pc);
+
+	PageBean<SPXSBean> findAll(int pc);
+
+	PageBean<SPXSBean> findAllByCombination(String storeName, String beginTime, String endTime, String condition,
+			int pc);
 }
+

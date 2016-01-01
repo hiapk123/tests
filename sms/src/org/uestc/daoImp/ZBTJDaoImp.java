@@ -177,6 +177,77 @@ public class ZBTJDaoImp implements ZBTJDao {
 		return pb;
 
 	}
+	private PageBean<Sale> findAllByIsVip(String storeName, String beginTime, String endTime, int pc)
+			throws SQLException, ParseException {
+		
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+		
+		int ps = PageConstants.SALE_PAGE_SIZE;
+		
+		StringBuilder cntSql = new StringBuilder("select count(DISTINCT(sa_serial_num)) from sale");
+		StringBuilder whereSql = new StringBuilder(" where 1=1");
+		StringBuilder selectSql = new StringBuilder("SELECT sa_buyer_id,count(sa_serial_num),sum(sa_real_price),sum(sa_profit) FROM sale");
+		List<Object> params = new ArrayList<Object>();
+		
+		if (!storeName.equals("全部门店")) {
+			whereSql.append(" and store_id=?");
+			params.add(findStoreIdByStoreName(storeName));
+		}
+		if (beginTime != null && !beginTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date>=?");
+			params.add(beginTime);
+		}
+		if (endTime != null && !endTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date<=?");
+			params.add(endTime);
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		
+		String sql = selectSql.toString()+whereSql.toString() + " GROUP BY sa_serial_num limit ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+		
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			Vip vip = new Vip();
+			if (obj[0] != null) {
+				vip.setVId(Integer.valueOf(obj[0].toString()));
+				sale.setVip(vip);
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
+			saleList.add(sale);
+		}
+		
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+		
+	}
 
 	/*
 	 * 按收银员
@@ -333,6 +404,77 @@ public class ZBTJDaoImp implements ZBTJDao {
 		return pb;
 
 	}
+	private PageBean<Sale> findAllByCashier(String storeName, String beginTime, String endTime, int pc)
+			throws SQLException, ParseException {
+		
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+		
+		int ps = PageConstants.SALE_PAGE_SIZE;
+		
+		StringBuilder cntSql = new StringBuilder("select count(DISTINCT(sa_serial_num)) from sale");
+		StringBuilder whereSql = new StringBuilder(" where 1=1");
+		StringBuilder selectSql = new StringBuilder("SELECT sa_saler_id,count(sa_serial_num),sum(sa_real_price),sum(sa_profit) FROM sale");
+		List<Object> params = new ArrayList<Object>();
+		
+		if (!storeName.equals("全部门店")) {
+			whereSql.append(" and store_id=?");
+			params.add(findStoreIdByStoreName(storeName));
+		}
+		if (beginTime != null && !beginTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date>=?");
+			params.add(beginTime);
+		}
+		if (endTime != null && !endTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date<=?");
+			params.add(endTime);
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		
+		String sql = selectSql.toString()+whereSql.toString() + " GROUP BY sa_serial_num limit ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+		
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			Employee employee = new Employee();
+			if (obj[0] != null) {
+				employee.setEmpName(findEmpNameByEmpId(Long.valueOf(obj[0].toString())));
+				sale.setEmployee(employee);
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
+			saleList.add(sale);
+		}
+		
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+		
+	}
 
 	/*
 	 * 按支付方式
@@ -484,6 +626,74 @@ public class ZBTJDaoImp implements ZBTJDao {
 		pb.setPs(ps);
 		pb.setTr(tr);
 
+		return pb;
+	}
+	private PageBean<Sale> findAllByPayType(String storeName, String beginTime, String endTime, int pc)
+			throws SQLException, ParseException {
+		
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+		
+		int ps = PageConstants.SALE_PAGE_SIZE;
+		
+		StringBuilder cntSql = new StringBuilder("select count(DISTINCT(sa_serial_num)) from sale");
+		StringBuilder whereSql = new StringBuilder(" where 1=1");
+		StringBuilder selectSql = new StringBuilder("SELECT sa_type,count(sa_serial_num),sum(sa_real_price),sum(sa_profit) FROM sale");
+		List<Object> params = new ArrayList<Object>();
+		
+		if (!storeName.equals("全部门店")) {
+			whereSql.append(" and store_id=?");
+			params.add(findStoreIdByStoreName(storeName));
+		}
+		if (beginTime != null && !beginTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date>=?");
+			params.add(beginTime);
+		}
+		if (endTime != null && !endTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date<=?");
+			params.add(endTime);
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		
+		String sql = selectSql.toString()+whereSql.toString() + " GROUP BY sa_serial_num limit ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+		
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			if (obj[0] != null) {
+				sale.setSaType(numericToChinese(obj[0].toString()));
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
+			saleList.add(sale);
+		}
+		
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
 		return pb;
 	}
 
@@ -640,6 +850,75 @@ public class ZBTJDaoImp implements ZBTJDao {
 		return pb;
 
 	}
+	private PageBean<Sale> findAllByStoreName(String storeName, String beginTime, String endTime, int pc)
+			throws SQLException, ParseException {
+		
+		if (!beginTime.equals("")) {
+			beginTime = StrToDate(beginTime);
+		}
+		if (!endTime.equals("")) {
+			endTime = StrToDate(endTime);
+		}
+		
+		int ps = PageConstants.SALE_PAGE_SIZE;
+		
+		StringBuilder cntSql = new StringBuilder("select count(DISTINCT(sa_serial_num)) from sale");
+		StringBuilder whereSql = new StringBuilder(" where 1=1");
+		StringBuilder selectSql = new StringBuilder("SELECT store_id,count(sa_serial_num),sum(sa_real_price),sum(sa_profit) FROM sale");
+		List<Object> params = new ArrayList<Object>();
+		
+		if (!storeName.equals("全部门店")) {
+			whereSql.append(" and store_id=?");
+			params.add(findStoreIdByStoreName(storeName));
+		}
+		if (beginTime != null && !beginTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date>=?");
+			params.add(beginTime);
+		}
+		if (endTime != null && !endTime.trim().isEmpty()) {
+			whereSql.append(" and sa_date<=?");
+			params.add(endTime);
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		
+		String sql = selectSql.toString()+whereSql.toString() + " GROUP BY sa_serial_num limit ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+		
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			if (obj[0] != null) {
+				sale.setStore(findStoreByStoreId(Long.valueOf(obj[0].toString())));
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
+			saleList.add(sale);
+		}
+		
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+		
+	}
 
 	@Override
 	public PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, String condition,
@@ -765,6 +1044,61 @@ public class ZBTJDaoImp implements ZBTJDao {
 			e.printStackTrace();
 		}
 		return "" + date.getTime();
+	}
+
+	@Override
+	public PageBean<Sale> findAll(int pc) throws SQLException {
+		int ps = PageConstants.SALE_PAGE_SIZE;
+
+		String sql = "select count(DISTINCT(sa_serial_num)) from sale";
+		Number number = qr.query(sql, new ScalarHandler());
+		int tr = number.intValue();
+
+		sql = "SELECT store_id,count(sa_serial_num),sum(sa_real_price),sum(sa_profit) FROM sale GROUP BY sa_serial_num limit ?,?;";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), (pc - 1) * ps, ps);
+		List<Sale> saleList = new ArrayList<Sale>();
+		for (Object[] obj : list) {
+			Sale sale = new Sale();
+			if (obj[0] != null) {
+				sale.setStore(findStoreByStoreId(Long.valueOf(obj[0].toString())));
+			}
+			if (obj[1] != null) {
+				sale.setSaGoodsNum(obj[1].toString()); // 将其看作“销售单数”
+			}
+			if (obj[2] != null) {
+				sale.setSaRealPrice(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				sale.setSaProfit(obj[3].toString());
+			}
+			saleList.add(sale);
+		}
+
+		PageBean<Sale> pb = new PageBean<Sale>();
+		pb.setBeanList(saleList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+
+		return pb;
+	}
+
+	@Override
+	public PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, String condition,
+			int pc) throws SQLException, ParseException {
+		if (condition.equals("按门店")) {
+			return findAllByStoreName(storeName, beginTime, endTime, pc);
+		}
+		if (condition.equals("按收银员")) {
+			return findAllByCashier(storeName, beginTime, endTime, pc);
+		}
+		if (condition.equals("按支付方式")) {
+			return findAllByPayType(storeName, beginTime, endTime, pc);
+		}
+		if (condition.equals("是否会员")) {
+			return findAllByIsVip(storeName, beginTime, endTime, pc);
+		}
+		return null;
 	}
 
 }

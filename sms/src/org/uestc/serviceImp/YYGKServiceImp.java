@@ -49,4 +49,44 @@ public class YYGKServiceImp implements YYGKService {
 		}
 	}
 
+	@Override
+	public SalesSummaryBean getAllSalesSummary() {
+		try {
+			return yygkDao.getAllSalesSummary();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public SalesSummaryBean getAllSalesSummaryByCombination(String storeName, String beginTime, String endTime,
+			String condition) {
+		try {
+			return yygkDao.getAllSalesSummaryByCombination(storeName, beginTime, endTime);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<JiaoJieBan_HP> findAllShiftingDutyRecordByCombination(String storeName, String beginTime,
+			String endTime, int pc) {
+		try {
+			return yygkDao.findAllShiftingDutyRecordByCombination(storeName, beginTime, endTime, pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public PageBean<XJSZBean> findAllCashDetailsByCombination(String storeName, String beginTime, String endTime,
+			int pc) {
+		try {
+			return yygkDao.findAllCashDetailsByCombination(storeName, beginTime, endTime, pc);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
+

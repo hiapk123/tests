@@ -190,7 +190,9 @@ public class AuditOrderDaoImp implements AuditOrderDao {
 			gIdArray = gIds.split(";");
 			if (gIdArray.length > 0) {
 				for (int i = 0; i < gIdArray.length; i++) {
-					sql = "select g_barcode,g_name,g_pur_price from goods where g_barcode=?"; // 还差商品数量，来源于bNums中截取
+
+//					sql = "select g_barcode,g_name,g_pur_price from goods where g_id=?"; // 还差商品数量，来源于bNums中截取
+					sql = "select g_barcode,g_name,g_pur_price from goods where g_barcode=?"; // booking表中的g_id实际代表goods表中的g_barcode，而不是主键g_id
 					list = qr.query(sql, new ArrayListHandler(), gIdArray[i]);
 					if (list.size() > 0) {
 						Object[] obj = list.get(0);

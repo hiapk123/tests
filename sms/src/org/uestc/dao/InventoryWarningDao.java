@@ -34,4 +34,10 @@ public interface InventoryWarningDao {
 	public PageBean<Goods> findByCriteria(List<Expression> exprList, int pc) throws SQLException;
 	
 	public PageBean<Goods> findByUid(Long uid, int pc) throws SQLException;
+
+	public PageBean<Goods> findAll(int pc) throws SQLException;
+
+	public PageBean<Goods> findAllByCombination(String sName, String cName, String suName, String inventoryStatus,
+			int pc) throws SQLException;
 }
+

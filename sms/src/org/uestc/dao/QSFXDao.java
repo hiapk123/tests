@@ -1,3 +1,4 @@
+
 package org.uestc.dao;
 
 import java.sql.SQLException;
@@ -16,4 +17,9 @@ public interface QSFXDao {
 	PageBean<Sale> findAllSalesByUid(Long uId, int pc) throws SQLException;
 	
 	PageBean<Sale> findByCombination(String storeName, String beginTime, String endTime, String condition, Long uId, int pc) throws SQLException, ParseException;
+
+	PageBean<Sale> findAll(int pc) throws SQLException;
+
+	PageBean<Sale> findAllByCombination(String storeName, String beginTime, String endTime, String condition, int pc) throws SQLException, ParseException;
 }
+

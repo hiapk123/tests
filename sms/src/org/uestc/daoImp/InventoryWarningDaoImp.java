@@ -192,7 +192,7 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 				} else {
 					// 0 0 0
 					if (inventoryStatus.equals("库存不足")) {
-						sql = "select count(*) from goods where CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL) s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
+						sql = "select count(*) from goods where CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL) and s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
 					} else if (inventoryStatus.equals("库存过剩")) {
 						sql = "select count(*) from goods where CAST(g_stock_num AS DECIMAL)>=CAST(g_stock_max AS DECIMAL) and s_name=? and c_name=? and su_name=? and s_name in(select s_name from store where u_id=?)";
 					} else {
@@ -568,7 +568,154 @@ public class InventoryWarningDaoImp implements InventoryWarningDao {
 		return pb;
 		
 	}
+
+	@Override
+	public PageBean<Goods> findAll(int pc) throws SQLException {
+		
+		int ps = PageConstants.GOODS_PAGE_SIZE;
+		String sql = "select count(*) from goods";
+		Number number = (Number) qr.query(sql, new ScalarHandler());
+		int tr = number.intValue();
+		sql = "select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods limit ?,?";
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), (pc-1)*ps, ps);
+		List<Goods> goodsList = new ArrayList<Goods>();
+		for (Object[] obj : list) {
+			Goods goods = new Goods();
+			if (obj[0] != null) {
+				goods.setGName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				goods.setSName(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				goods.setCName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				goods.setSuName(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				goods.setGBarcode(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				goods.setGStockNum(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				goods.setGStockMax(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				goods.setGStockMin(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				goods.setGProdDate(obj[8].toString());
+			}
+			if (obj[9] != null) {
+				goods.setGGiq(obj[9].toString());
+			}
+			goodsList.add(goods);
+		}
+		
+		PageBean<Goods> pb = new PageBean<Goods>();
+		pb.setBeanList(goodsList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+		
+	}
+
+	@Override
+	public PageBean<Goods> findAllByCombination(String sName, String cName, String suName, String inventoryStatus,
+			int pc) throws SQLException {
+		
+		int ps = PageConstants.GOODS_PAGE_SIZE;
+		
+		StringBuilder cntSql = new StringBuilder("select count(*) from goods");
+		StringBuilder whereSql = new StringBuilder(" where 1=1");
+		StringBuilder selectSql = new StringBuilder("select g_name,s_name,c_name,su_name,g_barcode,g_stock_num,g_stock_max,g_stock_min,g_prod_date,g_giq from goods");
+		List<Object> params = new ArrayList<Object>();
+		
+		if (!sName.equals("全部门店")) {
+			whereSql.append(" and s_name=?");
+			params.add(sName);
+		}
+		if (!cName.equals("全部分类")) {
+			whereSql.append(" and c_name=?");
+			params.add(cName);
+		}
+		if (!suName.equals("全部供货商")) {
+			whereSql.append(" and su_name=?");
+			params.add(suName);
+		}
+		if (inventoryStatus != null && !inventoryStatus.trim().isEmpty()) {
+			
+			if (inventoryStatus.equals("库存不足")) {
+				whereSql.append(" and CAST(g_stock_num AS DECIMAL)<=CAST(g_stock_min AS DECIMAL)");
+			} else if (inventoryStatus.equals("库存过剩")) {
+				whereSql.append(" and CAST(g_stock_num AS DECIMAL)>=CAST(g_stock_max AS DECIMAL)");
+			} else { // 过期预警--暂时还没有判断什么时候过期
+			}
+		}
+		
+		int tr = 0;
+		Number number = (Number) qr.query(cntSql.toString()+whereSql.toString(), new ScalarHandler(), params.toArray());
+		tr = number.intValue();
+		System.out.println("符合条件的记录条数: " + tr);
+		System.out.println("符合条件的记录条数sql: " + cntSql.toString()+whereSql.toString());
+		
+		String sql = selectSql.toString()+whereSql.toString() + " limit ?,?";
+		params.add((pc-1)*ps);
+		params.add(ps);
+		List<Object[]> list = qr.query(sql, new ArrayListHandler(), params.toArray());
+		System.out.println("查询语句sql: " + sql);
+				
+		List<Goods> goodsList = new ArrayList<Goods>();
+		for (Object[] obj : list) {
+			Goods goods = new Goods();
+
+			if (obj[0] != null) {
+				goods.setGName(obj[0].toString());
+			}
+			if (obj[1] != null) {
+				goods.setSName(obj[1].toString());
+			}
+			if (obj[2] != null) {
+				goods.setCName(obj[2].toString());
+			}
+			if (obj[3] != null) {
+				goods.setSuName(obj[3].toString());
+			}
+			if (obj[4] != null) {
+				goods.setGBarcode(obj[4].toString());
+			}
+			if (obj[5] != null) {
+				goods.setGStockNum(obj[5].toString());
+			}
+			if (obj[6] != null) {
+				goods.setGStockMax(obj[6].toString());
+			}
+			if (obj[7] != null) {
+				goods.setGStockMin(obj[7].toString());
+			}
+			if (obj[8] != null) {
+				goods.setGProdDate(obj[8].toString());
+			}
+			if (obj[9] != null) {
+				goods.setGGiq(obj[9].toString());
+			}
+			goodsList.add(goods);
+		}
+		
+		PageBean<Goods> pb = new PageBean<Goods>();
+		pb.setBeanList(goodsList);
+		pb.setPc(pc);
+		pb.setPs(ps);
+		pb.setTr(tr);
+		
+		return pb;
+	}
 	
 	
 }
+
 
