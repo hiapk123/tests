@@ -26,7 +26,7 @@ public class UserServlet extends BaseServlet {
 
 	public String quit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().invalidate();
-		return "f:/login.jsp";
+		return "r:/login.html";
 	}
 
 	public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,21 +47,22 @@ public class UserServlet extends BaseServlet {
 		if (errors.size() > 0) {
 			request.setAttribute("errors", errors);
 			request.setAttribute("formUser", formUser);
-			return "f:/login.jsp";
+			return "r:/login.html";
 		}
 
 		/*
 		 * 3.调用service层的方法
 		 */
+		formUser.setUPassword(DigestUtils.md5Hex(loginpass));
 		Users user = userService.login(formUser);
 
 		if (user == null) {
 			request.setAttribute("msg", "用户名或密码错误");
 			request.setAttribute("formUser", formUser);
-			return "f:/login.jsp";
+			return "r:/login.html";
 		} else {
 			request.getSession().setAttribute("sessionUser", user); // 保存用户到session
-			request.getSession().setMaxInactiveInterval(60 * 60 * 24); // 设置Session会话过期时间为一天
+			request.getSession().setMaxInactiveInterval(60 * 60 * 1); // 设置Session会话过期时间为一天
 			request.getSession().setAttribute("uid", user.getUId());
 			// 获取用户名保存到cookie中
 			// String loginname = user.getUName();
@@ -100,38 +101,44 @@ public class UserServlet extends BaseServlet {
 
 	public String regist(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		/*
-		 * 1.获取参数，设置给user对象
-		 */
-		String loginname = request.getParameter("loginname");
-		String loginpass = request.getParameter("loginpass");
-		String reloginpass = request.getParameter("reloginpass");
-		String email = request.getParameter("email");
-		Users formUser = new Users();
-		formUser.setUName(loginname);
-		String md5Digest = DigestUtils.md5Hex(loginpass);
-		formUser.setUPassword(md5Digest);
+		try {
+			/*
+			 * 1.获取参数，设置给user对象
+			 */
+			String loginname = request.getParameter("loginname");
+			String loginpass = request.getParameter("loginpass");
+			String reloginpass = request.getParameter("reloginpass");
+			String email = request.getParameter("email");
+			Users formUser = new Users();
+			formUser.setUName(loginname);
+			String md5Digest = DigestUtils.md5Hex(loginpass);
+			formUser.setUPassword(md5Digest);
 //		formUser.setUPassword(loginpass);
-		String md5DigestRepass = DigestUtils.md5Hex(reloginpass);
-		formUser.setReloginpass(md5DigestRepass);
-		formUser.setUEmail(email);
+			String md5DigestRepass = DigestUtils.md5Hex(reloginpass);
+			formUser.setReloginpass(md5DigestRepass);
+			formUser.setUEmail(email);
 
-		/*
-		 * 2.校验参数
-		 */
-		Map<String, String> errors = validateRegist(formUser);
-		if (errors.size() > 0) {
-			request.setAttribute("errors", errors); // 显示错误信息
-			request.setAttribute("formUser", formUser); // 回显表单信息
-			return "f:/regist.jsp";
+			/*
+			 * 2.校验参数
+			 */
+			Map<String, String> errors = validateRegist(formUser);
+			if (errors.size() > 0) {
+				request.setAttribute("errors", errors); // 显示错误信息
+				request.setAttribute("formUser", formUser); // 回显表单信息
+				return "f:/regist.jsp";
+			}
+
+			/*
+			 * 3.调用service层方法
+			 */
+			userService.regist(formUser);
+
+			return "f:/login.html"; // 转发到登录页面
+		} catch (Exception e) {
+			
 		}
-
-		/*
-		 * 3.调用service层方法
-		 */
-		userService.regist(formUser);
-
-		return "f:/login.jsp"; // 转发到登录页面
+		
+		return null;
 	}
 
 	private Map<String, String> validateRegist(Users formUser) {
@@ -177,7 +184,7 @@ public class UserServlet extends BaseServlet {
 		String email = formUser.getUEmail();
 		if (email == null || email.trim().isEmpty()) {
 			errors.put("email", "Email不能为空");
-		} else if (!email.matches("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((//.[a-zA-Z0-9_-]{2,3}){1,2})$")) {
+		} else if (!email.matches("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\\.[a-zA-Z0-9_-]{2,3}){1,2})$")) {
 			errors.put("email", "Email格式错误");
 		}
 
@@ -201,3 +208,4 @@ public class UserServlet extends BaseServlet {
 		return null;
 	}
 }
+

@@ -3,6 +3,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
 <%
+	if(null==session.getAttribute("sessionUser")){
+		response.sendRedirect("login.html");
+	}
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
@@ -11,11 +14,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>收银系统主页</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description"
-	content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
-<meta name="author" content="Muhammad Usman">
+<title>超市管理系统</title>
 
 <!-- The styles -->
 <link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
@@ -237,6 +236,10 @@
 		$('#addGoodInfo').click(function(){
 			$('iframe').attr('src','<%=basePath %>www/good-base.jsp');
 		});
+		
+		$('#addUser').click(function(){
+			$('iframe').attr('src','<%=basePath %>www/add-user.jsp');
+		});
 		/****************************************************************************/
 		
 		$("li a").click(
@@ -453,11 +456,11 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="订单" id="ghs">供货商</a></li>
+											<!-- <li><a href="#" data-options="订单" id="ghs">供货商</a></li> -->
 											<!-- <li><a href="#" data-options="订单" id="mddh">门店订货</a></li> -->
-											<li><a href="#" data-options="订单" id="hlgl">订单管理</a></li>
+											<!-- <li><a href="#" data-options="订单" id="hlgl">订单管理</a></li>
 											<li><a href="#" data-options="订单" id="ghsjs">供货商结算</a></li>
-											<li><a href="#" data-options="订单" id="hkhz">货款汇总</a></li>
+											<li><a href="#" data-options="订单" id="hkhz">货款汇总</a></li> -->
 											<li><a href="#" data-options="订单" id="addList">新增订单（从本地仓库选择）</a></li>
 											<li><a href="#" data-options="订单" id="addOrderRemote">新增订单（从远程仓库选择）</a></li>
 										</ul>
@@ -475,9 +478,10 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
+											<li><a href="#" data-options="管理员" id="auditOrder">订单审核</a></li>
 											<!-- <li><a href="#" data-options="管理员" id="addGood">商品添加模板</a></li> -->
 											<li><a href="#" data-options="管理员" id="addGoodInfo">商品资料</a></li>
+											<li><a href="#" data-options="管理员" id="addUser">用户管理</a></li>
 											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>

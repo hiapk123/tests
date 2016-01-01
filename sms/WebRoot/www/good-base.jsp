@@ -130,15 +130,7 @@
 						$('#dg').datagrid('loadData', data);
 			        },"json");
 			        
-		       		<%-- 
-		        	$('#dg').datagrid({
-		        	    url:'<%=basePath%>addOrder',
-		        	    queryParams:{
-		        	        m:'findByPage',
-		        	        number:pageNumber
-		        	    },
-		        		
-		        	}); --%>
+		       		
 		        }
 		    }); 
 
