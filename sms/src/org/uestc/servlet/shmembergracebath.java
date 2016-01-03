@@ -23,7 +23,7 @@ public class shmembergracebath extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("会员等级处理页面");
+		//System.out.println("会员等级处理页面");
 		String memgracesql="select * from vip_type";
 		List<Object[]> shmemgrace=(List<Object[]>)new MemInformServiceImp().normalfinad(memgracesql);
 		//进行页面的刷新

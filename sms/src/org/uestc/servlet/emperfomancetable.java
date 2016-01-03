@@ -27,7 +27,7 @@ public class emperfomancetable extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("进入收银员处理表格servlet");
+		//System.out.println("进入收银员处理表格servlet");
 		//接受前台的参�?
 		String shempperform1=request.getParameter("shempperform1");
 		String shempperform2=request.getParameter("shempperform2");

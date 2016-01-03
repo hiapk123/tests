@@ -24,7 +24,7 @@ public class shwriteintosql extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("导入到数据库文件");
+		//System.out.println("导入到数据库文件");
 	}
 
 }

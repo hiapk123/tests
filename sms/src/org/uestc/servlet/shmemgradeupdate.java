@@ -29,7 +29,7 @@ public class shmemgradeupdate extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("添加之后进行刷新");
+		//System.out.println("添加之后进行刷新");
 		String memgracesql="select * from vip_type";
 		List<Object[]> shmemgrace=(List<Object[]>)new MemInformServiceImp().normalfinad(memgracesql);
 		request.setAttribute("shmemgrace", shmemgrace);

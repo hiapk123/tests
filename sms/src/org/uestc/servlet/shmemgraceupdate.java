@@ -22,7 +22,7 @@ public class shmemgraceupdate extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("UPDATE memgrace");
+		//System.out.println("UPDATE memgrace");
 		String sskgracelevel=request.getParameter("sskgracelevel").toString();
 		String sskgracediscount=request.getParameter("sskgracediscount").toString();
 		String sskgracetime=request.getParameter("sskgracetime").toString();

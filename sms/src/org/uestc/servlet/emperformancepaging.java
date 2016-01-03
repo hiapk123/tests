@@ -30,7 +30,7 @@ public class emperformancepaging extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("收银员业绩分页处理");
+		//System.out.println("收银员业绩分页处理");
 		//接受前台的参�?
 		String shempperform1=request.getParameter("shempperform1");
 		String shempperform2=request.getParameter("shempperform2");

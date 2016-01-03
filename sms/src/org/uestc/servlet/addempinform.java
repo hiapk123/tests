@@ -47,9 +47,9 @@ public class addempinform extends HttpServlet {
 		String shsql="insert into employee(emp_name,emp_no,store_id,emp_tel,emp_status) values ("+"'"+shempxm+"'"+","+"'"+shempbh+"'"+","+shstidg+","+"'"+shempdh+"'"+","+shempstatus+")";
 		//鎻掑叆鐨勮鍙?
 		new MemInformServiceImp().normalupdate(shsql);
-		System.out.println("鎻掑叆鎴愬姛");
+		//System.out.println("鎻掑叆鎴愬姛");
 		//进行更新的操作
-		System.out.println("更新会员资料页面的servlet");
+		//System.out.println("更新会员资料页面的servlet");
 		String shkksql="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id where s_name="+"'"+empleestore+"'"+" and emp_status="+empleestate+" limit 0,10";
 		List<Object[]> shlistd=null;
 		shlistd=new MemInformServiceImp().normalfinad(shkksql);
@@ -62,7 +62,7 @@ public class addempinform extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("shlistd", shlistd);
 		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
-		System.out.println("sasf");
+		//System.out.println("sasf");
 		
 	}
 

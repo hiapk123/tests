@@ -28,7 +28,7 @@ public class shempleeupdatesx extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("员工的修改保存");
+		//System.out.println("员工的修改保存");
 		String shsecondtable=request.getParameter("shsecondtable");
 		String shsecondbh=request.getParameter("shsecondbh");
 		String shsecondxm=request.getParameter("shsecondxm");

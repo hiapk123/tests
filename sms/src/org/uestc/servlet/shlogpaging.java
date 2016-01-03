@@ -31,7 +31,7 @@ public class shlogpaging extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.print("交接班分页处理");
+		//System.out.print("交接班分页处理");
 		String lonname=request.getParameter("shshopname").toString();
 		String timestart=request.getParameter("time1").toString();
 		String timeend=request.getParameter("time2").toString();

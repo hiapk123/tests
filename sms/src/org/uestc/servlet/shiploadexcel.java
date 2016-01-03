@@ -25,7 +25,7 @@ public class shiploadexcel extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("daoru");
+		//System.out.println("daoru");
 		//实现上传功能
         // req.setAttribute("me
 		//****

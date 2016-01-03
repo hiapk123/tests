@@ -39,12 +39,12 @@ public class sh_xialakuangbath extends HttpServlet {
 	//编写方法
 	private void sh_storebath(HttpServletRequest rq,HttpServletResponse rs) throws ServletException, IOException
 	{
-		System.out.println("哈哈哈哈哈");
+		//System.out.println("哈哈哈哈哈");
 		String empleestore=rq.getParameter("empleestore").toString();
 		//智力设定的是0位开启，1为关闭
 		int empleestate=Integer.parseInt(rq.getParameter("empleestate").toString());
-		System.out.println(empleestore);
-		System.out.println(empleestate);
+		//System.out.println(empleestore);
+		//System.out.println(empleestate);
 		String sqla="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id where s_name="+"'"+empleestore+"'"+" and emp_status="+empleestate+" limit 0,10";
 		List<Object[]> shlistd=new MemInformServiceImp().normalfinad(sqla);
 		int currentPage=1;

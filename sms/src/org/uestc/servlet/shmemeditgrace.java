@@ -24,7 +24,7 @@ public class shmemeditgrace extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("编辑会员等级模态框");
+		//System.out.println("编辑会员等级模态框");
 		int shrelid=Integer.parseInt(request.getParameter("shrelid").toString());
 		String shlsql="select * from vip_type where id="+shrelid;
 		List<Object[]> shgetthesecmodel=new MemInformServiceImp().normalfinad(shlsql);

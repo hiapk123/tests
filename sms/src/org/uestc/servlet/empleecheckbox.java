@@ -27,9 +27,9 @@ public class empleecheckbox extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		System.out.println("会员查询按钮");
+		//System.out.println("会员查询按钮");
 		String type=request.getParameter("type");
-		System.out.println(type);
+		//System.out.println(type);
 		String storeide=request.getParameter("storeide");
 		String statee=request.getParameter("statee");
 		String shtext=request.getParameter("shtext");

@@ -32,7 +32,7 @@ public class sh_chongzhi_paging extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("充值明细的分页处理。12.28");
+		//System.out.println("充值明细的分页处理。12.28");
 		String which=request.getParameter("which").toString();
 		int pageno=Integer.parseInt(request.getParameter("pageno").toString());
 		String shopname=request.getParameter("shopname").toString();

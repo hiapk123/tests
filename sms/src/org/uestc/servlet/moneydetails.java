@@ -30,7 +30,7 @@ public class moneydetails extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		System.out.println("充值明细servlet");
+		//System.out.println("充值明细servlet");
 		String sql1="select s_name from store";
 		List<Object[]> list1=new MemInformServiceImp().normalfinad(sql1);
 		request.setAttribute("shdetails", list1);

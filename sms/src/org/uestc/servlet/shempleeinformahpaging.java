@@ -31,7 +31,7 @@ public class shempleeinformahpaging extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("收银员资料分页处理");
+		//System.out.println("收银员资料分页处理");
 		String storeide=request.getParameter("storeide").toString();
 		String statee=request.getParameter("statee").toString();
 		String shtext=request.getParameter("shtext").toString();

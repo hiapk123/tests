@@ -30,7 +30,7 @@ public class shbuyselectpaging extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("会员购买查询分页");
+		//System.out.println("会员购买查询分页");
 		String textfiled=request.getParameter("textfiled").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();
