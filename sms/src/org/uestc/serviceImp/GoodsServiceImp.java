@@ -1,40 +1,25 @@
 package org.uestc.serviceImp;
 
-import java.io.FileNotFoundException;
-import java.sql.Connection;
-import java.sql.Statement;
-import org.uestc.util.SqlHelper;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.json.JSONObject;
 import org.uestc.service.GoodsService;
 import org.uestc.util.JdbcUtils;
 import org.uestc.util.SqlHelper;
+
 import com.uestc.bean.Good;
-import com.uestc.bean.Category;
-import com.uestc.bean.CommissionRule;
-import com.uestc.bean.IntegralRule;
-import com.uestc.bean.ShiftChange;
-import com.uestc.bean.Store;
-import com.uestc.bean.Supplier;
-import com.uestc.bean.Suppliers;
-import com.uestc.bean.Vip;
+
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class GoodsServiceImp implements GoodsService {
 

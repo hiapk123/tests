@@ -30,8 +30,6 @@ public class shmtijiao extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-	
-		//("进入查询按钮的servlet");
 		//接受前台传�?�的参数
 		String mshopname=request.getParameter("mshopname");
 		String mshopdj=request.getParameter("mshopdj");
@@ -52,8 +50,6 @@ public class shmtijiao extends HttpServlet {
 		//汉字的情况进行查询
 		if(m.matches()==true)
 		{
-			//按照姓名进行查询
-			//("汉字匹配成功");
 			//使用模糊查询进行匹配
 			if("-1".equals(mshopname))
 			{
@@ -100,7 +96,6 @@ public class shmtijiao extends HttpServlet {
 		//这里空字符串默认是数字
 		else if (n.matches()==true) {
 			//如果输入框为空的话是按照数字进行匹配�?
-			//("数字匹配成功");
 			//区分是不是标准的电话格式（电话号码属于是11位的格式�?
 			if(mshoptext.length()==11)
 			{

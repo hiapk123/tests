@@ -40,8 +40,6 @@ public class BatchGoodsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		//("批量处理的servlet");
 		// 直接加入连接跳转
 		String leixing = request.getParameter("type");
 		List<batchgoods> list = new TableBatchServiceImp().showtablebatchbyinit();

@@ -15,23 +15,31 @@ import org.uestc.serviceImp.MemInformServiceImp;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
-
-@WebServlet(urlPatterns="/emperfomancetable",name="emperfomancetableServlet")
-public class emperfomancetable extends HttpServlet {
+@WebServlet(urlPatterns="/emperformancepaging",name="emperformancepagingServlet")
+public class emperformancepaging extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
 		this.doPost(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		//System.out.println("收银员业绩分页处理");
 		//接受前台的参�?
 		String shempperform1=request.getParameter("shempperform1");
 		String shempperform2=request.getParameter("shempperform2");
 		String shempperform3=request.getParameter("shempperform3");
 		String shempperformtime1=request.getParameter("shempperformtime1");
 		String shempperformtime2=request.getParameter("shempperformtime2");	
+		
+		String which=request.getParameter("which").toString();
+		int pageno=Integer.parseInt(request.getParameter("pageno").toString());
 		try {
 			shempperformtime1=StrToDate(shempperformtime1);
 		} catch (java.text.ParseException e) {
@@ -103,11 +111,46 @@ public class emperfomancetable extends HttpServlet {
 			}
 				
 		}
-		int currentpage=1;
-		int current=10*(currentpage-1);
 		String shobj4=shobj3;
 		List<Object[]> shempperformthetablell=(List<Object[]>)new MemInformServiceImp().normalfinad(shobj4);
 		int totalPage=shempperformthetablell.size();
+		int currentpage=1;
+		//#分页
+		int yeshu=0;
+		if(totalPage%10==0)
+		{
+			yeshu=totalPage/10;
+			
+		}
+		else {
+			yeshu=totalPage/10 +1;
+		}
+		if("last".equals(which))
+		{
+			currentpage=yeshu;
+		}
+		else if ("next".equals(which)) {
+			
+			currentpage=pageno+1;
+			
+		}
+		else if ("prev".equals(which)) {
+			
+			currentpage=pageno-1;
+			
+		}
+		else if ("first".equals(which)) {
+			
+			currentpage=1;
+			
+		}
+		else {
+			currentpage=Integer.parseInt(which);
+			
+		}
+		//#
+		int current=10*(currentpage-1);
+	
 		shobj3 +="limit "+current+" ,10";
 		List<Object[]> shempperformthetable=(List<Object[]>)new MemInformServiceImp().normalfinad(shobj3);
 		request.setAttribute("shempperformthetable", shempperformthetable);
@@ -115,7 +158,8 @@ public class emperfomancetable extends HttpServlet {
 		request.setAttribute("totalPage", totalPage);
 		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);
 		
-	}	
+	}
+	
 	//字符串转化函数
 	private String StrToDate(String str) throws java.text.ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");

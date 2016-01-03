@@ -24,7 +24,6 @@ public class shwriteintosql extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//("导入到数据库文件");
 	}
 
 }

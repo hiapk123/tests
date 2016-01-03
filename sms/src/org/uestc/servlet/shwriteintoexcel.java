@@ -28,10 +28,6 @@ public class shwriteintoexcel extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		
-		
-		
-		//("将文件写入excel");
 		//查询需要导出的数据
 		List<Object[]> nlistsp=null;
 		nlistsp=new MemInformServiceImp().meminfoinit();
@@ -48,7 +44,6 @@ public class shwriteintoexcel extends HttpServlet {
 		
 		String dictionary="f://";
 		File file=new File(dictionary,filename);
-		//(file.getPath());
 		try {
 				
 		       //设置弹出对话框   

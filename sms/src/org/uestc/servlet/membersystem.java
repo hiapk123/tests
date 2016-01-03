@@ -19,8 +19,7 @@ public class membersystem extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//("会员制度servlet");
+
 		request.getRequestDispatcher("/pages/member/shmembersystem.jsp").forward(request,response);
 		
 	}

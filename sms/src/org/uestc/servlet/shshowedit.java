@@ -26,8 +26,7 @@ public class shshowedit extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//("历史编辑显示页面");
+
 		int shemptheidd=Integer.parseInt(request.getParameter("shemptheidd").toString());
 		List<Object[]> shempshowenditinfom=null;
 		String sqlsh="SELECT emp_name,emp_no,emp_tel,emp_status,s_name FROM employee LEFT JOIN store on s_id=store_id WHERE emp_id="+shemptheidd;

@@ -25,8 +25,7 @@ public class EmpleePeformance extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//("收银员业绩servlet");
+	
 		String leixing=request.getParameter("type");
 		//绑定门店ID
 		String storesql="select s_name from store";

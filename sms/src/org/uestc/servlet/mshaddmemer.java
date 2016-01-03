@@ -27,7 +27,6 @@ public class mshaddmemer extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		//("新增会员的servlet");
 		//接受前台传�?�的参数�?	
 		String v_level=request.getParameter("sh_v_level").toString();
 		String v_card_no=request.getParameter("v_card_no").toString();
@@ -81,9 +80,7 @@ public class mshaddmemer extends HttpServlet {
 			shshoejifen=shshoejifen+Integer.parseInt(obj[6].toString());
 		}
 		}
-		//(shshoenum);
-		//(shshoeyue);
-		//(shshoejifen);
+
 		int totalPage=0;
 		int currentpage=1;
 		if(shshoenum%10==0)

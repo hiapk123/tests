@@ -40,7 +40,6 @@ public class shfenye extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//("分页函数的实�?");
 		//接受前台传过来的参数
 		String shopname=request.getParameter("shopname");
 		int shzhuangtai=Integer.parseInt(request.getParameter("shzhuangtai"));
@@ -50,13 +49,7 @@ public class shfenye extends HttpServlet {
 		//当前页面
 		int pageno=Integer.parseInt(request.getParameter("pageno").toString());
 		String which=request.getParameter("which").toString();
-		//(shopname);
-		//(shzhuangtai);
-		//(shfenlei);
-		//(shgonghuoshang);
-		//(shnameofshangpin);
-		//(pageno);//当前页面
-		//(which);//点击的�??
+
 		//这里应该重新查询获取记录的条�?
 		List<batchgoods> shlist=null;
 		int sqlshuliang;
@@ -71,8 +64,7 @@ public class shfenye extends HttpServlet {
 			
 			sqlshuliang=new TableBatchServiceImp().yshcount(shopname, shzhuangtai, shfenlei, shgonghuoshang, shnameofshangpin);
 		}
-	//获取数量结束
-		//("记录的条�?"+sqlshuliang);
+
 		int thetotal;//定义的是总共的页�?
 		if(sqlshuliang%10==0)
 		{

@@ -15,15 +15,13 @@ import org.uestc.serviceImp.MemInformServiceImp;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
-/**
- * Servlet implementation class shbuyselectbatch
- */
-@WebServlet(urlPatterns="/shbuyselectbatch",name="shbuyselectbatchServlet")
-public class shbuyselectbatch extends HttpServlet {
+@WebServlet(urlPatterns="/shbuyselectpaging",name="shbuyselectpagingServlet")
+public class shbuyselectpaging extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
+       
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		this.doPost(request, response);
 	}
 
@@ -31,10 +29,13 @@ public class shbuyselectbatch extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		//System.out.println("会员购买查询分页");
 		String textfiled=request.getParameter("textfiled").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();
+		String which=request.getParameter("which").toString();
+		int pageno=Integer.parseInt(request.getParameter("pageno").toString());
 		try {
 			time1=StrToDate(time1);
 		} catch (java.text.ParseException e) {
@@ -56,14 +57,49 @@ public class shbuyselectbatch extends HttpServlet {
 			Object[] llk=hahalist.get(0);
 			v_id=Integer.parseInt(llk[0].toString());
 		}
-		//查询所需要的信息
-		String gettable="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'"+" limit 0,10";
-		List<Object[]> cmaqsd=new MemInformServiceImp().normalfinad(gettable);
 		int currentPage=1;
-		int totalPage=0;
+		int totalPage=0;		
+		
 		String slsql="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'";
 		List<Object[]> kkldsa=new MemInformServiceImp().normalfinad(slsql);
 		totalPage=kkldsa.size();
+		//#分页
+		int zuyeshu=0;
+		if(totalPage%10==0)
+		{
+			zuyeshu=totalPage/10;
+			
+		}
+		else {
+			zuyeshu=totalPage/10+1;
+		}
+		if("first".equals(which))
+		{
+			currentPage=1;
+		}
+		else if ("prev".equals(which)) {
+			
+			currentPage=pageno-1;
+			
+		}
+		else if ("next".equals(which)) {
+			
+			currentPage=pageno+1;
+		}
+		else if ("last".equals(which)) {
+			
+			currentPage=zuyeshu;
+		}
+		else {
+			
+			currentPage=Integer.parseInt(which);
+		}
+		//#
+		//查询所需要的信息
+		int current=10*(currentPage-1);
+		String gettable="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'"+" limit "+current+",10";
+		List<Object[]> cmaqsd=new MemInformServiceImp().normalfinad(gettable);
+		
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("cmaqsd", cmaqsd);

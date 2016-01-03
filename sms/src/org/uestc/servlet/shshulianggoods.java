@@ -33,7 +33,6 @@ public class shshulianggoods extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//("商品数量的更新");
 		String shopname=request.getParameter("shopname");
 		int shzhuangtai=Integer.parseInt(request.getParameter("shzhuangtai"));
 		String shfenlei=request.getParameter("shfenlei");

@@ -43,9 +43,9 @@ public class shbatch extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		//("处理表格的servlst");
+
 		String shtype = request.getParameter("m");
-		//(shtype);
+
 		if (shtype.equals("init")) {
 			
 			this.inittable(request, response);
@@ -77,13 +77,6 @@ public class shbatch extends HttpServlet {
 		List<batchgoods> shlist=null;
 		int totalpage=0;
 		int sqlshuliang=0;
-		//("********");	
-		//(shopname);
-		//(shzhuangtai);
-		//(shfenlei);
-		//(shgonghuoshang);
-		//("这里接受输入的条�?"+shnameofshangpin);
-		
 		int tiaomazhuangtai;
 	//判断条码是否为空
 		if("".equals(shnameofshangpin))
@@ -122,9 +115,7 @@ public class shbatch extends HttpServlet {
 		}
 		req.setAttribute("shgoodsnumbers", shgoodsnumbers);*/
 		//#######################
-		//("totalpage"+totalpage);
-		//(currentpage);
-		//(sqlshuliang);
+
 		
 		req.setAttribute("shlist", shlist);
 		req.setAttribute("totalPage", sqlshuliang);
@@ -134,7 +125,7 @@ public class shbatch extends HttpServlet {
 
 	// 依据商店的名字显示界�?
 	private void storetable(HttpServletRequest req, HttpServletResponse res) {
-		//("进入选择店铺名字刷新成功");
+
 		String shopname=req.getParameter("shopname");
 		int shzhuangtai=Integer.parseInt(req.getParameter("shzhuangtai"));
 		String shfenlei=req.getParameter("shfenlei");
@@ -144,12 +135,6 @@ public class shbatch extends HttpServlet {
 		List<batchgoods> shlist=null;
 		int totalpage=0;
 		int sqlshuliang=0;
-		//("********");	
-		//(shopname);
-		//(shzhuangtai);
-		//(shfenlei);
-		//(shgonghuoshang);
-		//(shnameofshangpin);
 		
 		int tiaomazhuangtai;
 	//判断条码是否为空
@@ -157,8 +142,6 @@ public class shbatch extends HttpServlet {
 		{
 			tiaomazhuangtai=0;
 			shlist=new TableBatchServiceImp().yshbathdate(shopname, shzhuangtai, shfenlei, shgonghuoshang, currentpage);
-			
-			//("列表函数正常");
 			sqlshuliang=new TableBatchServiceImp().mshcount(shopname, shzhuangtai, shfenlei, shgonghuoshang);
 			
 		}
@@ -186,8 +169,6 @@ public class shbatch extends HttpServlet {
 
 	// 根据多个条件查询(前台页面进行查询的操作)
 	private void manytable(HttpServletRequest req, HttpServletResponse rep) {
-	
-		//("查询点击进入成功");
 		
 		String shopname=req.getParameter("shopname");
 		int shzhuangtai=Integer.parseInt(req.getParameter("shzhuangtai"));
@@ -198,12 +179,6 @@ public class shbatch extends HttpServlet {
 		List<batchgoods> shlist=null;
 		int totalpage=0;
 		int sqlshuliang=0;
-		//("********");	
-		//(shopname);
-		//(shzhuangtai);
-		//(shfenlei);
-		//(shgonghuoshang);
-		//(shnameofshangpin);
 		
 		int tiaomazhuangtai;
 	//判断条码是否为空
@@ -211,8 +186,6 @@ public class shbatch extends HttpServlet {
 		{
 			tiaomazhuangtai=0;
 			shlist=new TableBatchServiceImp().yshbathdate(shopname, shzhuangtai, shfenlei, shgonghuoshang, currentpage);
-			
-			//("列表函数正常");
 			sqlshuliang=new TableBatchServiceImp().mshcount(shopname, shzhuangtai, shfenlei, shgonghuoshang);
 			
 		}
@@ -229,8 +202,6 @@ public class shbatch extends HttpServlet {
 		else {
 			totalpage=sqlshuliang/10+1;
 		}
-		
-		//(totalpage);
 		req.setAttribute("shlist", shlist);
 		req.setAttribute("totalPage", sqlshuliang);
 		req.setAttribute("currentPage", currentpage);

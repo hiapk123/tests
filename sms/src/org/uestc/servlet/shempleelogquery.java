@@ -30,7 +30,7 @@ public class shempleelogquery extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//("交接班查询的按钮");
+
 		String shshopname=request.getParameter("shshopname").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();
@@ -57,8 +57,15 @@ public class shempleelogquery extends HttpServlet {
 			memdtoreid=Integer.parseInt(ss[0].toString());
 		}
 		
-		String longlist2="select start_time,end_time,emp_no,emp_name,total,total_all,total_money,bank_pay from employee a left join jiaojieban b on a.emp_id=b.saler_id where a.store_id="+memdtoreid+" and start_time>="+"'"+time1+"'"+" and end_time<="+"'"+time2+"'";
+		int currentPage=1;
+		int current=10*(currentPage-1);
+		String longlist2="select start_time,end_time,emp_no,emp_name,total,total_all,total_money,bank_pay from employee a left join jiaojieban b on a.emp_id=b.saler_id where a.store_id="+memdtoreid+" and start_time>="+"'"+time1+"'"+" and end_time<="+"'"+time2+"'"+"limit "+current+" ,10";
 		List<Object[]> longlist3=new MemInformServiceImp().normalfinad(longlist2);
+		String longlist7="select start_time,end_time,emp_no,emp_name,total,total_all,total_money,bank_pay from employee a left join jiaojieban b on a.emp_id=b.saler_id where a.store_id="+memdtoreid+" and start_time>="+"'"+time1+"'"+" and end_time<="+"'"+time2+"'";
+		List<Object[]> longlist8=new MemInformServiceImp().normalfinad(longlist7);
+		int totalPage=longlist8.size();
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("longlist3", longlist3);
 		request.getRequestDispatcher("/pages/member/empleelogtable.jsp").forward(request, response);
 		

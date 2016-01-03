@@ -27,7 +27,6 @@ public class MemberInform extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-      //("会员资料页面");
       String m=request.getParameter("type");
       if("init".equals(m))
       {

@@ -18,7 +18,6 @@ public class membergrape extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//("会员等级的页�?");
 		request.getRequestDispatcher("/pages/member/Membergrade.jsp").forward(request, response);
 	}
 

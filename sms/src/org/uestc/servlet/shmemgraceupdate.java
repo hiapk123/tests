@@ -21,8 +21,6 @@ public class shmemgraceupdate extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		//("UPDATE memgrace");
 		String sskgracelevel=request.getParameter("sskgracelevel").toString();
 		String sskgracediscount=request.getParameter("sskgracediscount").toString();
 		String sskgracetime=request.getParameter("sskgracetime").toString();

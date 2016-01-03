@@ -29,7 +29,6 @@ public class shbangding extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		
-		//("bangding");
 		//接受前台传�?�的参数�?	
 				String v_level=request.getParameter("sh_v_level").toString();
 				String v_card_no=request.getParameter("v_card_no").toString();

@@ -25,8 +25,6 @@ public class shmem_jiaojieban extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		//("交接班记录Servlet");
 		String newsql="select s_name from store";
 		List<Object[]> shjiaojielist=new MemInformServiceImp().normalfinad(newsql);
 		request.setAttribute("shjiaojielist", shjiaojielist);
