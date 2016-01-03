@@ -25,7 +25,7 @@ public class shlastlist extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//("lastlist");
+		//System.out.println("lastlist");
 		List<Object[]> nlistq=null;
 		nlistq=new MemInformServiceImp().meminfoinit();
 		request.setAttribute("nlistq", nlistq);

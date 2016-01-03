@@ -28,7 +28,7 @@ public class shmodelcllick extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		//("编辑页面绑定");
+		//System.out.println("编辑页面绑定");
 		String shvidd=request.getParameter("shvid");
 		int shvid=Integer.parseInt(shvidd);
 		String nslsql="select * FROM vip a LEFT JOIN store b ON a.s_id=b.s_id WHERE v_id="+shvid;

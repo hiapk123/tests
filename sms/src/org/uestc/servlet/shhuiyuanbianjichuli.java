@@ -23,7 +23,7 @@ public class shhuiyuanbianjichuli extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//("会员编辑更新");
+		//System.out.println("会员编辑更新");
 		int sh_zhuangtai=Integer.parseInt(request.getParameter("sh_zhuangtai"));
 		String sh_bianhao=request.getParameter("sh_bianhao");
 		String sh_xingming=request.getParameter("sh_xingming");

@@ -29,9 +29,9 @@ public class shdelete extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 	
-		//("删除的servlet页面");
+		//System.out.println("删除的servlet页面");
 	    String ids=request.getParameter("ids");
-	    //(ids);
+	    System.out.println(ids);
 	    new TableBatchServiceImp().datedelete(ids);
 	    //数据库判断进行的是删除成功�??
 	}

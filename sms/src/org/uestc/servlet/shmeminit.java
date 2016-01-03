@@ -35,7 +35,7 @@ public class shmeminit extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		//("初始化页面servlet");
+		//System.out.println("初始化页面servlet");
 		//初始化查询所有的页面数据，页面函数meminfoinit();
 		List<Object[]> nlist=null;
 		nlist=new MemInformServiceImp().meminfoinit();
@@ -60,9 +60,9 @@ public class shmeminit extends HttpServlet {
 			shshoejifen=shshoejifen+Integer.parseInt(obj[6].toString());
 		}
 		}
-		//(shshoenum);
-		//(shshoeyue);
-		//(shshoejifen);
+		//System.out.println(shshoenum);
+		//System.out.println(shshoeyue);
+		//System.out.println(shshoejifen);
 		int totalPage=0;
 		int currentpage=1;
 		if(shshoenum%10==0)

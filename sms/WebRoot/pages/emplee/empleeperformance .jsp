@@ -1,6 +1,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -365,26 +366,7 @@ function sh_flashfenlei()
 	</div>
 
 	<!-- 展示表格div -->
-		<div>
-		<!-- //这里是所列的表格 -->
-		<table class="table table-bordered" name="numgettable">
-			<thred>
-			<tr>
-				<td>序号</td>
-				<td>日期</td>
-				<td>收银员</td>
-				<td>商品名称</td>
-				<td>单价</td>
-				<td>数量</td>
-				<td>总价</td>
-				<td>实收</td>
-				<td>利润</td>
-				<td>类型</td>
-			</tr>
-			</thred>
-			<tbody id="shemperformbodys">
-			</tbody>
-		</table>
+		<div id="shemperformbodys">
 	</div>
 
 </div>	

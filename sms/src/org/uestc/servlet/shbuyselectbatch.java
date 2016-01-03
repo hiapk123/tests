@@ -32,7 +32,7 @@ public class shbuyselectbatch extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//("会员处理查询");
+		//System.out.println("会员处理查询");
 		String textfiled=request.getParameter("textfiled").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();
@@ -58,9 +58,15 @@ public class shbuyselectbatch extends HttpServlet {
 			v_id=Integer.parseInt(llk[0].toString());
 		}
 		//查询所需要的信息
-		String gettable="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'";
+		String gettable="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'"+" limit 0,10";
 		List<Object[]> cmaqsd=new MemInformServiceImp().normalfinad(gettable);
-		
+		int currentPage=1;
+		int totalPage=0;
+		String slsql="select g_barcode,sa_date,sa_goods_num,sa_goods_price,sa_real_price,sa_discount,s_name from sale a left join store b on a.store_id=b.s_id where a.sa_buyer_id="+v_id+" and sa_date>="+"'"+time1+"'"+" and sa_date<="+"'"+time2+"'";
+		List<Object[]> kkldsa=new MemInformServiceImp().normalfinad(slsql);
+		totalPage=kkldsa.size();
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("cmaqsd", cmaqsd);
 		request.getRequestDispatcher("/pages/member/sh_buyselecttable.jsp").forward(request,response);
 		

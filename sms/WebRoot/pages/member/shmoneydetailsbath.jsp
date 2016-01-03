@@ -16,7 +16,69 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <!-- 分页头部引用 -->
 <%@taglib uri="http://www.dky.com/taglibs/page" prefix="page"%>
+<script>
+//额外加入分页的标签
+$(function(){
+	//alert("页面加载成功")
+	$("#sh_czmxpaging").children('li').children('a').click(function()
+	{
+		var which=$(this).text();
+	  	//alert(which);//点击的上衣也下一页和尾页
+		if(which=="首页")
+	  	{
+	  	    which="first";	
+	  		
+	  	}
+	  	else if(which=="上一页")
+	  	{
+	  		
+	  		which="prev";	
+	  	}
+	  	else if(which=="下一页")
+	  	{
+	  		which="next"
+	  		
+	  	}
+	  	else if (which=="尾页") 
+	  	{
+	  		which="last"	
+	  	}
+	  	else{
+	  		
+	  	} 		
+		var pageno=$("#page").val();//当前的页数	
+		//alert(which);
+		//alert(pageno);
+		//直接传递后台进行页面跳转（页面初始化的时候进行分页）
+		
+		var shopname =$("#sh_shopname").val();
+		var time11=$("#sstartime").val();
+		var time22=$("#ssendtime").val();
+		var v_type=$("#shzhifufangshi").val();
+		//alert(shopname)
+		//alert(time11)
+		//alert(time22)
+		//alert(v_type)
+		$.post("<%=basePath%>sh_chongzhi_paging",{
+			"which":which,
+			"pageno":pageno,
+			"shopname":shopname,
+			"time11":time11,
+			"time22":time22,
+			"v_type":v_type
+		
+		},function(date){
+			//alert("成功");
+			$("#sh_moneytable").empty();
+			$("#sh_moneytable").append(date);
+			
+		},"html");
+		
+	});
+	
+});
 
+</script>
 <table class="table table-bordered" >
 	<thead>
 		<tr>
@@ -113,3 +175,14 @@
 	%>	
 	</tbody>
 </table>
+<div style="text-align: center;">
+	<!-- //分页的标签属性 -->
+	<input type="hidden" id="page" value="${currentPage}" />
+<ul class="pagination" id="sh_czmxpaging">
+	<page:htmlPage pageNo="${currentPage}"
+		url="http://www.baidu.com"
+		totalSum="${totalPage}" showPage="10" pageSize="10" />
+</ul>
+
+</div>
+

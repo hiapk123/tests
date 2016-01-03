@@ -282,7 +282,7 @@ $(document).ready(function(){
 });
 
 //页面查询的按钮。
-function shmsub() {
+function shmsub(){
 	//进行表单验证：
 	//var mems=document.memkkk.memshtextx.value;
 	//alert(mems);
@@ -291,7 +291,7 @@ function shmsub() {
 	var mshopdj=$("#shdjm").val();
 	var mshopqy=$("#shqq").val();
 	var mshoptext=$("#shminput").val();
-	//alert("查询")
+	//alert(mshoptext)
 	//提交查询。
 	$.post("<%=basePath%>shmtijiao",{
 		"mshopname":mshopname,
@@ -318,8 +318,7 @@ function shmsub() {
 		$("#sjmountd3").val(sklmum3);
 		
 	},"html");
-	
-	
+		
 }
 </script>
 
@@ -843,6 +842,7 @@ function updatememupdateinfo(id){
 	//alert(id);
 	//alert("修改操作")
 	//参数操作
+	//alert("修改")
 	var sskkid=id;
 	var sh_zhuangtai;//1.启用状态
 	if($("#shcheckbox1f").is(":checked"))

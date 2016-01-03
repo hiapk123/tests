@@ -28,7 +28,7 @@ public class shupdate extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		//("修改页面的servlet");
+		//System.out.println("修改页面的servlet");
 		//接受前台传�?�参�?
 		String ids=request.getParameter("ids");
 		int tcgz=Integer.parseInt(request.getParameter("tcgz"));
@@ -40,14 +40,14 @@ public class shupdate extends HttpServlet {
 		int  shqyjy=Integer.parseInt(request.getParameter("shqyjy")) ;
 		//获取商品提成的编号�??
 		//int shbianhao=Integer.parseInt(request.getParameter("shbianhao"));
-		//("###########################");
-		//(ids);
-		//(tcgz);
-		//(ydfl);
-		//(ydghs);
-		//(shjf);
-		//(hyyh);
-		//(shqyjy);
+		//System.out.println("###########################");
+		//System.out.println(ids);
+		//System.out.println(tcgz);
+		//System.out.println(ydfl);
+		//System.out.println(ydghs);
+		//System.out.println(shjf);
+		//System.out.println(hyyh);
+		//System.out.println(shqyjy);
 		//进行分批的修改操�?
 		
 		TableBatchService sss=new TableBatchServiceImp();

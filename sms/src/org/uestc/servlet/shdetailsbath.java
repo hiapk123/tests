@@ -72,8 +72,14 @@ public class shdetailsbath extends HttpServlet {
 			storeid=Integer.parseInt(obj[0].toString());
  		}
 		//2.进行列表的查询.要到前段再查询一次才可以显示
-		String skjsql="select a.store_id,a.v_card_no,a.vtype,a.v_payin_off,a.v_giving,a.saler_id,a.v_date,b.emp_name from vip_consume_log a left join employee b on a.saler_id=b.emp_id where vtype="+sh_fangshi+" and a.store_id="+storeid+" and v_date>="+"'"+sh_stime+"'"+" and v_date<="+"'"+sh_etime+"'";
+		String skjsql="select a.store_id,a.v_card_no,a.vtype,a.v_payin_off,a.v_giving,a.saler_id,a.v_date,b.emp_name from vip_consume_log a left join employee b on a.saler_id=b.emp_id where vtype="+sh_fangshi+" and a.store_id="+storeid+" and v_date>="+"'"+sh_stime+"'"+" and v_date<="+"'"+sh_etime+"'"+" limit 0,10";
 		List<Object[]> detailslist=new MemInformServiceImp().normalfinad(skjsql);
+		String ssslll="select a.store_id,a.v_card_no,a.vtype,a.v_payin_off,a.v_giving,a.saler_id,a.v_date,b.emp_name from vip_consume_log a left join employee b on a.saler_id=b.emp_id where vtype="+sh_fangshi+" and a.store_id="+storeid+" and v_date>="+"'"+sh_stime+"'"+" and v_date<="+"'"+sh_etime+"'";
+		List<Object[]> lastdetails=new MemInformServiceImp().normalfinad(ssslll);
+		int currentPage=1;
+		int totalPage=lastdetails.size();
+		rq.setAttribute("totalPage", totalPage);
+		rq.setAttribute("currentPage", currentPage);
 		rq.setAttribute("detailslist", detailslist);
 		rq.getRequestDispatcher("/pages/member/shmoneydetailsbath.jsp").forward(rq, rs);
 		

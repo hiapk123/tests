@@ -31,7 +31,7 @@ public class shwriteintoexcel extends HttpServlet {
 		
 		
 		
-		//("将文件写入excel");
+		//System.out.println("将文件写入excel");
 		//查询需要导出的数据
 		List<Object[]> nlistsp=null;
 		nlistsp=new MemInformServiceImp().meminfoinit();
@@ -46,9 +46,9 @@ public class shwriteintoexcel extends HttpServlet {
 		jxl.write.WritableWorkbook wb=null;
 		String filename=path;
 		
-		String dictionary="f://";
+		String dictionary="f:\\";
 		File file=new File(dictionary,filename);
-		//(file.getPath());
+		//System.out.println(file.getPath());
 		try {
 				
 		       //设置弹出对话框   
@@ -121,7 +121,7 @@ public class shwriteintoexcel extends HttpServlet {
 		
 		//***
 		//shexcelutil.exportdata(nlistsp, path);
-		//response.sendRedirect("f://会员信息.xls");
+		//response.sendRedirect("f:\\会员信息.xls");
 		
 		
 	}

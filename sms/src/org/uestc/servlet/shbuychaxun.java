@@ -27,7 +27,7 @@ public class shbuychaxun extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//("会员购买查询");
+		//System.out.println("会员购买查询");
 		request.getRequestDispatcher("/pages/member/shmembuyselect.jsp").forward(request, response);
 	}
 

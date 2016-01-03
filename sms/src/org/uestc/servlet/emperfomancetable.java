@@ -27,7 +27,7 @@ public class emperfomancetable extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		//("进入收银员处理表格servlet");
+		//System.out.println("进入收银员处理表格servlet");
 		//接受前台的参�?
 		String shempperform1=request.getParameter("shempperform1");
 		String shempperform2=request.getParameter("shempperform2");
@@ -105,10 +105,16 @@ public class emperfomancetable extends HttpServlet {
 			}
 				
 		}
-		
+		int currentpage=1;
+		int current=10*(currentpage-1);
+		String shobj4=shobj3;
+		List<Object[]> shempperformthetablell=(List<Object[]>)new MemInformServiceImp().normalfinad(shobj4);
+		int totalPage=shempperformthetablell.size();
+		shobj3 +="limit "+current+" ,10";
 		List<Object[]> shempperformthetable=(List<Object[]>)new MemInformServiceImp().normalfinad(shobj3);
 		request.setAttribute("shempperformthetable", shempperformthetable);
-		
+		request.setAttribute("currentPage", currentpage);
+		request.setAttribute("totalPage", totalPage);
 		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);
 		
 	}	
