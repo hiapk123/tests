@@ -29,7 +29,8 @@ public class LoginServlet extends HttpServlet {
 			session.removeAttribute("sessionUser");
 		}
 
-		request.getRequestDispatcher("login.html").forward(request, response);
+		//request.getRequestDispatcher("login.html").forward(request, response);
+		response.sendRedirect("login.html");
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
