@@ -32,7 +32,6 @@ public class shshulianggoods extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String shopname=request.getParameter("shopname");
 		int shzhuangtai=Integer.parseInt(request.getParameter("shzhuangtai"));
 		String shfenlei=request.getParameter("shfenlei");

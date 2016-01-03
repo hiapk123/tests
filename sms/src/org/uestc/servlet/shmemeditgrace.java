@@ -11,22 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
 
-@WebServlet(urlPatterns="/shmemeditgrace",name="shmemeditgraceServlet")
+@WebServlet(urlPatterns = "/shmemeditgrace", name = "shmemeditgraceServlet")
 public class shmemeditgrace extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		this.doPost(request, response);
-		
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int shrelid=Integer.parseInt(request.getParameter("shrelid").toString());
-		String shlsql="select * from vip_type where id="+shrelid;
-		List<Object[]> shgetthesecmodel=new MemInformServiceImp().normalfinad(shlsql);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int shrelid = Integer.parseInt(request.getParameter("shrelid").toString());
+		String shlsql = "select * from vip_type where id=" + shrelid;
+		List<Object[]> shgetthesecmodel = new MemInformServiceImp().normalfinad(shlsql);
 		request.setAttribute("shgetthesecmodel", shgetthesecmodel);
 		request.getRequestDispatcher("/pages/member/memgracemodel.jsp").forward(request, response);
 	}

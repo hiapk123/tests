@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
 
-@WebServlet(urlPatterns="/empleecheckbox",name="empleecheckboxservlet")
+@WebServlet(urlPatterns = "/empleecheckbox", name = "empleecheckboxservlet")
 public class empleecheckbox extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		this.doPost(request, response);
 	}
 
@@ -26,7 +26,6 @@ public class empleecheckbox extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
 		String type=request.getParameter("type");
 		String storeide=request.getParameter("storeide");
 		String statee=request.getParameter("statee");
@@ -50,20 +49,11 @@ public class empleecheckbox extends HttpServlet {
 		else {
 			//判断是会员，姓名还是电话查询�?
 			//1.判断是否是汉字�??
-
 			Pattern p= Pattern.compile("[\\u4e00-\\u9fa5]+");
 
 			Matcher m=p.matcher(shtext);
 			if(m.matches()==true)
 			{
-				//说明是汉�?
-
-				sqlb="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_name="+"'"+shtext+"'";
-				shlistd=new MemInformServiceImp().normalfinad(sqlb);
-			}
-			else if (shtext.length()==11) {
-				//说明是电话号�?
-
 				sqlb="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_name="+"'"+shtext+"'"+" limit 0,10";
 
 				shlistd=new MemInformServiceImp().normalfinad(sqlb);
@@ -74,10 +64,17 @@ public class empleecheckbox extends HttpServlet {
 				
 			}
 			else if (shtext.length()==11) {
+				sqlb="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_tel="+"'"+shtext+"'"+" limit 0,10";
+				shlistd=new MemInformServiceImp().normalfinad(sqlb);
+				sqlc="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_name="+"'"+shtext+"'";
+				shlistc=new MemInformServiceImp().normalfinad(sqlc);
+				totalPage=shlistc.size();
+				
+			}
+			else if (shtext.length()==11) {
 				//说明是电话号�?
 				sqlb="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_tel="+"'"+shtext+"'"+" limit 0,10";
 				shlistd=new MemInformServiceImp().normalfinad(sqlb);
-				
 				sqlc="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id WHERE s_name="+"'"+storeide+"'"+" AND emp_status="+statee+" and emp_tel="+"'"+shtext+"'";
 				shlistc=new MemInformServiceImp().normalfinad(sqlc);
 				totalPage=shlistc.size();
@@ -97,12 +94,10 @@ public class empleecheckbox extends HttpServlet {
 			
 		}
 		int currentPage=1;
-		
-		//页面进行跳转，返回数据页面进行绑�?
-
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("currentPage", currentPage);
-
+		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("shlistd", shlistd);
 		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
 		

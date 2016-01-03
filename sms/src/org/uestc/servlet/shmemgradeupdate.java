@@ -14,26 +14,27 @@ import org.uestc.serviceImp.MemInformServiceImp;
 /**
  * Servlet implementation class shmemgradeupdate
  */
-@WebServlet(urlPatterns="/shmemgradeupdate",
-			name="shmemgradeupdateServlet")
+@WebServlet(urlPatterns = "/shmemgradeupdate", name = "shmemgradeupdateServlet")
 public class shmemgradeupdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		this.doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String memgracesql="select * from vip_type";
-		List<Object[]> shmemgrace=(List<Object[]>)new MemInformServiceImp().normalfinad(memgracesql);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String memgracesql = "select * from vip_type";
+		List<Object[]> shmemgrace = (List<Object[]>) new MemInformServiceImp().normalfinad(memgracesql);
 		request.setAttribute("shmemgrace", shmemgrace);
 		request.getRequestDispatcher("pages/member/membergracetable.jsp").forward(request, response);
-		
+
 	}
 
 }

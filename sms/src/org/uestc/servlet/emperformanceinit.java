@@ -18,60 +18,65 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 /**
  * Servlet implementation class emperformanceinit
  */
-@WebServlet(urlPatterns="/emperformanceinit",
-			name="emperformanceinitServlet")
+@WebServlet(urlPatterns = "/emperformanceinit", name = "emperformanceinitServlet")
 public class emperformanceinit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		this.doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		String sspar1=request.getParameter("sspar1").toString();
-		String times1=request.getParameter("times1").toString();
-		String times2=request.getParameter("times2").toString();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String sspar1 = request.getParameter("sspar1").toString();
+		String times1 = request.getParameter("times1").toString();
+		String times2 = request.getParameter("times2").toString();
 		try {
-			times1=StrToDate(times1);
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		try {
-			times2=StrToDate(times2);
+			times1 = StrToDate(times1);
 		} catch (java.text.ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		try {
+			times2 = StrToDate(times2);
+		} catch (java.text.ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		int currentpage=1;
-		int current=10*(currentpage-1);
-		String ssknsql="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+ sspar1 +"'"+"AND t1.sa_date<="+"'"+times2+"'"+ "AND t1.sa_date>="+"'"+times1+"'"+"ORDER  BY t1.sa_id "+" limit " +  current+" ,10";
-		List<Object[]> shempperformthetable=(List<Object[]>)new MemInformServiceImp().normalfinad(ssknsql);
-		
-		String sskmsql="SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="+"'"+ sspar1 +"'"+"AND t1.sa_date<="+"'"+times2+"'"+ "AND t1.sa_date>="+"'"+times1+"'"+"ORDER  BY t1.sa_id ";
-		List<Object[]> shempperformthetablekkk=(List<Object[]>)new MemInformServiceImp().normalfinad(sskmsql);
-		int totalPage=shempperformthetablekkk.size();
-		
+		int currentpage = 1;
+		int current = 10 * (currentpage - 1);
+		String ssknsql = "SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="
+				+ "'" + sspar1 + "'" + "AND t1.sa_date<=" + "'" + times2 + "'" + "AND t1.sa_date>=" + "'" + times1 + "'"
+				+ "ORDER  BY t1.sa_id " + " limit " + current + " ,10";
+		List<Object[]> shempperformthetable = (List<Object[]>) new MemInformServiceImp().normalfinad(ssknsql);
+
+		String sskmsql = "SELECT  t1.sa_id,t1.sa_date,sa_saler_id,t2.g_name,t1.sa_goods_price,t1.sa_goods_num,t1.sa_shishou,t1.sa_profit,t1.sa_type,t3.s_name,t2.c_id from sale t1,goods t2 ,store t3 WHERE t3.s_name="
+				+ "'" + sspar1 + "'" + "AND t1.sa_date<=" + "'" + times2 + "'" + "AND t1.sa_date>=" + "'" + times1 + "'"
+				+ "ORDER  BY t1.sa_id ";
+		List<Object[]> shempperformthetablekkk = (List<Object[]>) new MemInformServiceImp().normalfinad(sskmsql);
+		int totalPage = shempperformthetablekkk.size();
+
 		request.setAttribute("currentPage", currentpage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("shempperformthetable", shempperformthetable);
-		
+
 		request.getRequestDispatcher("/pages/emplee/shmodel2.jsp").forward(request, response);
-		
+
 	}
-	
-	//字符串的转化类
+
+	// 字符串的转化类
 	private String StrToDate(String str) throws java.text.ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd
+		// HH:mm:ss");
 		Date date = null;
 		try {
 			date = format.parse(str);
@@ -80,6 +85,5 @@ public class emperformanceinit extends HttpServlet {
 		}
 		return "" + date.getTime();
 	}
-
 
 }

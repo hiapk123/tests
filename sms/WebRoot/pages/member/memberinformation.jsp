@@ -842,6 +842,7 @@ function updatememupdateinfo(id){
 	//alert(id);
 	//alert("修改操作")
 	//参数操作
+	//alert("修改")
 	var sskkid=id;
 	var sh_zhuangtai;//1.启用状态
 	if($("#shcheckbox1f").is(":checked"))

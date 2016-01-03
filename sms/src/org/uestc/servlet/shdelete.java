@@ -12,26 +12,27 @@ import org.uestc.serviceImp.TableBatchServiceImp;
 /**
  * Servlet implementation class shdelete
  */
-@WebServlet(urlPatterns="/shdelete",name="shdeleteservlet")
+@WebServlet(urlPatterns = "/shdelete", name = "shdeleteservlet")
 public class shdelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-  
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		this.doPost(request, response);
-		
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-	    String ids=request.getParameter("ids");
-	    //(ids);
-	    new TableBatchServiceImp().datedelete(ids);
-	    //数据库判断进行的是删除成功�??
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String ids = request.getParameter("ids");
+		System.out.println(ids);
+		new TableBatchServiceImp().datedelete(ids);
+		// 数据库判断进行的是删除成功�??
 	}
 
 }

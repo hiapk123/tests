@@ -30,7 +30,6 @@ public class shempleelogquery extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String shshopname=request.getParameter("shshopname").toString();
 		String time1=request.getParameter("time1").toString();
 		String time2=request.getParameter("time2").toString();
@@ -41,7 +40,7 @@ public class shempleelogquery extends HttpServlet {
 			e.printStackTrace();
 		}
 		try {
-			time2=StrToDate(time2);
+			time2 = StrToDate(time2);
 		} catch (java.text.ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

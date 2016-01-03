@@ -11,26 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.uestc.serviceImp.MemInformServiceImp;
 
-@WebServlet(urlPatterns="/shlastlist",name="shlastlistservlet")
+@WebServlet(urlPatterns = "/shlastlist", name = "shlastlistservlet")
 public class shlastlist extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
- 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		this.doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		List<Object[]> nlistq=null;
-		nlistq=new MemInformServiceImp().meminfoinit();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<Object[]> nlistq = null;
+		nlistq = new MemInformServiceImp().meminfoinit();
 		request.setAttribute("nlistq", nlistq);
 		request.getRequestDispatcher("/pages/member/memberinformation.jsp").forward(request, response);
-		
-		
+
 	}
 
 }
