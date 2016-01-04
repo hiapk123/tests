@@ -32,7 +32,7 @@ public class AuditOrderDaoImp implements AuditOrderDao {
 	public void updateBookingByBNo(String status, String quantity, String description, String gIndex, String bno) throws SQLException {
 		/**
 		 * 修改 booking的b_status字段（其他字段不能修改，该表是记录原始订单的信息）
-		 * 不用判断页面是否改变了订单状态，没有改变同样修改（修改成原来的值）
+		 * 订单状态是前台隐藏(hidden)字段，值为"已处理"
 		 */
 		String sql = "update booking set b_status=? where b_no=?";
 		qr.update(sql, status, bno); // booking表只能修改b_status字段
@@ -134,7 +134,9 @@ public class AuditOrderDaoImp implements AuditOrderDao {
 					tbOrder.setbInfo(description); // 编辑页面中的备注信息
 				}
 				if (obj[7] != null) {
-					tbOrder.setbDate(obj[7].toString());
+//					tbOrder.setbDate(obj[7].toString()); // 原始订单的时间
+					tbOrder.setbDate(new Date().getTime()+""); // 已处理的时间为当前系统时间
+					
 				}
 				if (obj[8] != null) {
 					tbOrder.setsDel(Integer.valueOf(obj[8].toString()));

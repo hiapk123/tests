@@ -163,6 +163,9 @@
 		$('#auditOrder').click(function(){
 			$('iframe').attr('src','<%=basePath %>AuditOrderServlet?method=initLoad');
 		});
+		$('#mergeOrder').click(function(){
+			$('iframe').attr('src','<%=basePath %>MergeOrderServlet?method=initLoad');
+		});
 		/****************************************************************************/
 		
 		$("li a").click(
@@ -401,6 +404,7 @@
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
 											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
+											<li><a href="#" data-options="管理员" id="mergeOrder">订货单合并</a></li>
 											<li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>

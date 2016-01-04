@@ -99,7 +99,7 @@
 	});
 	
 	/* 合并订单页面 */
-	function merge() {
+	/* function merge() {
 		
 		var bnos = new Array();
 		var ckd = $(":checkbox[name=checkboxBtn][disabled=false][checked=true]");
@@ -143,7 +143,7 @@
 				
 			}
 		});
-	}
+	} */
 	/* 预览页面 */
 	function show(bno) {
 		$.ajax({
@@ -262,7 +262,7 @@
 
 <!-- 处理复选框的js片段 -->
 <script type="text/javascript">
-	$(document).ready(function() {
+	/* $(document).ready(function() {
 		$("#selectAll").click(function() {
 			var bool = $("#selectAll").attr("checked");
 			$(":checkbox[name=checkboxBtn][disabled=false]").attr("checked", bool);
@@ -279,7 +279,7 @@
 				$("#selectAll").attr("checked", false);
 			}
 		});
-	});
+	}); */
 </script>
 
 <script type="text/javascript">
@@ -327,14 +327,11 @@
 			</select>
 
 			<button type="submit" class="btn btn-primary">查找订单</button>
-			<!-- <div class="col-xs-1"> -->
-				<button type="button" class="btn btn-primary" onclick="print()">打印</button>
-			<!-- </div> -->
-			<!-- javascript:show('${booking.BNo }'); -->
+			<!-- <button type="button" class="btn btn-primary" onclick="print()">打印</button>
 			<a onclick="merge()" id="mergeOrder" class="btn btn-success btn-setting" data-toggle="modal" data-target="#myModal3"
 				href="#"> 
 				<i class="glyphicon glyphicon-zoom-in icon-white"></i>合并订单
-			</a>
+			</a> -->
 		</form>
 		</div>
 		<div class="box-content" id="printDiv">
@@ -342,7 +339,7 @@
 				class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="selectAll" name="selectAll" checked="checked"><label for="selectAll">&nbsp;全选</label></th>
+						<!-- <th><input type="checkbox" id="selectAll" name="selectAll" checked="checked"><label for="selectAll">&nbsp;全选</label></th> -->
 						<th>订单编号</th>
 						<th>订货门店</th>
 						<th>日期</th>
@@ -353,7 +350,7 @@
 				<tbody>
 				<c:forEach items="${pb.beanList }" var="booking" varStatus="status">
 					<tr>
-						<td>
+						<%-- <td>
 							<!-- 只有订单状态为"已处理"的才能被选中，订单状态为"待审核"的禁用 -->
 							<input value="${booking.BNo }" type="checkbox" name="checkboxBtn"
 							<c:choose>
@@ -365,7 +362,7 @@
 								</c:otherwise>
 							</c:choose>
 							>
-						</td>
+						</td> --%>
 						<td id="bnoTd">${booking.BNo }</td>
 						<td class="center">${booking.store.SName }</td>
 						<td class="center">${booking.BDate }</td>
