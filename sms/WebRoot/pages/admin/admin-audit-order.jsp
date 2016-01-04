@@ -98,7 +98,7 @@
 	$(function() {
 	});
 	
-	/* 预览页面 */
+	/* 合并订单页面 */
 	function merge() {
 		
 		var bnos = new Array();
@@ -170,7 +170,7 @@
 						detailHtml += "<td>" + result[i].price + "</td>";
 						detailHtml += "<td>" + (result[i].gNum * result[i].price).toFixed(1) + "</td>";
 						detailHtml += "<td>" + result[i].gInfo + "</td>";
-						detailHtml += "<td><a class=\"btn btn-info\" href=\"#\"> <i	class=\"glyphicon glyphicon-edit icon-white\"></i>编辑</a></td>";
+						/* detailHtml += "<td><a class=\"btn btn-info\" href=\"#\"> <i	class=\"glyphicon glyphicon-edit icon-white\"></i>编辑</a></td>"; */
 						detailHtml += "</tr>";
 					}
 					$("#bookingDetail").html(detailHtml);
@@ -316,12 +316,13 @@
 			</select> <select name="status" data-rel="chosen" class="btn btn-default">
 				<option disabled>按状态查看</option>
 				<option <c:if test="${status eq '待审核'}">selected</c:if>>待审核</option>
-				<option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
+				<option <c:if test="${status eq '已处理'}">selected</c:if>>已处理</option>
+				<%-- <option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
 				<option <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
 				<option <c:if test="${status eq '审核未通过'}">selected</c:if>>审核未通过</option>
 				<option <c:if test="${status eq '待发货'}">selected</c:if>>待发货</option>
 				<option <c:if test="${status eq '已发货'}">selected</c:if>>已发货</option>
-				<option <c:if test="${status eq '已收货'}">selected</c:if>>已收货</option>
+				<option <c:if test="${status eq '已收货'}">selected</c:if>>已收货</option> --%>
 				
 			</select>
 
@@ -353,9 +354,10 @@
 				<c:forEach items="${pb.beanList }" var="booking" varStatus="status">
 					<tr>
 						<td>
+							<!-- 只有订单状态为"已处理"的才能被选中，订单状态为"待审核"的禁用 -->
 							<input value="${booking.BNo }" type="checkbox" name="checkboxBtn"
 							<c:choose>
-								<c:when test="${booking.BStatus ne '已审核通过' }">
+								<c:when test="${booking.BStatus ne '已处理' }">
 									disabled="disabled"
 								</c:when>
 								<c:otherwise>
@@ -387,7 +389,7 @@
 							</c:otherwise>
 							</c:choose>
 							<c:choose>  
-							<c:when test="${booking.BStatus eq '待审核' or booking.BStatus eq '审核中' or booking.BStatus eq '审核未通过'}">
+							<c:when test="${booking.BStatus eq '待审核' }">
 								<a class="btn btn-danger" href="<c:url value='/AuditOrderServlet?method=delete&bno=${booking.BNo }'/>" onclick="return window.confirm('确定删除该订单信息吗？')"> 
 									<i class="glyphicon glyphicon-trash icon-white"></i> 删除
 								</a> 
@@ -467,7 +469,7 @@
 								<th>进货价</th>
 								<th>小计</th>
 								<th>备注</th>
-								<th>操作</th>
+								<!-- <th>操作</th> -->
 							</tr>
 						</thead>
 						<tbody id="bookingDetail">
@@ -530,16 +532,17 @@
 							</tr>
 						</tbody>
 					</table>
-					<select name="bookingStatus" id="bookingStatus" data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
+						<input type="hidden" name="bookingStatus" value="已处理">
+					<%-- <select name="bookingStatus" id="bookingStatus" data-rel="chosen" class="btn btn-default" style="margin-bottom: 20px;">
 						<option <c:if test="${status eq '待审核'}">selected</c:if>>待审核</option>
+						<option <c:if test="${status eq '已处理'}">selected</c:if>>已处理</option>
 						<option <c:if test="${status eq '审核中'}">selected</c:if>>审核中</option>
 						<option <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option>
-<%-- 						<option selected="selected" <c:if test="${status eq '已审核通过'}">selected</c:if>>已审核通过</option> --%>
 						<option <c:if test="${status eq '审核未通过'}">selected</c:if>>审核未通过</option>
 						<option <c:if test="${status eq '待发货'}">selected</c:if>>待发货</option>
 						<option <c:if test="${status eq '已发货'}">selected</c:if>>已发货</option>
 						<option <c:if test="${status eq '已收货'}">selected</c:if>>已收货</option>
-					</select>
+					</select> --%>
 					</form>
 
 				</div>
