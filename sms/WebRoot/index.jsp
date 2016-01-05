@@ -240,6 +240,9 @@
 		$('#addUser').click(function(){
 			$('iframe').attr('src','<%=basePath %>www/add-user.jsp');
 		});
+		$('#mergeOrder').click(function(){
+			$('iframe').attr('src','<%=basePath %>MergeOrderServlet?method=initLoad');
+		});
 		/****************************************************************************/
 		
 		$("li a").click(
@@ -478,11 +481,13 @@
 									style="height: 0px;">
 									<div class="panel-body">
 										<ul class="nav nav-pills nav-stacked">
-											<li><a href="#" data-options="管理员" id="auditOrder">订单审核</a></li>
 											<!-- <li><a href="#" data-options="管理员" id="addGood">商品添加模板</a></li> -->
 											<li><a href="#" data-options="管理员" id="addGoodInfo">商品资料</a></li>
 											<li><a href="#" data-options="管理员" id="addUser">用户管理</a></li>
 											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>
+											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
+											<li><a href="#" data-options="管理员" id="mergeOrder">订货单合并</a></li>
+											<li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li> -->

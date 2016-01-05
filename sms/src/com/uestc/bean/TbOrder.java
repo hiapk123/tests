@@ -8,6 +8,7 @@ public class TbOrder {
 	private String gId;
 	private String bNum;
 	private String sId;
+	private Store store;
 	private String bStatus;
 	private String bInfo;
 	private String bDate;
@@ -48,6 +49,12 @@ public class TbOrder {
 	}
 	public void setsId(String sId) {
 		this.sId = sId;
+	}
+	public Store getStore() {
+		return store;
+	}
+	public void setStore(Store store) {
+		this.store = store;
 	}
 	public String getbStatus() {
 		return bStatus;
