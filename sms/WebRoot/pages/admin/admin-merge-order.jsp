@@ -147,7 +147,43 @@
 		});
 	}
 
-
+	/* 预览页面 */
+	function show(bno) {
+		$.ajax({
+			url : "/sms/MergeOrderServlet",
+			data : {
+				method : "getBookingDetailByBNo",
+				bno : bno
+			},
+			type : "POST",
+			dataType : "json",
+			asyn : false,
+			cache : false,
+			success : function(result) {
+				
+				if (result.length > 0) { // 该订单有数据
+					var detailHtml = "";
+					$("#tip").html(""); // 如果订单有数据，清空之前点击没有数据的预览项填充的提示(tip)信息
+					for (var i = 0; i < result.length; i++) {
+						detailHtml += "<tr>";
+						detailHtml += "<td>" + (i+1) + "</td>";
+						detailHtml += "<td>" + result[i].barcode + "</td>";
+						detailHtml += "<td>" + result[i].gName + "</td>";
+						detailHtml += "<td>" + result[i].gNum + "</td>";
+						detailHtml += "<td>" + result[i].price + "</td>";
+						detailHtml += "<td>" + (result[i].gNum * result[i].price).toFixed(1) + "</td>";
+						detailHtml += "<td>" + result[i].gInfo + "</td>";
+						detailHtml += "</tr>";
+					}
+					$("#bookingDetail").html(detailHtml);
+				} else { // 该订单没有数据
+					$("#bookingDetail").html("");
+					$("#tip").html("<center><span>该订单没有数据！</span></center>");
+				}
+				
+			}
+		});
+	}
 
 	/**
 		打印相关
