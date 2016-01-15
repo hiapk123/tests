@@ -504,7 +504,7 @@ function shempsave()
 			//alert(empleestore);
 			//alert(empleestate);
 			//进行表单的提交
-			$.post("<%=basePath%>addempinform", {
+			$.post("<%=basePath%>addempinform",{
 					"shempstatus" : shempstatus,
 					"shempstore" : shempstore,
 					"shempbh" : shempbh,
@@ -513,7 +513,8 @@ function shempsave()
 					"empleestore":empleestore,
 					"empleestate":empleestate
 				}, function(data) {
-					//alert(插入成功);
+					alert("插入成功");
+					alert(data);
 					$("#shempleetable").empty();
 					$("#shempleetable").append(data);
 

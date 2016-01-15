@@ -26,6 +26,7 @@ public class shmtijiao extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 
 	{
+		System.out.println("dayin");
 		// 接受前台传�?�的参数
 		String mshopname = request.getParameter("mshopname");
 		String mshopdj = request.getParameter("mshopdj");

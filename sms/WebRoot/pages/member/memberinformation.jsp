@@ -6,24 +6,24 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	//System.out.print(basePath);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta  charset="utf-8">
-	<title>会员资料</title>
-    <base href="<%=basePath%>">  
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
+<meta charset="utf-8">
+<title>会员资料</title>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	
-	<!-- 需要引入的前端界面的样式 -->
-	<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
+
+<!-- 需要引入的前端界面的样式 -->
+<link id="bs-css" href="<%=basePath%>css/bootstrap-cerulean.min.css"
 	rel="stylesheet">
 
 <link href="<%=basePath%>css/charisma-app.css" rel="stylesheet">
@@ -107,17 +107,23 @@
 <script src="<%=basePath%>js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=basePath%>js/bootstrap-datetimepicker.zh-CN.js"
 	charset="utf-8"></script>
-
+	<!-- 日期控件js资源 -->
+<script type="text/javascript"
+	src="<c:url value='/datetimepicker/jquery/jquery-1.8.3.min.js'/>"
+	charset="UTF-8"></script>
+<script type="text/javascript"
+	src="<c:url value='/datetimepicker/js/bootstrap.min.js'/>"></script>
+<script type="text/javascript"
+	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.js'/>"
+	charset="UTF-8"></script>
+<script type="text/javascript"
+	src="<c:url value='/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js'/>"
+	charset="UTF-8"></script>
+	
 <style type="text/css">
-	a {
-		cursor:pointer;
-	  }	
-	a:link,a:visited{
- 		text-decoration:none;  /*超链接无下划线*/
-					}
-	a:hover{
- 		//text-decoration:underline;  /*鼠标放上去有下划线*/
-			}
+a {
+	cursor: pointer;
+}
 </style>
 </head>
 <script type="text/javascript">
@@ -280,9 +286,11 @@ $(document).ready(function(){
 	
 	
 });
-
+</script>
+<%-- <script type="text/javascript">
 //页面查询的按钮。
-function shmsub(){
+function shmsub()
+{
 	//进行表单验证：
 	//var mems=document.memkkk.memshtextx.value;
 	//alert(mems);
@@ -291,9 +299,12 @@ function shmsub(){
 	var mshopdj=$("#shdjm").val();
 	var mshopqy=$("#shqq").val();
 	var mshoptext=$("#shminput").val();
+	//alert("sh")
 	//alert(mshoptext)
 	//提交查询。
-	$.post("<%=basePath%>shmtijiao",{
+	alert("###############################");
+	$.post("<%=basePath%>shmtijiao",
+	{
 		"mshopname":mshopname,
 		"mshopdj":mshopdj,
 		"mshopqy":mshopqy,
@@ -302,7 +313,7 @@ function shmsub(){
 		
 		$("#shmemtable").empty();
 		$("#shmemtable").append(data);
-		//alert("查询结果返回成功");		
+		alert("查询结果返回成功");		
 		//对下列的文本框进行更新
 		var sklmum1=$("#shmemshouinformtable1").val();
 		var sklmum2=$("#shmemshouinformtable2").val();
@@ -320,6 +331,52 @@ function shmsub(){
 	},"html");
 		
 }
+
+</script> --%>
+<script type="text/javascript">
+function shmsub()
+{
+	//进行表单验证：
+	//var mems=document.memkkk.memshtextx.value;
+	//alert(mems);
+	//alert("点击提交");//在后台进行sql的值传递进行判断
+	var mshopname=$("#shmdm").val(); 
+	var mshopdj=$("#shdjm").val();
+	var mshopqy=$("#shqq").val();
+	var mshoptext=$("#shminput").val();
+	//提交查询。
+	//alert("###############################");
+	//重新post请求
+	$.ajax({
+	    type:'POST',
+	    url:"<%=basePath%>shmtijiao",
+	    data:{"mshopname":mshopname,"mshopdj":mshopdj,"mshopqy":mshopqy,"mshoptext":mshoptext},
+	    success: function(data){
+			$("#shmemtable").empty();
+			$("#shmemtable").append(data);
+			//alert("查询结果返回成功");		
+			//对下列的文本框进行更新
+			var sklmum1=$("#shmemshouinformtable1").val();
+			var sklmum2=$("#shmemshouinformtable2").val();
+			var sklmum3=$("#shmemshouinformtable3").val();	
+			//alert("页面加载初始化");
+			//alert("会员数");
+			//alert(sklmum1);
+			//alert(sklmum2);
+			//lert(sklmum3);
+			//在这里绑定具体的列表
+			$("#sjmountd1").val(sklmum1);
+			$("#sjmountd2").val(sklmum2);
+			$("#sjmountd3").val(sklmum3);
+		} ,
+		error:function(date){
+			alert("异常")
+		},
+	    dataType: "html"
+	});
+	
+}			
+		
 </script>
 
 
@@ -396,7 +453,7 @@ function shmsub(){
 		</div>
 	<!-- 	//查询按钮 -->
 	<div class="col-xs-1">
-		<input class="btn btn-primary" onclick="shmsub();" type="submit" value="查询">
+		<input class="btn btn-primary" onclick="shmsub();" type="button" value="查询">
 		</div>
 		</div>
 		</form>

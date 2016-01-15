@@ -6,10 +6,14 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<head>
+<!-- <head>
    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <script src="/scripts/jquery.min.js"></script>
    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head> -->
+
+<head>
+<script src="<%=basePath %>www/jquery.min.js"></script>
 </head>
 <script>
 //额外加入分页的标签

@@ -145,7 +145,7 @@ $(document).ready(function(){
 //进行页面的刷新的工作。
 function sh_flashstorename()
 {
-	alert("商店刷新");
+	//alert("商店刷新");
 	 var shempperform1=$("#shempperformtstore").val();
 	 var shempperform2=$("#shempperformemplee").val();
 	 var shempperform3=$("#shemppreformfenlei").val();
@@ -170,7 +170,7 @@ function sh_flashstorename()
 
 function sh_flashempname()
 {
-	alert("收银员刷新");
+	//alert("收银员刷新");
 	 var shempperform1=$("#shempperformtstore").val();
 	 var shempperform2=$("#shempperformemplee").val();
 	 var shempperform3=$("#shemppreformfenlei").val();
@@ -195,7 +195,7 @@ function sh_flashempname()
 
 function sh_flashfenlei()
 {
-	alert("分类刷新");
+	//alert("分类刷新");
 	 var shempperform1=$("#shempperformtstore").val();
 	 var shempperform2=$("#shempperformemplee").val();
 	 var shempperform3=$("#shemppreformfenlei").val();

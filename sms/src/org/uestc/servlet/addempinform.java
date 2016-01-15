@@ -24,6 +24,7 @@ public class addempinform extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//鎺ュ彈鍓嶅彴鐨勫弬鏁?
+		//System.out.print("新增的处理");
 		int shempstatus=Integer.parseInt(request.getParameter("shempstatus").toString());
 		String shempstore=request.getParameter("shempstore").toString();
 		String shempbh=request.getParameter("shempbh").toString();
@@ -56,10 +57,16 @@ public class addempinform extends HttpServlet {
 		String spdwl="select emp_id,s_name,emp_no,emp_name,emp_tel,emp_status from employee left join store on store_id=s_id where s_name="+"'"+empleestore+"'"+" and emp_status="+empleestate;
 		List<Object[]> numlista=new MemInformServiceImp().normalfinad(spdwl);
 		totalPage=numlista.size();
+		//页面跳转初始化处理
+		
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("shlistd", shlistd);
+		request.getRequestDispatcher("/pages/emplee/empleetable.jsp").forward(request, response);
 
+		
+		
+		
 		
 	}
 
