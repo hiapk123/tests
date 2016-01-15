@@ -513,8 +513,8 @@ function shempsave()
 					"empleestore":empleestore,
 					"empleestate":empleestate
 				}, function(data) {
-					alert("插入成功");
-					alert(data);
+					//alert("插入成功");
+					//alert(data);
 					$("#shempleetable").empty();
 					$("#shempleetable").append(data);
 
