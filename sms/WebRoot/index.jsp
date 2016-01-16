@@ -295,7 +295,7 @@
 						class="hidden-sm hidden-xs"> 系统</span> <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><a href="#">资料</a></li>
+					<li><a href="#" data-options='用户'>资料</a></li>
 					<li class="divider"></li>
 					<li><a href="<%=basePath%>login">退出</a></li>
 				</ul>
@@ -484,9 +484,10 @@
 											<!-- <li><a href="#" data-options="管理员" id="addGood">商品添加模板</a></li> -->
 											<li><a href="#" data-options="管理员" id="addGoodInfo">商品资料</a></li>
 											<li><a href="#" data-options="管理员" id="addUser">用户管理</a></li>
-											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>
+											<!-- <li><a href="#" data-options="管理员">调货单审核</a></li>--->
 											<li><a href="#" data-options="管理员" id="auditOrder">订货单审核</a></li>
 											<li><a href="#" data-options="管理员" id="mergeOrder">订货单合并</a></li>
+											<!--
 											<li><a href="#" data-options="管理员">调货单审核</a></li>
 											<li><a href="#" data-options="管理员"></a></li>
 											<li><a href="#" data-options="管理员">XXXX</a></li>
