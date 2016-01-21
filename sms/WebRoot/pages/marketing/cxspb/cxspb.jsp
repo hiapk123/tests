@@ -190,8 +190,8 @@ $(document).ready(function() {
 //详细与更新处理
 </script>
 <style>
-	.trBack{
-			background-color:silver;
+	.trBack tr td{
+			text-align: center;
 			
 	}
 	.trBack th{
@@ -238,9 +238,9 @@ $(document).ready(function() {
  						
 			</div> 
 			<div class="panel-body">
-				<div id="mbt_dzytj_panel" class="col-sm-12 col-lg-12">
-				  		<table class= "col-sm-12 col-lg-12 table tbd" >
-				  			<thead class="trBack ">
+				<div id="mbt_dzytj_panel" class=" panel panel-default">
+				  		<table class= " trBack table  table-bordered table-hover" style="font-size: 15px;" >
+				  			<thead  >
 				  			<tr>
 				  			<th >商品名称</th>
 				  			<th>条码</th>

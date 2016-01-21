@@ -87,8 +87,8 @@
 			</div> 
 			<div class="panel-body">
 				<div id="mbt_mefx_panel" class="col-sm-12 col-lg-12">
-				  		<table class= "col-sm-12 col-lg-12 table tbd" border=1>
-				  			<thead class="trBack ">
+				  		<table class= "trBack table  table-bordered table-hover">
+				  			<thead class="trBack  ">
 				  			<tr>
 				  			<th width='<%=m_th %>'>订单总额</th>
 				  			<th width='<%=d_th %>'>优惠金额</th>

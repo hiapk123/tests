@@ -116,11 +116,13 @@
 <script src="<%=basePath%>js/formcheck.js"></script>
 
 <style>
-	.trBack{
-			background-color:silver;
-			
+	.trBack {
+		font-size: 15px;
 	}
 	.trBack th{
+		text-align: center;
+	}
+	.trBack tr td {
 		text-align: center;
 	}
 	.tbd tr td{
@@ -644,7 +646,7 @@ function XGactive(active_type,name,start_time){
 			</div> 
 			<div class="panel-body">
 				<div id="mbt_dzytj_panel" class="col-sm-12 col-lg-12">
-				  		<table class= "col-sm-12 col-lg-12 table tbd">
+				  		<table class= "trBack table  table-bordered table-hover">
 				  			<thead class="trBack ">
 				  			<tr>
 				  			<th >活动名称</th>
@@ -697,8 +699,8 @@ function XGactive(active_type,name,start_time){
 										  
 											<div class="panel-body ">
 													<div class="col-sm-12 col-lg-12" style="display: block">
-														<table class="col-sm-12 col-lg-12 table "   >
-															<thead style="background-color: silver;" class="trBack">
+														<table class="trBack table  table-bordered table-hover "   >
+															<thead >
 																<tr>
 																	<th  width="10%"><input id="dejdz_all_checkbox"  onclick="checkboxClick();" type="checkbox" /></th>
 																	<th width="30%">商品名称</th>
@@ -747,8 +749,8 @@ function XGactive(active_type,name,start_time){
 										  
 											<div class="panel-body ">
 													<div class="col-sm-12 col-lg-12" style="display: block">
-														<table class="col-sm-12 col-lg-12 table " border="1"  >
-															<thead style="background-color: silver;" class="trBack">
+														<table class="trBack table  table-bordered table-hover"  >
+															<thead >
 																<tr>
 																	<th  width="10%"></th>
 																	<th width="30%">优惠券名称</th>

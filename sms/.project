@@ -3,6 +3,8 @@
 	<name>sms</name>
 	<comment></comment>
 	<projects>
+		<project>RemoteSystemsTempFiles</project>
+		<project>服务器</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

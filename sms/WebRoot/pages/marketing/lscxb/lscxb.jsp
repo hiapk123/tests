@@ -251,8 +251,11 @@ function backlist(){
 }
 </script>
 <style>
-	.trBack{
-			background-color:silver;
+.trBack{
+	font-size: 15px;
+}
+	.trBack tr td{
+			text-align: center;
 			
 	}
 	.trBack th{
@@ -307,8 +310,8 @@ function backlist(){
 			<div class="panel-body">
 				<div id="mbt_dzytj_panel" class="col-sm-12 col-lg-12">
 				
-				  		<table id="example" class= "col-sm-12 col-lg-12 table tbd" >
-				  			<thead class="trBack ">
+				  		<table id="example" class="trBack table  table-bordered table-hover " >
+				  			<thead >
 				  			<tr>
 				  			<th >活动名称</th>
 				  			<th>促销类型</th>

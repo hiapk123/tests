@@ -113,11 +113,13 @@
 
 <style>
 	.trBack{
-			background-color:silver;
-			
+			font-size:15px;
 	}
 	.trBack th{
 		text-align: center;
+	}
+	.trBack tr td{
+		text-align:center;
 	}
 
 	.tbd tr td{
@@ -413,7 +415,7 @@ function addgoods(type){
 			</div> 
 			<div class="panel-body">
 				<div id="mbt_dzytj_panel" class="col-sm-12 col-lg-12">
-				  		<table class= "col-sm-12 col-lg-12 table tbd" >
+				  		<table class="trBack table  table-bordered table-hover" >
 				  			<thead class="trBack ">
 				  			<tr>
 				  			<th >优惠券名称</th>
@@ -481,7 +483,7 @@ function addgoods(type){
 														</table>
 													</div>
 													<div class="col-sm-12 col-lg-12" style="max-height: 200px;overflow: scroll;" >
-														<table class="col-sm-12 col-lg-12 table tbd" id="mefx_tb_list"  >
+														<table class="col-sm-12 col-lg-12 trBack table  table-bordered table-hover" id="mefx_tb_list"  >
 																<tr id="mefx_tr_111">
 																<td width="5%" isselect="no"><input type="checkbox" value="111" class="mefx_single_checkbox"></td>
 																<td width="20%">111</td>
